@@ -424,6 +424,14 @@ h1 {
   gap: 10px;
 }
 
+.question-source {
+  margin: 12px 2px 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
 .choice-button {
   width: 100%;
   min-height: 58px;
@@ -665,21 +673,18 @@ h1 {
   line-height: 1.65;
 }
 
-.answer-line {
-  margin-top: 10px;
-  color: #344054;
-  font-weight: 700;
-}
-
-.answer-line span {
-  display: inline-block;
-  margin-right: 10px;
-}
-
 .summary-explanation {
   margin-top: 8px;
   color: #475467;
   white-space: pre-line;
+}
+
+.summary-source {
+  margin-top: 10px !important;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-align: right;
 }
 
 .choice-stat-list {
@@ -709,6 +714,10 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+}
+
+.choice-stat-list.session-review .choice-stat {
+  grid-template-columns: 32px minmax(0, 1fr);
 }
 
 .choice-stat::before {
@@ -756,6 +765,14 @@ h1 {
   padding: 8px 0;
   line-height: 1.45;
   overflow-wrap: anywhere;
+}
+
+.choice-review-marker {
+  margin-left: 0.35em;
+  color: var(--muted);
+  font-size: 0.82em;
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .choice-stat-rate {

@@ -16,6 +16,7 @@ const cumulativeRate = document.querySelector("#cumulativeRate");
 const calcMode = document.querySelector("#calcMode");
 const questionStem = document.querySelector("#questionStem");
 const choices = document.querySelector("#choices");
+const questionSource = document.querySelector("#questionSource");
 const nextButton = document.querySelector("#nextButton");
 const resultPanel = document.querySelector("#resultPanel");
 const resultMark = document.querySelector("#resultMark");
@@ -517,12 +518,15 @@ function renderQuestion() {
 
   questionStem.textContent = question.stem;
   renderChoices(question);
+  renderSourceNote(question);
   updateProgressView();
 }
 
 function renderEmptyState() {
   questionStem.textContent = TEXT.empty;
   choices.replaceChildren();
+  questionSource.textContent = "";
+  questionSource.hidden = true;
   progressText.textContent = "0/0";
   progressFill.style.width = "0%";
 }
@@ -543,6 +547,12 @@ function renderChoices(question) {
       return button;
     }),
   );
+}
+
+function renderSourceNote(question) {
+  const sourceText = formatSourceNote(question);
+  questionSource.textContent = sourceText ? `出典：${sourceText}` : "";
+  questionSource.hidden = !sourceText;
 }
 
 function selectChoice(choiceId) {
@@ -623,12 +633,9 @@ function renderSummary() {
         </div>
         <div class="summary-body">
           <p>${escapeHtml(question.stem)}</p>
-          <p class="answer-line">
-            <span>${TEXT.you}: ${escapeHtml(formatChoice(selectedChoice))}</span>
-            <span>${TEXT.answer}: ${escapeHtml(formatChoice(correctChoice))}</span>
-          </p>
           ${renderChoiceStats(question, selectedChoice, correctChoice)}
           <p class="summary-explanation">${escapeHtml(buildExplanation(question, selectedChoice, correctChoice))}</p>
+          ${renderSummarySourceNote(question)}
         </div>
       `;
       if (state.apiAvailable) {
@@ -655,17 +662,24 @@ function renderRatingActions(question) {
   `;
 }
 
-function renderChoiceStats(question, selectedChoice, correctChoice) {
-  if (!state.apiAvailable) {
-    return `<p class="shared-stats-disabled">${TEXT.statsUnavailable}</p>`;
+function renderSummarySourceNote(question) {
+  const sourceText = formatSourceNote(question);
+  if (!sourceText) {
+    return "";
   }
+  return `<p class="summary-source">出典：${escapeHtml(sourceText)}</p>`;
+}
+
+function renderChoiceStats(question, selectedChoice, correctChoice) {
   const stats = state.choiceStats[question.id];
   const attempts = Number(stats?.attempts || 0);
   const choiceCounts = stats?.choices || {};
+  const showSharedStats = state.apiAvailable;
   const rows = question.choices
     .map((choice) => {
       const count = Number(choiceCounts[choice.choice_id] || 0);
       const percent = attempts ? Math.round((count / attempts) * 100) : 0;
+      const marker = getChoiceReviewMarker(choice, selectedChoice, correctChoice);
       const classes = [
         "choice-stat",
         selectedChoice?.choice_id === choice.choice_id ? "selected" : "",
@@ -675,17 +689,42 @@ function renderChoiceStats(question, selectedChoice, correctChoice) {
         .join(" ");
       const rate = attempts ? `${percent}%` : "-";
       const detail = attempts ? `${count}/${attempts}` : TEXT.noStats;
+      const sharedStatsColumns = showSharedStats
+        ? `
+          <span class="choice-stat-rate">${escapeHtml(rate)}</span>
+          <span class="choice-stat-count">${escapeHtml(detail)}</span>
+        `
+        : "";
       return `
         <div class="${classes}" style="--bar-width: ${percent}%">
           <span class="choice-stat-label">${escapeHtml(choice.displayLabel)}</span>
-          <span class="choice-stat-text">${escapeHtml(choice.text)}</span>
-          <span class="choice-stat-rate">${escapeHtml(rate)}</span>
-          <span class="choice-stat-count">${escapeHtml(detail)}</span>
+          <span class="choice-stat-text">
+            ${escapeHtml(choice.text)}
+            ${marker ? `<span class="choice-review-marker">${marker}</span>` : ""}
+          </span>
+          ${sharedStatsColumns}
         </div>
       `;
     })
     .join("");
-  return `<div class="choice-stat-list" aria-label="選択率">${rows}</div>`;
+  const listClass = showSharedStats ? "choice-stat-list" : "choice-stat-list session-review";
+  const statsNote = showSharedStats ? "" : `<p class="shared-stats-disabled">${TEXT.statsUnavailable}</p>`;
+  return `<div class="${listClass}" aria-label="選択肢">${rows}</div>${statsNote}`;
+}
+
+function getChoiceReviewMarker(choice, selectedChoice, correctChoice) {
+  const isSelected = selectedChoice?.choice_id === choice.choice_id;
+  const isCorrect = correctChoice?.choice_id === choice.choice_id;
+  if (isSelected && isCorrect) {
+    return "（正解）";
+  }
+  if (isCorrect) {
+    return "（正答）";
+  }
+  if (isSelected) {
+    return "（あなた）";
+  }
+  return "";
 }
 
 function rateQuestion(questionId, rating) {
@@ -844,6 +883,52 @@ function updateSessionRate() {
   );
   const rate = result.attempts ? `${Math.round((result.correct / result.attempts) * 100)}%` : "-";
   cumulativeRate.textContent = `${result.correct}/${result.attempts} (${rate})`;
+}
+
+function formatSourceNote(question) {
+  const source = normalizeSourceDisplay(question.source_display || question.source_question_ids?.[0] || "");
+  if (!source) {
+    return "";
+  }
+
+  const suffix = getSourceSuffix(question, source);
+  return suffix ? `${source}${suffix}` : source;
+}
+
+function normalizeSourceDisplay(value) {
+  let source = String(value || "").trim();
+  if (!source) {
+    return "";
+  }
+
+  const legacyIpMatch = source.match(/^ip_2011h23_special_all_q(\d{3})$/);
+  if (legacyIpMatch) {
+    return `ITパスポート試験 H23特別試験 問${Number(legacyIpMatch[1])}`;
+  }
+
+  source = source
+    .replace(/^ITパスポート(?=[HR])/, "ITパスポート試験 ")
+    .replace(/^基本情報技術者(?=[HR])/, "基本情報技術者試験 ")
+    .replace(/^応用情報技術者(?=[HR])/, "応用情報技術者試験 ")
+    .replace(/^情報セキュリティマネジメント(?=[HR])/, "情報セキュリティマネジメント試験 ")
+    .replace(/^共通テスト(?=[HR])/, "大学入学共通テスト ")
+    .replace(/([春秋]期)午前/g, "$1 午前")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return source;
+}
+
+function getSourceSuffix(question, normalizedSource) {
+  const isAdapted = question["改題"] === true;
+  const isCommonTest = normalizedSource.includes("大学入学共通テスト");
+  if (isCommonTest && !isAdapted) {
+    return "（抜粋）";
+  }
+  if (isAdapted) {
+    return "（改題）";
+  }
+  return "";
 }
 
 function getChoiceId(question, choice) {
