@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>&#24773;&#22577;&#8544;&#30693;&#35672;&#21839;&#38988;</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="start-panel" id="startView">
+        <div class="start-layout">
+          <div class="start-copy">
+            <p class="eyebrow">&#20849;&#36890;&#12486;&#12473;&#12488;&#24773;&#22577;&#8544;</p>
+            <h1>&#30693;&#35672;&#21839;&#38988;&#12488;&#12524;&#12540;&#12491;&#12531;&#12464;</h1>
+            <p class="start-lead">&#31532;1&#21839;&#12539;&#31532;2&#21839;&#12398;&#22522;&#30990;&#30693;&#35672;&#12392;&#22522;&#26412;&#35336;&#31639;&#12434;10&#21839;&#12378;&#12388;&#30906;&#35469;&#12375;&#12414;&#12377;&#12290;</p>
+            <div class="start-metrics" aria-label="&#20986;&#38988;&#23550;&#35937;">
+              <div>
+                <span>&#20986;&#38988;&#23550;&#35937;</span>
+                <strong id="questionCount">-</strong>
+              </div>
+              <div>
+                <span>1&#22238;</span>
+                <strong>10&#21839;</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="start-controls">
+            <section class="control-section" aria-labelledby="fieldHeading">
+              <div class="control-head">
+                <h2 id="fieldHeading">&#20986;&#38988;&#20998;&#37326;</h2>
+                <button class="text-button" id="clearFiltersButton" type="button">&#35299;&#38500;</button>
+              </div>
+              <div class="field-filters" id="fieldFilters"></div>
+            </section>
+
+            <section class="control-section" aria-labelledby="calcHeading">
+              <h2 id="calcHeading">&#35336;&#31639;&#21839;&#38988;</h2>
+              <div class="segmented-control" id="calcMode" role="radiogroup" aria-label="&#35336;&#31639;&#21839;&#38988;">
+                <label>
+                  <input type="radio" name="calcMode" value="all" checked />
+                  <span>&#12377;&#12409;&#12390;</span>
+                </label>
+                <label>
+                  <input type="radio" name="calcMode" value="without" />
+                  <span>&#38500;&#12367;</span>
+                </label>
+                <label>
+                  <input type="radio" name="calcMode" value="only" />
+                  <span>&#35336;&#31639;&#12384;&#12369;</span>
+                </label>
+              </div>
+            </section>
+
+            <button class="primary-button start-button" id="startButton" type="button">&#25361;&#25126;&#12434;&#38283;&#22987;</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="status-bar" id="statusBar" aria-label="&#23398;&#32722;&#29366;&#27841;" hidden>
+        <div class="progress-block">
+          <div class="progress-label">
+            <strong id="progressText">1/10</strong>
+            <span id="setStatus">&#25361;&#25126;&#20013;</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+
+        <div class="score-box" aria-label="&#27491;&#31572;&#29575;">
+          <span>&#27491;&#31572;&#29575;</span>
+          <strong id="cumulativeRate">0/0 (-)</strong>
+        </div>
+      </section>
+
+      <section class="question-panel" id="questionView" aria-live="polite" hidden>
+        <p class="stem" id="questionStem"></p>
+        <div class="choices" id="choices"></div>
+
+        <section class="result-panel" id="resultPanel" hidden>
+          <div class="result-heading">
+            <span class="result-mark" id="resultMark"></span>
+            <strong id="resultTitle"></strong>
+          </div>
+          <p id="resultText"></p>
+          <p class="explanation" id="explanation"></p>
+        </section>
+
+        <div class="actions">
+          <button class="primary-button" id="nextButton" type="button">&#27425;&#12398;&#21839;&#38988;</button>
+        </div>
+      </section>
+
+      <section class="summary-panel" id="summaryView" hidden>
+        <div class="summary-head">
+          <div>
+            <p class="question-index">&#32080;&#26524;</p>
+            <h1 id="summaryTitle">10&#21839;&#20013; 0&#21839;&#27491;&#35299;</h1>
+          </div>
+          <p class="summary-rate" id="summaryRate">0%</p>
+        </div>
+
+        <div class="summary-list" id="summaryList"></div>
+
+        <div class="finish-actions">
+          <button class="primary-button" id="retryButton" type="button">&#12418;&#12358;&#19968;&#24230;&#25361;&#25126;&#12377;&#12427;</button>
+          <button class="secondary-button" id="finishButton" type="button">&#32066;&#20102;&#12377;&#12427;</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
