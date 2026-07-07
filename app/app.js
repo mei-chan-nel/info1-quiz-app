@@ -6,6 +6,9 @@ const startButton = document.querySelector("#startButton");
 const clearFiltersButton = document.querySelector("#clearFiltersButton");
 const fieldFilters = document.querySelector("#fieldFilters");
 const questionCount = document.querySelector("#questionCount");
+const setSizeValue = document.querySelector("#setSizeValue");
+const increaseSetSizeButton = document.querySelector("#increaseSetSizeButton");
+const decreaseSetSizeButton = document.querySelector("#decreaseSetSizeButton");
 const progressText = document.querySelector("#progressText");
 const progressFill = document.querySelector("#progressFill");
 const setStatus = document.querySelector("#setStatus");
@@ -26,7 +29,9 @@ const retryButton = document.querySelector("#retryButton");
 const finishButton = document.querySelector("#finishButton");
 
 const STORAGE_KEY = "info1QuizStats:v4";
-const SET_SIZE = 10;
+const DEFAULT_SET_SIZE = 10;
+const MIN_SET_SIZE = 1;
+const MAX_SET_SIZE = 50;
 
 const TEXT = {
   loadError: "問題データを読み込めません",
@@ -49,6 +54,8 @@ const TEXT = {
   outOfScope: "範囲外",
   you: "あなた",
   noStats: "まだ集計なし",
+  statsUnavailable: "公開版では選択率を保存・表示できません。",
+  ratingUnavailable: "公開版では問題評価を送信できません",
 };
 
 const FIELD_DEFINITIONS = [
@@ -192,6 +199,8 @@ const state = {
   currentIndex: 0,
   selectedChoiceId: null,
   history: loadHistory(),
+  setSize: DEFAULT_SET_SIZE,
+  apiAvailable: false,
   sessionCommitted: false,
   ratingsCommitted: false,
 };
@@ -205,6 +214,7 @@ async function init() {
       throw new Error(`HTTP ${response.status}`);
     }
     state.allQuestions = await response.json();
+    state.apiAvailable = await detectApiAvailability();
     renderFieldFilters();
     bindStartControls();
     showStart();
@@ -213,6 +223,15 @@ async function init() {
     startButton.disabled = true;
     startButton.textContent = TEXT.loadError;
     console.error(error);
+  }
+}
+
+async function detectApiAvailability() {
+  try {
+    const response = await fetch("/api/stats", { cache: "no-store" });
+    return response.ok;
+  } catch {
+    return false;
   }
 }
 
@@ -226,6 +245,14 @@ function bindStartControls() {
       input.checked = false;
     }
     updateStartControls();
+  });
+
+  increaseSetSizeButton.addEventListener("click", () => {
+    changeSetSize(1);
+  });
+
+  decreaseSetSizeButton.addEventListener("click", () => {
+    changeSetSize(-1);
   });
 
   calcMode.addEventListener("change", () => {
@@ -278,10 +305,10 @@ function showStart() {
   questionView.hidden = true;
   summaryView.hidden = true;
   setStatus.textContent = TEXT.notStarted;
-  progressText.textContent = `0/${SET_SIZE}`;
   progressFill.style.width = "0%";
   cumulativeRate.textContent = "0/0 (-)";
   updateStartControls();
+  progressText.textContent = `0/${state.setSize}`;
 }
 
 function resetSessionState() {
@@ -304,7 +331,8 @@ function startSession() {
     updateStartControls();
     return;
   }
-  state.sessionQuestions = pickRandomSet(pool, Math.min(SET_SIZE, pool.length)).map(prepareSessionQuestion);
+  updateSetSizeControls(pool.length);
+  state.sessionQuestions = pickRandomSet(pool, Math.min(state.setSize, pool.length)).map(prepareSessionQuestion);
   state.responses = state.sessionQuestions.map((question) => ({
     questionId: question.id,
     selectedChoiceId: null,
@@ -347,6 +375,7 @@ function renderFieldFilters() {
 function updateStartControls() {
   if (!state.allQuestions.length) {
     questionCount.textContent = "-";
+    updateSetSizeControls(0);
     return;
   }
 
@@ -360,8 +389,30 @@ function updateStartControls() {
 
   const pool = getQuestionPool();
   questionCount.textContent = `${pool.length}問`;
+  updateSetSizeControls(pool.length);
   startButton.disabled = pool.length === 0;
   startButton.textContent = pool.length === 0 ? TEXT.empty : "挑戦を開始";
+}
+
+function changeSetSize(delta) {
+  const poolLength = getQuestionPool().length;
+  const max = getSetSizeMax(poolLength);
+  state.setSize = Math.min(Math.max(state.setSize + delta, MIN_SET_SIZE), max);
+  updateStartControls();
+}
+
+function updateSetSizeControls(poolLength) {
+  const max = getSetSizeMax(poolLength);
+  if (poolLength > 0) {
+    state.setSize = Math.min(Math.max(state.setSize, MIN_SET_SIZE), max);
+  }
+  setSizeValue.textContent = `${state.setSize}問`;
+  decreaseSetSizeButton.disabled = poolLength === 0 || state.setSize <= MIN_SET_SIZE;
+  increaseSetSizeButton.disabled = poolLength === 0 || state.setSize >= max;
+}
+
+function getSetSizeMax(poolLength) {
+  return poolLength > 0 ? Math.max(MIN_SET_SIZE, Math.min(MAX_SET_SIZE, poolLength)) : MAX_SET_SIZE;
 }
 
 function getQuestionPool() {
@@ -568,11 +619,7 @@ function renderSummary() {
           <span class="summary-status ${response.isCorrect ? "right" : "wrong"}">
             ${response.isCorrect ? TEXT.correct : TEXT.incorrect}
           </span>
-          <div class="rating-actions" aria-label="${TEXT.rating}">
-            <button class="rate-button" type="button" data-rating="good" data-id="${escapeHtml(question.id)}">${TEXT.good}</button>
-            <button class="rate-button" type="button" data-rating="bad" data-id="${escapeHtml(question.id)}">${TEXT.bad}</button>
-            <button class="rate-button" type="button" data-rating="out_of_scope" data-id="${escapeHtml(question.id)}">${TEXT.outOfScope}</button>
-          </div>
+          ${renderRatingActions(question)}
         </div>
         <div class="summary-body">
           <p>${escapeHtml(question.stem)}</p>
@@ -584,16 +631,34 @@ function renderSummary() {
           <p class="summary-explanation">${escapeHtml(buildExplanation(question, selectedChoice, correctChoice))}</p>
         </div>
       `;
-      for (const button of item.querySelectorAll(".rate-button")) {
-        button.addEventListener("click", () => rateQuestion(button.dataset.id, button.dataset.rating));
+      if (state.apiAvailable) {
+        for (const button of item.querySelectorAll(".rate-button")) {
+          button.addEventListener("click", () => rateQuestion(button.dataset.id, button.dataset.rating));
+        }
+        refreshRatingButtons(item, question.id);
       }
-      refreshRatingButtons(item, question.id);
       return item;
     }),
   );
 }
 
+function renderRatingActions(question) {
+  if (!state.apiAvailable) {
+    return `<span class="rating-disabled">${TEXT.ratingUnavailable}</span>`;
+  }
+  return `
+    <div class="rating-actions" aria-label="${TEXT.rating}">
+      <button class="rate-button" type="button" data-rating="good" data-id="${escapeHtml(question.id)}">${TEXT.good}</button>
+      <button class="rate-button" type="button" data-rating="bad" data-id="${escapeHtml(question.id)}">${TEXT.bad}</button>
+      <button class="rate-button" type="button" data-rating="out_of_scope" data-id="${escapeHtml(question.id)}">${TEXT.outOfScope}</button>
+    </div>
+  `;
+}
+
 function renderChoiceStats(question, selectedChoice, correctChoice) {
+  if (!state.apiAvailable) {
+    return `<p class="shared-stats-disabled">${TEXT.statsUnavailable}</p>`;
+  }
   const stats = state.choiceStats[question.id];
   const attempts = Number(stats?.attempts || 0);
   const choiceCounts = stats?.choices || {};
@@ -673,17 +738,27 @@ async function commitResponses() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.history));
   state.sessionCommitted = true;
 
-  try {
-    await postResults({ responses, ratings: {} });
-  } catch (error) {
-    console.warn("Could not save shared stats", error);
+  if (!state.apiAvailable) {
+    state.choiceStats = {};
+    return;
   }
 
+  try {
+    await postResults({ responses, ratings: {} });
+  } catch {
+    state.apiAvailable = false;
+    state.choiceStats = {};
+    return;
+  }
   state.choiceStats = await fetchStatsForSession();
 }
 
 async function commitRatings() {
   if (state.ratingsCommitted) {
+    return;
+  }
+  if (!state.apiAvailable) {
+    state.ratingsCommitted = true;
     return;
   }
   const ratings = Object.fromEntries(Object.entries(state.ratings).filter(([, rating]) => rating));
@@ -694,8 +769,9 @@ async function commitRatings() {
   try {
     await postResults({ responses: [], ratings });
     state.ratingsCommitted = true;
-  } catch (error) {
-    console.warn("Could not save ratings", error);
+  } catch {
+    state.apiAvailable = false;
+    state.ratingsCommitted = true;
   }
 }
 
@@ -713,7 +789,7 @@ async function postResults(payload) {
 
 async function fetchStatsForSession() {
   const ids = state.sessionQuestions.map((question) => question.id);
-  if (!ids.length) {
+  if (!state.apiAvailable || !ids.length) {
     return {};
   }
   try {
@@ -723,9 +799,9 @@ async function fetchStatsForSession() {
     }
     const payload = await response.json();
     return payload.questions || {};
-  } catch (error) {
-    console.warn("Could not load shared stats", error);
-    return buildSessionOnlyStats();
+  } catch {
+    state.apiAvailable = false;
+    return {};
   }
 }
 
