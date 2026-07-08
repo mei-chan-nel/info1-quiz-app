@@ -3306,68 +3306,6 @@
     "answer_choice_id": "center_style_common_test_0029__choice_1"
   },
   {
-    "id": "center_style_common_test_0030",
-    "stem": "複数の利用者がそれぞれ異なる生年を入力する。入力画面の初期値から各利用者の生年までの差の絶対値を「移動距離」とする。\n\nすべての利用者の移動距離の平均を最小にする初期値として最も適当なものを，次の選択肢から一つ選べ。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "生年の平均値",
-        "choice_id": "center_style_common_test_0030__choice_0",
-        "is_correct": false,
-        "explanation": "二乗したずれを最小にするときに関係する値であり，絶対値のずれでは外れ値の影響を受けやすい。"
-      },
-      {
-        "label": "1",
-        "text": "生年の中央値",
-        "choice_id": "center_style_common_test_0030__choice_1",
-        "is_correct": true,
-        "explanation": "各利用者の生年までの差の絶対値の平均を最小にする値は，データの中央値である。絶対値のずれの合計は，中央値付近で最小になる。"
-      },
-      {
-        "label": "2",
-        "text": "生年の最頻値",
-        "choice_id": "center_style_common_test_0030__choice_2",
-        "is_correct": false,
-        "explanation": "最も多い値だが，移動距離の平均を最小にするとは限らない。3の最大値にすると，多くの利用者の移動距離が大きくなる。"
-      },
-      {
-        "label": "3",
-        "text": "生年の最大値",
-        "choice_id": "center_style_common_test_0030__choice_3",
-        "is_correct": false
-      }
-    ],
-    "correct_choice": "1",
-    "explanation": "各利用者の生年までの差の絶対値の平均を最小にする値は，データの中央値である。絶対値のずれの合計は，中央値付近で最小になる。",
-    "tags": [
-      "共通テスト",
-      "情報I"
-    ],
-    "source_question_ids": [
-      "common_test_2026_main_q030"
-    ],
-    "difficulty": "calculation_basic",
-    "source_display": "共通テストR8本試験 第1問 問3前半",
-    "改題": true,
-    "primary_term_ids": [
-      "T0614"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0614",
-        "term": "メジアン",
-        "category": "統計処理",
-        "code": "４ウ",
-        "matched_variant": "中央値"
-      }
-    ],
-    "curation_status": "completed",
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_common_test_0030__choice_1"
-  },
-  {
     "id": "center_style_common_test_0031",
     "stem": "1月から12月までを円形に並べた入力ホイールがあり，12月の次は1月，1月の前は12月となる。各月が選ばれる確率がすべて等しいとする。\n\n初期値と，選択に必要な平均移動距離の関係として最も適当なものを，次の選択肢から一つ選べ。",
     "choices": [
@@ -9332,101 +9270,6 @@
     "answer_choice_id": "center_style_fe_curated_006__choice_0"
   },
   {
-    "id": "center_style_fe_curated_007",
-    "stem": "1桁の2進数xとyを加える半加算器で、和の1の位を表す出力は、xとyが異なるとき1、同じとき0になる。この出力に対応する論理演算として最も適当なものはどれか。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "AND",
-        "choice_id": "center_style_fe_curated_007__choice_0",
-        "is_correct": false,
-        "explanation": "両方が1のときだけ1である。"
-      },
-      {
-        "label": "1",
-        "text": "OR",
-        "choice_id": "center_style_fe_curated_007__choice_1",
-        "is_correct": false,
-        "explanation": "少なくとも一方が1なら1である。"
-      },
-      {
-        "label": "2",
-        "text": "EOR",
-        "choice_id": "center_style_fe_curated_007__choice_2",
-        "is_correct": true,
-        "explanation": "EORは、二つの入力が異なるとき1、同じとき0になる論理演算であり、半加算器の和の1の位に対応する。"
-      },
-      {
-        "label": "3",
-        "text": "NAND",
-        "choice_id": "center_style_fe_curated_007__choice_3",
-        "is_correct": false,
-        "explanation": "ANDの否定であり、同じ値のとき0になる演算ではない。"
-      }
-    ],
-    "correct_choice": "2",
-    "explanation": "EORは、二つの入力が異なるとき1、同じとき0になる論理演算であり、半加算器の和の1の位に対応する。",
-    "tags": [
-      "2進数",
-      "論理演算",
-      "論理回路",
-      "EOR"
-    ],
-    "primary_term_names": [
-      "2進数",
-      "論理演算",
-      "論理回路",
-      "EOR"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "fe_h29_spring_morning_q023"
-    ],
-    "curation_status": "completed",
-    "source_display": "基本情報技術者H29春期午前 問23",
-    "改題": true,
-    "primary_term_ids": [
-      "T0297",
-      "T0365",
-      "T0345",
-      "T0435"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0297",
-        "term": "2進数",
-        "category": "数値の扱い",
-        "code": "２ア",
-        "matched_variant": "manual:2進数"
-      },
-      {
-        "term_id": "T0365",
-        "term": "論理演算",
-        "category": "論理回路",
-        "code": "３ア",
-        "matched_variant": "manual:論理演算"
-      },
-      {
-        "term_id": "T0345",
-        "term": "論理回路",
-        "category": "ハードウェア",
-        "code": "３ア",
-        "matched_variant": "manual:論理回路"
-      },
-      {
-        "term_id": "T0435",
-        "term": "EOR",
-        "category": "論理演算",
-        "code": "３イ",
-        "matched_variant": "manual:EOR"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_007__choice_2"
-  },
-  {
     "id": "center_style_fe_curated_008",
     "stem": "32ビットで表現できるビットパターンの個数は、24ビットで表現できる個数の何倍か。",
     "choices": [
@@ -9581,101 +9424,6 @@
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_fe_curated_009__choice_2"
-  },
-  {
-    "id": "center_style_fe_curated_010",
-    "stem": "ビット列A=00101000について、B=A-1=00100111、C=A XOR B=00001111とする。AとCから00001000を得る演算として最も適当なものはどれか。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "A XOR C",
-        "choice_id": "center_style_fe_curated_010__choice_0",
-        "is_correct": false,
-        "explanation": "00100111になり目的の値ではない。"
-      },
-      {
-        "label": "1",
-        "text": "A NAND C",
-        "choice_id": "center_style_fe_curated_010__choice_1",
-        "is_correct": false,
-        "explanation": "ANDの否定なので多くのビットが1になる。"
-      },
-      {
-        "label": "2",
-        "text": "A AND C",
-        "choice_id": "center_style_fe_curated_010__choice_2",
-        "is_correct": true,
-        "explanation": "00101000 AND 00001111 = 00001000となり、Aの右から最初の1だけが残る。"
-      },
-      {
-        "label": "3",
-        "text": "A OR C",
-        "choice_id": "center_style_fe_curated_010__choice_3",
-        "is_correct": false,
-        "explanation": "00101111になり余分な1が残る。"
-      }
-    ],
-    "correct_choice": "2",
-    "explanation": "00101000 AND 00001111 = 00001000となり、Aの右から最初の1だけが残る。",
-    "tags": [
-      "2進数",
-      "論理演算",
-      "EOR",
-      "AND"
-    ],
-    "primary_term_names": [
-      "2進数",
-      "論理演算",
-      "EOR",
-      "AND"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "fe_h27_spring_morning_q001"
-    ],
-    "curation_status": "completed",
-    "source_display": "基本情報技術者H27春期午前 問1",
-    "改題": true,
-    "primary_term_ids": [
-      "T0297",
-      "T0365",
-      "T0435",
-      "T0432"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0297",
-        "term": "2進数",
-        "category": "数値の扱い",
-        "code": "２ア",
-        "matched_variant": "manual:2進数"
-      },
-      {
-        "term_id": "T0365",
-        "term": "論理演算",
-        "category": "論理回路",
-        "code": "３ア",
-        "matched_variant": "manual:論理演算"
-      },
-      {
-        "term_id": "T0435",
-        "term": "EOR",
-        "category": "論理演算",
-        "code": "３イ",
-        "matched_variant": "manual:EOR"
-      },
-      {
-        "term_id": "T0432",
-        "term": "AND",
-        "category": "論理演算",
-        "code": "３イ",
-        "matched_variant": "manual:AND"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_010__choice_2"
   },
   {
     "id": "center_style_fe_curated_011",
@@ -10242,91 +9990,6 @@
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_fe_curated_017__choice_0"
-  },
-  {
-    "id": "center_style_fe_curated_018",
-    "stem": "1Mバイト=1,024×1,024バイトのメモリを、1バイトごとに異なる番地で指定する。必要な番地のビット数として最も適当なものはどれか。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "10",
-        "choice_id": "center_style_fe_curated_018__choice_0",
-        "is_correct": false,
-        "explanation": "1,024通りだけを表すビット数である。"
-      },
-      {
-        "label": "1",
-        "text": "16",
-        "choice_id": "center_style_fe_curated_018__choice_1",
-        "is_correct": false,
-        "explanation": "2^16通りで不足する。"
-      },
-      {
-        "label": "2",
-        "text": "20",
-        "choice_id": "center_style_fe_curated_018__choice_2",
-        "is_correct": true,
-        "explanation": "1,024=2^10なので、1Mバイトは2^10×2^10=2^20バイトである。2^20通りの番地を表すには20ビットが必要である。"
-      },
-      {
-        "label": "3",
-        "text": "24",
-        "choice_id": "center_style_fe_curated_018__choice_3",
-        "is_correct": false,
-        "explanation": "必要数より多い。"
-      }
-    ],
-    "correct_choice": "2",
-    "explanation": "1,024=2^10なので、1Mバイトは2^10×2^10=2^20バイトである。2^20通りの番地を表すには20ビットが必要である。",
-    "tags": [
-      "2進数",
-      "データ量",
-      "メモリ"
-    ],
-    "primary_term_names": [
-      "2進数",
-      "データ量",
-      "メモリ"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "fe_h28_autumn_morning_q013"
-    ],
-    "curation_status": "completed",
-    "source_display": "基本情報技術者H28秋期午前 問13",
-    "改題": true,
-    "primary_term_ids": [
-      "T0297",
-      "T0202",
-      "T0344"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0297",
-        "term": "2進数",
-        "category": "数値の扱い",
-        "code": "２ア",
-        "matched_variant": "manual:2進数"
-      },
-      {
-        "term_id": "T0202",
-        "term": "データ量",
-        "category": "データ量",
-        "code": "２ア",
-        "matched_variant": "manual:データ量"
-      },
-      {
-        "term_id": "T0344",
-        "term": "メモリ",
-        "category": "ハードウェア",
-        "code": "３ア",
-        "matched_variant": "manual:メモリ"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_018__choice_2"
   },
   {
     "id": "center_style_fe_curated_019",
@@ -14108,91 +13771,6 @@
     "answer_choice_id": "center_style_ip_curated_061__choice_2"
   },
   {
-    "id": "center_style_fe_curated_054",
-    "stem": "8ビットの値について、すべてのビットを反転する操作として最も適当なものはどれか。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "16進表記00のビット列と排他的論理和をとる",
-        "choice_id": "center_style_fe_curated_054__choice_0",
-        "is_correct": false,
-        "explanation": "00との排他的論理和なので値が変わらない。"
-      },
-      {
-        "label": "1",
-        "text": "16進表記00のビット列と論理和をとる",
-        "choice_id": "center_style_fe_curated_054__choice_1",
-        "is_correct": false,
-        "explanation": "00との論理和なので値が変わらない。"
-      },
-      {
-        "label": "2",
-        "text": "16進表記FFのビット列と排他的論理和をとる",
-        "choice_id": "center_style_fe_curated_054__choice_2",
-        "is_correct": true,
-        "explanation": "FFは8ビットすべてが1である。各ビットを1と排他的論理和にすると。"
-      },
-      {
-        "label": "3",
-        "text": "16進表記FFのビット列と論理和をとる",
-        "choice_id": "center_style_fe_curated_054__choice_3",
-        "is_correct": false,
-        "explanation": "FFとの論理和なので全ビットが1になる。"
-      }
-    ],
-    "correct_choice": "2",
-    "explanation": "FFは8ビットすべてが1である。各ビットを1と排他的論理和にすると、0は1に、1は0になり、全ビットが反転する。",
-    "tags": [
-      "論理演算",
-      "EOR",
-      "16進数"
-    ],
-    "primary_term_names": [
-      "論理演算",
-      "EOR",
-      "16進数"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "fe_r01_autumn_morning_q001"
-    ],
-    "curation_status": "completed",
-    "source_display": "基本情報技術者R1秋期午前 問1",
-    "改題": true,
-    "primary_term_ids": [
-      "T0365",
-      "T0435",
-      "T0299"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0365",
-        "term": "論理演算",
-        "category": "論理回路",
-        "code": "３ア",
-        "matched_variant": "manual:論理演算"
-      },
-      {
-        "term_id": "T0435",
-        "term": "EOR",
-        "category": "論理演算",
-        "code": "３イ",
-        "matched_variant": "manual:EOR"
-      },
-      {
-        "term_id": "T0299",
-        "term": "16進数",
-        "category": "数値の扱い",
-        "code": "２ア",
-        "matched_variant": "manual:16進数"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_054__choice_2"
-  },
-  {
     "id": "center_style_fe_curated_055",
     "stem": "行方向と列方向の両方にパリティビットを付ける方法で、1ビットの誤りを見つけたときに期待できることとして最も適当なものはどれか。",
     "choices": [
@@ -15906,7 +15484,7 @@
   },
   {
     "id": "center_style_fe_curated_063",
-    "stem": "配列A[0]〜A[9]に正の整数を格納する。まずA[k mod 10]を調べ、空いていなければA[(k+1) mod 10]、それも空いていなければA[(k+4) mod 10]に格納する。16、43、73、24、85を順に格納すると、85はどこに入るか。ここで、空きは0で表す。",
+    "stem": "配列A[0]〜A[9]に正の整数を格納する。まずA[k mod 10]を調べ、空いていなければA[(k+1) mod 10]、それも空いていなければA[(k+4) mod 10]に格納する。ここで、x mod y はxをyで割った余りを表す。16、43、73、24、85を順に格納すると、85はどこに入るか。ここで、空きは0で表す。",
     "choices": [
       {
         "label": "0",
@@ -15932,11 +15510,11 @@
         "text": "A[9]",
         "choice_id": "center_style_fe_curated_063__choice_3",
         "is_correct": true,
-        "explanation": "16はA[6]、43はA[3]、73はA[3]が使用済みなのでA[4]、24はA[4]が使用済みなのでA[5]に入る。85ではA[5]とA[6]が使用済みなので、(85+4) mod 10 = 9よりA[9]に入る。"
+        "explanation": "mod は割り算の余りを表すので、16 mod 10 = 6、43 mod 10 = 3である。16はA[6]、43はA[3]、73はA[3]が使用済みなのでA[4]、24はA[4]が使用済みなのでA[5]に入る。85ではA[5]とA[6]が使用済みなので、(85+4) mod 10 = 9よりA[9]に入る。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "16はA[6]、43はA[3]、73はA[3]が使用済みなのでA[4]、24はA[4]が使用済みなのでA[5]に入る。85ではA[5]とA[6]が使用済みなので、(85+4) mod 10 = 9よりA[9]に入る。",
+    "explanation": "mod は割り算の余りを表すので、16 mod 10 = 6、43 mod 10 = 3である。16はA[6]、43はA[3]、73はA[3]が使用済みなのでA[4]、24はA[4]が使用済みなのでA[5]に入る。85ではA[5]とA[6]が使用済みなので、(85+4) mod 10 = 9よりA[9]に入る。",
     "tags": [
       "配列",
       "配列の要素",
@@ -18221,79 +17799,6 @@
     "answer_choice_id": "center_style_ap_curated_081__choice_1"
   },
   {
-    "id": "center_style_fe_curated_067",
-    "stem": "正の整数xを2進数で表す。xを2ビット左にずらした値に，もとのxを加えると，結果はxの何倍になるか。オーバーフローは起こらないものとする。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "3倍",
-        "choice_id": "center_style_fe_curated_067__choice_0",
-        "is_correct": false
-      },
-      {
-        "label": "1",
-        "text": "4倍",
-        "choice_id": "center_style_fe_curated_067__choice_1",
-        "is_correct": false
-      },
-      {
-        "label": "2",
-        "text": "5倍",
-        "choice_id": "center_style_fe_curated_067__choice_2",
-        "is_correct": true,
-        "explanation": "2進数で2ビット左にずらすことは，値を2^2=4倍することに対応する。したがって，左にずらした値は4xであり，もとのxを加えると5xになる。"
-      },
-      {
-        "label": "3",
-        "text": "6倍",
-        "choice_id": "center_style_fe_curated_067__choice_3",
-        "is_correct": false
-      }
-    ],
-    "correct_choice": "2",
-    "explanation": "2進数で2ビット左にずらすことは，値を2^2=4倍することに対応する。したがって，左にずらした値は4xであり，もとのxを加えると5xになる。",
-    "tags": [
-      "2進数",
-      "bit",
-      "オーバーフロー"
-    ],
-    "primary_term_names": [
-      "2進数",
-      "bit"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "fe_h28_spring_morning_q001"
-    ],
-    "curation_status": "completed",
-    "source_display": "基本情報技術者H28春期午前 問1",
-    "改題": true,
-    "primary_term_ids": [
-      "T0297",
-      "T0211"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0297",
-        "term": "2進数",
-        "category": "数値の扱い",
-        "code": "２ア",
-        "matched_variant": "manual:2進数"
-      },
-      {
-        "term_id": "T0211",
-        "term": "bit",
-        "category": "データ量",
-        "code": "２ア;３ア;３ア;２ア",
-        "matched_variant": "manual:bit"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_067__choice_2"
-  },
-  {
     "id": "center_style_fe_curated_068",
     "stem": "画像の表し方について，ベクター画像の特徴として最も適当なものはどれか。",
     "choices": [
@@ -18527,88 +18032,6 @@
     "answer_choice_id": "center_style_ip_curated_107__choice_0"
   },
   {
-    "id": "center_style_fe_curated_069",
-    "stem": "2入力NANDゲートの出力について，入力A=1，入力B=1のときの出力として最も適当なものはどれか。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "0",
-        "choice_id": "center_style_fe_curated_069__choice_0",
-        "is_correct": true,
-        "explanation": "NANDゲートは，ANDの結果を否定するゲートである。A=1，B=1のときANDの結果は1なので，それを否定したNANDの出力は0になる。"
-      },
-      {
-        "label": "1",
-        "text": "1",
-        "choice_id": "center_style_fe_curated_069__choice_1",
-        "is_correct": false
-      },
-      {
-        "label": "2",
-        "text": "Aと同じ値",
-        "choice_id": "center_style_fe_curated_069__choice_2",
-        "is_correct": false
-      },
-      {
-        "label": "3",
-        "text": "Bと同じ値",
-        "choice_id": "center_style_fe_curated_069__choice_3",
-        "is_correct": false
-      }
-    ],
-    "correct_choice": "0",
-    "explanation": "NANDゲートは，ANDの結果を否定するゲートである。A=1，B=1のときANDの結果は1なので，それを否定したNANDの出力は0になる。",
-    "tags": [
-      "NANDゲート",
-      "ANDゲート",
-      "真理値表"
-    ],
-    "primary_term_names": [
-      "NANDゲート",
-      "ANDゲート",
-      "真理値表"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "fe_h30_autumn_morning_q026"
-    ],
-    "curation_status": "completed",
-    "source_display": "基本情報技術者H30秋期午前 問26",
-    "改題": true,
-    "primary_term_ids": [
-      "T0372",
-      "T0370",
-      "T0366"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0372",
-        "term": "NANDゲート",
-        "category": "論理ゲート",
-        "code": "３ア",
-        "matched_variant": "manual:NANDゲート"
-      },
-      {
-        "term_id": "T0370",
-        "term": "ANDゲート",
-        "category": "論理ゲート",
-        "code": "３ア",
-        "matched_variant": "manual:ANDゲート"
-      },
-      {
-        "term_id": "T0366",
-        "term": "真理値表",
-        "category": "論理回路",
-        "code": "３ア",
-        "matched_variant": "manual:真理値表"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_069__choice_0"
-  },
-  {
     "id": "center_style_fe_curated_070",
     "stem": "8ビットの符号なし整数で表せる最大値は255である。この形式で 250+10 を計算しようとしたときに起こることとして最も適当なものはどれか。",
     "choices": [
@@ -18839,88 +18262,6 @@
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_ip_curated_108__choice_1"
-  },
-  {
-    "id": "center_style_ap_curated_083",
-    "stem": "UTF-8で表された1文字のバイト列が16進数で CE B1 である。この各バイトを「%」と16進2桁で表すパーセントエンコーディングとして最も適当なものはどれか。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "%CE%B1",
-        "choice_id": "center_style_ap_curated_083__choice_0",
-        "is_correct": true,
-        "explanation": "パーセントエンコーディングでは，1バイトごとに「%」を付け，16進2桁で表す。CE B1 は2バイトなので，%CE%B1となる。バイトごとに%を付けることと，バイトの順序を保つことがポイントである。"
-      },
-      {
-        "label": "1",
-        "text": "%CEB1",
-        "choice_id": "center_style_ap_curated_083__choice_1",
-        "is_correct": false
-      },
-      {
-        "label": "2",
-        "text": "CE%B1%",
-        "choice_id": "center_style_ap_curated_083__choice_2",
-        "is_correct": false
-      },
-      {
-        "label": "3",
-        "text": "%B1%CE",
-        "choice_id": "center_style_ap_curated_083__choice_3",
-        "is_correct": false
-      }
-    ],
-    "correct_choice": "0",
-    "explanation": "パーセントエンコーディングでは，1バイトごとに「%」を付け，16進2桁で表す。CE B1 は2バイトなので，%CE%B1となる。バイトごとに%を付けることと，バイトの順序を保つことがポイントである。",
-    "tags": [
-      "UTF-8",
-      "文字コード",
-      "16進数"
-    ],
-    "primary_term_names": [
-      "UTF-8",
-      "文字コード",
-      "16進数"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "ap_h25_spring_morning_q035"
-    ],
-    "curation_status": "completed",
-    "source_display": "応用情報技術者H25春期午前 問35",
-    "改題": true,
-    "primary_term_ids": [
-      "T0217",
-      "T0213",
-      "T0299"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0217",
-        "term": "UTF-8",
-        "category": "テキストデータ",
-        "code": "２ア",
-        "matched_variant": "manual:UTF-8"
-      },
-      {
-        "term_id": "T0213",
-        "term": "文字コード",
-        "category": "テキストデータ",
-        "code": "２ア",
-        "matched_variant": "manual:文字コード"
-      },
-      {
-        "term_id": "T0299",
-        "term": "16進数",
-        "category": "数値の扱い",
-        "code": "２ア",
-        "matched_variant": "manual:16進数"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_ap_curated_083__choice_0"
   },
   {
     "id": "center_style_ap_curated_084",
@@ -21863,14 +21204,14 @@
   },
   {
     "id": "center_style_ap_curated_102",
-    "stem": "文字列「AAAAABB」をランレングス圧縮で，連続する文字とその個数の組として表す。結果として，最も適当なものはどれか。",
+    "stem": "ランレングス圧縮は、同じ文字が連続する部分を「文字」と「連続する個数」の組で表す方法である。文字列「AAAAABB」をランレングス圧縮で表す。結果として、最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
         "text": "A5B2",
         "choice_id": "center_style_ap_curated_102__choice_0",
         "is_correct": true,
-        "explanation": "AAAAABBはAが5個連続し，その後Bが2個連続しているので，文字と連続個数で表すとA5B2になる。連続する同じ文字の個数を順に数える。"
+        "explanation": "ランレングス圧縮では、同じ文字が続く長さを順に数えて表す。AAAAABBはAが5個連続し、その後Bが2個連続しているので、文字と連続個数で表すとA5B2になる。"
       },
       {
         "label": "1",
@@ -21892,7 +21233,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "AAAAABBはAが5個連続し，その後Bが2個連続しているので，文字と連続個数で表すとA5B2になる。連続する同じ文字の個数を順に数える。",
+    "explanation": "ランレングス圧縮では、同じ文字が続く長さを順に数えて表す。AAAAABBはAが5個連続し、その後Bが2個連続しているので、文字と連続個数で表すとA5B2になる。",
     "tags": [
       "ランレングス圧縮",
       "圧縮",
@@ -23924,184 +23265,6 @@
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_ap_curated_112__choice_0"
-  },
-  {
-    "id": "center_style_ap_curated_113",
-    "stem": "大きさ100，200，300，400の4区画がある。250，250，50の順に，入る区画のうち最も小さい区画を選んで割り当てると，割り当てた区画内で使われない領域の合計はいくつか。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "250",
-        "choice_id": "center_style_ap_curated_113__choice_0",
-        "is_correct": true,
-        "explanation": "250は300の区画に入り，余りは50である。次の250は400の区画に入り，余りは150である。50は100の区画に入り，余りは50である。使われない領域の合計は50+150+50=250である。"
-      },
-      {
-        "label": "1",
-        "text": "200",
-        "choice_id": "center_style_ap_curated_113__choice_1",
-        "is_correct": false,
-        "explanation": "空いた200の区画だけを見た値である。"
-      },
-      {
-        "label": "2",
-        "text": "350",
-        "choice_id": "center_style_ap_curated_113__choice_2",
-        "is_correct": false
-      },
-      {
-        "label": "3",
-        "text": "450",
-        "choice_id": "center_style_ap_curated_113__choice_3",
-        "is_correct": false
-      }
-    ],
-    "correct_choice": "0",
-    "explanation": "250は300の区画に入り，余りは50である。次の250は400の区画に入り，余りは150である。50は100の区画に入り，余りは50である。使われない領域の合計は50+150+50=250である。",
-    "tags": [
-      "Algorithm",
-      "メモリ",
-      "データ量"
-    ],
-    "primary_term_names": [
-      "Algorithm",
-      "メモリ",
-      "データ量"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "ap_h26_autumn_morning_q017"
-    ],
-    "curation_status": "completed",
-    "source_display": "応用情報技術者H26秋期午前 問17",
-    "改題": true,
-    "primary_term_ids": [
-      "T0458",
-      "T0344",
-      "T0202"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0458",
-        "term": "Algorithm",
-        "category": "アルゴリズム",
-        "code": "３イ",
-        "matched_variant": "manual:Algorithm"
-      },
-      {
-        "term_id": "T0344",
-        "term": "メモリ",
-        "category": "ハードウェア",
-        "code": "３ア",
-        "matched_variant": "manual:メモリ"
-      },
-      {
-        "term_id": "T0202",
-        "term": "データ量",
-        "category": "データ量",
-        "code": "２ア",
-        "matched_variant": "manual:データ量"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_ap_curated_113__choice_0"
-  },
-  {
-    "id": "center_style_fe_curated_083",
-    "stem": "ビット列A=00101000について，B=A-1，C=A XOR B とする。AとCにどの論理演算を行うと，最も右にある1だけを残した00001000が得られるか。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "AND",
-        "choice_id": "center_style_fe_curated_083__choice_0",
-        "is_correct": true,
-        "explanation": "A=00101000，B=A-1=00100111であり，C=A XOR B=00001111である。A AND C=00101000 AND 00001111=00001000となる。"
-      },
-      {
-        "label": "1",
-        "text": "OR",
-        "choice_id": "center_style_fe_curated_083__choice_1",
-        "is_correct": false,
-        "explanation": "00101111となり余分な1が残る。"
-      },
-      {
-        "label": "2",
-        "text": "XOR",
-        "choice_id": "center_style_fe_curated_083__choice_2",
-        "is_correct": false,
-        "explanation": "Cを求めた演算であり，最後の1だけにはならない。"
-      },
-      {
-        "label": "3",
-        "text": "NAND",
-        "choice_id": "center_style_fe_curated_083__choice_3",
-        "is_correct": false,
-        "explanation": "ANDを反転するので目的と逆になる。"
-      }
-    ],
-    "correct_choice": "0",
-    "explanation": "A=00101000，B=A-1=00100111であり，C=A XOR B=00001111である。A AND C=00101000 AND 00001111=00001000となる。",
-    "tags": [
-      "論理演算",
-      "AND",
-      "EOR",
-      "bit"
-    ],
-    "primary_term_names": [
-      "論理演算",
-      "AND",
-      "EOR",
-      "bit"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "fe_h30_autumn_morning_q002"
-    ],
-    "curation_status": "completed",
-    "source_display": "基本情報技術者H30秋期午前 問2",
-    "改題": true,
-    "primary_term_ids": [
-      "T0365",
-      "T0432",
-      "T0435",
-      "T0211"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0365",
-        "term": "論理演算",
-        "category": "論理回路",
-        "code": "３ア",
-        "matched_variant": "manual:論理演算"
-      },
-      {
-        "term_id": "T0432",
-        "term": "AND",
-        "category": "論理演算",
-        "code": "３イ",
-        "matched_variant": "manual:AND"
-      },
-      {
-        "term_id": "T0435",
-        "term": "EOR",
-        "category": "論理演算",
-        "code": "３イ",
-        "matched_variant": "manual:EOR"
-      },
-      {
-        "term_id": "T0211",
-        "term": "bit",
-        "category": "データ量",
-        "code": "２ア;３ア;３ア;２ア",
-        "matched_variant": "manual:bit"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_083__choice_0"
   },
   {
     "id": "center_style_fe_curated_084",
@@ -27152,89 +26315,6 @@
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_fe_curated_100__choice_0"
-  },
-  {
-    "id": "center_style_fe_curated_101",
-    "stem": "正の整数xを2進数で表している。xを10倍する計算を，左シフトと加算で行う式として，最も適当なものはどれか。ここで，左に1ビットシフトすると値は2倍になる。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "(xを3ビット左シフトした値) + (xを1ビット左シフトした値)",
-        "choice_id": "center_style_fe_curated_101__choice_0",
-        "is_correct": true,
-        "explanation": "左に3ビットシフトすると8倍，左に1ビットシフトすると2倍なので，8x+2x=10xとなる。"
-      },
-      {
-        "label": "1",
-        "text": "(xを2ビット左シフトした値) + x",
-        "choice_id": "center_style_fe_curated_101__choice_1",
-        "is_correct": false,
-        "explanation": "4x+x=5x。"
-      },
-      {
-        "label": "2",
-        "text": "(xを1ビット左シフトした値) + x",
-        "choice_id": "center_style_fe_curated_101__choice_2",
-        "is_correct": false
-      },
-      {
-        "label": "3",
-        "text": "xを1ビット右シフトした値",
-        "choice_id": "center_style_fe_curated_101__choice_3",
-        "is_correct": false
-      }
-    ],
-    "correct_choice": "0",
-    "explanation": "左に3ビットシフトすると8倍，左に1ビットシフトすると2倍なので，8x+2x=10xとなる。",
-    "tags": [
-      "2進数",
-      "bit",
-      "論理演算"
-    ],
-    "primary_term_names": [
-      "2進数",
-      "bit",
-      "論理演算"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "fe_h29_autumn_morning_q001"
-    ],
-    "curation_status": "completed",
-    "source_display": "基本情報技術者H29秋期午前 問1",
-    "改題": true,
-    "primary_term_ids": [
-      "T0297",
-      "T0211",
-      "T0365"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0297",
-        "term": "2進数",
-        "category": "数値の扱い",
-        "code": "２ア",
-        "matched_variant": "manual:2進数"
-      },
-      {
-        "term_id": "T0211",
-        "term": "bit",
-        "category": "データ量",
-        "code": "２ア;３ア;３ア;２ア",
-        "matched_variant": "manual:bit"
-      },
-      {
-        "term_id": "T0365",
-        "term": "論理演算",
-        "category": "論理回路",
-        "code": "３ア",
-        "matched_variant": "manual:論理演算"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_101__choice_0"
   },
   {
     "id": "center_style_ap_curated_115",
@@ -44653,99 +43733,6 @@
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_072_003__choice_3"
-  },
-  {
-    "id": "center_style_curated_072_004",
-    "stem": "16進数ABCDを2進数のビット列とみなし，右に2ビットずらして左端を0で埋める。この結果を16進数で表したものはどれか。",
-    "choices": [
-      {
-        "label": "0",
-        "text": "2AF3",
-        "choice_id": "center_style_curated_072_004__choice_0",
-        "is_correct": true,
-        "explanation": "右に2ビットずらすことは，値を4で割って小数部分を捨てることに対応する。16進数ABCDを4で割ると2AF3になる。"
-      },
-      {
-        "label": "1",
-        "text": "6AF3",
-        "choice_id": "center_style_curated_072_004__choice_1",
-        "is_correct": false
-      },
-      {
-        "label": "2",
-        "text": "AF34",
-        "choice_id": "center_style_curated_072_004__choice_2",
-        "is_correct": false,
-        "explanation": "右ではなく左にずらした形に近い。"
-      },
-      {
-        "label": "3",
-        "text": "EAF3",
-        "choice_id": "center_style_curated_072_004__choice_3",
-        "is_correct": false
-      }
-    ],
-    "correct_choice": "0",
-    "explanation": "右に2ビットずらすことは，値を4で割って小数部分を捨てることに対応する。16進数ABCDを4で割ると2AF3になる。",
-    "tags": [
-      "16進数",
-      "2進数",
-      "bit",
-      "論理演算"
-    ],
-    "primary_term_names": [
-      "16進数",
-      "2進数",
-      "bit",
-      "論理演算"
-    ],
-    "difficulty": "calculation_basic",
-    "source_question_ids": [
-      "fe_h25_autumn_morning_q002"
-    ],
-    "curation_status": "completed",
-    "source_display": "基本情報技術者H25秋期午前 問2",
-    "改題": true,
-    "primary_term_ids": [
-      "T0299",
-      "T0297",
-      "T0211",
-      "T0365"
-    ],
-    "primary_terms": [
-      {
-        "term_id": "T0299",
-        "term": "16進数",
-        "category": "数値の扱い",
-        "code": "２ア",
-        "matched_variant": "manual:16進数"
-      },
-      {
-        "term_id": "T0297",
-        "term": "2進数",
-        "category": "数値の扱い",
-        "code": "２ア",
-        "matched_variant": "manual:2進数"
-      },
-      {
-        "term_id": "T0211",
-        "term": "bit",
-        "category": "データ量",
-        "code": "２ア;３ア;３ア;２ア",
-        "matched_variant": "manual:bit"
-      },
-      {
-        "term_id": "T0365",
-        "term": "論理演算",
-        "category": "論理回路",
-        "code": "３ア",
-        "matched_variant": "manual:論理演算"
-      }
-    ],
-    "adoption_status": "completed",
-    "evaluation_class": "as_is",
-    "evaluation_reasons": [],
-    "answer_choice_id": "center_style_curated_072_004__choice_0"
   },
   {
     "id": "center_style_curated_072_005",
