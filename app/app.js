@@ -191,6 +191,8 @@ const FIELD_DEFINITIONS = [
   },
 ];
 
+const FIELD_ID_SET = new Set(FIELD_DEFINITIONS.map((definition) => definition.id));
+
 const state = {
   allQuestions: [],
   sessionQuestions: [],
@@ -366,7 +368,6 @@ function renderFieldFilters() {
       label.innerHTML = `
         <input type="checkbox" value="${escapeHtml(definition.id)}" />
         <span>${escapeHtml(definition.label)}</span>
-        <strong data-field-count="${escapeHtml(definition.id)}">0</strong>
       `;
       return label;
     }),
@@ -378,14 +379,6 @@ function updateStartControls() {
     questionCount.textContent = "-";
     updateSetSizeControls(0);
     return;
-  }
-
-  for (const definition of FIELD_DEFINITIONS) {
-    const count = state.allQuestions.filter((question) => matchesCalcMode(question) && questionMatchesField(question, definition)).length;
-    const target = fieldFilters.querySelector(`[data-field-count="${cssEscape(definition.id)}"]`);
-    if (target) {
-      target.textContent = String(count);
-    }
   }
 
   const pool = getQuestionPool();
@@ -452,6 +445,27 @@ function matchesCalcMode(question) {
 }
 
 function questionMatchesField(question, definition) {
+  return getQuestionFieldIds(question).has(definition.id);
+}
+
+function getQuestionFieldIds(question) {
+  if (question.__fieldIds) {
+    return question.__fieldIds;
+  }
+
+  const explicitFields = []
+    .concat(Array.isArray(question.fields) ? question.fields : [])
+    .concat(Array.isArray(question.field_ids) ? question.field_ids : [])
+    .filter((fieldId) => FIELD_ID_SET.has(fieldId));
+  const inferredFields = FIELD_DEFINITIONS
+    .filter((definition) => fieldNeedlesMatch(question, definition))
+    .map((definition) => definition.id);
+
+  question.__fieldIds = new Set([...explicitFields, ...inferredFields]);
+  return question.__fieldIds;
+}
+
+function fieldNeedlesMatch(question, definition) {
   const searchText = getQuestionSearchText(question);
   return definition.needles.some((needle) => searchText.includes(needle));
 }
@@ -463,6 +477,7 @@ function getQuestionSearchText(question) {
   const primaryTerms = Array.isArray(question.primary_terms) ? question.primary_terms : [];
   question.__searchText = [
     ...(question.tags || []),
+    ...(question.primary_term_names || []),
     ...primaryTerms.flatMap((term) => [term.term, term.category, term.code]),
   ]
     .filter(Boolean)
