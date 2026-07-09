@@ -44,6 +44,113 @@ input {
   padding: 24px 0;
 }
 
+.ad-slot {
+  width: min(920px, calc(100% - 32px));
+  min-height: 120px;
+  margin: 0 auto;
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  background: #eef2f1;
+}
+
+.footer-inner {
+  width: min(920px, calc(100% - 32px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 auto;
+  padding: 22px 0;
+}
+
+.footer-title {
+  margin: 0;
+  color: #475467;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.footer-nav a,
+.info-header a,
+.info-content a {
+  color: var(--accent-dark);
+  font-weight: 800;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.footer-nav a:hover,
+.info-header a:hover,
+.info-content a:hover {
+  color: var(--accent);
+}
+
+.info-header {
+  width: min(920px, calc(100% - 32px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.info-brand {
+  color: var(--text) !important;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.info-shell {
+  width: min(760px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 38px 0 16px;
+}
+
+.info-content {
+  padding-bottom: 24px;
+}
+
+.info-content h1 {
+  margin: 0 0 32px;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.info-content h2 {
+  margin: 34px 0 10px;
+  color: #26323f;
+  font-size: 1.1rem;
+}
+
+.info-content p,
+.info-content li {
+  color: #344054;
+  line-height: 1.9;
+}
+
+.info-content p {
+  margin: 0 0 14px;
+}
+
+.info-content ul {
+  margin: 0 0 14px;
+  padding-left: 1.4em;
+}
+
+.info-content .info-note {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .status-bar,
 .question-panel,
 .summary-panel {
@@ -771,6 +878,31 @@ h1 {
   .app-shell {
     width: min(100% - 20px, 920px);
     padding: 14px 0;
+  }
+
+  .ad-slot,
+  .footer-inner,
+  .info-header {
+    width: min(100% - 20px, 920px);
+  }
+
+  .ad-slot {
+    min-height: 96px;
+  }
+
+  .footer-inner,
+  .info-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .footer-nav {
+    justify-content: flex-start;
+  }
+
+  .info-shell {
+    width: min(100% - 20px, 760px);
+    padding-top: 24px;
   }
 
   .start-panel {
