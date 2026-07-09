@@ -49,14 +49,9 @@ const TEXT = {
   answer: "正答",
   selected: "選んだ選択肢",
   unanswered: "未解答",
-  rating: "問題評価",
-  good: "良問",
-  bad: "悪問",
-  outOfScope: "範囲外",
+  outOfScopeReport: "範囲外報告",
   you: "あなた",
-  noStats: "まだ集計なし",
   statsUnavailable: "公開版では選択率を保存・表示できません。",
-  ratingUnavailable: "公開版では問題評価を送信できません",
 };
 
 const FIELD_DEFINITIONS = [
@@ -197,7 +192,7 @@ const state = {
   allQuestions: [],
   sessionQuestions: [],
   responses: [],
-  ratings: {},
+  outOfScopeReports: {},
   choiceStats: {},
   currentIndex: 0,
   selectedChoiceId: null,
@@ -205,7 +200,7 @@ const state = {
   setSize: DEFAULT_SET_SIZE,
   apiAvailable: false,
   sessionCommitted: false,
-  ratingsCommitted: false,
+  outOfScopeReportsCommitted: false,
 };
 
 init();
@@ -277,12 +272,12 @@ nextButton.addEventListener("click", async () => {
 });
 
 retryButton.addEventListener("click", async () => {
-  await commitRatings();
+  await commitOutOfScopeReports();
   startSession();
 });
 
 finishButton.addEventListener("click", async () => {
-  await commitRatings();
+  await commitOutOfScopeReports();
   showStart();
 });
 
@@ -317,12 +312,12 @@ function showStart() {
 function resetSessionState() {
   state.sessionQuestions = [];
   state.responses = [];
-  state.ratings = {};
+  state.outOfScopeReports = {};
   state.choiceStats = {};
   state.currentIndex = 0;
   state.selectedChoiceId = null;
   state.sessionCommitted = false;
-  state.ratingsCommitted = false;
+  state.outOfScopeReportsCommitted = false;
   finishButton.disabled = false;
   finishButton.textContent = TEXT.finish;
   summaryView.querySelector(".end-message")?.remove();
@@ -341,12 +336,12 @@ function startSession() {
     selectedChoiceId: null,
     isCorrect: null,
   }));
-  state.ratings = {};
+  state.outOfScopeReports = {};
   state.choiceStats = {};
   state.currentIndex = 0;
   state.selectedChoiceId = null;
   state.sessionCommitted = false;
-  state.ratingsCommitted = false;
+  state.outOfScopeReportsCommitted = false;
 
   startView.hidden = true;
   statusBar.hidden = false;
@@ -602,7 +597,8 @@ function grade(question) {
   resultMark.textContent = isCorrect ? "○" : "!";
   resultMark.className = `result-mark ${isCorrect ? "right" : "wrong"}`;
   resultTitle.textContent = isCorrect ? TEXT.correct : TEXT.incorrect;
-  resultText.textContent = `${TEXT.answer}: ${formatChoice(correctChoice)}`;
+  resultText.hidden = shouldShowChoiceReasonList(question);
+  resultText.textContent = resultText.hidden ? "" : `${TEXT.answer}: ${formatChoice(correctChoice)}`;
   explanation.textContent = buildExplanation(question, selectedChoice, correctChoice);
 
   nextButton.hidden = false;
@@ -644,7 +640,7 @@ function renderSummary() {
           <span class="summary-status ${response.isCorrect ? "right" : "wrong"}">
             ${response.isCorrect ? TEXT.correct : TEXT.incorrect}
           </span>
-          ${renderRatingActions(question)}
+          ${renderOutOfScopeReportAction(question)}
         </div>
         <div class="summary-body">
           <p>${escapeHtml(question.stem)}</p>
@@ -654,25 +650,23 @@ function renderSummary() {
         </div>
       `;
       if (state.apiAvailable) {
-        for (const button of item.querySelectorAll(".rate-button")) {
-          button.addEventListener("click", () => rateQuestion(button.dataset.id, button.dataset.rating));
+        for (const button of item.querySelectorAll(".scope-report-button")) {
+          button.addEventListener("click", () => toggleOutOfScopeReport(button.dataset.id));
         }
-        refreshRatingButtons(item, question.id);
+        refreshOutOfScopeReportButton(item, question.id);
       }
       return item;
     }),
   );
 }
 
-function renderRatingActions(question) {
+function renderOutOfScopeReportAction(question) {
   if (!state.apiAvailable) {
-    return `<span class="rating-disabled">${TEXT.ratingUnavailable}</span>`;
+    return "";
   }
   return `
-    <div class="rating-actions" aria-label="${TEXT.rating}">
-      <button class="rate-button" type="button" data-rating="good" data-id="${escapeHtml(question.id)}">${TEXT.good}</button>
-      <button class="rate-button" type="button" data-rating="bad" data-id="${escapeHtml(question.id)}">${TEXT.bad}</button>
-      <button class="rate-button" type="button" data-rating="out_of_scope" data-id="${escapeHtml(question.id)}">${TEXT.outOfScope}</button>
+    <div class="scope-report-action">
+      <button class="scope-report-button" type="button" data-id="${escapeHtml(question.id)}">${TEXT.outOfScopeReport}</button>
     </div>
   `;
 }
@@ -703,11 +697,9 @@ function renderChoiceStats(question, selectedChoice, correctChoice) {
         .filter(Boolean)
         .join(" ");
       const rate = attempts ? `${percent}%` : "-";
-      const detail = attempts ? `${count}/${attempts}` : TEXT.noStats;
       const sharedStatsColumns = showSharedStats
         ? `
           <span class="choice-stat-rate">${escapeHtml(rate)}</span>
-          <span class="choice-stat-count">${escapeHtml(detail)}</span>
         `
         : "";
       return `
@@ -742,24 +734,18 @@ function getChoiceReviewMarker(choice, selectedChoice, correctChoice) {
   return "";
 }
 
-function rateQuestion(questionId, rating) {
-  state.ratings[questionId] = state.ratings[questionId] === rating ? null : rating;
-  state.ratingsCommitted = false;
+function toggleOutOfScopeReport(questionId) {
+  state.outOfScopeReports[questionId] = !state.outOfScopeReports[questionId];
+  state.outOfScopeReportsCommitted = false;
   const item = summaryList.querySelector(`[data-id="${cssEscape(questionId)}"]`)?.closest(".summary-item");
   if (item) {
-    refreshRatingButtons(item, questionId);
+    refreshOutOfScopeReportButton(item, questionId);
   }
 }
 
-function refreshRatingButtons(item, questionId) {
-  const rating = state.ratings[questionId] ?? null;
-  for (const button of item.querySelectorAll(".rate-button")) {
-    button.classList.toggle("active-good", button.dataset.rating === "good" && rating === "good");
-    button.classList.toggle("active-bad", button.dataset.rating === "bad" && rating === "bad");
-    button.classList.toggle(
-      "active-scope",
-      button.dataset.rating === "out_of_scope" && rating === "out_of_scope",
-    );
+function refreshOutOfScopeReportButton(item, questionId) {
+  for (const button of item.querySelectorAll(".scope-report-button")) {
+    button.classList.toggle("active-scope", Boolean(state.outOfScopeReports[questionId]));
   }
 }
 
@@ -780,10 +766,7 @@ async function commitResponses() {
       isCorrect: response.isCorrect,
     });
 
-    const item = state.history[question.id] ?? { attempts: 0, correct: 0, good: 0, bad: 0, out_of_scope: 0 };
-    item.good ??= 0;
-    item.bad ??= 0;
-    item.out_of_scope ??= 0;
+    const item = state.history[question.id] ?? { attempts: 0, correct: 0 };
     item.attempts += 1;
     item.correct += response.isCorrect ? 1 : 0;
     state.history[question.id] = item;
@@ -798,7 +781,7 @@ async function commitResponses() {
   }
 
   try {
-    await postResults({ responses, ratings: {} });
+    await postResults({ responses, outOfScopeReports: [] });
   } catch {
     state.apiAvailable = false;
     state.choiceStats = {};
@@ -807,25 +790,27 @@ async function commitResponses() {
   state.choiceStats = await fetchStatsForSession();
 }
 
-async function commitRatings() {
-  if (state.ratingsCommitted) {
+async function commitOutOfScopeReports() {
+  if (state.outOfScopeReportsCommitted) {
     return;
   }
   if (!state.apiAvailable) {
-    state.ratingsCommitted = true;
+    state.outOfScopeReportsCommitted = true;
     return;
   }
-  const ratings = Object.fromEntries(Object.entries(state.ratings).filter(([, rating]) => rating));
-  if (!Object.keys(ratings).length) {
-    state.ratingsCommitted = true;
+  const outOfScopeReports = Object.entries(state.outOfScopeReports)
+    .filter(([, isReported]) => isReported)
+    .map(([questionId]) => questionId);
+  if (!outOfScopeReports.length) {
+    state.outOfScopeReportsCommitted = true;
     return;
   }
   try {
-    await postResults({ responses: [], ratings });
-    state.ratingsCommitted = true;
+    await postResults({ responses: [], outOfScopeReports });
+    state.outOfScopeReportsCommitted = true;
   } catch {
     state.apiAvailable = false;
-    state.ratingsCommitted = true;
+    state.outOfScopeReportsCommitted = true;
   }
 }
 
@@ -870,7 +855,7 @@ function buildSessionOnlyStats() {
       attempts: 1,
       correct: response.isCorrect ? 1 : 0,
       choices: { [response.selectedChoiceId]: 1 },
-      ratings: { good: 0, bad: 0, out_of_scope: 0 },
+      reports: { out_of_scope: 0 },
     };
   }
   return stats;
@@ -990,6 +975,14 @@ function formatChoice(choice) {
 }
 
 function buildExplanation(question, selectedChoice, correctChoice) {
+  if (shouldShowChoiceReasonList(question)) {
+    return buildChoiceReasonListExplanation(question, selectedChoice, correctChoice);
+  }
+
+  return buildSimpleExplanation(question, selectedChoice, correctChoice);
+}
+
+function buildSimpleExplanation(question, selectedChoice, correctChoice) {
   const general = String(question.explanation || "").trim();
   const parts = [];
   if (general) {
@@ -1011,6 +1004,57 @@ function buildExplanation(question, selectedChoice, correctChoice) {
   }
 
   return parts.join("\n\n");
+}
+
+function buildChoiceReasonListExplanation(question, selectedChoice, correctChoice) {
+  const general = normalizeExplanationText(question.explanation);
+  const correctExplanation = normalizeExplanationText(correctChoice?.explanation);
+  const correctReason = correctExplanation || general;
+  const answerLabel =
+    selectedChoice && correctChoice && selectedChoice.choice_id === correctChoice.choice_id
+      ? TEXT.correct
+      : TEXT.answer;
+  const answerLines = [`${answerLabel}: ${formatChoice(correctChoice)}`];
+  if (correctReason) {
+    answerLines.push(correctReason);
+  }
+  const parts = [answerLines.join("\n")];
+  if (general && general !== correctReason) {
+    parts.push(general);
+  }
+
+  const wrongChoiceLines = [...question.choices]
+    .sort(compareByDisplayLabel)
+    .filter((choice) => choice.choice_id !== correctChoice?.choice_id)
+    .map((choice) => {
+      const selectedMarker =
+        selectedChoice?.choice_id === choice.choice_id ? "（あなたの選択）" : "";
+      const reason = normalizeExplanationText(choice.explanation) || "この選択肢は正答ではない。";
+      return `${choice.displayLabel}：${selectedMarker}${reason}`;
+    });
+
+  if (wrongChoiceLines.length) {
+    parts.push(["誤りの選択肢", ...wrongChoiceLines].join("\n"));
+  }
+
+  return parts.filter(Boolean).join("\n\n");
+}
+
+function shouldShowChoiceReasonList(question) {
+  return Boolean(question) && question.difficulty !== "calculation_basic";
+}
+
+function normalizeExplanationText(value) {
+  return String(value || "").trim().replace(/\s+/g, " ");
+}
+
+function compareByDisplayLabel(a, b) {
+  const left = Number(a.displayLabel);
+  const right = Number(b.displayLabel);
+  if (Number.isFinite(left) && Number.isFinite(right)) {
+    return left - right;
+  }
+  return String(a.displayLabel).localeCompare(String(b.displayLabel), "ja");
 }
 
 function loadHistory() {

@@ -48,17 +48,15 @@ def question_record(data: dict, question_id: str) -> dict:
             "attempts": 0,
             "correct": 0,
             "choices": {},
-            "ratings": {"good": 0, "bad": 0, "out_of_scope": 0},
+            "reports": {"out_of_scope": 0},
             "updated_at": "",
         },
     )
     record.setdefault("attempts", 0)
     record.setdefault("correct", 0)
     record.setdefault("choices", {})
-    record.setdefault("ratings", {"good": 0, "bad": 0, "out_of_scope": 0})
-    record["ratings"].setdefault("good", 0)
-    record["ratings"].setdefault("bad", 0)
-    record["ratings"].setdefault("out_of_scope", 0)
+    record.setdefault("reports", {"out_of_scope": 0})
+    record["reports"].setdefault("out_of_scope", 0)
     return record
 
 
@@ -103,8 +101,8 @@ class QuizRequestHandler(SimpleHTTPRequestHandler):
             return
 
         responses = payload.get("responses", [])
-        ratings = payload.get("ratings", {})
-        if not isinstance(responses, list) or not isinstance(ratings, dict):
+        out_of_scope_reports = payload.get("outOfScopeReports", [])
+        if not isinstance(responses, list) or not isinstance(out_of_scope_reports, list):
             self.send_error(HTTPStatus.BAD_REQUEST, "Invalid payload")
             return
 
@@ -124,13 +122,12 @@ class QuizRequestHandler(SimpleHTTPRequestHandler):
             record["choices"][choice_id] = int(record["choices"].get(choice_id, 0)) + 1
             record["updated_at"] = now
 
-        for question_id, rating in ratings.items():
+        for question_id in out_of_scope_reports:
             question_id = str(question_id).strip()
-            rating = str(rating).strip()
-            if not question_id or rating not in {"good", "bad", "out_of_scope"}:
+            if not question_id:
                 continue
             record = question_record(data, question_id)
-            record["ratings"][rating] += 1
+            record["reports"]["out_of_scope"] += 1
             record["updated_at"] = now
 
         save_stats(data)

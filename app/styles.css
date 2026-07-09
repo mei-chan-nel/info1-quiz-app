@@ -615,12 +615,12 @@ h1 {
   color: var(--wrong);
 }
 
-.rating-actions {
+.scope-report-action {
   display: flex;
   gap: 6px;
 }
 
-.rate-button {
+.scope-report-button {
   min-height: 32px;
   padding: 0 9px;
   border-color: var(--line);
@@ -629,29 +629,10 @@ h1 {
   font-size: 0.82rem;
 }
 
-.rate-button.active-good {
-  border-color: var(--right);
-  background: var(--right-soft);
-  color: var(--right);
-}
-
-.rate-button.active-bad {
-  border-color: var(--wrong);
-  background: var(--wrong-soft);
-  color: var(--wrong);
-}
-
-.rate-button.active-scope {
+.scope-report-button.active-scope {
   border-color: var(--amber);
   background: var(--amber-soft);
   color: #7c2d12;
-}
-
-.rating-disabled {
-  justify-self: end;
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 800;
 }
 
 .summary-body {
@@ -697,7 +678,7 @@ h1 {
   position: relative;
   min-height: 40px;
   display: grid;
-  grid-template-columns: 32px minmax(0, 1fr) 54px 72px;
+  grid-template-columns: 32px minmax(0, 1fr) 54px;
   align-items: center;
   gap: 8px;
   overflow: hidden;
@@ -738,8 +719,7 @@ h1 {
 
 .choice-stat-label,
 .choice-stat-text,
-.choice-stat-rate,
-.choice-stat-count {
+.choice-stat-rate {
   position: relative;
   z-index: 1;
 }
@@ -770,13 +750,6 @@ h1 {
 .choice-stat-rate {
   color: #26323f;
   font-weight: 900;
-  text-align: right;
-}
-
-.choice-stat-count {
-  padding-right: 10px;
-  color: var(--muted);
-  font-size: 0.78rem;
   text-align: right;
 }
 
@@ -857,18 +830,11 @@ h1 {
     grid-template-columns: 30px minmax(0, 1fr) 48px;
   }
 
-  .choice-stat-count {
-    grid-column: 2 / -1;
-    padding: 0 10px 8px 0;
-    text-align: left;
-  }
-
   .summary-item-head {
     grid-template-columns: auto minmax(0, 1fr);
   }
 
-  .rating-actions,
-  .rating-disabled {
+  .scope-report-action {
     grid-column: 1 / -1;
     justify-self: start;
   }
