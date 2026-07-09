@@ -646,7 +646,7 @@ function renderSummary() {
           ${renderOutOfScopeReportAction(question)}
         </div>
         <div class="summary-body">
-          <p>${escapeHtml(question.stem)}</p>
+          <p class="summary-stem">${escapeHtml(question.stem)}</p>
           ${renderChoiceStats(question, selectedChoice, correctChoice)}
           <p class="summary-explanation">${escapeHtml(buildExplanation(question, selectedChoice, correctChoice))}</p>
           ${renderSummarySourceNote(question)}
