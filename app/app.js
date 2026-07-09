@@ -33,6 +33,9 @@ const STORAGE_KEY = "info1QuizStats:v4";
 const DEFAULT_SET_SIZE = 10;
 const MIN_SET_SIZE = 1;
 const MAX_SET_SIZE = 50;
+const SUPABASE_URL = "https://yygezzpowsvpzarqdtls.supabase.co";
+// Supabase publishable keys are designed for browser clients. Never use a secret or service_role key here.
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rQmX7MCx_8W3nz-xWXQBpA_CHzdRQSk";
 
 const TEXT = {
   loadError: "問題データを読み込めません",
@@ -226,8 +229,8 @@ async function init() {
 
 async function detectApiAvailability() {
   try {
-    const response = await fetch("/api/stats", { cache: "no-store" });
-    return response.ok;
+    await callSupabaseRpc("get_question_stats", { p_ids: [] });
+    return true;
   } catch {
     return false;
   }
@@ -815,15 +818,10 @@ async function commitOutOfScopeReports() {
 }
 
 async function postResults(payload) {
-  const response = await fetch("/api/results", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+  return callSupabaseRpc("record_quiz_results", {
+    p_responses: Array.isArray(payload.responses) ? payload.responses : [],
+    p_out_of_scope_reports: Array.isArray(payload.outOfScopeReports) ? payload.outOfScopeReports : [],
   });
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status}`);
-  }
-  return response.json();
 }
 
 async function fetchStatsForSession() {
@@ -832,16 +830,28 @@ async function fetchStatsForSession() {
     return {};
   }
   try {
-    const response = await fetch(`/api/stats?ids=${encodeURIComponent(ids.join(","))}`, { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    const payload = await response.json();
+    const payload = await callSupabaseRpc("get_question_stats", { p_ids: ids });
     return payload.questions || {};
   } catch {
     state.apiAvailable = false;
     return {};
   }
+}
+
+async function callSupabaseRpc(functionName, body) {
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${functionName}`, {
+    method: "POST",
+    headers: {
+      apikey: SUPABASE_PUBLISHABLE_KEY,
+      Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return response.json();
 }
 
 function buildSessionOnlyStats() {

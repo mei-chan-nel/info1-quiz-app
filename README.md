@@ -43,13 +43,9 @@ http://127.0.0.1:8765/app/
 ## 公開について
 
 GitHub Pagesなどの静的ホスティングでも、問題表示・解答・結果表示は動きます。
+選択肢の集計と範囲外報告は、ブラウザからSupabaseのRPCを呼び出して保存します。
 
-ただし、静的ホスティングでは `/api/results` と `/api/stats` が動かないため、次の機能は永続保存されません。
-
-- 他の人がどの選択肢を選んだかの集計
-- 範囲外報告
-
-これらを公開環境で保存するには、`scripts/quiz_server.py` 相当のAPIを動かせる環境、または Supabase / Firebase / Cloudflare Workers などの外部DB/APIへ置き換える必要があります。
+フロントエンドに置くのはSupabaseのPublishable keyのみです。secret key、service_role key、データベースパスワード、接続文字列は使用せず、リポジトリにも含めません。
 
 ## GitHub Pagesで試験公開する場合
 
@@ -63,6 +59,4 @@ https://<user-name>.github.io/<repository-name>/app/
 
 ## 集計データ
 
-`data/questions/choice_stats.json` は初期状態では空です。
-
-ローカルサーバで使うと、回答結果や範囲外報告がこのファイルへ保存されます。
+`data/questions/choice_stats.json` は旧ローカル集計用のデータです。公開版を含む現在のアプリでは、Supabaseに集計を保存します。
