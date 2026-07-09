@@ -30,7 +30,7 @@ const retryButton = document.querySelector("#retryButton");
 const finishButton = document.querySelector("#finishButton");
 
 const STORAGE_KEY = "info1QuizStats:v4";
-const DEFAULT_SET_SIZE = 10;
+const DEFAULT_SET_SIZE = 5;
 const MIN_SET_SIZE = 1;
 const MAX_SET_SIZE = 50;
 const SUPABASE_URL = "https://yygezzpowsvpzarqdtls.supabase.co";
