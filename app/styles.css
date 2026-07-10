@@ -788,8 +788,8 @@ h1 {
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
-  width: var(--bar-width);
-  background: rgba(15, 118, 110, 0.11);
+  width: 0;
+  background: transparent;
 }
 
 .choice-stat.correct {
