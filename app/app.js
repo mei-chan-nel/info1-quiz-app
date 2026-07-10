@@ -195,14 +195,22 @@ const state = {
   sessionQuestions: [],
   responses: [],
   outOfScopeReports: {},
-  choiceStats: {},
+  pastChoiceStats: {},
+  sessionChoiceStats: {},
   currentIndex: 0,
   selectedChoiceId: null,
   history: loadHistory(),
   setSize: DEFAULT_SET_SIZE,
   apiAvailable: false,
-  sessionCommitted: false,
-  outOfScopeReportsCommitted: false,
+  sessionId: 0,
+  pastStatsPromise: Promise.resolve(),
+  pastStatsLoading: false,
+  pastStatsLoaded: false,
+  sessionHistoryRecorded: false,
+  responseSubmission: null,
+  pendingResponseSubmissions: [],
+  outOfScopeSubmission: null,
+  pendingOutOfScopeSubmissions: [],
 };
 
 init();
@@ -275,13 +283,14 @@ nextButton.addEventListener("click", async () => {
 });
 
 retryButton.addEventListener("click", async () => {
-  await commitOutOfScopeReports();
+  await completeSummaryExit();
   startSession();
 });
 
 finishButton.addEventListener("click", async () => {
-  await commitOutOfScopeReports();
+  await completeSummaryExit();
   showStart();
+  retryPendingSubmissions();
 });
 
 document.addEventListener("keydown", (event) => {
@@ -312,14 +321,21 @@ function showStart() {
 }
 
 function resetSessionState() {
+  state.sessionId += 1;
   state.sessionQuestions = [];
   state.responses = [];
   state.outOfScopeReports = {};
-  state.choiceStats = {};
+  state.pastChoiceStats = {};
+  state.sessionChoiceStats = {};
   state.currentIndex = 0;
   state.selectedChoiceId = null;
-  state.sessionCommitted = false;
-  state.outOfScopeReportsCommitted = false;
+  state.pastStatsPromise = Promise.resolve();
+  state.pastStatsLoading = false;
+  state.pastStatsLoaded = false;
+  state.sessionHistoryRecorded = false;
+  state.responseSubmission = null;
+  state.outOfScopeSubmission = null;
+  retryButton.disabled = false;
   finishButton.disabled = false;
   finishButton.textContent = TEXT.finish;
   summaryView.querySelector(".end-message")?.remove();
@@ -331,6 +347,8 @@ function startSession() {
     updateStartControls();
     return;
   }
+  state.sessionId += 1;
+  const sessionId = state.sessionId;
   updateSetSizeControls(pool.length);
   state.sessionQuestions = pickRandomSet(pool, Math.min(state.setSize, pool.length)).map(prepareSessionQuestion);
   state.responses = state.sessionQuestions.map((question) => ({
@@ -339,21 +357,29 @@ function startSession() {
     isCorrect: null,
   }));
   state.outOfScopeReports = {};
-  state.choiceStats = {};
+  state.pastChoiceStats = {};
+  state.sessionChoiceStats = {};
   state.currentIndex = 0;
   state.selectedChoiceId = null;
-  state.sessionCommitted = false;
-  state.outOfScopeReportsCommitted = false;
+  state.pastStatsPromise = Promise.resolve();
+  state.pastStatsLoading = false;
+  state.pastStatsLoaded = false;
+  state.sessionHistoryRecorded = false;
+  state.responseSubmission = null;
+  state.outOfScopeSubmission = null;
 
   startView.hidden = true;
   statusBar.hidden = false;
   questionView.hidden = false;
   summaryView.hidden = true;
   setStatus.textContent = TEXT.running;
+  retryButton.disabled = false;
   finishButton.disabled = false;
   finishButton.textContent = TEXT.finish;
   summaryView.querySelector(".end-message")?.remove();
   renderQuestion();
+  loadPastChoiceStats(sessionId, state.sessionQuestions.map((question) => question.id));
+  retryPendingSubmissions();
 }
 
 function renderFieldFilters() {
@@ -583,6 +609,7 @@ function grade(question) {
   const isCorrect = Boolean(correctChoice && selectedChoice?.choice_id === correctChoice.choice_id);
   response.selectedChoiceId = state.selectedChoiceId;
   response.isCorrect = isCorrect;
+  recordSessionChoiceStats(question, selectedChoice, isCorrect);
 
   for (const button of choices.querySelectorAll(".choice-button")) {
     button.disabled = true;
@@ -608,14 +635,17 @@ function grade(question) {
 
 async function showSummary() {
   nextButton.disabled = true;
-  setStatus.textContent = TEXT.saving;
-  await commitResponses();
   statusBar.hidden = true;
   questionView.hidden = true;
   summaryView.hidden = false;
   setStatus.textContent = TEXT.result;
   renderSummary();
   scrollToTop();
+  recordSessionHistory();
+  const submission = createResponseSubmission();
+  if (submission) {
+    void submitResponseSubmission(submission);
+  }
 }
 
 function renderSummary() {
@@ -692,7 +722,7 @@ function renderSummarySourceNote(question) {
 }
 
 function renderChoiceStats(question, selectedChoice, correctChoice) {
-  const stats = state.choiceStats[question.id];
+  const stats = getDisplayChoiceStats(question.id);
   const attempts = Number(stats?.attempts || 0);
   const choiceCounts = stats?.choices || {};
   const showSharedStats = state.apiAvailable;
@@ -748,7 +778,6 @@ function getChoiceReviewMarker(choice, selectedChoice, correctChoice) {
 
 function toggleOutOfScopeReport(questionId) {
   state.outOfScopeReports[questionId] = !state.outOfScopeReports[questionId];
-  state.outOfScopeReportsCommitted = false;
   const item = summaryList.querySelector(`[data-id="${cssEscape(questionId)}"]`)?.closest(".summary-item");
   if (item) {
     refreshOutOfScopeReportButton(item, questionId);
@@ -761,69 +790,236 @@ function refreshOutOfScopeReportButton(item, questionId) {
   }
 }
 
-async function commitResponses() {
-  if (state.sessionCommitted) {
+function recordSessionChoiceStats(question, selectedChoice, isCorrect) {
+  if (!question || !selectedChoice) {
     return;
   }
+  const stats = state.sessionChoiceStats[question.id] ?? {
+    attempts: 0,
+    correct: 0,
+    choices: {},
+  };
+  stats.attempts += 1;
+  stats.correct += isCorrect ? 1 : 0;
+  stats.choices[selectedChoice.choice_id] = Number(stats.choices[selectedChoice.choice_id] || 0) + 1;
+  state.sessionChoiceStats[question.id] = stats;
+}
 
-  const responses = [];
+function recordSessionHistory() {
+  if (state.sessionHistoryRecorded) {
+    return;
+  }
   for (const [index, question] of state.sessionQuestions.entries()) {
     const response = state.responses[index];
     if (response.selectedChoiceId === null) {
       continue;
     }
-    responses.push({
-      questionId: question.id,
-      selectedChoiceId: response.selectedChoiceId,
-      isCorrect: response.isCorrect,
-    });
-
     const item = state.history[question.id] ?? { attempts: 0, correct: 0 };
     item.attempts += 1;
     item.correct += response.isCorrect ? 1 : 0;
     state.history[question.id] = item;
   }
-
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.history));
-  state.sessionCommitted = true;
-
-  if (!state.apiAvailable) {
-    state.choiceStats = {};
-    return;
-  }
-
-  try {
-    await postResults({ responses, outOfScopeReports: [] });
-  } catch {
-    state.apiAvailable = false;
-    state.choiceStats = {};
-    return;
-  }
-  state.choiceStats = await fetchStatsForSession();
+  state.sessionHistoryRecorded = true;
 }
 
-async function commitOutOfScopeReports() {
-  if (state.outOfScopeReportsCommitted) {
+function loadPastChoiceStats(sessionId, questionIds) {
+  if (!state.apiAvailable || !questionIds.length) {
+    return state.pastStatsPromise;
+  }
+
+  state.pastStatsLoading = true;
+  const request = requestQuestionStats(questionIds)
+    .then((stats) => {
+      if (state.sessionId !== sessionId) {
+        return;
+      }
+      state.pastChoiceStats = stats;
+      state.pastStatsLoaded = true;
+      if (!summaryView.hidden) {
+        renderSummary();
+      }
+    })
+    .catch((error) => {
+      console.error("過去の選択肢別統計を取得できませんでした。", error);
+    })
+    .finally(() => {
+      if (state.sessionId === sessionId) {
+        state.pastStatsLoading = false;
+      }
+    });
+  state.pastStatsPromise = request;
+  return request;
+}
+
+function createResponseSubmission() {
+  if (state.responseSubmission || !state.apiAvailable) {
+    return state.responseSubmission;
+  }
+  const responses = state.responses
+    .filter((response) => response.selectedChoiceId !== null)
+    .map((response) => ({ ...response }));
+  if (!responses.length) {
+    return null;
+  }
+  const submission = {
+    sessionId: state.sessionId,
+    questionIds: state.sessionQuestions.map((question) => question.id),
+    responses,
+    pastStatsPromise: state.pastStatsPromise,
+    status: "queued",
+    promise: null,
+  };
+  state.responseSubmission = submission;
+  state.pendingResponseSubmissions.push(submission);
+  return submission;
+}
+
+async function submitResponseSubmission(submission) {
+  if (!submission || submission.status === "sent") {
     return;
   }
+  if (submission.promise) {
+    return submission.promise;
+  }
   if (!state.apiAvailable) {
-    state.outOfScopeReportsCommitted = true;
+    submission.status = "failed";
     return;
+  }
+
+  submission.status = "sending";
+  submission.promise = (async () => {
+    try {
+      // Keep the initial server snapshot separate from this session's answers.
+      await submission.pastStatsPromise;
+      await postResults({ responses: submission.responses, outOfScopeReports: [] });
+      submission.status = "sent";
+      removePendingSubmission(state.pendingResponseSubmissions, submission);
+      void replaceWithLatestChoiceStats(submission);
+    } catch (error) {
+      submission.status = "failed";
+      console.error("回答結果を送信できませんでした。後で再送します。", error);
+    } finally {
+      submission.promise = null;
+    }
+  })();
+  return submission.promise;
+}
+
+async function replaceWithLatestChoiceStats(submission) {
+  try {
+    const latestStats = await requestQuestionStats(submission.questionIds);
+    if (state.sessionId !== submission.sessionId) {
+      return;
+    }
+    state.pastChoiceStats = latestStats;
+    state.sessionChoiceStats = {};
+    state.pastStatsLoaded = true;
+    if (!summaryView.hidden) {
+      renderSummary();
+    }
+  } catch (error) {
+    console.error("送信後の選択肢別統計を取得できませんでした。", error);
+  }
+}
+
+function createOutOfScopeSubmission() {
+  if (state.outOfScopeSubmission || !state.apiAvailable) {
+    return state.outOfScopeSubmission;
   }
   const outOfScopeReports = Object.entries(state.outOfScopeReports)
     .filter(([, isReported]) => isReported)
     .map(([questionId]) => questionId);
   if (!outOfScopeReports.length) {
-    state.outOfScopeReportsCommitted = true;
+    return null;
+  }
+  const submission = {
+    outOfScopeReports,
+    status: "queued",
+    promise: null,
+  };
+  state.outOfScopeSubmission = submission;
+  state.pendingOutOfScopeSubmissions.push(submission);
+  return submission;
+}
+
+async function commitOutOfScopeReports() {
+  const submission = createOutOfScopeSubmission();
+  return submitOutOfScopeSubmission(submission);
+}
+
+async function completeSummaryExit() {
+  retryButton.disabled = true;
+  finishButton.disabled = true;
+  await Promise.all([
+    submitResponseSubmission(state.responseSubmission),
+    commitOutOfScopeReports(),
+  ]);
+}
+
+function retryPendingSubmissions() {
+  for (const submission of state.pendingResponseSubmissions) {
+    if (submission.status === "queued" || submission.status === "failed") {
+      void submitResponseSubmission(submission);
+    }
+  }
+  for (const submission of state.pendingOutOfScopeSubmissions) {
+    if (submission.status === "queued" || submission.status === "failed") {
+      void submitOutOfScopeSubmission(submission);
+    }
+  }
+}
+
+async function submitOutOfScopeSubmission(submission) {
+  if (!submission || submission.status === "sent") {
     return;
   }
-  try {
-    await postResults({ responses: [], outOfScopeReports });
-    state.outOfScopeReportsCommitted = true;
-  } catch {
-    state.apiAvailable = false;
-    state.outOfScopeReportsCommitted = true;
+  if (submission.promise) {
+    return submission.promise;
   }
+  if (!state.apiAvailable) {
+    submission.status = "failed";
+    return;
+  }
+
+  submission.status = "sending";
+  submission.promise = (async () => {
+    try {
+      await postResults({ responses: [], outOfScopeReports: submission.outOfScopeReports });
+      submission.status = "sent";
+      removePendingSubmission(state.pendingOutOfScopeSubmissions, submission);
+    } catch (error) {
+      submission.status = "failed";
+      console.error("範囲外報告を送信できませんでした。後で再送します。", error);
+    } finally {
+      submission.promise = null;
+    }
+  })();
+  return submission.promise;
+}
+
+function removePendingSubmission(submissions, submission) {
+  const index = submissions.indexOf(submission);
+  if (index >= 0) {
+    submissions.splice(index, 1);
+  }
+}
+
+function getDisplayChoiceStats(questionId) {
+  return mergeChoiceStats(state.pastChoiceStats[questionId], state.sessionChoiceStats[questionId]);
+}
+
+function mergeChoiceStats(pastStats, sessionStats) {
+  const stats = [pastStats, sessionStats].filter(Boolean);
+  const merged = { attempts: 0, correct: 0, choices: {} };
+  for (const source of stats) {
+    merged.attempts += Number(source.attempts || 0);
+    merged.correct += Number(source.correct || 0);
+    for (const [choiceId, count] of Object.entries(source.choices || {})) {
+      merged.choices[choiceId] = Number(merged.choices[choiceId] || 0) + Number(count || 0);
+    }
+  }
+  return merged;
 }
 
 async function postResults(payload) {
@@ -833,18 +1029,12 @@ async function postResults(payload) {
   });
 }
 
-async function fetchStatsForSession() {
-  const ids = state.sessionQuestions.map((question) => question.id);
-  if (!state.apiAvailable || !ids.length) {
+async function requestQuestionStats(questionIds) {
+  if (!questionIds.length) {
     return {};
   }
-  try {
-    const payload = await callSupabaseRpc("get_question_stats", { p_ids: ids });
-    return payload.questions || {};
-  } catch {
-    state.apiAvailable = false;
-    return {};
-  }
+  const payload = await callSupabaseRpc("get_question_stats", { p_ids: questionIds });
+  return payload.questions || {};
 }
 
 async function callSupabaseRpc(functionName, body) {
@@ -861,23 +1051,6 @@ async function callSupabaseRpc(functionName, body) {
     throw new Error(`HTTP ${response.status}`);
   }
   return response.json();
-}
-
-function buildSessionOnlyStats() {
-  const stats = {};
-  for (const [index, question] of state.sessionQuestions.entries()) {
-    const response = state.responses[index];
-    if (!response.selectedChoiceId) {
-      continue;
-    }
-    stats[question.id] = {
-      attempts: 1,
-      correct: response.isCorrect ? 1 : 0,
-      choices: { [response.selectedChoiceId]: 1 },
-      reports: { out_of_scope: 0 },
-    };
-  }
-  return stats;
 }
 
 function updateProgressView() {
