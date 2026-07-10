@@ -237,6 +237,12 @@ input {
   line-height: 1;
 }
 
+.start-metrics strong.metric-loading {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .set-size-control {
   display: flex;
   align-items: flex-start;

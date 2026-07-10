@@ -201,7 +201,10 @@ const state = {
   selectedChoiceId: null,
   history: loadHistory(),
   setSize: DEFAULT_SET_SIZE,
+  questionDataStatus: "loading",
   apiAvailable: false,
+  apiAvailabilityStatus: "checking",
+  apiAvailabilityPromise: Promise.resolve(false),
   sessionId: 0,
   pastStatsPromise: Promise.resolve(),
   pastStatsLoading: false,
@@ -215,23 +218,41 @@ const state = {
 
 init();
 
-async function init() {
+function init() {
+  renderFieldFilters();
+  bindStartControls();
+  showStart();
+  void loadQuestionData();
+  state.apiAvailabilityPromise = initializeApiAvailability();
+}
+
+async function loadQuestionData() {
   try {
     const response = await fetch("../data/questions/completed_questions.json", { cache: "no-store" });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
     state.allQuestions = await response.json();
-    state.apiAvailable = await detectApiAvailability();
-    renderFieldFilters();
-    bindStartControls();
-    showStart();
+    state.questionDataStatus = "ready";
+    updateStartControls();
   } catch (error) {
-    showStart();
-    startButton.disabled = true;
-    startButton.textContent = TEXT.loadError;
+    state.questionDataStatus = "error";
+    updateStartControls();
     console.error(error);
   }
+}
+
+async function initializeApiAvailability() {
+  const available = await detectApiAvailability();
+  state.apiAvailable = available;
+  state.apiAvailabilityStatus = available ? "available" : "unavailable";
+  if (!summaryView.hidden) {
+    renderSummary();
+  }
+  if (available) {
+    retryPendingSubmissions();
+  }
+  return available;
 }
 
 async function detectApiAvailability() {
@@ -397,9 +418,21 @@ function renderFieldFilters() {
 }
 
 function updateStartControls() {
-  if (!state.allQuestions.length) {
+  if (state.questionDataStatus === "loading") {
+    questionCount.textContent = "―読込中―";
+    questionCount.classList.add("metric-loading");
+    updateSetSizeControls(0);
+    startButton.disabled = true;
+    startButton.textContent = "―読込中―";
+    return;
+  }
+
+  questionCount.classList.remove("metric-loading");
+  if (state.questionDataStatus === "error" || !state.allQuestions.length) {
     questionCount.textContent = "-";
     updateSetSizeControls(0);
+    startButton.disabled = true;
+    startButton.textContent = TEXT.loadError;
     return;
   }
 
@@ -433,11 +466,14 @@ function getSetSizeMax(poolLength) {
 
 function getQuestionPool() {
   const selectedFields = getSelectedFields();
+  if (!selectedFields.length) {
+    return [];
+  }
   return state.allQuestions.filter((question) => {
     if (!matchesCalcMode(question)) {
       return false;
     }
-    if (!selectedFields.length || selectedFields.length === FIELD_DEFINITIONS.length) {
+    if (selectedFields.length === FIELD_DEFINITIONS.length) {
       return true;
     }
     return selectedFields.some((definition) => questionMatchesField(question, definition));
@@ -824,13 +860,18 @@ function recordSessionHistory() {
 }
 
 function loadPastChoiceStats(sessionId, questionIds) {
-  if (!state.apiAvailable || !questionIds.length) {
+  if (!questionIds.length) {
     return state.pastStatsPromise;
   }
 
-  state.pastStatsLoading = true;
-  const request = requestQuestionStats(questionIds)
-    .then((stats) => {
+  const request = (async () => {
+    const available = await state.apiAvailabilityPromise;
+    if (!available || state.sessionId !== sessionId) {
+      return;
+    }
+    state.pastStatsLoading = true;
+    try {
+      const stats = await requestQuestionStats(questionIds);
       if (state.sessionId !== sessionId) {
         return;
       }
@@ -839,21 +880,20 @@ function loadPastChoiceStats(sessionId, questionIds) {
       if (!summaryView.hidden) {
         renderSummary();
       }
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error("過去の選択肢別統計を取得できませんでした。", error);
-    })
-    .finally(() => {
+    } finally {
       if (state.sessionId === sessionId) {
         state.pastStatsLoading = false;
       }
-    });
+    }
+  })();
   state.pastStatsPromise = request;
   return request;
 }
 
 function createResponseSubmission() {
-  if (state.responseSubmission || !state.apiAvailable) {
+  if (state.responseSubmission || state.apiAvailabilityStatus === "unavailable") {
     return state.responseSubmission;
   }
   const responses = state.responses
@@ -882,13 +922,13 @@ async function submitResponseSubmission(submission) {
   if (submission.promise) {
     return submission.promise;
   }
-  if (!state.apiAvailable) {
-    submission.status = "failed";
-    return;
-  }
-
-  submission.status = "sending";
   submission.promise = (async () => {
+    const available = await state.apiAvailabilityPromise;
+    if (!available) {
+      submission.status = "failed";
+      return;
+    }
+    submission.status = "sending";
     try {
       // Keep the initial server snapshot separate from this session's answers.
       await submission.pastStatsPromise;
@@ -924,7 +964,7 @@ async function replaceWithLatestChoiceStats(submission) {
 }
 
 function createOutOfScopeSubmission() {
-  if (state.outOfScopeSubmission || !state.apiAvailable) {
+  if (state.outOfScopeSubmission || state.apiAvailabilityStatus === "unavailable") {
     return state.outOfScopeSubmission;
   }
   const outOfScopeReports = Object.entries(state.outOfScopeReports)
@@ -977,13 +1017,13 @@ async function submitOutOfScopeSubmission(submission) {
   if (submission.promise) {
     return submission.promise;
   }
-  if (!state.apiAvailable) {
-    submission.status = "failed";
-    return;
-  }
-
-  submission.status = "sending";
   submission.promise = (async () => {
+    const available = await state.apiAvailabilityPromise;
+    if (!available) {
+      submission.status = "failed";
+      return;
+    }
+    submission.status = "sending";
     try {
       await postResults({ responses: [], outOfScopeReports: submission.outOfScopeReports });
       submission.status = "sent";
