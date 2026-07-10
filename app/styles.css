@@ -951,11 +951,20 @@ h1 {
   }
 
   .summary-item-head {
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 9px 10px;
   }
 
   .scope-report-action {
-    grid-column: 1 / -1;
-    justify-self: start;
+    grid-column: auto;
+    justify-self: end;
+    align-self: start;
+  }
+
+  .scope-report-button {
+    min-height: 25px;
+    padding: 0 7px;
+    font-size: 0.7rem;
   }
 }

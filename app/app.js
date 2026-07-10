@@ -399,6 +399,7 @@ function startSession() {
   finishButton.textContent = TEXT.finish;
   summaryView.querySelector(".end-message")?.remove();
   renderQuestion();
+  scrollToTop();
   loadPastChoiceStats(sessionId, state.sessionQuestions.map((question) => question.id));
   retryPendingSubmissions();
 }
