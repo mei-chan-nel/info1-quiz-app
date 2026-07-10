@@ -10,7 +10,7 @@
   const decreaseSetSizeButton = document.querySelector("#decreaseSetSizeButton");
 
   if (questionCount) {
-    questionCount.textContent = "―読込中―";
+    questionCount.textContent = "";
   }
 
   if (startButton) {

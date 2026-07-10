@@ -422,7 +422,7 @@ function renderFieldFilters() {
 
 function updateStartControls() {
   if (state.questionDataStatus === "loading") {
-    questionCount.textContent = "―読込中―";
+    questionCount.textContent = "";
     questionCount.classList.add("metric-loading");
     updateSetSizeControls(0);
     startButton.disabled = true;
