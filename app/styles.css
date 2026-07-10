@@ -239,7 +239,7 @@ input {
 
 .set-size-control {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   margin-top: 4px;
 }
@@ -383,7 +383,7 @@ input {
 
 .status-bar {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 14px;
   margin-bottom: 14px;
@@ -421,27 +421,6 @@ input {
   height: 100%;
   background: var(--accent);
   transition: width 180ms ease;
-}
-
-.score-box {
-  min-width: 136px;
-  padding: 9px 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  text-align: right;
-}
-
-.score-box span {
-  display: block;
-  color: var(--muted);
-  font-size: 0.78rem;
-  line-height: 1.1;
-}
-
-.score-box strong {
-  display: block;
-  margin-top: 3px;
-  font-size: 1.05rem;
 }
 
 .question-panel,
@@ -756,10 +735,12 @@ h1 {
   white-space: pre-line;
 }
 
-.summary-explanation {
-  margin-top: 8px;
-  color: #475467;
-  white-space: pre-line;
+.summary-result-panel {
+  margin-top: 20px;
+}
+
+.summary-result-panel p {
+  margin: 8px 0 0;
 }
 
 .summary-source {
@@ -926,10 +907,6 @@ h1 {
 
   .status-bar {
     grid-template-columns: 1fr;
-  }
-
-  .score-box {
-    text-align: left;
   }
 
   .segmented-control {

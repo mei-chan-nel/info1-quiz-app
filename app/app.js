@@ -12,7 +12,6 @@ const decreaseSetSizeButton = document.querySelector("#decreaseSetSizeButton");
 const progressText = document.querySelector("#progressText");
 const progressFill = document.querySelector("#progressFill");
 const setStatus = document.querySelector("#setStatus");
-const cumulativeRate = document.querySelector("#cumulativeRate");
 const calcMode = document.querySelector("#calcMode");
 const questionStem = document.querySelector("#questionStem");
 const choices = document.querySelector("#choices");
@@ -272,6 +271,7 @@ nextButton.addEventListener("click", async () => {
   }
   state.currentIndex += 1;
   renderQuestion();
+  scrollToTop();
 });
 
 retryButton.addEventListener("click", async () => {
@@ -307,7 +307,6 @@ function showStart() {
   summaryView.hidden = true;
   setStatus.textContent = TEXT.notStarted;
   progressFill.style.width = "0%";
-  cumulativeRate.textContent = "0/0 (-)";
   updateStartControls();
   progressText.textContent = `0/${state.setSize}`;
 }
@@ -355,7 +354,6 @@ function startSession() {
   finishButton.textContent = TEXT.finish;
   summaryView.querySelector(".end-message")?.remove();
   renderQuestion();
-  updateSessionRate();
 }
 
 function renderFieldFilters() {
@@ -364,7 +362,7 @@ function renderFieldFilters() {
       const label = document.createElement("label");
       label.className = "field-chip";
       label.innerHTML = `
-        <input type="checkbox" value="${escapeHtml(definition.id)}" />
+        <input type="checkbox" value="${escapeHtml(definition.id)}" checked />
         <span>${escapeHtml(definition.label)}</span>
       `;
       return label;
@@ -413,7 +411,7 @@ function getQuestionPool() {
     if (!matchesCalcMode(question)) {
       return false;
     }
-    if (!selectedFields.length) {
+    if (!selectedFields.length || selectedFields.length === FIELD_DEFINITIONS.length) {
       return true;
     }
     return selectedFields.some((definition) => questionMatchesField(question, definition));
@@ -606,19 +604,18 @@ function grade(question) {
 
   nextButton.hidden = false;
   updateProgressView();
-  updateSessionRate();
 }
 
 async function showSummary() {
   nextButton.disabled = true;
   setStatus.textContent = TEXT.saving;
   await commitResponses();
+  statusBar.hidden = true;
   questionView.hidden = true;
   summaryView.hidden = false;
   setStatus.textContent = TEXT.result;
   renderSummary();
-  updateProgressView();
-  updateSessionRate();
+  scrollToTop();
 }
 
 function renderSummary() {
@@ -648,7 +645,7 @@ function renderSummary() {
         <div class="summary-body">
           <p class="summary-stem">${escapeHtml(question.stem)}</p>
           ${renderChoiceStats(question, selectedChoice, correctChoice)}
-          <p class="summary-explanation">${escapeHtml(buildExplanation(question, selectedChoice, correctChoice))}</p>
+          ${renderSummaryExplanation(question, selectedChoice, correctChoice)}
           ${renderSummarySourceNote(question)}
         </div>
       `;
@@ -661,6 +658,18 @@ function renderSummary() {
       return item;
     }),
   );
+}
+
+function renderSummaryExplanation(question, selectedChoice, correctChoice) {
+  const answer = shouldShowChoiceReasonList(question)
+    ? ""
+    : `<p>${TEXT.answer}: ${escapeHtml(formatChoice(correctChoice))}</p>`;
+  return `
+    <section class="result-panel summary-result-panel">
+      ${answer}
+      <p class="explanation">${escapeHtml(buildExplanation(question, selectedChoice, correctChoice))}</p>
+    </section>
+  `;
 }
 
 function renderOutOfScopeReportAction(question) {
@@ -879,20 +888,8 @@ function updateProgressView() {
   progressFill.style.width = total ? `${Math.round((answered / total) * 100)}%` : "0%";
 }
 
-function updateSessionRate() {
-  const result = state.responses.reduce(
-    (acc, response) => {
-      if (response.selectedChoiceId === null) {
-        return acc;
-      }
-      acc.attempts += 1;
-      acc.correct += response.isCorrect ? 1 : 0;
-      return acc;
-    },
-    { attempts: 0, correct: 0 },
-  );
-  const rate = result.attempts ? `${Math.round((result.correct / result.attempts) * 100)}%` : "-";
-  cumulativeRate.textContent = `${result.correct}/${result.attempts} (${rate})`;
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function formatSourceNote(question) {
