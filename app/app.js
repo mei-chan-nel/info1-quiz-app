@@ -404,6 +404,9 @@ function startSession() {
 }
 
 function renderFieldFilters() {
+  if (fieldFilters.querySelectorAll("input[type='checkbox']").length === FIELD_DEFINITIONS.length) {
+    return;
+  }
   fieldFilters.replaceChildren(
     ...FIELD_DEFINITIONS.map((definition) => {
       const label = document.createElement("label");

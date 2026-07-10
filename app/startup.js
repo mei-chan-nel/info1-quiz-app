@@ -5,26 +5,17 @@
   const supabasePublishableKey = "sb_publishable_rQmX7MCx_8W3nz-xWXQBpA_CHzdRQSk";
 
   const questionCount = document.querySelector("#questionCount");
-  const fieldFilters = document.querySelector("#fieldFilters");
   const startButton = document.querySelector("#startButton");
   const increaseSetSizeButton = document.querySelector("#increaseSetSizeButton");
   const decreaseSetSizeButton = document.querySelector("#decreaseSetSizeButton");
 
   if (questionCount) {
-    questionCount.textContent = "読込中";
-  }
-
-  if (fieldFilters) {
-    const loadingNote = document.createElement("span");
-    loadingNote.textContent = "問題データを読み込んでいます…";
-    loadingNote.style.color = "var(--muted)";
-    loadingNote.style.fontSize = "0.9rem";
-    fieldFilters.replaceChildren(loadingNote);
+    questionCount.textContent = "―読込中―";
   }
 
   if (startButton) {
     startButton.disabled = true;
-    startButton.textContent = "問題を読み込み中…";
+    startButton.textContent = "―読込中―";
   }
   if (increaseSetSizeButton) {
     increaseSetSizeButton.disabled = true;
