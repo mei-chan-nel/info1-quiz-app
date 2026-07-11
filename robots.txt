@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mei-chan-nel.github.io/info1-quiz-app/sitemap.xml

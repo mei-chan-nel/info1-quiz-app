@@ -1,0 +1,27 @@
+{
+  "status": "pass",
+  "question_count": 861,
+  "rendered_question_count": 861,
+  "generated_question_pages": 32,
+  "html_pages_checked": 36,
+  "field_counts": {
+    "society_security": 321,
+    "data_db": 92,
+    "algorithm": 74,
+    "network": 146,
+    "digital": 189,
+    "design": 39
+  },
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "field_ids completeness and allowed values",
+    "unique question IDs and exactly-once publication",
+    "maximum 30 questions per generated page",
+    "titles, descriptions, canonicals, and one h1 per page",
+    "local links, assets, and fragments",
+    "AdSense included only on generated learning pages",
+    "protected app file SHA-256 baseline",
+    "sitemap, robots.txt, and ads.txt"
+  ]
+}

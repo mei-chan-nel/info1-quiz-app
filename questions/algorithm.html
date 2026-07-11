@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>アルゴリズムの問題 （1/3ページ） | 情報Ⅰ Study Atlas</title>
+    <meta name="description" content="情報Ⅰ「アルゴリズム」の知識問題1〜30。正答・解説・出典・タグを掲載しています。" />
+    <meta name="theme-color" content="#102f35" />
+    <link rel="canonical" href="https://mei-chan-nel.github.io/info1-quiz-app/questions/algorithm.html" />
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../assets/site.css" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6257644709224446" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="../index.html" aria-label="情報Ⅰ Study Atlas トップ">
+          <span class="brand-mark" aria-hidden="true">I</span>
+          <span><strong>情報Ⅰ Study Atlas</strong><small>知識問題と解説</small></span>
+        </a>
+        <nav class="global-nav" aria-label="メインナビゲーション"><a href="../index.html">学習トップ</a><a href="../questions/index.html" aria-current="page">問題一覧</a><a href="../app/">学習アプリ</a><a href="../about.html">このサイトについて</a></nav>
+      </div>
+    </header>
+    <main id="main-content" class="subpage question-page">
+      <nav class="breadcrumb" aria-label="パンくずリスト"><a href="../index.html">学習トップ</a><span aria-hidden="true">/</span><a href="index.html">問題一覧</a><span aria-hidden="true">/</span><span aria-current="page">アルゴリズム</span></nav>
+      <section class="field-hero accent-violet">
+        <div><p class="eyebrow">FIELD 05</p><h1>アルゴリズム</h1><p>変数、配列、条件分岐、繰返し、探索、シミュレーション、プログラムの読解などを扱います。値がどの順番で変わるかを追うことが基本です。</p></div>
+        <dl><div><dt>掲載数</dt><dd>74問</dd></div><div><dt>このページ</dt><dd>1–30問</dd></div></dl>
+      </section>
+      <nav class="pagination pagination-top" aria-label="アルゴリズムのページ移動"><span class="page-direction disabled">← 前へ</span><span class="page-numbers"><span aria-current="page">1</span><a href="algorithm-2.html" aria-label="2ページ目">2</a><a href="algorithm-3.html" aria-label="3ページ目">3</a></span><a class="page-direction" href="algorithm-2.html" rel="next">次へ →</a></nav>
+      <section class="question-list" aria-label="アルゴリズムの問題">
+        <article class="question-card" id="q-center_style_seed_0030">
+          <div class="question-meta"><span>QUESTION 001</span><a href="#q-center_style_seed_0030" aria-label="この問題へのリンク">#center_style_seed_0030</a></div>
+          <h2>良品の確率が0.9、不良品の確率が0.1である部品を検査する。案Aは良品0円・不良品1500円、案Bは良品40円・不良品1000円、案Cは良品80円・不良品500円、案Dは良品120円・不良品200円の費用がかかる。期待費用が最も低い案はどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>案A</p></li><li><span>1</span><p>案B</p></li><li><span>2</span><p>案C</p></li><li><span>3</span><p>案D</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 案C</strong></p>
+              <div class="explanation"><h3>解説</h3><p>期待費用は、Aが0.9×0+0.1×1500=150円、Bが0.9×40+0.1×1000=136円、Cが0.9×80+0.1×500=122円、Dが0.9×120+0.1×200=128円。最も低いのは案Cである。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>情報セキュリティマネジメントR8公開問題 問12（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>期待値</li><li>基本計算</li><li>問題解決</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_common_test_0017">
+          <div class="question-meta"><span>QUESTION 002</span><a href="#q-center_style_common_test_0017" aria-label="この問題へのリンク">#center_style_common_test_0017</a></div>
+          <h2>5桁の利用者IDを左から N5，N4，N3，N2，N1 とする。次の方法でチェックディジットを求める。
+
+1. N5，N3，N1 をそれぞれ3倍する。
+2. その値と N4，N2 の和を求める。
+3. 和を10で割った余りを R とし，10-R をチェックディジットとする。ただし，R=0 のときは0とする。
+
+利用者IDが「22609」のとき，チェックディジットはいくつか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>3</p></li><li><span>1</span><p>5</p></li><li><span>2</span><p>7</p></li><li><span>3</span><p>9</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 7</strong></p>
+              <div class="explanation"><h3>解説</h3><p>ID 22609では，N5=2，N4=2，N3=6，N2=0，N1=9である。3倍する桁の和は3×(2+6+9)=51，残りの桁を足すと51+2+0=53である。53を10で割った余りは3なので，チェックディジットは10-3=7となる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>共通テストR7追試験 第1問 問3（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>共通テスト</li><li>プログラミング</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_common_test_0018">
+          <div class="question-meta"><span>QUESTION 003</span><a href="#q-center_style_common_test_0018" aria-label="この問題へのリンク">#center_style_common_test_0018</a></div>
+          <h2>各桁の値をすべて同じ重みで加算するチェックディジットの方式Aと，奇数番目の桁と偶数番目の桁で異なる重みを掛ける方式Bがある。
+
+方式Aでは検出できることがなく，方式Bでは検出できることがある入力ミスとして最も適当なものを，次の選択肢から一つ選べ。</h2>
+          <ol class="choice-list"><li><span>0</span><p>奇数桁の数字を二つとも別の数字に変える。</p></li><li><span>1</span><p>連続する二つの桁をそれぞれ別の数字に変える。</p></li><li><span>2</span><p>奇数桁にある二つの数字の順序を逆にする。</p></li><li><span>3</span><p>連続する二つの数字の順序を逆にする。</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>3. 連続する二つの数字の順序を逆にする。</strong></p>
+              <div class="explanation"><h3>解説</h3><p>方式Aはすべての桁を同じ重みで足すので，二つの数字の順序を入れ替えても合計は変わらず，入替えを検出できない。方式Bでは隣り合う桁が奇数番目と偶数番目になり重みが異なるため，連続する二つの数字を入れ替えると重み付きの和が変わり，検出できることがある。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>共通テストR7追試験 第1問 問3（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>共通テスト</li><li>プログラミング</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_common_test_0023">
+          <div class="question-meta"><span>QUESTION 004</span><a href="#q-center_style_common_test_0023" aria-label="この問題へのリンク">#center_style_common_test_0023</a></div>
+          <h2>6000円を10人から集金する。千円札6枚で支払われた場合は，手元の千円札が6枚増え，1万円札で支払われた場合は，おつりとして千円札を4枚渡す。
+
+最初の千円札を0枚とし，10人の支払方法による千円札の増減が，順に -4，+6，-4，-4，-4，-4，-4，+6，-4，+6 であった。途中で不足しないために，事前に用意する必要がある千円札の最小枚数を，次の選択肢から一つ選べ。</h2>
+          <ol class="choice-list"><li><span>0</span><p>10枚</p></li><li><span>1</span><p>14枚</p></li><li><span>2</span><p>18枚</p></li><li><span>3</span><p>20枚</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 18枚</strong></p>
+              <div class="explanation"><h3>解説</h3><p>最初を0枚として累積すると，-4，2，-2，-6，-10，-14，-18，-12，-16，-10となる。最も少なくなるのは-18枚なので，事前に18枚用意しておけば最小値が0になり，途中で不足しない。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>共通テストR7追試験 第2問B 問1（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>共通テスト</li><li>情報I</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_common_test_0024">
+          <div class="question-meta"><span>QUESTION 005</span><a href="#q-center_style_common_test_0024" aria-label="この問題へのリンク">#center_style_common_test_0024</a></div>
+          <h2>集金のシミュレーションを1万回行い，各回における千円札の枚数の最小値を調べた。結果には最小値が−40となる回があり，最小値が0となる回は1000回未満であった。
+
+この結果から判断できることとして最も適当なものを，次の選択肢から一つ選べ。</h2>
+          <ol class="choice-list"><li><span>0</span><p>全員が1万円札で支払うケースはなかった。</p></li><li><span>1</span><p>最後まで千円札が不足しなかった回は，全体の1割以下である。</p></li><li><span>2</span><p>別の乱数で再び1万回行っても，まったく同じ度数分布になる。</p></li><li><span>3</span><p>全員が千円札で支払ったケースが必ず1回以上あった。</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. 最後まで千円札が不足しなかった回は，全体の1割以下である。</strong></p>
+              <div class="explanation"><h3>解説</h3><p>最初の千円札を0枚として最小値が0なら，途中で負にならないため最後まで不足しなかったことを表す。最小値0の回が1000回未満なので，1万回中1割未満であり，「1割以下」と判断できる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>共通テストR7追試験 第2問B 問2（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>共通テスト</li><li>情報I</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_common_test_0025">
+          <div class="question-meta"><span>QUESTION 006</span><a href="#q-center_style_common_test_0025" aria-label="この問題へのリンク">#center_style_common_test_0025</a></div>
+          <h2>6000円を10人から集金する。千円札6枚で支払われた場合は千円札が6枚増え，1万円札で支払われた場合は，おつりとして千円札が4枚減る。最初に千円札を20枚用意した。
+
+起こることがないケースを，次の選択肢から一つ選べ。</h2>
+          <ol class="choice-list"><li><span>0</span><p>最初の1人が千円札で支払ったが，その後，途中で千円札が不足する。</p></li><li><span>1</span><p>用意した千円札を一度も使わずに集金を終える。</p></li><li><span>2</span><p>千円札で支払った人が5人いたが，途中で千円札が不足する。</p></li><li><span>3</span><p>1万円札で支払った人が8人いたが，途中で不足せず集金を終える。</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 千円札で支払った人が5人いたが，途中で千円札が不足する。</strong></p>
+              <div class="explanation"><h3>解説</h3><p>5人が1万円札で支払うと千円札は最大で4×5=20枚必要になる。最初に20枚あるので，その5人が先に来ても0枚になるだけで不足はしない。残り5人が千円札で支払えば千円札は増えるため，千円札で支払った人が5人いて途中で千円札が不足するケースは起こらない。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>共通テストR7追試験 第2問B 問3（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>共通テスト</li><li>情報I</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_common_test_0031">
+          <div class="question-meta"><span>QUESTION 007</span><a href="#q-center_style_common_test_0031" aria-label="この問題へのリンク">#center_style_common_test_0031</a></div>
+          <h2>1月から12月までを円形に並べた入力ホイールがあり，12月の次は1月，1月の前は12月となる。各月が選ばれる確率がすべて等しいとする。
+
+初期値と，選択に必要な平均移動距離の関係として最も適当なものを，次の選択肢から一つ選べ。</h2>
+          <ol class="choice-list"><li><span>0</span><p>1月を初期値にすると最小になる。</p></li><li><span>1</span><p>12月を初期値にすると最小になる。</p></li><li><span>2</span><p>1月または7月を初期値にすると最小になる。</p></li><li><span>3</span><p>どの月を初期値にしても平均移動距離は変わらない。</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>3. どの月を初期値にしても平均移動距離は変わらない。</strong></p>
+              <div class="explanation"><h3>解説</h3><p>1月から12月が円形に並び，各月が同じ確率で選ばれるなら，どの月を初期値にしても周囲にある月の距離の並びは回転しただけで同じになる。平均移動距離も同じである。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>共通テストR8本試験 第1問 問3後半（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>共通テスト</li><li>プログラミング</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_common_test_0041">
+          <div class="question-meta"><span>QUESTION 008</span><a href="#q-center_style_common_test_0041" aria-label="この問題へのリンク">#center_style_common_test_0041</a></div>
+          <h2>次の文字列について，GTT を α，ATT を β に置き換える。さらに，βα を γ に置き換える。
+
+GTTGTTGTTATTGTTATTGTTATTGTT
+
+置換後の文字列として最も適当なものを，次の選択肢から一つ選べ。</h2>
+          <ol class="choice-list"><li><span>0</span><p>αααγγαβ</p></li><li><span>1</span><p>αααγγγ</p></li><li><span>2</span><p>ααβγγγ</p></li><li><span>3</span><p>ααγγγα</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. αααγγγ</strong></p>
+              <div class="explanation"><h3>解説</h3><p>まず文字列を GTT，GTT，GTT，ATT，GTT，ATT，GTT，ATT，GTT と区切ると，αααβαβαβα になる。ここで βα が3回現れるので，それぞれを γ に置き換えると αααγγγ となる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>共通テストR8追試験 第1問 問2（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>共通テスト</li><li>プログラミング</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ap_0004">
+          <div class="question-meta"><span>QUESTION 009</span><a href="#q-center_style_ap_0004" aria-label="この問題へのリンク">#center_style_ap_0004</a></div>
+          <h2>アクチュエータの説明として、最も適切なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>目標値と測定値を比較して、操作量を決める。</p></li><li><span>1</span><p>位置や温度などを検出し、電気信号に変換する。</p></li><li><span>2</span><p>電気などのエネルギーを、回転や直進などの動きに変換する。</p></li><li><span>3</span><p>センサなどが出力する微小な信号を増幅する。</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 電気などのエネルギーを、回転や直進などの動きに変換する。</strong></p>
+              <div class="explanation"><h3>解説</h3><p>アクチュエータは、制御信号を受けて機械的な動きなどを生み出す装置である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者R4春期午前 問22（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>センサ</li><li>アクチュエータ</li><li>制御</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ip_curated_008">
+          <div class="question-meta"><span>QUESTION 010</span><a href="#q-center_style_ip_curated_008" aria-label="この問題へのリンク">#center_style_ip_curated_008</a></div>
+          <h2>配列に格納されたデータを探索する方法について、適切な説明として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>線形探索では、先頭から順に調べるので、必要な比較回数は要素数におおむね比例する</p></li><li><span>1</span><p>2分探索では、配列の先頭から順にすべての要素を調べる</p></li><li><span>2</span><p>線形探索を行うには、データが必ず昇順または降順に並んでいなければならない</p></li><li><span>3</span><p>同じ配列なら、2分探索の比較回数は探す値にかかわらず常に1回である</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. 線形探索では、先頭から順に調べるので、必要な比較回数は要素数におおむね比例する</strong></p>
+              <div class="explanation"><h3>解説</h3><p>線形探索は先頭から順に調べるため、最悪の場合は要素数に比例した回数の比較が必要になる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートR5公開問題 問69（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>探索</li><li>線形探索</li><li>2分探索</li><li>アルゴリズム</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_006">
+          <div class="question-meta"><span>QUESTION 011</span><a href="#q-center_style_fe_curated_006" aria-label="この問題へのリンク">#center_style_fe_curated_006</a></div>
+          <h2>データ7394に重み1234を左から対応させ、各桁の積の和を求める。和を11で割った余りをrとし、11-rの1の位をチェックディジットとして末尾に付ける。得られる値はどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>73940</p></li><li><span>1</span><p>73941</p></li><li><span>2</span><p>73944</p></li><li><span>3</span><p>73947</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. 73940</strong></p>
+              <div class="explanation"><h3>解説</h3><p>7×1+3×2+9×3+4×4=56である。56を11で割った余りは1なので、11-1=10、その1の位は0である。したがって73940。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H29秋期午前 問26（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>チェックディジット</li><li>データ</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_013">
+          <div class="question-meta"><span>QUESTION 012</span><a href="#q-center_style_fe_curated_013" aria-label="この問題へのリンク">#center_style_fe_curated_013</a></div>
+          <h2>5桁の数54321について、各桁の和を13で割った余りをハッシュ値として配列の位置に使う。54321を格納する位置として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>1</p></li><li><span>1</span><p>2</p></li><li><span>2</span><p>7</p></li><li><span>3</span><p>11</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. 2</strong></p>
+              <div class="explanation"><h3>解説</h3><p>各桁の和は5+4+3+2+1=15である。15を13で割った余りは2なので、位置は2となる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H25春期午前 問8（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>ハッシュ値</li><li>配列の要素</li><li>データ</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_019">
+          <div class="question-meta"><span>QUESTION 013</span><a href="#q-center_style_fe_curated_019" aria-label="この問題へのリンク">#center_style_fe_curated_019</a></div>
+          <h2>2分探索を使ってデータを探すための前提として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>データが昇順または降順に並んでいる</p></li><li><span>1</span><p>データが毎回ランダムに並べ替えられている</p></li><li><span>2</span><p>データが必ず画像ファイルとして保存されている</p></li><li><span>3</span><p>データの個数が必ず2個だけである</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. データが昇順または降順に並んでいる</strong></p>
+              <div class="explanation"><h3>解説</h3><p>2分探索は、探索範囲の中央と比べて半分ずつ範囲を狭める方法なので、データがあらかじめ整列されている必要がある。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H29春期午前 問10（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>ソート</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_024">
+          <div class="question-meta"><span>QUESTION 014</span><a href="#q-center_style_fe_curated_024" aria-label="この問題へのリンク">#center_style_fe_curated_024</a></div>
+          <h2>整列された64個のデータを2分探索で探す。探索範囲を1個に絞るまでに、半分にする操作は何回必要か。</h2>
+          <ol class="choice-list"><li><span>0</span><p>4</p></li><li><span>1</span><p>5</p></li><li><span>2</span><p>6</p></li><li><span>3</span><p>64</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 6</strong></p>
+              <div class="explanation"><h3>解説</h3><p>64=2^6なので、64個の範囲は半分にする操作を6回行うと1個になる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H27春期午前 問6（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>ソート</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_026">
+          <div class="question-meta"><span>QUESTION 015</span><a href="#q-center_style_fe_curated_026" aria-label="この問題へのリンク">#center_style_fe_curated_026</a></div>
+          <h2>状態遷移図で表す内容として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>状態と、状態が変わるきっかけや条件</p></li><li><span>1</span><p>文書の見出しと本文の階層構造だけ</p></li><li><span>2</span><p>表から特定の列だけを取り出す操作</p></li><li><span>3</span><p>画像の画素数と色数だけ</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. 状態と、状態が変わるきっかけや条件</strong></p>
+              <div class="explanation"><h3>解説</h3><p>状態遷移図は、システムや対象が取り得る状態と、状態が変わるきっかけや条件を表す。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H26春期午前 問72（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>状態遷移図</li><li>プログラム</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_031">
+          <div class="question-meta"><span>QUESTION 016</span><a href="#q-center_style_fe_curated_031" aria-label="この問題へのリンク">#center_style_fe_curated_031</a></div>
+          <h2>昇順に整列した配列の範囲を、先頭の添字xから末尾の添字yまでとして2分探索する。中央の添字mを求める式として最も適当なものはどれか。ここで、小数点以下は切り捨てる。</h2>
+          <ol class="choice-list"><li><span>0</span><p>x+y</p></li><li><span>1</span><p>(x+y)/2</p></li><li><span>2</span><p>(x-y)/2</p></li><li><span>3</span><p>(y-x)/2</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. (x+y)/2</strong></p>
+              <div class="explanation"><h3>解説</h3><p>2分探索では探索範囲の中央を調べるので、先頭xと末尾yの平均である(x+y)/2を使う。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H24秋期午前 問4（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>配列の要素</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_039">
+          <div class="question-meta"><span>QUESTION 017</span><a href="#q-center_style_fe_curated_039" aria-label="この問題へのリンク">#center_style_fe_curated_039</a></div>
+          <h2>300円の商品を売る自動販売機を、状態S0=投入額0円、S1=100円、S2=200円で表す。100円硬貨が入ると投入額が100円増え、合計300円になったときには商品を出して初期状態S0へ戻る。このとき、状態S2で100円硬貨が入ったときの動作として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>商品を出さずにS1へ戻る</p></li><li><span>1</span><p>商品を出さずにS2にとどまる</p></li><li><span>2</span><p>商品を出してS0へ戻る</p></li><li><span>3</span><p>商品を出してS2にとどまる</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 商品を出してS0へ戻る</strong></p>
+              <div class="explanation"><h3>解説</h3><p>S2はすでに200円投入された状態なので、さらに100円が入ると合計300円になり、商品を出して初期状態S0へ戻る。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H28秋期午前 問3（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>状態遷移図</li><li>シミュレーション</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_051">
+          <div class="question-meta"><span>QUESTION 018</span><a href="#q-center_style_fe_curated_051" aria-label="この問題へのリンク">#center_style_fe_curated_051</a></div>
+          <h2>2分探索に関する説明として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>探索するデータ列は、あらかじめ昇順または降順に整列されている必要がある</p></li><li><span>1</span><p>探索は必ずデータ列の先頭から順に始める</p></li><li><span>2</span><p>目的のデータが先頭にある場合でも、線形探索より常に比較回数が少ない</p></li><li><span>3</span><p>n個のデータを探索するときの比較回数は、おおよそn個すべてを調べる回数になる</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. 探索するデータ列は、あらかじめ昇順または降順に整列されている必要がある</strong></p>
+              <div class="explanation"><h3>解説</h3><p>2分探索は、整列済みのデータ列について中央の値と比較し、探索範囲を半分ずつ狭める方法である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H26秋期午前 問6（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>線形探索</li><li>Algorithm</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_053">
+          <div class="question-meta"><span>QUESTION 019</span><a href="#q-center_style_fe_curated_053" aria-label="この問題へのリンク">#center_style_fe_curated_053</a></div>
+          <h2>商品コードや会員番号などにチェックディジットを付ける主な目的として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>コードの値の入力誤りを検出しやすくする</p></li><li><span>1</span><p>コードに含まれる数字を暗号化して読めなくする</p></li><li><span>2</span><p>コードの桁数を必ず短くする</p></li><li><span>3</span><p>コードを入力した人の本人確認を行う</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. コードの値の入力誤りを検出しやすくする</strong></p>
+              <div class="explanation"><h3>解説</h3><p>チェックディジットは、コードの一部に検査用の数字を付け、入力したコードの値の誤りを検出しやすくする仕組みである。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H24春期午前 問70（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>チェックディジット</li><li>コード化</li><li>クロスチェック</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ap_curated_063">
+          <div class="question-meta"><span>QUESTION 020</span><a href="#q-center_style_ap_curated_063" aria-label="この問題へのリンク">#center_style_ap_curated_063</a></div>
+          <h2>整列済み配列を2分探索するとき、探索範囲を left から right までの添字で表す。探索範囲にまだ要素が残っていることを表す条件として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>left &lt; right</p></li><li><span>1</span><p>left &lt;= right</p></li><li><span>2</span><p>left + 1 &lt; right</p></li><li><span>3</span><p>left + 1 &lt;= right</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. left &lt;= right</strong></p>
+              <div class="explanation"><h3>解説</h3><p>leftとrightが同じ値のとき、探索範囲には1個の要素が残っている。したがって、範囲が空でない条件はleft &lt;= rightである。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H23秋期午前 問8（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>フローチャート</li><li>2分探索</li><li>配列の要素</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ap_curated_066">
+          <div class="question-meta"><span>QUESTION 021</span><a href="#q-center_style_ap_curated_066" aria-label="この問題へのリンク">#center_style_ap_curated_066</a></div>
+          <h2>モンテカルロ法を使って、正方形に内接する円の面積を近似する方法として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>正方形内に乱数で多数の点を打ち、円の中に入った点の割合から面積を推定する</p></li><li><span>1</span><p>円に内接する正多角形を一つだけ描き、その面積をそのまま円の面積とする</p></li><li><span>2</span><p>正方形の中に同じ大きさの小円を隙間なく詰め、その個数だけで求める</p></li><li><span>3</span><p>円周上の1点だけを選び、中心からの距離を測って面積とする</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. 正方形内に乱数で多数の点を打ち、円の中に入った点の割合から面積を推定する</strong></p>
+              <div class="explanation"><h3>解説</h3><p>モンテカルロ法は、乱数を用いた多数の試行から近似値を求める方法である。正方形内に点をランダムに打ち、円内に入った割合を使えば面積を近似できる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H27春期午前 問6（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>モンテカルロ法</li><li>シミュレーション</li><li>数理モデル</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ip_curated_063">
+          <div class="question-meta"><span>QUESTION 022</span><a href="#q-center_style_ip_curated_063" aria-label="この問題へのリンク">#center_style_ip_curated_063</a></div>
+          <h2>表計算ソフトで、C2:E2に同じ月の3支店の売上額がある。C3に「C2がその月の3支店平均を下回れば×、そうでなければ○」を表示し、D3:E3にも複写して使いたい。C3に入れる式として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>IF(C2&lt;AVERAGE(C2:E2), &quot;×&quot;, &quot;○&quot;)</p></li><li><span>1</span><p>IF(C2&lt;AVERAGE($C2:$E2), &quot;×&quot;, &quot;○&quot;)</p></li><li><span>2</span><p>IF($C$2&lt;AVERAGE($C$2:$E$2), &quot;×&quot;, &quot;○&quot;)</p></li><li><span>3</span><p>IF(C2&lt;AVERAGE(C$2:E$2), &quot;○&quot;, &quot;×&quot;)</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. IF(C2&lt;AVERAGE($C2:$E2), &quot;×&quot;, &quot;○&quot;)</strong></p>
+              <div class="explanation"><h3>解説</h3><p>複写先では比較するセルはC2からD2、E2へ変わる必要がある。一方、平均の範囲は同じ行のC列からE列に固定したいので、列だけを絶対参照にした$C2:$E2が適切である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH30春期 問60（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>表計算ソフト</li><li>相対参照</li><li>絶対参照</li><li>AVERAGE</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_063">
+          <div class="question-meta"><span>QUESTION 023</span><a href="#q-center_style_fe_curated_063" aria-label="この問題へのリンク">#center_style_fe_curated_063</a></div>
+          <h2>配列A[0]〜A[9]に正の整数を格納する。まずA[k mod 10]を調べ、空いていなければA[(k+1) mod 10]、それも空いていなければA[(k+4) mod 10]に格納する。ここで、x mod y はxをyで割った余りを表す。16、43、73、24、85を順に格納すると、85はどこに入るか。ここで、空きは0で表す。</h2>
+          <ol class="choice-list"><li><span>0</span><p>A[3]</p></li><li><span>1</span><p>A[5]</p></li><li><span>2</span><p>A[6]</p></li><li><span>3</span><p>A[9]</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>3. A[9]</strong></p>
+              <div class="explanation"><h3>解説</h3><p>mod は割り算の余りを表すので、16 mod 10 = 6、43 mod 10 = 3である。16はA[6]、43はA[3]、73はA[3]が使用済みなのでA[4]、24はA[4]が使用済みなのでA[5]に入る。85ではA[5]とA[6]が使用済みなので、(85+4) mod 10 = 9よりA[9]に入る。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H25秋期午前 問5（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>配列</li><li>配列の要素</li><li>Algorithm</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ip_curated_083">
+          <div class="question-meta"><span>QUESTION 024</span><a href="#q-center_style_ip_curated_083" aria-label="この問題へのリンク">#center_style_ip_curated_083</a></div>
+          <h2>配列 [2, 4, 1, 3] に対して、左から隣り合う要素を比べ、左の値が大きければ入れ替える操作を末尾に向かって繰り返す。この操作を必要な回数繰り返して昇順に並べた結果はどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>[1, 2, 3, 4]</p></li><li><span>1</span><p>[1, 3, 2, 4]</p></li><li><span>2</span><p>[3, 1, 4, 2]</p></li><li><span>3</span><p>[4, 3, 2, 1]</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. [1, 2, 3, 4]</strong></p>
+              <div class="explanation"><h3>解説</h3><p>隣り合う要素を比べて必要なら入れ替える処理を繰り返すと、小さい値が前へ、大きい値が後ろへ移動し、最終的に[1, 2, 3, 4]となる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートR5公開問題 問60（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>ソート</li><li>配列</li><li>配列の要素</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ip_curated_084">
+          <div class="question-meta"><span>QUESTION 025</span><a href="#q-center_style_ip_curated_084" aria-label="この問題へのリンク">#center_style_ip_curated_084</a></div>
+          <h2>配列の各要素を先頭から順に調べ、値が1なら文字Aを、1でなければ文字Bを末尾に追加する。結果を「AABAB」にする配列として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>[0, 0, 1, 2, 1]</p></li><li><span>1</span><p>[0, 1, 2, 1, 1]</p></li><li><span>2</span><p>[1, 1, 1, 2, 0]</p></li><li><span>3</span><p>[1, 1, 2, 1, 0]</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>3. [1, 1, 2, 1, 0]</strong></p>
+              <div class="explanation"><h3>解説</h3><p>値が1ならA，1以外ならBになる。「AABAB」に対応する並びは，1，1，1でない値，1，1でない値なので，[1, 1, 2, 1, 0]が適当である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートR6公開問題 問62（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>配列</li><li>配列の要素</li><li>プログラム</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ip_curated_085">
+          <div class="question-meta"><span>QUESTION 026</span><a href="#q-center_style_ip_curated_085" aria-label="この問題へのリンク">#center_style_ip_curated_085</a></div>
+          <h2>配列 [3, 5, 1, 2, 4] を選択ソートで昇順に並べる。先頭から順に、その位置以降の最小値を探して入れ替える。3回目の入替えが終わった直後の配列として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>[1, 2, 3, 4, 5]</p></li><li><span>1</span><p>[1, 2, 3, 5, 4]</p></li><li><span>2</span><p>[4, 5, 3, 2, 1]</p></li><li><span>3</span><p>[5, 4, 3, 2, 1]</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. [1, 2, 3, 5, 4]</strong></p>
+              <div class="explanation"><h3>解説</h3><p>1回目は最小値1を先頭へ移して[1, 5, 3, 2, 4]、2回目は2を2番目へ移して[1, 2, 3, 5, 4]となる。3回目は3がすでに3番目なので変わらず[1, 2, 3, 5, 4]である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートR8公開問題 問67（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>ソート</li><li>配列</li><li>配列の要素</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_064">
+          <div class="question-meta"><span>QUESTION 027</span><a href="#q-center_style_fe_curated_064" aria-label="この問題へのリンク">#center_style_fe_curated_064</a></div>
+          <h2>5桁の数54321を、各桁の和を13で割った余りを使って配列に格納する。余りを配列の位置とすると、54321はどの位置に入るか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>1</p></li><li><span>1</span><p>2</p></li><li><span>2</span><p>7</p></li><li><span>3</span><p>12</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. 2</strong></p>
+              <div class="explanation"><h3>解説</h3><p>各桁の和は5+4+3+2+1=15である。15を13で割った余りは2なので、位置2に入る。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者R1秋期午前 問8（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>ハッシュ値</li><li>配列の要素</li><li>10進法</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ip_curated_093">
+          <div class="question-meta"><span>QUESTION 028</span><a href="#q-center_style_ip_curated_093" aria-label="この問題へのリンク">#center_style_ip_curated_093</a></div>
+          <h2>3桁の社員コードで、上位2桁の各数字を足した値の1の位をチェックディジットとして3桁目に付ける。上位2桁が57のとき、チェックディジットとして最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>1</p></li><li><span>1</span><p>2</p></li><li><span>2</span><p>5</p></li><li><span>3</span><p>7</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. 2</strong></p>
+              <div class="explanation"><h3>解説</h3><p>上位2桁57では、5+7=12である。1の位は2なのでチェックディジットは2になる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH22秋期 問61（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>チェックディジット</li><li>表計算ソフト</li><li>データ</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ap_curated_079">
+          <div class="question-meta"><span>QUESTION 029</span><a href="#q-center_style_ap_curated_079" aria-label="この問題へのリンク">#center_style_ap_curated_079</a></div>
+          <h2>ある店では，今週末に発注する在庫補充量を次の規則で決める。
+
+・翌週の販売予測量は，先週の販売量 C[n-1] と今週の販売量 C[n] の平均値とする。
+・安全在庫量は，翌週の販売予測量の10%とする。
+・在庫補充量は，翌週の販売予測量から現在の在庫量 B[n] を引き，安全在庫量を加えた量とする。
+
+このとき，在庫補充量を表す式として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>(C[n-1]+C[n])/2*1.1-B[n]</p></li><li><span>1</span><p>(C[n-1]+C[n])/2*1.1-B[n-1]</p></li><li><span>2</span><p>(C[n-1]+C[n])/2+C[n]*0.1-B[n]</p></li><li><span>3</span><p>(C[n-2]+C[n-1])/2+C[n]*0.1-B[n]</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. (C[n-1]+C[n])/2*1.1-B[n]</strong></p>
+              <div class="explanation"><h3>解説</h3><p>販売予測量は (C[n-1]+C[n])/2 であり，安全在庫量はその10%である。したがって，在庫補充量は「販売予測量 + 安全在庫量 - 現在の在庫量」なので，(C[n-1]+C[n])/2*1.1-B[n] で表せる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H22春期午前 問77（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>アベレージ</li><li>表計算ソフト</li><li>変数</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_ip_curated_096">
+          <div class="question-meta"><span>QUESTION 030</span><a href="#q-center_style_ip_curated_096" aria-label="この問題へのリンク">#center_style_ip_curated_096</a></div>
+          <h2>表計算ソフトで，商品Cの1月から3月までの売上額のうち，15000以上の値の個数を求めたい。売上額は次のとおりである。
+
+1月：10000
+2月：20000
+3月：30000
+
+条件を満たす個数として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>1</p></li><li><span>1</span><p>2</p></li><li><span>2</span><p>3</p></li><li><span>3</span><p>4</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. 2</strong></p>
+              <div class="explanation"><h3>解説</h3><p>商品Cの値は10000，20000，30000である。このうち15000以上なのは20000と30000の2個である。対象の商品，条件，月数の範囲をそろえて数えることがポイントである。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートR2公開問題 問71（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>COUNTIF</li><li>表計算ソフト</li><li>行</li></ul></div>
+            </div>
+          </details>
+        </article></section>
+      <nav class="pagination" aria-label="アルゴリズムのページ移動"><span class="page-direction disabled">← 前へ</span><span class="page-numbers"><span aria-current="page">1</span><a href="algorithm-2.html" aria-label="2ページ目">2</a><a href="algorithm-3.html" aria-label="3ページ目">3</a></span><a class="page-direction" href="algorithm-2.html" rel="next">次へ →</a></nav>
+      <aside class="next-action"><div><p class="eyebrow">PRACTICE</p><h2>読んだ知識をランダム出題で確認</h2><p>学習アプリでは「アルゴリズム」を選んで、1〜50問に挑戦できます。</p></div><a class="button button-primary" href="../app/">学習アプリを開く</a></aside>
+    </main>
+    
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand">情報Ⅰ Study Atlas</p>
+          <p class="footer-copy">知識を読む。問題で確かめる。根拠まで振り返る。</p>
+        </div>
+        <nav aria-label="フッターナビゲーション">
+          <a href="../questions/index.html">問題一覧</a>
+          <a href="../app/">学習アプリ</a>
+          <a href="../about.html">このサイトについて</a>
+          <a href="../privacy.html">プライバシーポリシー</a>
+        </nav>
+      </div>
+      <p class="copyright"><small>&copy; 2026 めいちゃんねる</small></p>
+    </footer>
+  </body>
+</html>

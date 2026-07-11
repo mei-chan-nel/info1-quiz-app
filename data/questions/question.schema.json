@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mei-chan-nel.github.io/info1-quiz-app/data/questions/question.schema.json",
+  "title": "情報Ⅰ知識問題",
+  "type": "object",
+  "required": [
+    "id",
+    "stem",
+    "choices",
+    "answer_choice_id",
+    "explanation",
+    "tags",
+    "source_display",
+    "field_ids"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "stem": { "type": "string", "minLength": 1 },
+    "choices": { "type": "array", "minItems": 2 },
+    "answer_choice_id": { "type": "string", "minLength": 1 },
+    "explanation": { "type": "string", "minLength": 1 },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "source_display": { "type": "string", "minLength": 1 },
+    "field_ids": {
+      "description": "主分野。必ず1分野だけを指定する。",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "society_security",
+          "digital",
+          "network",
+          "data_db",
+          "algorithm",
+          "design"
+        ]
+      }
+    }
+  }
+}
