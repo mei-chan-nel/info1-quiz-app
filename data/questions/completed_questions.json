@@ -57243,5 +57243,5733 @@
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_085_019__choice_1"
+  },
+  {
+    "id": "original_knowledge_0001",
+    "stem": "情報セキュリティ上のソーシャルエンジニアリングに当たる行為はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "社員を装い、電話でパスワード再設定用の情報を聞き出す。",
+        "choice_id": "original_knowledge_0001__choice_0",
+        "is_correct": true,
+        "explanation": "人の心理や行動の隙を利用し、会話などの非技術的な手段で秘密情報を得ている。\n\nソーシャルエンジニアリングは、システムの技術的な弱点ではなく、人の思い込み、親切心、権威への弱さなどを利用して秘密情報を得る手口である。電話で社員を装って認証情報を聞き出す、画面やキー入力を肩越しに盗み見る、廃棄書類から情報を探すといった行為が例となる。拾った認証情報で実際にログインする行為は不正アクセス、ファイルを暗号化して金銭を要求する行為はランサムウェアであり、区別が必要である。"
+      },
+      {
+        "label": "1",
+        "text": "拾った他人のIDとパスワードを使ってSNSへログインする。",
+        "choice_id": "original_knowledge_0001__choice_1",
+        "is_correct": false,
+        "explanation": "これは他人の識別符号を使う不正アクセスに当たり得る。"
+      },
+      {
+        "label": "2",
+        "text": "大量の通信を送り付けてサーバの応答を妨げる。",
+        "choice_id": "original_knowledge_0001__choice_2",
+        "is_correct": false,
+        "explanation": "これはサービス妨害攻撃の説明である。"
+      },
+      {
+        "label": "3",
+        "text": "ファイルを暗号化して復旧と引換えに金銭を要求する。",
+        "choice_id": "original_knowledge_0001__choice_3",
+        "is_correct": false,
+        "explanation": "これはランサムウェアの典型的な動作である。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "人の心理や行動の隙を利用し、会話などの非技術的な手段で秘密情報を得ている。\n\nソーシャルエンジニアリングは、システムの技術的な弱点ではなく、人の思い込み、親切心、権威への弱さなどを利用して秘密情報を得る手口である。電話で社員を装って認証情報を聞き出す、画面やキー入力を肩越しに盗み見る、廃棄書類から情報を探すといった行為が例となる。拾った認証情報で実際にログインする行為は不正アクセス、ファイルを暗号化して金銭を要求する行為はランサムウェアであり、区別が必要である。",
+    "tags": [
+      "情報社会",
+      "ソーシャルエンジニアリング",
+      "情報セキュリティ",
+      "不正アクセス"
+    ],
+    "primary_term_names": [
+      "ソーシャルエンジニアリング",
+      "情報セキュリティ",
+      "不正なアクセス"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_001"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.1）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0078",
+      "T0081",
+      "T0100"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0078",
+        "term": "ソーシャルエンジニアリング",
+        "category": "情報セキュリティ",
+        "code": "１イ",
+        "matched_variant": "manual:ソーシャルエンジニアリング"
+      },
+      {
+        "term_id": "T0081",
+        "term": "情報セキュリティ",
+        "category": "情報セキュリティ",
+        "code": "１イ;４ア;４ア;１イ",
+        "matched_variant": "manual:情報セキュリティ"
+      },
+      {
+        "term_id": "T0100",
+        "term": "不正なアクセス",
+        "category": "不正アクセス",
+        "code": "１イ",
+        "matched_variant": "manual:不正アクセス"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0001__choice_0"
+  },
+  {
+    "id": "original_knowledge_0002",
+    "stem": "他人のSNSのIDとパスワードが書かれたメモを拾った。本人の許可なくログインする行為について、最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "データを変更しなければ不正アクセスではない。",
+        "choice_id": "original_knowledge_0002__choice_0",
+        "is_correct": false,
+        "explanation": "ログイン後に変更したかではなく、無断でアクセスした行為自体が問題となる。"
+      },
+      {
+        "label": "1",
+        "text": "無断でのログインは、不正アクセスに当たり得る。",
+        "choice_id": "original_knowledge_0002__choice_1",
+        "is_correct": true,
+        "explanation": "正当な利用権限がないのに他人のID・パスワードでアクセスする行為は、確認目的でも正当化されない。\n\n他人のユーザID・パスワードを無断で使用する行為（なりすまし）は不正アクセス禁止法により禁止されている。\nまた、不正アクセス禁止法は、他人のユーザID・パスワードを無断で第三者に提供する行為（助長する行為）、システムの不備（セキュリティホール）を利用して、コンピュータを利用する行為（攻撃する行為）も禁じている。"
+      },
+      {
+        "label": "2",
+        "text": "一度だけのログインなら不正アクセスではない。",
+        "choice_id": "original_knowledge_0002__choice_2",
+        "is_correct": false,
+        "explanation": "回数の少なさは無断アクセスを適法にしない。"
+      },
+      {
+        "label": "3",
+        "text": "自分で盗んだパスワードでなければ使える。",
+        "choice_id": "original_knowledge_0002__choice_3",
+        "is_correct": false,
+        "explanation": "入手経路にかかわらず、他人の識別符号を無断で使用してよいことにはならない。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "正当な利用権限がないのに他人のID・パスワードでアクセスする行為は、確認目的でも正当化されない。\n\n他人のユーザID・パスワードを無断で使用する行為（なりすまし）は不正アクセス禁止法により禁止されている。\nまた、不正アクセス禁止法は、他人のユーザID・パスワードを無断で第三者に提供する行為（助長する行為）、システムの不備（セキュリティホール）を利用して、コンピュータを利用する行為（攻撃する行為）も禁じている。",
+    "tags": [
+      "情報社会",
+      "不正アクセス",
+      "ユーザID",
+      "パスワード"
+    ],
+    "primary_term_names": [
+      "不正なアクセス",
+      "ユーザID",
+      "パスワード"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_004"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.4）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0100",
+      "T0085",
+      "T0086"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0100",
+        "term": "不正なアクセス",
+        "category": "不正アクセス",
+        "code": "１イ",
+        "matched_variant": "manual:不正アクセス"
+      },
+      {
+        "term_id": "T0085",
+        "term": "ユーザID",
+        "category": "認証",
+        "code": "１イ",
+        "matched_variant": "manual:ユーザID"
+      },
+      {
+        "term_id": "T0086",
+        "term": "パスワード",
+        "category": "認証",
+        "code": "１イ",
+        "matched_variant": "manual:パスワード"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0002__choice_1"
+  },
+  {
+    "id": "original_knowledge_0003",
+    "stem": "パブリシティ権として最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "著作者の氏名表示を決める著作者人格権。",
+        "choice_id": "original_knowledge_0003__choice_0",
+        "is_correct": false,
+        "explanation": "これは氏名表示権など、著作者人格権に関する説明である。"
+      },
+      {
+        "label": "1",
+        "text": "写真に写った建物や物の所有権を保護する権利。",
+        "choice_id": "original_knowledge_0003__choice_1",
+        "is_correct": false,
+        "explanation": "パブリシティ権は、物の所有権を保護するものではない。"
+      },
+      {
+        "label": "2",
+        "text": "著名人の氏名や肖像が持つ商業的価値を保護する権利。",
+        "choice_id": "original_knowledge_0003__choice_2",
+        "is_correct": true,
+        "explanation": "著名人の氏名・肖像などが持つ経済的価値を無断で利用する場面では、パブリシティ権が問題となる。\n\n肖像に関する人格的利益は、一般の人も含め、みだりに撮影・公表されない利益を保護する。撮影目的を説明して本人の同意を得た集合写真は、無断撮影とは事情が異なる。一方、パブリシティ権は、著名人の氏名や肖像が持つ顧客吸引力・商業的価値に着目した権利である。アイドルの写真を無断で集め、商品として販売する行為では、その商業的価値の利用が問題になる。"
+      },
+      {
+        "label": "3",
+        "text": "写真データの画質や解像度を保護する権利。",
+        "choice_id": "original_knowledge_0003__choice_3",
+        "is_correct": false,
+        "explanation": "保護の中心は著名人の氏名や肖像などが持つ顧客吸引力であり、画質ではない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "著名人の氏名・肖像などが持つ経済的価値を無断で利用する場面では、パブリシティ権が問題となる。\n\n肖像に関する人格的利益は、一般の人も含め、みだりに撮影・公表されない利益を保護する。撮影目的を説明して本人の同意を得た集合写真は、無断撮影とは事情が異なる。一方、パブリシティ権は、著名人の氏名や肖像が持つ顧客吸引力・商業的価値に着目した権利である。アイドルの写真を無断で集め、商品として販売する行為では、その商業的価値の利用が問題になる。",
+    "tags": [
+      "情報社会",
+      "肖像権",
+      "パブリシティ権",
+      "個人の権利"
+    ],
+    "primary_term_names": [
+      "肖像権",
+      "パブリシティの権利"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_002",
+      "original_xlsx_s1_003"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.2・3）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0043",
+      "T0044"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0043",
+        "term": "肖像権",
+        "category": "個人の権利",
+        "code": "１イ",
+        "matched_variant": "manual:肖像権"
+      },
+      {
+        "term_id": "T0044",
+        "term": "パブリシティの権利",
+        "category": "個人の権利",
+        "code": "１イ",
+        "matched_variant": "manual:パブリシティ権"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0003__choice_2"
+  },
+  {
+    "id": "original_knowledge_0004",
+    "stem": "意匠権の保護対象として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "自然法則を利用した技術的な発明。",
+        "choice_id": "original_knowledge_0004__choice_0",
+        "is_correct": false,
+        "explanation": "これは特許権の保護対象である。"
+      },
+      {
+        "label": "1",
+        "text": "商品やサービスを識別する文字やロゴ。",
+        "choice_id": "original_knowledge_0004__choice_1",
+        "is_correct": false,
+        "explanation": "これは商標権の保護対象である。"
+      },
+      {
+        "label": "2",
+        "text": "小説や音楽などの創作的な表現。",
+        "choice_id": "original_knowledge_0004__choice_2",
+        "is_correct": false,
+        "explanation": "これは著作権の保護対象になり得る。"
+      },
+      {
+        "label": "3",
+        "text": "物品・建築物・画像などに現れるデザイン。",
+        "choice_id": "original_knowledge_0004__choice_3",
+        "is_correct": true,
+        "explanation": "特許は発明、意匠は物品等のデザイン、商標は商品・サービスの識別標識を主に保護する。\n\n産業財産権は、技術的な創作、デザイン、営業上の標識などを保護する制度である。特許権は自然法則を利用した技術的な発明、実用新案権は物品の形状・構造・組合せに関する考案を対象とする。意匠権は物品・建築物・画像などの視覚を通じたデザインを、商標権は商品やサービスを他人のものと区別するための文字・図形・ロゴなどを保護する。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "特許は発明、意匠は物品等のデザイン、商標は商品・サービスの識別標識を主に保護する。\n\n産業財産権は、技術的な創作、デザイン、営業上の標識などを保護する制度である。特許権は自然法則を利用した技術的な発明、実用新案権は物品の形状・構造・組合せに関する考案を対象とする。意匠権は物品・建築物・画像などの視覚を通じたデザインを、商標権は商品やサービスを他人のものと区別するための文字・図形・ロゴなどを保護する。",
+    "tags": [
+      "情報社会",
+      "産業財産権",
+      "特許権",
+      "意匠権",
+      "商標権"
+    ],
+    "primary_term_names": [
+      "工業所有権",
+      "特許権",
+      "意匠権",
+      "商標権"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_008",
+      "original_xlsx_s1_009"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.8・9）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0051",
+      "T0052",
+      "T0054",
+      "T0055"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0051",
+        "term": "工業所有権",
+        "category": "産業財産権",
+        "code": "１イ",
+        "matched_variant": "manual:産業財産権"
+      },
+      {
+        "term_id": "T0052",
+        "term": "特許権",
+        "category": "産業財産権",
+        "code": "１イ",
+        "matched_variant": "manual:特許権"
+      },
+      {
+        "term_id": "T0054",
+        "term": "意匠権",
+        "category": "産業財産権",
+        "code": "１イ",
+        "matched_variant": "manual:意匠権"
+      },
+      {
+        "term_id": "T0055",
+        "term": "商標権",
+        "category": "産業財産権",
+        "code": "１イ",
+        "matched_variant": "manual:商標権"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0004__choice_3"
+  },
+  {
+    "id": "original_knowledge_0005",
+    "stem": "著作権と産業財産権の権利発生について、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "著作権は創作時に、特許権は原則として登録により発生する。",
+        "choice_id": "original_knowledge_0005__choice_0",
+        "is_correct": true,
+        "explanation": "著作権は無方式主義であり、産業財産権は原則として所定の手続によって権利を得る。\n\n著作権は著作者が著作物を創作した時点で自動的に発生する権利である。\n権利を取得するために何らかの方式や手続きは必要ない。\nこれを無方式主義という。\n一方、産業財産権（特許権、実用新案権、意匠権、商標権）は特許庁に出願し認められた時点から得ることができる。"
+      },
+      {
+        "label": "1",
+        "text": "著作権も特許権も、特許庁への届出で発生する。",
+        "choice_id": "original_knowledge_0005__choice_1",
+        "is_correct": false,
+        "explanation": "著作権は原則として創作時に自動的に発生する。"
+      },
+      {
+        "label": "2",
+        "text": "著作権も特許権も、公表した時点で自動発生する。",
+        "choice_id": "original_knowledge_0005__choice_2",
+        "is_correct": false,
+        "explanation": "特許権などの取得には出願・審査・登録などが必要である。"
+      },
+      {
+        "label": "3",
+        "text": "著作権は販売時、特許権は発明者の死亡時に発生する。",
+        "choice_id": "original_knowledge_0005__choice_3",
+        "is_correct": false,
+        "explanation": "いずれも発生時点の説明として誤っている。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "著作権は無方式主義であり、産業財産権は原則として所定の手続によって権利を得る。\n\n著作権は著作者が著作物を創作した時点で自動的に発生する権利である。\n権利を取得するために何らかの方式や手続きは必要ない。\nこれを無方式主義という。\n一方、産業財産権（特許権、実用新案権、意匠権、商標権）は特許庁に出願し認められた時点から得ることができる。",
+    "tags": [
+      "情報社会",
+      "著作権",
+      "無方式主義",
+      "産業財産権"
+    ],
+    "primary_term_names": [
+      "著作権",
+      "無方式主義",
+      "工業所有権"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_010"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.10）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0056",
+      "T0074",
+      "T0051"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0056",
+        "term": "著作権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:著作権"
+      },
+      {
+        "term_id": "T0074",
+        "term": "無方式主義",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:無方式主義"
+      },
+      {
+        "term_id": "T0051",
+        "term": "工業所有権",
+        "category": "産業財産権",
+        "code": "１イ",
+        "matched_variant": "manual:産業財産権"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0005__choice_0"
+  },
+  {
+    "id": "original_knowledge_0006",
+    "stem": "著作権で保護される対象として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "物語の抽象的な設定やアイデアそのもの。",
+        "choice_id": "original_knowledge_0006__choice_0",
+        "is_correct": false,
+        "explanation": "抽象的なアイデア自体は、原則として著作権の保護対象ではない。"
+      },
+      {
+        "label": "1",
+        "text": "具体的に表現された、創作性のある文章や絵。",
+        "choice_id": "original_knowledge_0006__choice_1",
+        "is_correct": true,
+        "explanation": "著作権は具体的な創作的表現を保護し、抽象的なアイデアや単なる事実そのものを独占させる制度ではない。\n\n著作物とは「①思想又は感情を ②創作的に ③表現した ④文芸、学術、美術又は音楽の範囲に属するもの」である。\n作品の背景である世界観は「アイデア」に分類され、③表現したものとは見做されず著作物に該当しない。\nただし、世界観や設定を超えた模倣を行った場合、著作権侵害となる可能性がある。\n数式や単なるデータ、歴史的事実は「思想・感情」と関わりがないので、著作物から除かれる。\n素材の選択又は配列によって創作性を有するものは編集著作物として保護される。\n新聞や雑誌は編集著作物の代表例である。\n著作物となるジャンル分けは厳密なものではなく、知的・文化的に含まれる広い範囲で認められる。\nコンピュータプログラムも著作物である。\n地図を「文芸、学術、美術又は音楽」のいずれかに分類することは難しいが、著作物として認められている。"
+      },
+      {
+        "label": "2",
+        "text": "自然法則や歴史的事実そのもの。",
+        "choice_id": "original_knowledge_0006__choice_2",
+        "is_correct": false,
+        "explanation": "自然法則や事実そのものは著作権の保護対象ではない。"
+      },
+      {
+        "label": "3",
+        "text": "他人の作品をそのまま複製する行為。",
+        "choice_id": "original_knowledge_0006__choice_3",
+        "is_correct": false,
+        "explanation": "複製行為は保護対象ではなく、著作権が規制する利用行為である。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "著作権は具体的な創作的表現を保護し、抽象的なアイデアや単なる事実そのものを独占させる制度ではない。\n\n著作物とは「①思想又は感情を ②創作的に ③表現した ④文芸、学術、美術又は音楽の範囲に属するもの」である。\n作品の背景である世界観は「アイデア」に分類され、③表現したものとは見做されず著作物に該当しない。\nただし、世界観や設定を超えた模倣を行った場合、著作権侵害となる可能性がある。\n数式や単なるデータ、歴史的事実は「思想・感情」と関わりがないので、著作物から除かれる。\n素材の選択又は配列によって創作性を有するものは編集著作物として保護される。\n新聞や雑誌は編集著作物の代表例である。\n著作物となるジャンル分けは厳密なものではなく、知的・文化的に含まれる広い範囲で認められる。\nコンピュータプログラムも著作物である。\n地図を「文芸、学術、美術又は音楽」のいずれかに分類することは難しいが、著作物として認められている。",
+    "tags": [
+      "情報社会",
+      "著作物",
+      "アイデア",
+      "編集著作物",
+      "プログラム"
+    ],
+    "primary_term_names": [
+      "著作物",
+      "プログラム"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_015",
+      "original_xlsx_s1_016",
+      "original_xlsx_s1_017"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.15・16・17）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0059",
+      "T0391"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0059",
+        "term": "著作物",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:著作物"
+      },
+      {
+        "term_id": "T0391",
+        "term": "プログラム",
+        "category": "ソフトウェア",
+        "code": "３ア;３イ;３イ;３ア",
+        "matched_variant": "manual:プログラム"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0006__choice_1"
+  },
+  {
+    "id": "original_knowledge_0007",
+    "stem": "市販キャラクターを無断で複製したクラスTシャツを生徒全員で使う行為について、最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "学校内で使うなら、常に自由に複製できる。",
+        "choice_id": "original_knowledge_0007__choice_0",
+        "is_correct": false,
+        "explanation": "学校内であることだけで、あらゆる複製が自由になるわけではない。"
+      },
+      {
+        "label": "1",
+        "text": "利益を得なければ、どのような無断利用もできる。",
+        "choice_id": "original_knowledge_0007__choice_1",
+        "is_correct": false,
+        "explanation": "非営利だけで全ての利用が許されるわけではない。"
+      },
+      {
+        "label": "2",
+        "text": "非営利でも、当然に私的使用の範囲になるとはいえない。",
+        "choice_id": "original_knowledge_0007__choice_2",
+        "is_correct": true,
+        "explanation": "私的使用のための複製は個人的・家庭内などの限られた範囲であり、クラス全体での利用は当然には含まれない。\n\n私的使用のための複製は、個人・家庭内などの限られた範囲で利用する場合の例外である。クラスTシャツを作って文化祭などで全員が使う行為は、その範囲を超えるため、私的使用の例外が当然に当てはまるわけではない。営利目的でないことだけで、他人の著作物を自由に複製できるわけではなく、学校教育での利用に関する別の要件とも区別して考える必要がある。"
+      },
+      {
+        "label": "3",
+        "text": "クラス全体で使っても、必ず私的使用に当たる。",
+        "choice_id": "original_knowledge_0007__choice_3",
+        "is_correct": false,
+        "explanation": "クラス全体での利用は、個人的・家庭内利用とはいえない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "私的使用のための複製は個人的・家庭内などの限られた範囲であり、クラス全体での利用は当然には含まれない。\n\n私的使用のための複製は、個人・家庭内などの限られた範囲で利用する場合の例外である。クラスTシャツを作って文化祭などで全員が使う行為は、その範囲を超えるため、私的使用の例外が当然に当てはまるわけではない。営利目的でないことだけで、他人の著作物を自由に複製できるわけではなく、学校教育での利用に関する別の要件とも区別して考える必要がある。",
+    "tags": [
+      "情報社会",
+      "著作権",
+      "複製権",
+      "私的使用"
+    ],
+    "primary_term_names": [
+      "著作権",
+      "複製権"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_011",
+      "original_xlsx_s1_018"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.11・18）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0056",
+      "T0065"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0056",
+        "term": "著作権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:著作権"
+      },
+      {
+        "term_id": "T0065",
+        "term": "複製権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:複製権"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0007__choice_2"
+  },
+  {
+    "id": "original_knowledge_0008",
+    "stem": "既存曲を演奏する際、著作権者の許諾が不要となり得る条件として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "非営利で、聴衆無料だが、実演者へ報酬を払う。",
+        "choice_id": "original_knowledge_0008__choice_0",
+        "is_correct": false,
+        "explanation": "例外には非営利・無料だけでなく、実演者等への報酬がないことも必要である。"
+      },
+      {
+        "label": "1",
+        "text": "営利目的で、聴衆から料金を取り、報酬も払わない。",
+        "choice_id": "original_knowledge_0008__choice_1",
+        "is_correct": false,
+        "explanation": "営利目的や入場料を取る場合は、この例外の条件を満たさない。"
+      },
+      {
+        "label": "2",
+        "text": "非営利で、聴衆から料金を取り、報酬を払わない。",
+        "choice_id": "original_knowledge_0008__choice_2",
+        "is_correct": false,
+        "explanation": "聴衆から料金を取る場合は、この例外の条件を満たさない。"
+      },
+      {
+        "label": "3",
+        "text": "非営利で、聴衆から料金を取らず、実演者に報酬を払わない。",
+        "choice_id": "original_knowledge_0008__choice_3",
+        "is_correct": true,
+        "explanation": "非営利・無料・無報酬の上演等には例外がある一方、公衆送信は別の利用行為として判断する必要がある。\n\n著作権法上、営利を目的とせず、聴衆から料金を取らず、実演者などに報酬を支払わない上演・演奏・上映・口述は、一定の条件の下で許諾なしに行える。ただし、この例外は利用方法を限定している。演奏を録画してインターネットで配信する行為は公衆送信に当たり、同じ例外で当然に許されるわけではなく、原則として別途の権利処理を検討する必要がある。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "非営利・無料・無報酬の上演等には例外がある一方、公衆送信は別の利用行為として判断する必要がある。\n\n著作権法上、営利を目的とせず、聴衆から料金を取らず、実演者などに報酬を支払わない上演・演奏・上映・口述は、一定の条件の下で許諾なしに行える。ただし、この例外は利用方法を限定している。演奏を録画してインターネットで配信する行為は公衆送信に当たり、同じ例外で当然に許されるわけではなく、原則として別途の権利処理を検討する必要がある。",
+    "tags": [
+      "情報社会",
+      "著作権",
+      "演奏権",
+      "公衆送信権"
+    ],
+    "primary_term_names": [
+      "著作権",
+      "公衆送信権"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_012"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.12）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0056",
+      "T0067"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0056",
+        "term": "著作権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:著作権"
+      },
+      {
+        "term_id": "T0067",
+        "term": "公衆送信権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:公衆送信権"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0008__choice_3"
+  },
+  {
+    "id": "original_knowledge_0009",
+    "stem": "レポートで他人の文章を引用として利用する場合の説明として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "自分の文章を主とし、引用部を区別して出所を示す。",
+        "choice_id": "original_knowledge_0009__choice_0",
+        "is_correct": true,
+        "explanation": "引用には、公表済みであること、引用の必然性、明確な区別、主従関係、出所明示などが重要である。\n\n引用は、公表された著作物を、公正な慣行に合致し、報道・批評・研究などの目的上正当な範囲で利用するための例外である。自分の文章が主で引用部分が従となること、引用部分をかぎ括弧や字下げなどで明確に区別すること、出所を示すことが重要になる。単に出典を書いたり、改変しなかったりするだけで、長文の無断転載が引用になるわけではない。"
+      },
+      {
+        "label": "1",
+        "text": "引用部を主とし、出所を示さずに転載する。",
+        "choice_id": "original_knowledge_0009__choice_1",
+        "is_correct": false,
+        "explanation": "出所明示だけでなく、自分の著作物が主で引用部分が従となる関係などが必要である。"
+      },
+      {
+        "label": "2",
+        "text": "本文と区別せず、出所も示さずに転載する。",
+        "choice_id": "original_knowledge_0009__choice_2",
+        "is_correct": false,
+        "explanation": "引用部分を明確に区別し、出所を示す必要がある。"
+      },
+      {
+        "label": "3",
+        "text": "未公表の原稿を、本人に無断で自由に転載する。",
+        "choice_id": "original_knowledge_0009__choice_3",
+        "is_correct": false,
+        "explanation": "引用の対象は公表された著作物であることが前提となる。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "引用には、公表済みであること、引用の必然性、明確な区別、主従関係、出所明示などが重要である。\n\n引用は、公表された著作物を、公正な慣行に合致し、報道・批評・研究などの目的上正当な範囲で利用するための例外である。自分の文章が主で引用部分が従となること、引用部分をかぎ括弧や字下げなどで明確に区別すること、出所を示すことが重要になる。単に出典を書いたり、改変しなかったりするだけで、長文の無断転載が引用になるわけではない。",
+    "tags": [
+      "情報社会",
+      "著作権",
+      "引用",
+      "出所明示"
+    ],
+    "primary_term_names": [
+      "著作権",
+      "引用"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_013"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.13）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0056",
+      "T0071"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0056",
+        "term": "著作権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:著作権"
+      },
+      {
+        "term_id": "T0071",
+        "term": "引用",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:引用"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0009__choice_0"
+  },
+  {
+    "id": "original_knowledge_0010",
+    "stem": "小説を原作とするアニメを第三者が利用したい。権利処理について、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "アニメ化された時点で、小説の著作権は自動的に消滅する。",
+        "choice_id": "original_knowledge_0010__choice_0",
+        "is_correct": false,
+        "explanation": "二次的著作物が作られても、原著作物の著作権が自動的に消滅するわけではない。"
+      },
+      {
+        "label": "1",
+        "text": "利用態様により、原作とアニメの両方の権利が関係する。",
+        "choice_id": "original_knowledge_0010__choice_1",
+        "is_correct": true,
+        "explanation": "二次的著作物の利用では、二次的著作物の著作者に加えて、原著作物の著作者の権利も関係し得る。\n\n二次的著作物とは、著作物を翻案（翻訳、編曲、変形、映画化・アニメ化）することで創作した著作物のことである。\n原作著作物の著作者は、翻案（二次的著作物の創作すること）だけでなく、二次的著作物を第三者が利用することに関しても、それを許諾するかしないかを決めることができる（二次的著作物の利用権）。"
+      },
+      {
+        "label": "2",
+        "text": "原作者の許諾だけあれば、アニメ制作側の権利は常に無視できる。",
+        "choice_id": "original_knowledge_0010__choice_2",
+        "is_correct": false,
+        "explanation": "アニメ自体にも創作性に応じた権利が生じ得る。"
+      },
+      {
+        "label": "3",
+        "text": "二次的著作物には著作権が一切認められない。",
+        "choice_id": "original_knowledge_0010__choice_3",
+        "is_correct": false,
+        "explanation": "翻訳・編曲・映画化などに新たな創作性があれば、二次的著作物として保護され得る。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "二次的著作物の利用では、二次的著作物の著作者に加えて、原著作物の著作者の権利も関係し得る。\n\n二次的著作物とは、著作物を翻案（翻訳、編曲、変形、映画化・アニメ化）することで創作した著作物のことである。\n原作著作物の著作者は、翻案（二次的著作物の創作すること）だけでなく、二次的著作物を第三者が利用することに関しても、それを許諾するかしないかを決めることができる（二次的著作物の利用権）。",
+    "tags": [
+      "情報社会",
+      "二次的著作物",
+      "翻案",
+      "著作権"
+    ],
+    "primary_term_names": [
+      "著作権"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_014"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.14）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0056"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0056",
+        "term": "著作権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:著作権"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0010__choice_1"
+  },
+  {
+    "id": "original_knowledge_0011",
+    "stem": "著作者人格権に含まれる権利の組合せはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "複製権・上映権・公衆送信権",
+        "choice_id": "original_knowledge_0011__choice_0",
+        "is_correct": false,
+        "explanation": "これらは著作物の利用を支配する著作権（財産権）の例である。"
+      },
+      {
+        "label": "1",
+        "text": "特許権・実用新案権・意匠権",
+        "choice_id": "original_knowledge_0011__choice_1",
+        "is_correct": false,
+        "explanation": "これらは産業財産権であり、著作者人格権ではない。"
+      },
+      {
+        "label": "2",
+        "text": "公表権・氏名表示権・同一性保持権",
+        "choice_id": "original_knowledge_0011__choice_2",
+        "is_correct": true,
+        "explanation": "著作者人格権は、著作者の人格的利益を保護する公表権・氏名表示権・同一性保持権からなる。\n\n公表権：著作物を公表するか否か、いつ、どのような方法で公表するかを決めることができる権利。\n氏名表示権：著作物を公表する際に、著作者の氏名を表示するか、表示するなら芸名か本名かを決めることができる権利。\n同一性保持権：著作者の意に反して作品を改変されない権利。\n著作物とは「①思想又は感情を ②創作的に ③表現した ④文芸、学術、美術又は音楽の範囲に属するもの」である。\n著作物のタイトル自体は「② 創造性」が認められず、著作物とされない場合が多いが、著作者の意に反してタイトルを改変する行為は、著作者人格権の同一性保持権（著作者の意に反して作品の改変を受けない権利）に反する。"
+      },
+      {
+        "label": "3",
+        "text": "肖像権・プライバシー権・パブリシティ権",
+        "choice_id": "original_knowledge_0011__choice_3",
+        "is_correct": false,
+        "explanation": "人物に関する権利・利益であり、著作者人格権の三つではない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "著作者人格権は、著作者の人格的利益を保護する公表権・氏名表示権・同一性保持権からなる。\n\n公表権：著作物を公表するか否か、いつ、どのような方法で公表するかを決めることができる権利。\n氏名表示権：著作物を公表する際に、著作者の氏名を表示するか、表示するなら芸名か本名かを決めることができる権利。\n同一性保持権：著作者の意に反して作品を改変されない権利。\n著作物とは「①思想又は感情を ②創作的に ③表現した ④文芸、学術、美術又は音楽の範囲に属するもの」である。\n著作物のタイトル自体は「② 創造性」が認められず、著作物とされない場合が多いが、著作者の意に反してタイトルを改変する行為は、著作者人格権の同一性保持権（著作者の意に反して作品の改変を受けない権利）に反する。",
+    "tags": [
+      "情報社会",
+      "著作者人格権",
+      "公表権",
+      "氏名表示権",
+      "同一性保持権"
+    ],
+    "primary_term_names": [
+      "著作人格権",
+      "公表権",
+      "氏名表示権",
+      "同一性保持権"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_020",
+      "original_xlsx_s1_021"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.20・21）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0060",
+      "T0061",
+      "T0062",
+      "T0063"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0060",
+        "term": "著作人格権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:著作者人格権"
+      },
+      {
+        "term_id": "T0061",
+        "term": "公表権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:公表権"
+      },
+      {
+        "term_id": "T0062",
+        "term": "氏名表示権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:氏名表示権"
+      },
+      {
+        "term_id": "T0063",
+        "term": "同一性保持権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:同一性保持権"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0011__choice_2"
+  },
+  {
+    "id": "original_knowledge_0012",
+    "stem": "クリエイティブ・コモンズのBY-SAで求められる条件として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "作者名を表示せず、改変物を自由な条件で共有する。",
+        "choice_id": "original_knowledge_0012__choice_0",
+        "is_correct": false,
+        "explanation": "BYとSAの条件を満たしていない。"
+      },
+      {
+        "label": "1",
+        "text": "作者名を表示し、改変物を非公開のまま保存する。",
+        "choice_id": "original_knowledge_0012__choice_1",
+        "is_correct": false,
+        "explanation": "SAは改変物を頒布する場合のライセンス条件を定める。"
+      },
+      {
+        "label": "2",
+        "text": "作者名を表示し、改変物を改変禁止として共有する。",
+        "choice_id": "original_knowledge_0012__choice_2",
+        "is_correct": false,
+        "explanation": "SAでは原則として同一又は互換条件での継承が求められる。"
+      },
+      {
+        "label": "3",
+        "text": "作者などを表示し、改変物は同一条件で共有する。",
+        "choice_id": "original_knowledge_0012__choice_3",
+        "is_correct": true,
+        "explanation": "BYは表示、SAは同一又は互換条件での継承を求める。NCやNDが付いていないため、条件を守れば商用利用・改変ができる。\n\nCC BY-SA 4.0では、適切なクレジットの表示、ライセンスへのリンク、改変の表示などの条件を守れば、営利目的を含めて複製・再配布・改変ができる。改変物を頒布する場合は、原則として元と同じライセンス、又は指定された互換ライセンスを用いる必要がある。なお、CCライセンスは著作権に関する許諾であり、肖像・プライバシー・パブリシティなど他の権利について必要となる許諾までは与えない。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "BYは表示、SAは同一又は互換条件での継承を求める。NCやNDが付いていないため、条件を守れば商用利用・改変ができる。\n\nCC BY-SA 4.0では、適切なクレジットの表示、ライセンスへのリンク、改変の表示などの条件を守れば、営利目的を含めて複製・再配布・改変ができる。改変物を頒布する場合は、原則として元と同じライセンス、又は指定された互換ライセンスを用いる必要がある。なお、CCライセンスは著作権に関する許諾であり、肖像・プライバシー・パブリシティなど他の権利について必要となる許諾までは与えない。",
+    "tags": [
+      "情報社会",
+      "クリエイティブ・コモンズ",
+      "BY",
+      "SA",
+      "著作権"
+    ],
+    "primary_term_names": [
+      "CCライセンス",
+      "著作権"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s1_029"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.29）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0072",
+      "T0056"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0072",
+        "term": "CCライセンス",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:クリエイティブ・コモンズ"
+      },
+      {
+        "term_id": "T0056",
+        "term": "著作権",
+        "category": "著作権",
+        "code": "１イ",
+        "matched_variant": "manual:著作権"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0012__choice_3"
+  },
+  {
+    "id": "original_knowledge_0013",
+    "stem": "メディアリテラシーに含まれる力として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "情報の根拠を検討し、受け手に配慮して発信する力。",
+        "choice_id": "original_knowledge_0013__choice_0",
+        "is_correct": true,
+        "explanation": "現代のメディアリテラシーには、受信した情報の分析・評価と、責任ある発信の両方が含まれる。\n\nすべてのひとが発信者となり得る現代において、メディアリテラシーは受け取った情報の分析・評価をするだけでなく、適切な情報を発信する能力も含まれる。\nインターネットを利用していない人にとっても、マスメディアなどから情報を受信するため、必要な能力である。\n情報は鵜呑みにするのではなく、発信者の意図があることを前提として、受信者側が自ら解釈することが重要である。"
+      },
+      {
+        "label": "1",
+        "text": "情報機器を高速に操作する技能だけを身に付ける力。",
+        "choice_id": "original_knowledge_0013__choice_1",
+        "is_correct": false,
+        "explanation": "機器操作だけでなく、情報の意味や発信意図を評価する力が重要である。"
+      },
+      {
+        "label": "2",
+        "text": "SNSでは情報の出所を確認せずに拡散する力。",
+        "choice_id": "original_knowledge_0013__choice_2",
+        "is_correct": false,
+        "explanation": "SNSでは誰もが受信者・発信者になり得るため、出所確認が重要となる。"
+      },
+      {
+        "label": "3",
+        "text": "繰り返し見た情報を事実と判断する力。",
+        "choice_id": "original_knowledge_0013__choice_3",
+        "is_correct": false,
+        "explanation": "反復回数ではなく、根拠・出典・意図などを吟味することが必要である。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "現代のメディアリテラシーには、受信した情報の分析・評価と、責任ある発信の両方が含まれる。\n\nすべてのひとが発信者となり得る現代において、メディアリテラシーは受け取った情報の分析・評価をするだけでなく、適切な情報を発信する能力も含まれる。\nインターネットを利用していない人にとっても、マスメディアなどから情報を受信するため、必要な能力である。\n情報は鵜呑みにするのではなく、発信者の意図があることを前提として、受信者側が自ら解釈することが重要である。",
+    "tags": [
+      "情報デザイン",
+      "メディアリテラシー",
+      "情報発信",
+      "情報の評価"
+    ],
+    "primary_term_names": [
+      "メディアリテラシー"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_033"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.33）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0003"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0003",
+        "term": "メディアリテラシー",
+        "category": "情報社会",
+        "code": "１ア",
+        "matched_variant": "manual:メディアリテラシー"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0013__choice_0"
+  },
+  {
+    "id": "original_knowledge_0014",
+    "stem": "ユニバーサルデザインの説明として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "既にある段差などの障壁だけを取り除く考え方。",
+        "choice_id": "original_knowledge_0014__choice_0",
+        "is_correct": false,
+        "explanation": "これは主にバリアフリーの説明である。"
+      },
+      {
+        "label": "1",
+        "text": "初めから多様な人が使いやすいように設計する考え方。",
+        "choice_id": "original_knowledge_0014__choice_1",
+        "is_correct": true,
+        "explanation": "ユニバーサルデザインは、年齢・能力・状況の違いを問わず、多くの人が利用しやすい設計を目指す。バリアフリーは既にある障壁を取り除く考え方であり、アクセシビリティは情報や機能を利用できる度合いを表す。\n\nユニバーサルデザインは、年齢・能力・状況の違いを問わず多くの人が利用しやすいよう、初めから設計する考え方である。バリアフリーは、段差や情報の分かりにくさなど、既に存在する障壁を取り除く考え方である。アクセシビリティは、Webサイトや機器などの情報・機能を、利用者が知覚し、理解し、操作できる度合いを表す。三つは関連するが同義ではない。"
+      },
+      {
+        "label": "2",
+        "text": "障害のある人だけを対象に、専用機器を作る考え方。",
+        "choice_id": "original_knowledge_0014__choice_2",
+        "is_correct": false,
+        "explanation": "年齢・能力・状況を問わず、多様な人の使いやすさを目指す。"
+      },
+      {
+        "label": "3",
+        "text": "情報を利用できる度合いだけを表す考え方。",
+        "choice_id": "original_knowledge_0014__choice_3",
+        "is_correct": false,
+        "explanation": "これはアクセシビリティに関する説明である。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "ユニバーサルデザインは、年齢・能力・状況の違いを問わず、多くの人が利用しやすい設計を目指す。バリアフリーは既にある障壁を取り除く考え方であり、アクセシビリティは情報や機能を利用できる度合いを表す。\n\nユニバーサルデザインは、年齢・能力・状況の違いを問わず多くの人が利用しやすいよう、初めから設計する考え方である。バリアフリーは、段差や情報の分かりにくさなど、既に存在する障壁を取り除く考え方である。アクセシビリティは、Webサイトや機器などの情報・機能を、利用者が知覚し、理解し、操作できる度合いを表す。三つは関連するが同義ではない。",
+    "tags": [
+      "情報デザイン",
+      "ユニバーサルデザイン",
+      "バリアフリー",
+      "アクセシビリティ"
+    ],
+    "primary_term_names": [
+      "UD",
+      "バリアフリー",
+      "アクセシビリティ"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_034",
+      "original_xlsx_s2_036"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.34・36）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0163",
+      "T0164",
+      "T0166"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0163",
+        "term": "UD",
+        "category": "人間中心設計",
+        "code": "１ウ;２イ;２イ;１ウ",
+        "matched_variant": "manual:ユニバーサルデザイン"
+      },
+      {
+        "term_id": "T0164",
+        "term": "バリアフリー",
+        "category": "人間中心設計",
+        "code": "１ウ;２イ;２イ;１ウ",
+        "matched_variant": "manual:バリアフリー"
+      },
+      {
+        "term_id": "T0166",
+        "term": "アクセシビリティ",
+        "category": "人間中心設計",
+        "code": "１ウ;２イ;２イ;１ウ",
+        "matched_variant": "manual:アクセシビリティ"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0014__choice_1"
+  },
+  {
+    "id": "original_knowledge_0015",
+    "stem": "本屋の踏み台の天板に足形が描かれている。足形が果たす役割として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "踏み台そのものが持つ全ての利用可能性を表すアフォーダンスそのものである。",
+        "choice_id": "original_knowledge_0015__choice_0",
+        "is_correct": false,
+        "explanation": "アフォーダンスは人と物との関係にある利用可能性で、足形は特定の行為を示す手掛かりである。"
+      },
+      {
+        "label": "1",
+        "text": "入力ミスを自動修正するフールプルーフである。",
+        "choice_id": "original_knowledge_0015__choice_1",
+        "is_correct": false,
+        "explanation": "誤操作を物理的に防止する仕組みではない。"
+      },
+      {
+        "label": "2",
+        "text": "その場所に立つという操作を利用者へ示すシグニファイアである。",
+        "choice_id": "original_knowledge_0015__choice_2",
+        "is_correct": true,
+        "explanation": "足形は、踏み台と人との複数の関わり方のうち『立つ』行為を知覚可能に示している。\n\n本屋にある踏み台は高いところの本を取るために置かれているが、踏み台に腰掛けて本を読む人もいる。\n踏み台に対して「座る」「荷物を置く」「上に立つ」などの使い方が考えられる。\nこのような人とモノとの関係性をアフォーダンスという。\nこれらの行為のうち「上に立つ」行為へ誘導するためのデザインである「足形」のことをシグニファイアという。\n・ゴミ箱の投入口が丸い→カン・ビン・ペットボトルのゴミ箱である。\n・Webページにある立体的なボタン→クリックできる。"
+      },
+      {
+        "label": "3",
+        "text": "色覚の違いを補う代替テキストである。",
+        "choice_id": "original_knowledge_0015__choice_3",
+        "is_correct": false,
+        "explanation": "画像の内容を文字で伝える仕組みではない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "足形は、踏み台と人との複数の関わり方のうち『立つ』行為を知覚可能に示している。\n\n本屋にある踏み台は高いところの本を取るために置かれているが、踏み台に腰掛けて本を読む人もいる。\n踏み台に対して「座る」「荷物を置く」「上に立つ」などの使い方が考えられる。\nこのような人とモノとの関係性をアフォーダンスという。\nこれらの行為のうち「上に立つ」行為へ誘導するためのデザインである「足形」のことをシグニファイアという。\n・ゴミ箱の投入口が丸い→カン・ビン・ペットボトルのゴミ箱である。\n・Webページにある立体的なボタン→クリックできる。",
+    "tags": [
+      "情報デザイン",
+      "シグニファイア",
+      "アフォーダンス",
+      "ユーザインターフェース"
+    ],
+    "primary_term_names": [
+      "シグニファイア",
+      "アフォーダンス",
+      "UI"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_035",
+      "original_xlsx_s2_051"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.35・51）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0313",
+      "T0314",
+      "T0333"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0313",
+        "term": "シグニファイア",
+        "category": "情報デザイン",
+        "code": "２イウ",
+        "matched_variant": "manual:シグニファイア"
+      },
+      {
+        "term_id": "T0314",
+        "term": "アフォーダンス",
+        "category": "情報デザイン",
+        "code": "２イウ",
+        "matched_variant": "manual:アフォーダンス"
+      },
+      {
+        "term_id": "T0333",
+        "term": "UI",
+        "category": "ユーザインターフェース",
+        "code": "２ウ",
+        "matched_variant": "manual:ユーザインターフェース"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0015__choice_2"
+  },
+  {
+    "id": "original_knowledge_0016",
+    "stem": "Webページの画像に付ける代替テキストの設計として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "全ての画像に画像という同じ文字列を設定する。",
+        "choice_id": "original_knowledge_0016__choice_0",
+        "is_correct": false,
+        "explanation": "画像ごとの意味や機能が伝わらない。"
+      },
+      {
+        "label": "1",
+        "text": "画像がリンクでも、リンク先の目的を書かない。",
+        "choice_id": "original_knowledge_0016__choice_1",
+        "is_correct": false,
+        "explanation": "リンク画像では、利用者が遷移先を理解できる説明が重要である。"
+      },
+      {
+        "label": "2",
+        "text": "見た目をそろえるため、本文を画像だけにする。",
+        "choice_id": "original_knowledge_0016__choice_2",
+        "is_correct": false,
+        "explanation": "検索や拡大、読み上げが困難になり、アクセシビリティを下げる。"
+      },
+      {
+        "label": "3",
+        "text": "画像の役割に応じた簡潔な説明を設定する。",
+        "choice_id": "original_knowledge_0016__choice_3",
+        "is_correct": true,
+        "explanation": "代替テキストは機械的なファイル名ではなく、画像が担う意味や機能を文脈に応じて伝える。\n\n代替テキストは、画像が伝えている情報や機能を、画像を見られない利用者にも伝えるためのテキストである。画像がリンクなら遷移先や操作の目的が分かる文にし、内容を持たない装飾画像は読み上げを妨げないよう空の代替テキストとして扱う。本文を画像化すると、拡大・検索・音声読み上げが困難になるため、文字として提供することが基本である。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "代替テキストは機械的なファイル名ではなく、画像が担う意味や機能を文脈に応じて伝える。\n\n代替テキストは、画像が伝えている情報や機能を、画像を見られない利用者にも伝えるためのテキストである。画像がリンクなら遷移先や操作の目的が分かる文にし、内容を持たない装飾画像は読み上げを妨げないよう空の代替テキストとして扱う。本文を画像化すると、拡大・検索・音声読み上げが困難になるため、文字として提供することが基本である。",
+    "tags": [
+      "情報デザイン",
+      "代替テキスト",
+      "アクセシビリティ",
+      "HTML"
+    ],
+    "primary_term_names": [
+      "代替テキスト",
+      "アクセシビリティ",
+      "HTML"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_038",
+      "original_xlsx_s2_039"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.38・39）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0329",
+      "T0166",
+      "T0325"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0329",
+        "term": "代替テキスト",
+        "category": "Web",
+        "code": "２イウ",
+        "matched_variant": "manual:代替テキスト"
+      },
+      {
+        "term_id": "T0166",
+        "term": "アクセシビリティ",
+        "category": "人間中心設計",
+        "code": "１ウ;２イ;２イ;１ウ",
+        "matched_variant": "manual:アクセシビリティ"
+      },
+      {
+        "term_id": "T0325",
+        "term": "HTML",
+        "category": "Web",
+        "code": "２イウ",
+        "matched_variant": "manual:HTML"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0016__choice_3"
+  },
+  {
+    "id": "original_knowledge_0017",
+    "stem": "HTMLとCSSの役割分担として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "HTMLで文書構造を記述し、CSSで見た目を指定する。",
+        "choice_id": "original_knowledge_0017__choice_0",
+        "is_correct": true,
+        "explanation": "意味構造と表示を分離すると、保守性やアクセシビリティが高まりやすい。\n\nHTMLのタグは文書の構造を決定するものである。\n<h1>タグは見出しを表すものであり、見た目を整えるものでない。\n見出し以外のところで見出しタグを使うと、音声読み上げソフトによってはユーザに正しく情報を伝えられない可能性がある。\nHTMLはタグを使用することで文書の構造を明確にする。\n例えば、<h1>～</h1>タグでくくられた部分は見出しであるや、<ul>~</ul>でくくられたところは箇条書きの情報であるなどの意味づけをできる。\nタグによる文書の中の情報を意味づけすることをマークアップという。\nHTMLのタグは文書の構造を決定するものであり、見た目はCSSを用いて整える。\nそのため余白を入れるという見た目を整える目的で<br>タグを使用することは適切でない。\n文章自体を<p>タグでくくることにより、文章の間に余白が入る。"
+      },
+      {
+        "label": "1",
+        "text": "HTMLで見た目を指定し、CSSで文書構造を記述する。",
+        "choice_id": "original_knowledge_0017__choice_1",
+        "is_correct": false,
+        "explanation": "役割が逆である。HTMLは文書の意味構造を表し、CSSが色や配置などの表示を担当する。"
+      },
+      {
+        "label": "2",
+        "text": "HTMLとCSSの両方で、データベースを検索する。",
+        "choice_id": "original_knowledge_0017__choice_2",
+        "is_correct": false,
+        "explanation": "データベースの検索はHTMLとCSSの主な役割ではない。"
+      },
+      {
+        "label": "3",
+        "text": "HTMLとCSSの両方で、電子メールを配送する。",
+        "choice_id": "original_knowledge_0017__choice_3",
+        "is_correct": false,
+        "explanation": "電子メールの配送はHTMLとCSSの主な役割ではない。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "意味構造と表示を分離すると、保守性やアクセシビリティが高まりやすい。\n\nHTMLのタグは文書の構造を決定するものである。\n<h1>タグは見出しを表すものであり、見た目を整えるものでない。\n見出し以外のところで見出しタグを使うと、音声読み上げソフトによってはユーザに正しく情報を伝えられない可能性がある。\nHTMLはタグを使用することで文書の構造を明確にする。\n例えば、<h1>～</h1>タグでくくられた部分は見出しであるや、<ul>~</ul>でくくられたところは箇条書きの情報であるなどの意味づけをできる。\nタグによる文書の中の情報を意味づけすることをマークアップという。\nHTMLのタグは文書の構造を決定するものであり、見た目はCSSを用いて整える。\nそのため余白を入れるという見た目を整える目的で<br>タグを使用することは適切でない。\n文章自体を<p>タグでくくることにより、文章の間に余白が入る。",
+    "tags": [
+      "情報デザイン",
+      "HTML",
+      "CSS",
+      "マークアップ"
+    ],
+    "primary_term_names": [
+      "HTML",
+      "CSS",
+      "マークアップ"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_040",
+      "original_xlsx_s2_042",
+      "original_xlsx_s2_046"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.40・42・46）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0325",
+      "T0330",
+      "T0327"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0325",
+        "term": "HTML",
+        "category": "Web",
+        "code": "２イウ",
+        "matched_variant": "manual:HTML"
+      },
+      {
+        "term_id": "T0330",
+        "term": "CSS",
+        "category": "Web",
+        "code": "２イウ",
+        "matched_variant": "manual:CSS"
+      },
+      {
+        "term_id": "T0327",
+        "term": "マークアップ",
+        "category": "Web",
+        "code": "２イウ",
+        "matched_variant": "manual:マークアップ"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0017__choice_0"
+  },
+  {
+    "id": "original_knowledge_0018",
+    "stem": "レスポンシブWebデザインの説明として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "閲覧者の操作に対してサーバが必ず1秒以内に応答する設計である。",
+        "choice_id": "original_knowledge_0018__choice_0",
+        "is_correct": false,
+        "explanation": "応答速度の意味ではなく、表示が端末条件に適応する設計である。"
+      },
+      {
+        "label": "1",
+        "text": "画面幅などに応じ、CSSでレイアウトを調整する設計である。",
+        "choice_id": "original_knowledge_0018__choice_1",
+        "is_correct": true,
+        "explanation": "端末ごとに別内容を持つ必要を減らしながら、画面サイズに応じた表示を実現できる。\n\n1つのHTMLファイルをCSSファイルで制御することで、端末の画面サイズに合わせたデザインで表示することができる。\nこれを「レスポンシブWEBデザイン」という。\nCSSの設定次第では、レイアウトだけでなく、情報の表示・非表示も切り替えることができる。\nパソコン用、スマホ用と別々にHTMLファイルを準備することに比べ、更新の手間が減り、情報の差異を生まれにくくできる。\n一方で、スマホとパソコンで同じ重さのデータを読み込ませることになりうる、端末ごとの細かな調整ができないなどのデメリットも存在する。"
+      },
+      {
+        "label": "2",
+        "text": "文章を全て画像に変換し、どの端末でも同じピクセル数で表示する設計である。",
+        "choice_id": "original_knowledge_0018__choice_2",
+        "is_correct": false,
+        "explanation": "固定画像化は小画面での可読性やアクセシビリティを損ねやすい。"
+      },
+      {
+        "label": "3",
+        "text": "PC用とスマートフォン用で必ず別々のHTMLを作る設計である。",
+        "choice_id": "original_knowledge_0018__choice_3",
+        "is_correct": false,
+        "explanation": "一つのHTMLをCSSで適応させる方法が代表的である。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "端末ごとに別内容を持つ必要を減らしながら、画面サイズに応じた表示を実現できる。\n\n1つのHTMLファイルをCSSファイルで制御することで、端末の画面サイズに合わせたデザインで表示することができる。\nこれを「レスポンシブWEBデザイン」という。\nCSSの設定次第では、レイアウトだけでなく、情報の表示・非表示も切り替えることができる。\nパソコン用、スマホ用と別々にHTMLファイルを準備することに比べ、更新の手間が減り、情報の差異を生まれにくくできる。\n一方で、スマホとパソコンで同じ重さのデータを読み込ませることになりうる、端末ごとの細かな調整ができないなどのデメリットも存在する。",
+    "tags": [
+      "情報デザイン",
+      "レスポンシブWebデザイン",
+      "CSS",
+      "Web"
+    ],
+    "primary_term_names": [
+      "CSS"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_044"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.44）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0330"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0330",
+        "term": "CSS",
+        "category": "Web",
+        "code": "２イウ",
+        "matched_variant": "manual:CSS"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0018__choice_1"
+  },
+  {
+    "id": "original_knowledge_0019",
+    "stem": "同じ詳細度のCSS規則が同じ要素の文字色を指定している。上に h1 { color: red; }、その後に h1 { color: blue; } と書いた場合、通常の表示色はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "赤",
+        "choice_id": "original_knowledge_0019__choice_0",
+        "is_correct": false,
+        "explanation": "後の同等な規則で青に上書きされる。"
+      },
+      {
+        "label": "1",
+        "text": "赤と青の縞模様",
+        "choice_id": "original_knowledge_0019__choice_1",
+        "is_correct": false,
+        "explanation": "同じプロパティ値を自動的に混合する仕組みではない。"
+      },
+      {
+        "label": "2",
+        "text": "青",
+        "choice_id": "original_knowledge_0019__choice_2",
+        "is_correct": true,
+        "explanation": "詳細度など他の条件が同じなら、後から読み込まれた宣言が前の宣言を上書きする。\n\nCSSは `セレクタ { プロパティ: 値; }` の形で装飾を指定する。複数の規則が同じ要素・同じプロパティへ適用される場合は、重要度、詳細度、記述順などのカスケード規則で採用値が決まる。この問題では詳細度などが同じなので、後に書かれた `color: blue` が `color: red` を上書きし、青色になる。"
+      },
+      {
+        "label": "3",
+        "text": "ブラウザが毎回無作為に選ぶ",
+        "choice_id": "original_knowledge_0019__choice_3",
+        "is_correct": false,
+        "explanation": "カスケードの優先順位に従って決定される。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "詳細度など他の条件が同じなら、後から読み込まれた宣言が前の宣言を上書きする。\n\nCSSは `セレクタ { プロパティ: 値; }` の形で装飾を指定する。複数の規則が同じ要素・同じプロパティへ適用される場合は、重要度、詳細度、記述順などのカスケード規則で採用値が決まる。この問題では詳細度などが同じなので、後に書かれた `color: blue` が `color: red` を上書きし、青色になる。",
+    "tags": [
+      "情報デザイン",
+      "CSS",
+      "カスケード",
+      "セレクタ"
+    ],
+    "primary_term_names": [
+      "CSS"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_049",
+      "original_xlsx_s2_050"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.49・50）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0330"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0330",
+        "term": "CSS",
+        "category": "Web",
+        "code": "２イウ",
+        "matched_variant": "manual:CSS"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0019__choice_2"
+  },
+  {
+    "id": "original_knowledge_0020",
+    "stem": "ホテル検索で、まず温泉ありに絞り込み、その結果を料金が安い順に並べた。LATCHによる整理の組合せはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "Location と Alphabet",
+        "choice_id": "original_knowledge_0020__choice_0",
+        "is_correct": false,
+        "explanation": "場所順でも五十音順でもない。"
+      },
+      {
+        "label": "1",
+        "text": "Time と Location",
+        "choice_id": "original_knowledge_0020__choice_1",
+        "is_correct": false,
+        "explanation": "時系列や位置による整理ではない。"
+      },
+      {
+        "label": "2",
+        "text": "Alphabet と Time",
+        "choice_id": "original_knowledge_0020__choice_2",
+        "is_correct": false,
+        "explanation": "名称順や時間順による整理ではない。"
+      },
+      {
+        "label": "3",
+        "text": "Category と Hierarchy",
+        "choice_id": "original_knowledge_0020__choice_3",
+        "is_correct": true,
+        "explanation": "『温泉あり』は性質による分類、料金順は数値の大小による順位付けである。\n\nLATCHは情報を整理する代表的な五つの観点で、Location（位置）、Alphabet（五十音・アルファベット順）、Time（時間）、Category（分類）、Hierarchy（順位・大小）を表す。『温泉あり』という条件で絞るのはCategory、料金の小さい順に並べるのはHierarchyである。一つの情報群に複数の観点を組み合わせてもよい。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "『温泉あり』は性質による分類、料金順は数値の大小による順位付けである。\n\nLATCHは情報を整理する代表的な五つの観点で、Location（位置）、Alphabet（五十音・アルファベット順）、Time（時間）、Category（分類）、Hierarchy（順位・大小）を表す。『温泉あり』という条件で絞るのはCategory、料金の小さい順に並べるのはHierarchyである。一つの情報群に複数の観点を組み合わせてもよい。",
+    "tags": [
+      "情報デザイン",
+      "LATCH",
+      "情報の整理",
+      "Category",
+      "Hierarchy"
+    ],
+    "primary_term_names": [
+      "情報デザイン"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_052",
+      "original_xlsx_s2_053"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.52・53）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0312"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0312",
+        "term": "情報デザイン",
+        "category": "情報デザイン",
+        "code": "２イウ",
+        "matched_variant": "manual:情報デザイン"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0020__choice_3"
+  },
+  {
+    "id": "original_knowledge_0021",
+    "stem": "値の比較を正確に伝えるグラフで、避けるべき表現として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "不要な3D表示で、手前の値を実際より大きく見せること。",
+        "choice_id": "original_knowledge_0021__choice_0",
+        "is_correct": true,
+        "explanation": "色覚の多様性や遠近による錯視に配慮し、グレースケールでも区別できる表現が望ましい。\n\n強調するところのみに色を使用し、他を灰色などの無彩色にすることでメリハリのあるグラフを作成することができる。\n対比するときは補色を使うことが効果的であるが、赤紫と緑や青紫と黄など補色関係にあっても見分けにくい人がいる色の組み合わせもある。\n実線と点線などの形でも区別をつけると多くの人にとって見やすいグラフとなる。\nグレースケールで表示しても伝わるグラフを心がける。\n3D円グラフでは手前が大きく見えるため、実際の割合と違った印象を与える。\n3D棒グラフでは棒の高さが読み取りにくくなり、誤解を与える。\nそのため、値を正確に比較する目的では、不要な3D表現を避けることが望ましい。"
+      },
+      {
+        "label": "1",
+        "text": "色だけでなく線種や記号も使って系列を区別すること。",
+        "choice_id": "original_knowledge_0021__choice_1",
+        "is_correct": false,
+        "explanation": "色だけに頼らない表現は、区別しやすさを高める。"
+      },
+      {
+        "label": "2",
+        "text": "強調色を重要な箇所だけに限定して使うこと。",
+        "choice_id": "original_knowledge_0021__choice_2",
+        "is_correct": false,
+        "explanation": "色を絞ると、強調したい情報が伝わりやすい。"
+      },
+      {
+        "label": "3",
+        "text": "同じ尺度の軸で項目間の値を比較できるようにすること。",
+        "choice_id": "original_knowledge_0021__choice_3",
+        "is_correct": false,
+        "explanation": "比較条件をそろえると、数値の差を正確に読み取れる。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "色覚の多様性や遠近による錯視に配慮し、グレースケールでも区別できる表現が望ましい。\n\n強調するところのみに色を使用し、他を灰色などの無彩色にすることでメリハリのあるグラフを作成することができる。\n対比するときは補色を使うことが効果的であるが、赤紫と緑や青紫と黄など補色関係にあっても見分けにくい人がいる色の組み合わせもある。\n実線と点線などの形でも区別をつけると多くの人にとって見やすいグラフとなる。\nグレースケールで表示しても伝わるグラフを心がける。\n3D円グラフでは手前が大きく見えるため、実際の割合と違った印象を与える。\n3D棒グラフでは棒の高さが読み取りにくくなり、誤解を与える。\nそのため、値を正確に比較する目的では、不要な3D表現を避けることが望ましい。",
+    "tags": [
+      "情報デザイン",
+      "グラフ",
+      "グラフのデザイン",
+      "色",
+      "視覚デザイン"
+    ],
+    "primary_term_names": [
+      "グラフ"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_055",
+      "original_xlsx_s2_056",
+      "original_xlsx_s2_057"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.55・56・57）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0307"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0307",
+        "term": "グラフ",
+        "category": "グラフのデザイン",
+        "code": "２イ;４ウ;４ウ;２イ",
+        "matched_variant": "manual:グラフ"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0021__choice_0"
+  },
+  {
+    "id": "original_knowledge_0022",
+    "stem": "Webサイトの情報構造と具体例の組合せとして、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "階層構造―全ページが相互に無秩序なリンクで結ばれたWiki",
+        "choice_id": "original_knowledge_0022__choice_0",
+        "is_correct": false,
+        "explanation": "相互リンク中心は網状構造の例である。"
+      },
+      {
+        "label": "1",
+        "text": "直線的構造―入力→確認→完了と順に進む申込フォーム",
+        "choice_id": "original_knowledge_0022__choice_1",
+        "is_correct": true,
+        "explanation": "決められた順番でページを進む申込手続は直線的構造の例である。\n\n階層構造とは、情報がきちんと分類されていて、ユーザが分類項目を選択することで目的の情報へたどり着くサイトの作りである。\n多くのサイトがこの作りをしている。\n例えば、学校のホームページは「学校沿革・在校生へ・受験生へ」などのカテゴリ分けがされていて、それらを選択することで詳細な情報を得ることができる。\n問い合わせフォームのように順番に情報を提示していくサイトの作りは直線的構造という。\n網状構造は、ページ同士がリンクで結ばれており、その間を自由に移動できる。\n一方で、サイトの全体像がとらえにくいため、必要に応じて、検索機能をつけることになる。\nハブは車輪の中心部、スポークはハブと車輪の外周部（リム）をつなぐ部分のこと。\nハブ＆スポーク型構造とは、1つのメインとなるページを中心として、放射状に広がった構造を持つWebサイトの作りである。"
+      },
+      {
+        "label": "2",
+        "text": "網状構造―必ずトップページへ戻ってから各コンテンツへ進むSNS",
+        "choice_id": "original_knowledge_0022__choice_2",
+        "is_correct": false,
+        "explanation": "中心ページから放射状に進むのはハブ＆スポーク型の説明である。"
+      },
+      {
+        "label": "3",
+        "text": "ハブ＆スポーク型―カテゴリを段階的に下って目的ページへ進む学校サイト",
+        "choice_id": "original_knowledge_0022__choice_3",
+        "is_correct": false,
+        "explanation": "カテゴリを段階的に下るのは階層構造の例である。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "決められた順番でページを進む申込手続は直線的構造の例である。\n\n階層構造とは、情報がきちんと分類されていて、ユーザが分類項目を選択することで目的の情報へたどり着くサイトの作りである。\n多くのサイトがこの作りをしている。\n例えば、学校のホームページは「学校沿革・在校生へ・受験生へ」などのカテゴリ分けがされていて、それらを選択することで詳細な情報を得ることができる。\n問い合わせフォームのように順番に情報を提示していくサイトの作りは直線的構造という。\n網状構造は、ページ同士がリンクで結ばれており、その間を自由に移動できる。\n一方で、サイトの全体像がとらえにくいため、必要に応じて、検索機能をつけることになる。\nハブは車輪の中心部、スポークはハブと車輪の外周部（リム）をつなぐ部分のこと。\nハブ＆スポーク型構造とは、1つのメインとなるページを中心として、放射状に広がった構造を持つWebサイトの作りである。",
+    "tags": [
+      "情報デザイン",
+      "情報構造",
+      "階層構造",
+      "網状構造",
+      "ハブ＆スポーク"
+    ],
+    "primary_term_names": [
+      "階層構造"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s2_058",
+      "original_xlsx_s2_059",
+      "original_xlsx_s2_060"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.58・59・60）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0692"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0692",
+        "term": "階層構造",
+        "category": "",
+        "code": "多義性",
+        "matched_variant": "manual:階層構造"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0022__choice_1"
+  },
+  {
+    "id": "original_knowledge_0023",
+    "stem": "100種類の状態を重複なく符号化するために必要な最小のビット数はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "6ビット",
+        "choice_id": "original_knowledge_0023__choice_0",
+        "is_correct": false,
+        "explanation": "64通りしか表せず、100種類には不足する。"
+      },
+      {
+        "label": "1",
+        "text": "8ビット",
+        "choice_id": "original_knowledge_0023__choice_1",
+        "is_correct": false,
+        "explanation": "256通りを表せるが、必要最小ではない。"
+      },
+      {
+        "label": "2",
+        "text": "7ビット",
+        "choice_id": "original_knowledge_0023__choice_2",
+        "is_correct": true,
+        "explanation": "6ビットでは2⁶=64通りで不足し、7ビットなら2⁷=128通りを表せる。\n\nbitは情報の最小単位であり、0であるか1であるかの2通りの情報を表す。\n100通りの情報を表すには6bit＝64通りでは足らず、7bit＝128通りあればよい。\nつまり、少なくとも7bit必要である。"
+      },
+      {
+        "label": "3",
+        "text": "100ビット",
+        "choice_id": "original_knowledge_0023__choice_3",
+        "is_correct": false,
+        "explanation": "各状態に1ビットを割り当てる必要はなく、2進符号なら7ビットで足りる。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "6ビットでは2⁶=64通りで不足し、7ビットなら2⁷=128通りを表せる。\n\nbitは情報の最小単位であり、0であるか1であるかの2通りの情報を表す。\n100通りの情報を表すには6bit＝64通りでは足らず、7bit＝128通りあればよい。\nつまり、少なくとも7bit必要である。",
+    "tags": [
+      "デジタル",
+      "bit",
+      "情報量",
+      "2進数"
+    ],
+    "primary_term_names": [
+      "bit",
+      "2進数"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_068",
+      "original_xlsx_s3_072"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.68・72）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0211",
+      "T0297"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0211",
+        "term": "bit",
+        "category": "データ量",
+        "code": "２ア;３ア;３ア;２ア",
+        "matched_variant": "manual:bit"
+      },
+      {
+        "term_id": "T0297",
+        "term": "2進数",
+        "category": "数値の扱い",
+        "code": "２ア",
+        "matched_variant": "manual:2進数"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0023__choice_2"
+  },
+  {
+    "id": "original_knowledge_0024",
+    "stem": "2進数 110101₂ を10進数で表したものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "45",
+        "choice_id": "original_knowledge_0024__choice_0",
+        "is_correct": false,
+        "explanation": "2³の位を1として加えた値であり、元の3桁目は0である。"
+      },
+      {
+        "label": "1",
+        "text": "52",
+        "choice_id": "original_knowledge_0024__choice_1",
+        "is_correct": false,
+        "explanation": "最下位ビットの1を加えていない。"
+      },
+      {
+        "label": "2",
+        "text": "61",
+        "choice_id": "original_knowledge_0024__choice_2",
+        "is_correct": false,
+        "explanation": "0である2³の位まで加えている。"
+      },
+      {
+        "label": "3",
+        "text": "53",
+        "choice_id": "original_knowledge_0024__choice_3",
+        "is_correct": true,
+        "explanation": "1×2⁵+1×2⁴+1×2²+1×2⁰=32+16+4+1=53である。\n\n2進数では右端から順に各桁が2⁰、2¹、2²、…の重みを持つ。110101₂では1の立っている桁が2⁵、2⁴、2²、2⁰なので、32+16+4+1=53となる。0の桁である2³と2¹は加算しない。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "1×2⁵+1×2⁴+1×2²+1×2⁰=32+16+4+1=53である。\n\n2進数では右端から順に各桁が2⁰、2¹、2²、…の重みを持つ。110101₂では1の立っている桁が2⁵、2⁴、2²、2⁰なので、32+16+4+1=53となる。0の桁である2³と2¹は加算しない。",
+    "tags": [
+      "デジタル",
+      "2進数",
+      "基数変換",
+      "数値の扱い"
+    ],
+    "primary_term_names": [
+      "2進数"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_073"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.73）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0297"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0297",
+        "term": "2進数",
+        "category": "数値の扱い",
+        "code": "２ア",
+        "matched_variant": "manual:2進数"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0024__choice_3"
+  },
+  {
+    "id": "original_knowledge_0025",
+    "stem": "16進数 6D₁₆ を8ビットの2進数で表したものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "01101101₂",
+        "choice_id": "original_knowledge_0025__choice_0",
+        "is_correct": true,
+        "explanation": "16進数の6は0110、Dは1101なので、連結して01101101₂となる。\n\n16進数は16種類の記号(0,1,2,…,9,A,B,C,D,E,F)を用いて数を表し、16のべきで位が上がり、2進数は2種類の記号(0,1)を用いて数を表し、2のべきで位が上がる。\n16進数→（慣れている）10進数→2進数と変換する。\n10進数ー16進数ー2進数の表を見て、下から4桁ずつに変換するとよい。"
+      },
+      {
+        "label": "1",
+        "text": "01101011₂",
+        "choice_id": "original_knowledge_0025__choice_1",
+        "is_correct": false,
+        "explanation": "後半1011は16進数Bに対応し、Dではない。"
+      },
+      {
+        "label": "2",
+        "text": "11010110₂",
+        "choice_id": "original_knowledge_0025__choice_2",
+        "is_correct": false,
+        "explanation": "上位4ビットと下位4ビットの順序が逆である。"
+      },
+      {
+        "label": "3",
+        "text": "00001101₂",
+        "choice_id": "original_knowledge_0025__choice_3",
+        "is_correct": false,
+        "explanation": "Dだけを変換しており、上位桁の6が失われている。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "16進数の6は0110、Dは1101なので、連結して01101101₂となる。\n\n16進数は16種類の記号(0,1,2,…,9,A,B,C,D,E,F)を用いて数を表し、16のべきで位が上がり、2進数は2種類の記号(0,1)を用いて数を表し、2のべきで位が上がる。\n16進数→（慣れている）10進数→2進数と変換する。\n10進数ー16進数ー2進数の表を見て、下から4桁ずつに変換するとよい。",
+    "tags": [
+      "デジタル",
+      "16進数",
+      "2進数",
+      "基数変換"
+    ],
+    "primary_term_names": [
+      "16進数",
+      "2進数"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_077"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.77）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0299",
+      "T0297"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0299",
+        "term": "16進数",
+        "category": "数値の扱い",
+        "code": "２ア",
+        "matched_variant": "manual:16進数"
+      },
+      {
+        "term_id": "T0297",
+        "term": "2進数",
+        "category": "数値の扱い",
+        "code": "２ア",
+        "matched_variant": "manual:2進数"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0025__choice_0"
+  },
+  {
+    "id": "original_knowledge_0026",
+    "stem": "4ビットの2の補数表現で 0101₂ の符号を反転した値はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "1010₂",
+        "choice_id": "original_knowledge_0026__choice_0",
+        "is_correct": false,
+        "explanation": "ビット反転だけで、2の補数に必要な+1がない。"
+      },
+      {
+        "label": "1",
+        "text": "1011₂",
+        "choice_id": "original_knowledge_0026__choice_1",
+        "is_correct": true,
+        "explanation": "全ビットを反転して1010₂とし、1を加えると1011₂になる。0101₂+1011₂は下位4ビットで0000₂となる。\n\n2進数の場合、元の数の0と1を入れ替えて、それに1を加えた数である。\n実際、0101(2)+1011(2)＝10000(2)＝0000(2)である。\n4ビット表記(固定長)において、0101(2)+1011(2)＝0000(2)であったので、1011(2)＝－5と考えられる。\n4ビット表記、符号付きの数は以下のようにまとめられる（表）。\nこれにより、固定長なら足し算だけで引き算を計算することが可能になったと言うこともできる。"
+      },
+      {
+        "label": "2",
+        "text": "0110₂",
+        "choice_id": "original_knowledge_0026__choice_2",
+        "is_correct": false,
+        "explanation": "元の値に1を加えただけで、符号反転にはならない。"
+      },
+      {
+        "label": "3",
+        "text": "0101₂",
+        "choice_id": "original_knowledge_0026__choice_3",
+        "is_correct": false,
+        "explanation": "同じビット列のままでは符号は反転しない。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "全ビットを反転して1010₂とし、1を加えると1011₂になる。0101₂+1011₂は下位4ビットで0000₂となる。\n\n2進数の場合、元の数の0と1を入れ替えて、それに1を加えた数である。\n実際、0101(2)+1011(2)＝10000(2)＝0000(2)である。\n4ビット表記(固定長)において、0101(2)+1011(2)＝0000(2)であったので、1011(2)＝－5と考えられる。\n4ビット表記、符号付きの数は以下のようにまとめられる（表）。\nこれにより、固定長なら足し算だけで引き算を計算することが可能になったと言うこともできる。",
+    "tags": [
+      "デジタル",
+      "補数",
+      "2進数",
+      "固定長"
+    ],
+    "primary_term_names": [
+      "補数",
+      "2進数"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_082"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.82）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0300",
+      "T0297"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0300",
+        "term": "補数",
+        "category": "数値の扱い",
+        "code": "２ア;３ア;３ア;２ア",
+        "matched_variant": "manual:補数"
+      },
+      {
+        "term_id": "T0297",
+        "term": "2進数",
+        "category": "数値の扱い",
+        "code": "２ア",
+        "matched_variant": "manual:2進数"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0026__choice_1"
+  },
+  {
+    "id": "original_knowledge_0027",
+    "stem": "一般的なPython実装で0.1 + 0.2 == 0.3がFalseになる主な理由はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "Pythonでは小数の加算が禁止されているため。",
+        "choice_id": "original_knowledge_0027__choice_0",
+        "is_correct": false,
+        "explanation": "小数の加算はできるが、浮動小数点表現に由来する誤差がある。"
+      },
+      {
+        "label": "1",
+        "text": "==が数値を文字列として比較するため。",
+        "choice_id": "original_knowledge_0027__choice_1",
+        "is_correct": false,
+        "explanation": "数値同士なら数値として等価比較される。"
+      },
+      {
+        "label": "2",
+        "text": "0.1などを2進浮動小数点で正確に表せないため。",
+        "choice_id": "original_knowledge_0027__choice_2",
+        "is_correct": true,
+        "explanation": "0.1や0.2は2進数では有限小数にならず、近似値として保持されるため丸め誤差が生じる。\n\n0.1+0.2を計算する際、浮動小数点数による丸め誤差が発生するため、0.3と等しくならない。\nよって、0.1＝1.1001 1001 1001 …×2⁻⁴である。\n0.2＝1.1001 1001 1001 …×2⁻³である。\nPythonでは通常、倍精度浮動小数点数（符号部1ビット、指数部11ビット、仮数部52ビット：全体で64ビット）で数を表現し、計算している。\n仮数部を52桁になるように（四捨五入のような計算で）丸められる。\nこれにより誤差が生じる。\n0.1と0.2は2進数では循環する小数になるため、浮動小数点数にすると丸め誤差が生じる。\n浮動小数点数を用いて数を丸めたもの同士を足し合わせるため、0.3ちょうどにはならない。\n0.30000000000000004となる。"
+      },
+      {
+        "label": "3",
+        "text": "0.1+0.2の数学的な答えが0.3でないため。",
+        "choice_id": "original_knowledge_0027__choice_3",
+        "is_correct": false,
+        "explanation": "数学的には0.3であり、差は有限精度の計算結果による。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "0.1や0.2は2進数では有限小数にならず、近似値として保持されるため丸め誤差が生じる。\n\n0.1+0.2を計算する際、浮動小数点数による丸め誤差が発生するため、0.3と等しくならない。\nよって、0.1＝1.1001 1001 1001 …×2⁻⁴である。\n0.2＝1.1001 1001 1001 …×2⁻³である。\nPythonでは通常、倍精度浮動小数点数（符号部1ビット、指数部11ビット、仮数部52ビット：全体で64ビット）で数を表現し、計算している。\n仮数部を52桁になるように（四捨五入のような計算で）丸められる。\nこれにより誤差が生じる。\n0.1と0.2は2進数では循環する小数になるため、浮動小数点数にすると丸め誤差が生じる。\n浮動小数点数を用いて数を丸めたもの同士を足し合わせるため、0.3ちょうどにはならない。\n0.30000000000000004となる。",
+    "tags": [
+      "デジタル",
+      "浮動小数点数",
+      "丸め誤差",
+      "Python"
+    ],
+    "primary_term_names": [
+      "浮動小数点数",
+      "丸め誤差",
+      "Python"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_088",
+      "original_xlsx_s3_123"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.88・123）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0302",
+      "T0358",
+      "T0409"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0302",
+        "term": "浮動小数点数",
+        "category": "数値の扱い",
+        "code": "２ア;３ア;３ア;２ア",
+        "matched_variant": "manual:浮動小数点数"
+      },
+      {
+        "term_id": "T0358",
+        "term": "丸め誤差",
+        "category": "数値と誤差",
+        "code": "３ア",
+        "matched_variant": "manual:丸め誤差"
+      },
+      {
+        "term_id": "T0409",
+        "term": "Python",
+        "category": "プログラミング言語",
+        "code": "３イ",
+        "matched_variant": "manual:Python"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0027__choice_2"
+  },
+  {
+    "id": "original_knowledge_0028",
+    "stem": "同じ音をデジタル化するとき、一般に元の波形をより細かく表現できる設定はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "標本化周期を長くし、量子化ビット数を小さくする。",
+        "choice_id": "original_knowledge_0028__choice_0",
+        "is_correct": false,
+        "explanation": "時間方向・振幅方向とも粗くなる。"
+      },
+      {
+        "label": "1",
+        "text": "標本化周波数を低くし、量子化ビット数だけを0にする。",
+        "choice_id": "original_knowledge_0028__choice_1",
+        "is_correct": false,
+        "explanation": "標本数が減り、量子化もできない。"
+      },
+      {
+        "label": "2",
+        "text": "標本化周期と標本化周波数を同時に大きくする。",
+        "choice_id": "original_knowledge_0028__choice_2",
+        "is_correct": false,
+        "explanation": "標本化周期と周波数は逆数関係なので、同じ意味で同時には大きくならない。"
+      },
+      {
+        "label": "3",
+        "text": "標本化周波数を高くし、量子化ビット数を大きくする。",
+        "choice_id": "original_knowledge_0028__choice_3",
+        "is_correct": true,
+        "explanation": "時間方向の測定回数と振幅方向の段階数が増え、元の波形に近い表現が可能になる。\n\n標本化周期とは標本化（サンプリング）をする時間間隔のことである。\n標本化周期が大きいと1秒間に標本化される回数（標本化周波数）が小さくなり、もとの波形を正しく再現できず、デジタルデータに歪みが生じることがある（エイリアシング）。\n一般に、元のアナログ波形に含まれる最大の周波数の2倍以上（最短の周期の半分以下）で標本化することで正確な再現が可能となる（標本化定理）。\n量子化ビット数は、量子化する段階の数であり、これが大きいとより細かくデジタル化され、元のアナログ波形に近づく。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "時間方向の測定回数と振幅方向の段階数が増え、元の波形に近い表現が可能になる。\n\n標本化周期とは標本化（サンプリング）をする時間間隔のことである。\n標本化周期が大きいと1秒間に標本化される回数（標本化周波数）が小さくなり、もとの波形を正しく再現できず、デジタルデータに歪みが生じることがある（エイリアシング）。\n一般に、元のアナログ波形に含まれる最大の周波数の2倍以上（最短の周期の半分以下）で標本化することで正確な再現が可能となる（標本化定理）。\n量子化ビット数は、量子化する段階の数であり、これが大きいとより細かくデジタル化され、元のアナログ波形に近づく。",
+    "tags": [
+      "デジタル",
+      "標本化",
+      "量子化",
+      "音のディジタル化"
+    ],
+    "primary_term_names": [
+      "標本化",
+      "量子化"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_067"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.67）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0272",
+      "T0274"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0272",
+        "term": "標本化",
+        "category": "ディジタル化",
+        "code": "２ア",
+        "matched_variant": "manual:標本化"
+      },
+      {
+        "term_id": "T0274",
+        "term": "量子化",
+        "category": "ディジタル化",
+        "code": "２ア",
+        "matched_variant": "manual:量子化"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0028__choice_3"
+  },
+  {
+    "id": "original_knowledge_0029",
+    "stem": "1200×800ピクセル、1ピクセル当たり24ビットの無圧縮画像のデータ量は約何MBか。1MB=1,000,000Bとし、付加情報は無視する。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "2.88MB",
+        "choice_id": "original_knowledge_0029__choice_0",
+        "is_correct": true,
+        "explanation": "1200×800×24÷8=2,880,000B=2.88MBである。\n\n画像は小さな単色の点（ピクセル）の集まりである。\nこの画像は、1200×800＝960,000ピクセルである。\n24ビットフルカラーとは、各ピクセルに色情報を24ビット分付与しているという意味である。\n具体的には、RGB（赤・緑・青＝光の三原色）それぞれに8ビットずつ、2⁸＝256段階の色を表現している。\n全体では2⁸×2⁸×2⁸＝2²⁴＝約1,677万色を表現できる。\n8ビットは1バイトであるので、24ビットは3バイトである。"
+      },
+      {
+        "label": "1",
+        "text": "0.96MB",
+        "choice_id": "original_knowledge_0029__choice_1",
+        "is_correct": false,
+        "explanation": "1ピクセルを1バイトとしており、24ビット=3バイトを反映していない。"
+      },
+      {
+        "label": "2",
+        "text": "23.04MB",
+        "choice_id": "original_knowledge_0029__choice_2",
+        "is_correct": false,
+        "explanation": "ビット数をバイト数に直すための÷8をしていない。"
+      },
+      {
+        "label": "3",
+        "text": "28.8MB",
+        "choice_id": "original_knowledge_0029__choice_3",
+        "is_correct": false,
+        "explanation": "正しい値を10倍している。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "1200×800×24÷8=2,880,000B=2.88MBである。\n\n画像は小さな単色の点（ピクセル）の集まりである。\nこの画像は、1200×800＝960,000ピクセルである。\n24ビットフルカラーとは、各ピクセルに色情報を24ビット分付与しているという意味である。\n具体的には、RGB（赤・緑・青＝光の三原色）それぞれに8ビットずつ、2⁸＝256段階の色を表現している。\n全体では2⁸×2⁸×2⁸＝2²⁴＝約1,677万色を表現できる。\n8ビットは1バイトであるので、24ビットは3バイトである。",
+    "tags": [
+      "デジタル",
+      "画像",
+      "データ量",
+      "pixel"
+    ],
+    "primary_term_names": [
+      "データ量"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_097"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.97）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0202"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0202",
+        "term": "データ量",
+        "category": "データ量",
+        "code": "２ア",
+        "matched_variant": "manual:データ量"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0029__choice_0"
+  },
+  {
+    "id": "original_knowledge_0030",
+    "stem": "標本化周波数44.1kHz、量子化16ビット、5分間のモノラル音声を無圧縮で保存する。データ量に最も近いものはどれか。1MB=1,000,000Bとする。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "約5.3MB",
+        "choice_id": "original_knowledge_0030__choice_0",
+        "is_correct": false,
+        "explanation": "5分を100秒程度として扱った値で、300秒を反映していない。"
+      },
+      {
+        "label": "1",
+        "text": "約26.5MB",
+        "choice_id": "original_knowledge_0030__choice_1",
+        "is_correct": true,
+        "explanation": "44,100回/秒×16ビット×300秒÷8=26,460,000Bなので約26.5MBである。\n\n標本化周波数44.1kHzは、1秒間に44,100回、音の振幅を測ることを表す。5分は300秒なので標本数は44,100×300=13,230,000個。1標本は16ビット=2バイトで、モノラルは1チャンネルだから、13,230,000×2=26,460,000Bとなる。1MB=1,000,000Bより26.46MB、選択肢では約26.5MBが最も近い。ステレオなら2チャンネルなので、この2倍になる。"
+      },
+      {
+        "label": "2",
+        "text": "約52.9MB",
+        "choice_id": "original_knowledge_0030__choice_2",
+        "is_correct": false,
+        "explanation": "モノラルなのに2チャンネル分として計算している。"
+      },
+      {
+        "label": "3",
+        "text": "約211.7MB",
+        "choice_id": "original_knowledge_0030__choice_3",
+        "is_correct": false,
+        "explanation": "ビットからバイトへの換算で÷8をしていない。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "44,100回/秒×16ビット×300秒÷8=26,460,000Bなので約26.5MBである。\n\n標本化周波数44.1kHzは、1秒間に44,100回、音の振幅を測ることを表す。5分は300秒なので標本数は44,100×300=13,230,000個。1標本は16ビット=2バイトで、モノラルは1チャンネルだから、13,230,000×2=26,460,000Bとなる。1MB=1,000,000Bより26.46MB、選択肢では約26.5MBが最も近い。ステレオなら2チャンネルなので、この2倍になる。",
+    "tags": [
+      "デジタル",
+      "音声",
+      "標本化周波数",
+      "量子化ビット数",
+      "データ量"
+    ],
+    "primary_term_names": [
+      "標本化周波数",
+      "量子化ビット数",
+      "データ量"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_099"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.99）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0278",
+      "T0275",
+      "T0202"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0278",
+        "term": "標本化周波数",
+        "category": "音のディジタル化",
+        "code": "２ア",
+        "matched_variant": "manual:標本化周波数"
+      },
+      {
+        "term_id": "T0275",
+        "term": "量子化ビット数",
+        "category": "ディジタル化",
+        "code": "２ア",
+        "matched_variant": "manual:量子化ビット数"
+      },
+      {
+        "term_id": "T0202",
+        "term": "データ量",
+        "category": "データ量",
+        "code": "２ア",
+        "matched_variant": "manual:データ量"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0030__choice_1"
+  },
+  {
+    "id": "original_knowledge_0031",
+    "stem": "平均ビットレート5Mbpsの動画を5分間保存したとき、データ量は何MBか。1MB=1,000,000Bとする。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "37.5MB",
+        "choice_id": "original_knowledge_0031__choice_0",
+        "is_correct": false,
+        "explanation": "5分を60秒として計算している。"
+      },
+      {
+        "label": "1",
+        "text": "625MB",
+        "choice_id": "original_knowledge_0031__choice_1",
+        "is_correct": false,
+        "explanation": "ビットとバイトの換算が不適切である。"
+      },
+      {
+        "label": "2",
+        "text": "187.5MB",
+        "choice_id": "original_knowledge_0031__choice_2",
+        "is_correct": true,
+        "explanation": "5,000,000ビット/秒×300秒÷8=187,500,000B=187.5MBである。\n\nビットレートはデータを転送したり、記録するときの速度を表す。\nbps（ビット パー セカンド）は1秒間で何ビットのデータ量を転送・記録するかを表している。\n5Mbpsは1秒間で5メガビットのデータ量という意味である。\n5分＝300秒でのデータ量は300(秒)×5(メガビット/秒)＝1,500メガビットである。\n8ビット＝1バイトなので8メガビット＝1MBである。\nよって、1,500(メガビット)÷8＝187.5MBである。"
+      },
+      {
+        "label": "3",
+        "text": "1,500MB",
+        "choice_id": "original_knowledge_0031__choice_3",
+        "is_correct": false,
+        "explanation": "ビットをバイトへ換算する÷8をしていない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "5,000,000ビット/秒×300秒÷8=187,500,000B=187.5MBである。\n\nビットレートはデータを転送したり、記録するときの速度を表す。\nbps（ビット パー セカンド）は1秒間で何ビットのデータ量を転送・記録するかを表している。\n5Mbpsは1秒間で5メガビットのデータ量という意味である。\n5分＝300秒でのデータ量は300(秒)×5(メガビット/秒)＝1,500メガビットである。\n8ビット＝1バイトなので8メガビット＝1MBである。\nよって、1,500(メガビット)÷8＝187.5MBである。",
+    "tags": [
+      "デジタル",
+      "bit rate",
+      "動画",
+      "データ量"
+    ],
+    "primary_term_names": [
+      "動画",
+      "データ量"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_100"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.100）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0286",
+      "T0202"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0286",
+        "term": "動画",
+        "category": "動画",
+        "code": "２ア",
+        "matched_variant": "manual:動画"
+      },
+      {
+        "term_id": "T0202",
+        "term": "データ量",
+        "category": "データ量",
+        "code": "２ア",
+        "matched_variant": "manual:データ量"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0031__choice_2"
+  },
+  {
+    "id": "original_knowledge_0032",
+    "stem": "可逆圧縮の特徴として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "展開しても元のデータを完全には復元できない。",
+        "choice_id": "original_knowledge_0032__choice_0",
+        "is_correct": false,
+        "explanation": "可逆圧縮では情報を削除せず、元データを完全に復元できる。"
+      },
+      {
+        "label": "1",
+        "text": "画像や音声の画質を必ず低下させる。",
+        "choice_id": "original_knowledge_0032__choice_1",
+        "is_correct": false,
+        "explanation": "元データへ完全に戻せることが可逆圧縮の特徴である。"
+      },
+      {
+        "label": "2",
+        "text": "MP3だけに用いられる音声専用の方式である。",
+        "choice_id": "original_knowledge_0032__choice_2",
+        "is_correct": false,
+        "explanation": "可逆圧縮は文書や画像など様々なデータに用いられる。"
+      },
+      {
+        "label": "3",
+        "text": "展開すると元のデータを完全に復元できる。",
+        "choice_id": "original_knowledge_0032__choice_3",
+        "is_correct": true,
+        "explanation": "可逆か非可逆かは、展開時に元データを完全復元できるかで区別する。\n\n可逆圧縮はデータを完全に元の状態に復元できる圧縮手法である。\nそのため、情報の損失が一切なく、圧縮・解凍を繰り返してもデータの品質は変化しない。\n可逆圧縮は符号化を用いることで実現する。\nMP3は人間の聴覚には届きにくい部分を削除してデータ量を少なくする非可逆圧縮を行っている。\n音質をできるだけ保ったまま、高い圧縮率を実現しており、データ量は約1/10程度になる。\n削除される音は聴覚心理モデルにもとづき判断される。\n動画ファイルには映像と音声のデータが入っており、それぞれの圧縮方式や同期をとるための情報が格納されている。\n動画ファイルはさまざまなデータを格納できる入れ物という意味で「コンテナ形式」とも呼ばれる。\n例えば、Windows標準の動画形式であるAVIでは、映像の圧縮方法としてMPEG-4、音声の圧縮方法としてMP3を使用されることが多い。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "可逆か非可逆かは、展開時に元データを完全復元できるかで区別する。\n\n可逆圧縮はデータを完全に元の状態に復元できる圧縮手法である。\nそのため、情報の損失が一切なく、圧縮・解凍を繰り返してもデータの品質は変化しない。\n可逆圧縮は符号化を用いることで実現する。\nMP3は人間の聴覚には届きにくい部分を削除してデータ量を少なくする非可逆圧縮を行っている。\n音質をできるだけ保ったまま、高い圧縮率を実現しており、データ量は約1/10程度になる。\n削除される音は聴覚心理モデルにもとづき判断される。\n動画ファイルには映像と音声のデータが入っており、それぞれの圧縮方式や同期をとるための情報が格納されている。\n動画ファイルはさまざまなデータを格納できる入れ物という意味で「コンテナ形式」とも呼ばれる。\n例えば、Windows標準の動画形式であるAVIでは、映像の圧縮方法としてMPEG-4、音声の圧縮方法としてMP3を使用されることが多い。",
+    "tags": [
+      "デジタル",
+      "可逆圧縮",
+      "非可逆圧縮",
+      "MP3"
+    ],
+    "primary_term_names": [
+      "可逆圧縮",
+      "非可逆圧縮",
+      "MP3"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_101",
+      "original_xlsx_s3_102",
+      "original_xlsx_s3_104"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.101・102・104）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0263",
+      "T0264",
+      "T0285"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0263",
+        "term": "可逆圧縮",
+        "category": "圧縮",
+        "code": "２ア",
+        "matched_variant": "manual:可逆圧縮"
+      },
+      {
+        "term_id": "T0264",
+        "term": "非可逆圧縮",
+        "category": "圧縮",
+        "code": "２ア",
+        "matched_variant": "manual:非可逆圧縮"
+      },
+      {
+        "term_id": "T0285",
+        "term": "MP3",
+        "category": "音のディジタル化",
+        "code": "２ア",
+        "matched_variant": "manual:MP3"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0032__choice_3"
+  },
+  {
+    "id": "original_knowledge_0033",
+    "stem": "学校のロゴを、名刺から大型看板まで輪郭を滑らかに保って使いたい。適した画像形式の考え方はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "図形を座標や数式で表すベクタ画像として作成する。",
+        "choice_id": "original_knowledge_0033__choice_0",
+        "is_correct": true,
+        "explanation": "ベクタ画像は拡大・縮小しても輪郭が劣化しにくく、ロゴや図形に適する。\n\nラスタ画像（ビットマップ画像）はピクセルと呼ばれる小さな点を格子状に配置して画像を表現する。\n写真のように色やグラデーションが複雑な画像の表現に向いている。\n一方で、格子状の点の集まりのため斜め線がギザギザになったり、拡大で画像が粗く劣化する。\nベクタ画像は線分や円、多角形などの図形の集合として画像を表現する。\n拡大や縮小、回転などが自由に行える。"
+      },
+      {
+        "label": "1",
+        "text": "低解像度のラスタ画像だけを保存し、拡大時は各ピクセルを大きくする。",
+        "choice_id": "original_knowledge_0033__choice_1",
+        "is_correct": false,
+        "explanation": "拡大すると輪郭が階段状に見えやすい。"
+      },
+      {
+        "label": "2",
+        "text": "色数を1色にすれば、ラスタ画像でも解像度に関係なく滑らかになる。",
+        "choice_id": "original_knowledge_0033__choice_2",
+        "is_correct": false,
+        "explanation": "色数と空間解像度は別の要素である。"
+      },
+      {
+        "label": "3",
+        "text": "音声用の非可逆圧縮を使って輪郭情報を保存する。",
+        "choice_id": "original_knowledge_0033__choice_3",
+        "is_correct": false,
+        "explanation": "音声圧縮は画像の輪郭保存には適さない。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "ベクタ画像は拡大・縮小しても輪郭が劣化しにくく、ロゴや図形に適する。\n\nラスタ画像（ビットマップ画像）はピクセルと呼ばれる小さな点を格子状に配置して画像を表現する。\n写真のように色やグラデーションが複雑な画像の表現に向いている。\n一方で、格子状の点の集まりのため斜め線がギザギザになったり、拡大で画像が粗く劣化する。\nベクタ画像は線分や円、多角形などの図形の集合として画像を表現する。\n拡大や縮小、回転などが自由に行える。",
+    "tags": [
+      "デジタル",
+      "ベクター画像",
+      "ラスター画像",
+      "ロゴ"
+    ],
+    "primary_term_names": [
+      "ベクター画像",
+      "ビットマップ画像"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_096"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.96）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0240",
+      "T0236"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0240",
+        "term": "ベクター画像",
+        "category": "ベクター画像",
+        "code": "２ア",
+        "matched_variant": "manual:ベクター画像"
+      },
+      {
+        "term_id": "T0236",
+        "term": "ビットマップ画像",
+        "category": "ラスター画像",
+        "code": "２ア",
+        "matched_variant": "manual:ラスター画像"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0033__choice_0"
+  },
+  {
+    "id": "original_knowledge_0034",
+    "stem": "2入力A、Bが異なるときだけ1を出力する論理演算はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "AND（論理積）",
+        "choice_id": "original_knowledge_0034__choice_0",
+        "is_correct": false,
+        "explanation": "両方が1のときだけ1になる。"
+      },
+      {
+        "label": "1",
+        "text": "XOR（排他的論理和）",
+        "choice_id": "original_knowledge_0034__choice_1",
+        "is_correct": true,
+        "explanation": "XORは00と11で0、01と10で1になる。\n\nXOR（排他的論理和）は、AとBの一方だけが1のときに1を出す。真理値表は00→0、01→1、10→1、11→0となる。ANDは11だけが1、ORは01・10・11が1なので、いずれもXORとは異なる。AND・OR・NOTだけで表すなら `(A AND NOT B) OR (NOT A AND B)` となる。"
+      },
+      {
+        "label": "2",
+        "text": "OR（論理和）",
+        "choice_id": "original_knowledge_0034__choice_2",
+        "is_correct": false,
+        "explanation": "少なくとも一方が1なら1なので、11でも1になる。"
+      },
+      {
+        "label": "3",
+        "text": "NOT（否定）",
+        "choice_id": "original_knowledge_0034__choice_3",
+        "is_correct": false,
+        "explanation": "1入力の値を反転する演算である。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "XORは00と11で0、01と10で1になる。\n\nXOR（排他的論理和）は、AとBの一方だけが1のときに1を出す。真理値表は00→0、01→1、10→1、11→0となる。ANDは11だけが1、ORは01・10・11が1なので、いずれもXORとは異なる。AND・OR・NOTだけで表すなら `(A AND NOT B) OR (NOT A AND B)` となる。",
+    "tags": [
+      "デジタル",
+      "XOR",
+      "論理演算",
+      "論理回路"
+    ],
+    "primary_term_names": [
+      "EOR",
+      "論理演算",
+      "論理回路"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_090",
+      "original_xlsx_s3_091",
+      "original_xlsx_s3_094"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.90・91・94）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0435",
+      "T0365",
+      "T0345"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0435",
+        "term": "EOR",
+        "category": "論理演算",
+        "code": "３イ",
+        "matched_variant": "manual:XOR"
+      },
+      {
+        "term_id": "T0365",
+        "term": "論理演算",
+        "category": "論理回路",
+        "code": "３ア",
+        "matched_variant": "manual:論理演算"
+      },
+      {
+        "term_id": "T0345",
+        "term": "論理回路",
+        "category": "ハードウェア",
+        "code": "３ア",
+        "matched_variant": "manual:論理回路"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0034__choice_1"
+  },
+  {
+    "id": "original_knowledge_0035",
+    "stem": "NOT(A AND B) と常に同じ出力になる式はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "(NOT A) AND (NOT B)",
+        "choice_id": "original_knowledge_0035__choice_0",
+        "is_correct": false,
+        "explanation": "これはNOT(A OR B)と等しい。"
+      },
+      {
+        "label": "1",
+        "text": "A OR B",
+        "choice_id": "original_knowledge_0035__choice_1",
+        "is_correct": false,
+        "explanation": "A=B=1では1だが、NOT(A AND B)は0になる。"
+      },
+      {
+        "label": "2",
+        "text": "(NOT A) OR (NOT B)",
+        "choice_id": "original_knowledge_0035__choice_2",
+        "is_correct": true,
+        "explanation": "ド・モルガンの法則により、積の否定は各入力の否定の和に等しい。\n\nA AND B はAとBがともに1のときだけ1になるので、その否定 NOT(A AND B) はAとBがともに1の場合だけ0になる。一方、(NOT A) OR (NOT B) も、AとBがともに1の場合だけ両項が0になるため、真理値表が一致する。これはド・モルガンの法則 `NOT(A AND B) = (NOT A) OR (NOT B)` である。"
+      },
+      {
+        "label": "3",
+        "text": "A AND B",
+        "choice_id": "original_knowledge_0035__choice_3",
+        "is_correct": false,
+        "explanation": "元の積を否定していない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "ド・モルガンの法則により、積の否定は各入力の否定の和に等しい。\n\nA AND B はAとBがともに1のときだけ1になるので、その否定 NOT(A AND B) はAとBがともに1の場合だけ0になる。一方、(NOT A) OR (NOT B) も、AとBがともに1の場合だけ両項が0になるため、真理値表が一致する。これはド・モルガンの法則 `NOT(A AND B) = (NOT A) OR (NOT B)` である。",
+    "tags": [
+      "デジタル",
+      "ド・モルガンの法則",
+      "NAND",
+      "論理回路"
+    ],
+    "primary_term_names": [
+      "論理回路"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_093"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.93）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0345"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0345",
+        "term": "論理回路",
+        "category": "ハードウェア",
+        "code": "３ア",
+        "matched_variant": "manual:論理回路"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0035__choice_2"
+  },
+  {
+    "id": "original_knowledge_0036",
+    "stem": "CPUが主に担う役割として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "入力装置と出力装置の役割だけを担う。",
+        "choice_id": "original_knowledge_0036__choice_0",
+        "is_correct": false,
+        "explanation": "入力・出力装置はCPUの外部にある周辺装置として扱われる。"
+      },
+      {
+        "label": "1",
+        "text": "電源を切っても保存する補助記憶の役割を担う。",
+        "choice_id": "original_knowledge_0036__choice_1",
+        "is_correct": false,
+        "explanation": "長期保存は主に補助記憶装置の役割である。"
+      },
+      {
+        "label": "2",
+        "text": "プリンタを接続する通信規格の役割を担う。",
+        "choice_id": "original_knowledge_0036__choice_2",
+        "is_correct": false,
+        "explanation": "接続の規格や境界はインターフェースと呼ばれる。"
+      },
+      {
+        "label": "3",
+        "text": "制御装置と演算装置の役割を担う。",
+        "choice_id": "original_knowledge_0036__choice_3",
+        "is_correct": true,
+        "explanation": "五大装置は入力・出力・記憶・演算・制御で、CPUは主に演算と制御を担う。\n\nコンピュータの五大装置は、入力装置、出力装置、記憶装置、演算装置、制御装置である。CPUは命令を主記憶装置から取り出して解読し、各装置を制御しながら演算を行うため、主に制御装置と演算装置に相当する。キーボードやマウスは入力装置、ディスプレイやプリンタは出力装置である。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "五大装置は入力・出力・記憶・演算・制御で、CPUは主に演算と制御を担う。\n\nコンピュータの五大装置は、入力装置、出力装置、記憶装置、演算装置、制御装置である。CPUは命令を主記憶装置から取り出して解読し、各装置を制御しながら演算を行うため、主に制御装置と演算装置に相当する。キーボードやマウスは入力装置、ディスプレイやプリンタは出力装置である。",
+    "tags": [
+      "デジタル",
+      "CPU",
+      "制御装置",
+      "演算装置",
+      "五大装置"
+    ],
+    "primary_term_names": [
+      "CPU",
+      "制御装置",
+      "演算装置",
+      "5大機能"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_105",
+      "original_xlsx_s3_106",
+      "original_xlsx_s3_111"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.105・106・111）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0346",
+      "T0350",
+      "T0352",
+      "T0349"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0346",
+        "term": "CPU",
+        "category": "ハードウェア",
+        "code": "３ア",
+        "matched_variant": "manual:CPU"
+      },
+      {
+        "term_id": "T0350",
+        "term": "制御装置",
+        "category": "CPU構成要素",
+        "code": "３ア",
+        "matched_variant": "manual:制御装置"
+      },
+      {
+        "term_id": "T0352",
+        "term": "演算装置",
+        "category": "CPU構成要素",
+        "code": "３ア",
+        "matched_variant": "manual:演算装置"
+      },
+      {
+        "term_id": "T0349",
+        "term": "5大機能",
+        "category": "CPU構成要素",
+        "code": "３ア",
+        "matched_variant": "manual:五大装置"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0036__choice_3"
+  },
+  {
+    "id": "original_knowledge_0037",
+    "stem": "キャッシュメモリの説明として、最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "CPUと主記憶装置の速度差を緩和する小容量高速記憶。",
+        "choice_id": "original_knowledge_0037__choice_0",
+        "is_correct": true,
+        "explanation": "よく使う命令やデータを高速なキャッシュに置くことで、平均アクセス時間を短縮する。\n\nメインメモリは主記憶装置とも呼ばれる。\nプログラムを実行するためのデータを一時的に記憶するもので、電源を切るとデータは失われる（揮発性という）が、読み書きが比較的速い。\n大容量のデータを長期間保管するためには、補助記憶装置が使用される。\nキャッシュメモリの目的はCPUとメインメモリ間でのデータの転送速度を向上させることである。\nプログラムやデータをメインメモリからCPUに取り出すことは、CPUでの演算に比べ時間がかかる。\nメインメモリとCPUの間に、メインメモリよりも高速に動作するキャッシュメモリを配置し、メインメモリ内にあるデータやプログラムの一部をコピーしておく。\n演算に必要なデータやプログラムがキャッシュメモリ内にコピーされていたなら、メインメモリまでデータを取りに行く必要がないので、高速に処理が行える。\nさらに、キャッシュメモリを階層化することでより高速な動作を実現している。\nキャッシュメモリはメインメモリ同様に揮発性の半導体記憶装置であるので、電源を切るとデータが消える。"
+      },
+      {
+        "label": "1",
+        "text": "電源を切っても保存する大容量の補助記憶。",
+        "choice_id": "original_knowledge_0037__choice_1",
+        "is_correct": false,
+        "explanation": "主な目的はCPUと主記憶装置の速度差の緩和であり、一般に揮発性で小容量である。"
+      },
+      {
+        "label": "2",
+        "text": "CPUの演算結果だけを印刷する出力装置。",
+        "choice_id": "original_knowledge_0037__choice_2",
+        "is_correct": false,
+        "explanation": "キャッシュメモリは出力装置ではなく、記憶装置である。"
+      },
+      {
+        "label": "3",
+        "text": "HDDの回転速度を上げるための機械部品。",
+        "choice_id": "original_knowledge_0037__choice_3",
+        "is_correct": false,
+        "explanation": "キャッシュメモリは半導体を用いる高速な記憶装置である。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "よく使う命令やデータを高速なキャッシュに置くことで、平均アクセス時間を短縮する。\n\nメインメモリは主記憶装置とも呼ばれる。\nプログラムを実行するためのデータを一時的に記憶するもので、電源を切るとデータは失われる（揮発性という）が、読み書きが比較的速い。\n大容量のデータを長期間保管するためには、補助記憶装置が使用される。\nキャッシュメモリの目的はCPUとメインメモリ間でのデータの転送速度を向上させることである。\nプログラムやデータをメインメモリからCPUに取り出すことは、CPUでの演算に比べ時間がかかる。\nメインメモリとCPUの間に、メインメモリよりも高速に動作するキャッシュメモリを配置し、メインメモリ内にあるデータやプログラムの一部をコピーしておく。\n演算に必要なデータやプログラムがキャッシュメモリ内にコピーされていたなら、メインメモリまでデータを取りに行く必要がないので、高速に処理が行える。\nさらに、キャッシュメモリを階層化することでより高速な動作を実現している。\nキャッシュメモリはメインメモリ同様に揮発性の半導体記憶装置であるので、電源を切るとデータが消える。",
+    "tags": [
+      "デジタル",
+      "キャッシュメモリ",
+      "主記憶装置",
+      "補助記憶装置"
+    ],
+    "primary_term_names": [
+      "メインメモリ",
+      "補助記憶装置"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_108",
+      "original_xlsx_s3_109",
+      "original_xlsx_s3_114"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.108・109・114）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0343",
+      "T0381"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0343",
+        "term": "メインメモリ",
+        "category": "ハードウェア",
+        "code": "３ア",
+        "matched_variant": "manual:主記憶装置"
+      },
+      {
+        "term_id": "T0381",
+        "term": "補助記憶装置",
+        "category": "周辺装置",
+        "code": "３ア",
+        "matched_variant": "manual:補助記憶装置"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0037__choice_0"
+  },
+  {
+    "id": "original_knowledge_0038",
+    "stem": "クロック周波数2GHz、平均CPIが4のCPUについて、理論上の処理性能は何MIPSか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "8MIPS",
+        "choice_id": "original_knowledge_0038__choice_0",
+        "is_correct": false,
+        "explanation": "周波数とCPIを掛けただけで、単位換算も不適切である。"
+      },
+      {
+        "label": "1",
+        "text": "500MIPS",
+        "choice_id": "original_knowledge_0038__choice_1",
+        "is_correct": true,
+        "explanation": "2×10⁹クロック/秒÷4クロック/命令=5×10⁸命令/秒=500MIPSである。\n\nクロック信号とはコンピュータの各回路での処理動作を行うタイミングを合わせるために用いられる信号である。\nクロック周波数はクロック信号を1秒間で何回時を刻むかを表し、単位はHzである。\nクロック周波数が2GHzとは、1秒間で2×10⁹＝20億回時を刻む時計である。\n1つの命令を実行するために必要なクロックサイクル数をCPI(Cycles Per Instruction)といい、この問題では4CPIである。\nつまり、4クロックで1命令を処理する。\nよって、このコンピュータは1秒間で5×10⁸命令を処理できる。"
+      },
+      {
+        "label": "2",
+        "text": "125MIPS",
+        "choice_id": "original_knowledge_0038__choice_2",
+        "is_correct": false,
+        "explanation": "2GHzを誤って500MHzとしてから4で割った値である。"
+      },
+      {
+        "label": "3",
+        "text": "2,000MIPS",
+        "choice_id": "original_knowledge_0038__choice_3",
+        "is_correct": false,
+        "explanation": "CPI=4を無視して、1クロックで1命令とみなしている。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "2×10⁹クロック/秒÷4クロック/命令=5×10⁸命令/秒=500MIPSである。\n\nクロック信号とはコンピュータの各回路での処理動作を行うタイミングを合わせるために用いられる信号である。\nクロック周波数はクロック信号を1秒間で何回時を刻むかを表し、単位はHzである。\nクロック周波数が2GHzとは、1秒間で2×10⁹＝20億回時を刻む時計である。\n1つの命令を実行するために必要なクロックサイクル数をCPI(Cycles Per Instruction)といい、この問題では4CPIである。\nつまり、4クロックで1命令を処理する。\nよって、このコンピュータは1秒間で5×10⁸命令を処理できる。",
+    "tags": [
+      "デジタル",
+      "クロック周波数",
+      "CPI",
+      "MIPS",
+      "CPU"
+    ],
+    "primary_term_names": [
+      "クロック周波数",
+      "CPU"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_112",
+      "original_xlsx_s3_113"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.112・113）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0348",
+      "T0346"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0348",
+        "term": "クロック周波数",
+        "category": "ハードウェア",
+        "code": "３ア",
+        "matched_variant": "manual:クロック周波数"
+      },
+      {
+        "term_id": "T0346",
+        "term": "CPU",
+        "category": "ハードウェア",
+        "code": "３ア",
+        "matched_variant": "manual:CPU"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0038__choice_1"
+  },
+  {
+    "id": "original_knowledge_0039",
+    "stem": "キャッシュアクセス20ns、主記憶アクセス100ns、ヒット率0.7とする。ヒット時20ns、ミス時100nsとして加重平均した平均アクセス時間はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "20ns",
+        "choice_id": "original_knowledge_0039__choice_0",
+        "is_correct": false,
+        "explanation": "全てヒットする場合の時間であり、ミス率0.3を無視している。"
+      },
+      {
+        "label": "1",
+        "text": "56ns",
+        "choice_id": "original_knowledge_0039__choice_1",
+        "is_correct": false,
+        "explanation": "ヒット率とミス率の重み付けが逆である。"
+      },
+      {
+        "label": "2",
+        "text": "44ns",
+        "choice_id": "original_knowledge_0039__choice_2",
+        "is_correct": true,
+        "explanation": "0.7×20+0.3×100=14+30=44nsである。\n\nメインメモリとCPUの間に、メインメモリよりも高速に動作するキャッシュメモリを配置し、メインメモリ内にあるデータやプログラムの一部をコピーしておくことでアクセス時間を短縮する。\nこの問題では、メインメモリへのアクセス時間は100ナノ秒に対し、キャッシュメモリへのアクセス時間は20ナノ秒なので、キャッシュメモリはメインメモリより5倍速いことになる。\nヒット率とは、必要なデータやプログラムがキャッシュメモリ内にコピーされている確率のことである。\nヒット率0.7（70％）とは、10回中7回は必要なデータがキャッシュメモリにあり、20ナノ秒でアクセスできる。\n逆に10回中3回（30％＝0.3）はメインメモリまでデータを取りに行かなければならないので、100ナノ秒かかる。\n10回のアクセスに対して7回がキャッシュメモリ、3回がメインメモリにデータを取りに行くため、合計で7×20ナノ秒＋3×100ナノ秒＝440ナノ秒かかる。"
+      },
+      {
+        "label": "3",
+        "text": "84ns",
+        "choice_id": "original_knowledge_0039__choice_3",
+        "is_correct": false,
+        "explanation": "ヒット時にも主記憶100nsを必ず加える別モデルの値で、問題文の加重平均条件と異なる。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "0.7×20+0.3×100=14+30=44nsである。\n\nメインメモリとCPUの間に、メインメモリよりも高速に動作するキャッシュメモリを配置し、メインメモリ内にあるデータやプログラムの一部をコピーしておくことでアクセス時間を短縮する。\nこの問題では、メインメモリへのアクセス時間は100ナノ秒に対し、キャッシュメモリへのアクセス時間は20ナノ秒なので、キャッシュメモリはメインメモリより5倍速いことになる。\nヒット率とは、必要なデータやプログラムがキャッシュメモリ内にコピーされている確率のことである。\nヒット率0.7（70％）とは、10回中7回は必要なデータがキャッシュメモリにあり、20ナノ秒でアクセスできる。\n逆に10回中3回（30％＝0.3）はメインメモリまでデータを取りに行かなければならないので、100ナノ秒かかる。\n10回のアクセスに対して7回がキャッシュメモリ、3回がメインメモリにデータを取りに行くため、合計で7×20ナノ秒＋3×100ナノ秒＝440ナノ秒かかる。",
+    "tags": [
+      "デジタル",
+      "CPU",
+      "キャッシュメモリ",
+      "ヒット率",
+      "平均アクセス時間"
+    ],
+    "primary_term_names": [
+      "CPU"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s3_115"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.115）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0346"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0346",
+        "term": "CPU",
+        "category": "ハードウェア",
+        "code": "３ア",
+        "matched_variant": "manual:CPU"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0039__choice_2"
+  },
+  {
+    "id": "original_knowledge_0040",
+    "stem": "LANとして最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "地理的に離れたLAN同士を結ぶ広域ネットワーク。",
+        "choice_id": "original_knowledge_0040__choice_0",
+        "is_correct": false,
+        "explanation": "これはWANの説明である。"
+      },
+      {
+        "label": "1",
+        "text": "Web上の名前をIPアドレスに対応付ける仕組み。",
+        "choice_id": "original_knowledge_0040__choice_1",
+        "is_correct": false,
+        "explanation": "これはDNSの主な役割である。"
+      },
+      {
+        "label": "2",
+        "text": "Web通信を暗号化するためのプロトコル。",
+        "choice_id": "original_knowledge_0040__choice_2",
+        "is_correct": false,
+        "explanation": "これはHTTPSなどの役割である。"
+      },
+      {
+        "label": "3",
+        "text": "学校や家庭など、比較的限られた範囲を結ぶネットワーク。",
+        "choice_id": "original_knowledge_0040__choice_3",
+        "is_correct": true,
+        "explanation": "LANはLocal Area Networkの略で、限られた場所にある機器を接続するネットワークである。\n\nLAN(Local Area Network)は家庭内や建物などの一定の狭い範囲内における、コンピュータやサーバ、プリンター、ゲーム機などの機器が接続されたネットワークである。\nLANの構築・管理はユーザ自らが行う。\n離れた場所にある複数のLAN同士を接続するネットワークをWAN(Wide Area Network：広域通信網)という。\nさらに、不特定多数のネットワーク同士を繋いだ巨大なネットワークがインターネットである。\nインターネットへの接続するにはISP（Internet Service Provider）と契約する必要がある。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "LANはLocal Area Networkの略で、限られた場所にある機器を接続するネットワークである。\n\nLAN(Local Area Network)は家庭内や建物などの一定の狭い範囲内における、コンピュータやサーバ、プリンター、ゲーム機などの機器が接続されたネットワークである。\nLANの構築・管理はユーザ自らが行う。\n離れた場所にある複数のLAN同士を接続するネットワークをWAN(Wide Area Network：広域通信網)という。\nさらに、不特定多数のネットワーク同士を繋いだ巨大なネットワークがインターネットである。\nインターネットへの接続するにはISP（Internet Service Provider）と契約する必要がある。",
+    "tags": [
+      "ネットワーク",
+      "LAN"
+    ],
+    "primary_term_names": [
+      "LAN"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_127"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.127）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0497"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0497",
+        "term": "LAN",
+        "category": "ネットワーク",
+        "code": "４ア",
+        "matched_variant": "manual:LAN"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0040__choice_3"
+  },
+  {
+    "id": "original_knowledge_0041",
+    "stem": "WANとして最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "地理的に離れたLANや拠点を結ぶ広域ネットワーク。",
+        "choice_id": "original_knowledge_0041__choice_0",
+        "is_correct": true,
+        "explanation": "WANはWide Area Networkの略で、広い地域に分散したネットワークを接続する。\n\nイーサネットはLAN（Local Area Network）上の機器を相互に有線で接続するための規格である。\nLANの通信規格で最も普及しているのはイーサネットであり、LANといえばイーサネットと考えて差し支えない。\nイーサネットは同じネットワーク内にあるLANケーブルで接続されたLANポートからLANポートへとデータを転送する仕組みである。\nLANポートにはそれぞれMACアドレスという番号付けがされており、イーサネットではこのMACアドレスで通信先を特定している。\n無線通信を用いてLAN上の機器を相互接続する規格はIEEE802.11である。"
+      },
+      {
+        "label": "1",
+        "text": "一つの家庭や学校内だけを結ぶネットワーク。",
+        "choice_id": "original_knowledge_0041__choice_1",
+        "is_correct": false,
+        "explanation": "これはLANの説明である。"
+      },
+      {
+        "label": "2",
+        "text": "端末の画面表示を担当するソフトウェア。",
+        "choice_id": "original_knowledge_0041__choice_2",
+        "is_correct": false,
+        "explanation": "WANはネットワークの範囲を表す概念である。"
+      },
+      {
+        "label": "3",
+        "text": "ファイルを圧縮して容量を小さくする方式。",
+        "choice_id": "original_knowledge_0041__choice_3",
+        "is_correct": false,
+        "explanation": "WANはデータ圧縮方式ではない。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "WANはWide Area Networkの略で、広い地域に分散したネットワークを接続する。\n\nイーサネットはLAN（Local Area Network）上の機器を相互に有線で接続するための規格である。\nLANの通信規格で最も普及しているのはイーサネットであり、LANといえばイーサネットと考えて差し支えない。\nイーサネットは同じネットワーク内にあるLANケーブルで接続されたLANポートからLANポートへとデータを転送する仕組みである。\nLANポートにはそれぞれMACアドレスという番号付けがされており、イーサネットではこのMACアドレスで通信先を特定している。\n無線通信を用いてLAN上の機器を相互接続する規格はIEEE802.11である。",
+    "tags": [
+      "ネットワーク",
+      "WAN"
+    ],
+    "primary_term_names": [
+      "WAN"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_128"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.128）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0498"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0498",
+        "term": "WAN",
+        "category": "ネットワーク",
+        "code": "４ア",
+        "matched_variant": "manual:WAN"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0041__choice_0"
+  },
+  {
+    "id": "original_knowledge_0042",
+    "stem": "Ethernetとして最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "IEEE 802.11系の無線LAN機器の認証ブランド。",
+        "choice_id": "original_knowledge_0042__choice_0",
+        "is_correct": false,
+        "explanation": "これはWi-Fiの説明である。"
+      },
+      {
+        "label": "1",
+        "text": "主に有線LANで用いられる代表的な通信規格。",
+        "choice_id": "original_knowledge_0042__choice_1",
+        "is_correct": true,
+        "explanation": "Ethernetは有線LANで広く用いられる通信技術・規格の一つである。\n\n無線LANが商品化された当初、同一メーカーであっても製品間での相互接続が保証されているわけではなく、ユーザが購入した無線LAN製品が使用できないという問題が発生していた。\nそこで、無線LAN製品の普及促進を図る業界団体Wi-Fi Allianceは、無線LANの国際標準規格であるIEEE 802.11 規格を使用し、相互に接続できることが確認し、認証を行った。\n認証に合格した製品はWi-Fiロゴの使用が許可される。\nつまり、IEEE 802.11 とは無線LANの接続規格のことであり、Wi-FiとはWi-Fi Allianceという団体による相互通信への認証名という違いがある。"
+      },
+      {
+        "label": "2",
+        "text": "ホスト名からIPアドレスを調べるサービス。",
+        "choice_id": "original_knowledge_0042__choice_2",
+        "is_correct": false,
+        "explanation": "これはDNSの説明である。"
+      },
+      {
+        "label": "3",
+        "text": "電子メールを配送するためのサーバ。",
+        "choice_id": "original_knowledge_0042__choice_3",
+        "is_correct": false,
+        "explanation": "Ethernetはメール配送の仕組みではない。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "Ethernetは有線LANで広く用いられる通信技術・規格の一つである。\n\n無線LANが商品化された当初、同一メーカーであっても製品間での相互接続が保証されているわけではなく、ユーザが購入した無線LAN製品が使用できないという問題が発生していた。\nそこで、無線LAN製品の普及促進を図る業界団体Wi-Fi Allianceは、無線LANの国際標準規格であるIEEE 802.11 規格を使用し、相互に接続できることが確認し、認証を行った。\n認証に合格した製品はWi-Fiロゴの使用が許可される。\nつまり、IEEE 802.11 とは無線LANの接続規格のことであり、Wi-FiとはWi-Fi Allianceという団体による相互通信への認証名という違いがある。",
+    "tags": [
+      "ネットワーク",
+      "Ethernet"
+    ],
+    "primary_term_names": [
+      "Ethernet"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_129"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.129）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0535"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0535",
+        "term": "Ethernet",
+        "category": "有線LAN",
+        "code": "４ア",
+        "matched_variant": "manual:Ethernet"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0042__choice_1"
+  },
+  {
+    "id": "original_knowledge_0043",
+    "stem": "Wi-Fiとして最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "有線LANだけで使う通信規格の総称。",
+        "choice_id": "original_knowledge_0043__choice_0",
+        "is_correct": false,
+        "explanation": "Wi-Fiは無線LANに関するものである。"
+      },
+      {
+        "label": "1",
+        "text": "Bluetoothの正式名称。",
+        "choice_id": "original_knowledge_0043__choice_1",
+        "is_correct": false,
+        "explanation": "Wi-FiとBluetoothは別の無線通信規格である。"
+      },
+      {
+        "label": "2",
+        "text": "IEEE 802.11系の無線LAN機器に関する認証ブランド。",
+        "choice_id": "original_knowledge_0043__choice_2",
+        "is_correct": true,
+        "explanation": "Wi-Fiは無線LANの通信に関するブランドであり、Bluetoothとは別の規格・用途を持つ。\n\nLAN(Local Area Network)は家庭やビルなどの比較的狭い範囲で、コンピュータ・サーバやプリンタなどの機器をつなぐネットワークである。\n複数の支社を持つ会社などで、支社のLAN同士をつなぐときにWAN(Wide Area Network)が使用される。\nこれにより、企業は地理的に離れた部門やオフィス間で通信やリソースの共有が行える。\n離れた場所にあるLAN同士をつなぐためには、専用の通信回線を敷設する方法やインターネット上でデータを安全に通信するシステム(VPN：Virtual Private Network)を構築する方法などがある。\n遠く離れた場所をつなぐネットワークと言う意味でWANを捉えた場合、インターネットもWANのひとつと見ることができるが、管理者・利用者という観点で見る違いがある。"
+      },
+      {
+        "label": "3",
+        "text": "Web通信を暗号化するプロトコル。",
+        "choice_id": "original_knowledge_0043__choice_3",
+        "is_correct": false,
+        "explanation": "これはHTTPSやTLSの役割である。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "Wi-Fiは無線LANの通信に関するブランドであり、Bluetoothとは別の規格・用途を持つ。\n\nLAN(Local Area Network)は家庭やビルなどの比較的狭い範囲で、コンピュータ・サーバやプリンタなどの機器をつなぐネットワークである。\n複数の支社を持つ会社などで、支社のLAN同士をつなぐときにWAN(Wide Area Network)が使用される。\nこれにより、企業は地理的に離れた部門やオフィス間で通信やリソースの共有が行える。\n離れた場所にあるLAN同士をつなぐためには、専用の通信回線を敷設する方法やインターネット上でデータを安全に通信するシステム(VPN：Virtual Private Network)を構築する方法などがある。\n遠く離れた場所をつなぐネットワークと言う意味でWANを捉えた場合、インターネットもWANのひとつと見ることができるが、管理者・利用者という観点で見る違いがある。",
+    "tags": [
+      "ネットワーク",
+      "Wi-Fi"
+    ],
+    "primary_term_names": [
+      "Wi-Fi"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_133"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.133）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0541"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0541",
+        "term": "Wi-Fi",
+        "category": "無線LAN",
+        "code": "４ア",
+        "matched_variant": "manual:Wi-Fi"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0043__choice_2"
+  },
+  {
+    "id": "original_knowledge_0044",
+    "stem": "クライアントサーバ方式として最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "全端末が常に同じ役割で資源を提供し合う方式。",
+        "choice_id": "original_knowledge_0044__choice_0",
+        "is_correct": false,
+        "explanation": "これはP2Pの説明に近い。"
+      },
+      {
+        "label": "1",
+        "text": "端末をネットワークから完全に切り離す方式。",
+        "choice_id": "original_knowledge_0044__choice_1",
+        "is_correct": false,
+        "explanation": "クライアントサーバ方式はネットワークを利用する。"
+      },
+      {
+        "label": "2",
+        "text": "一台の端末だけで全利用者の画面を表示する方式。",
+        "choice_id": "original_knowledge_0044__choice_2",
+        "is_correct": false,
+        "explanation": "役割分担を表す説明になっていない。"
+      },
+      {
+        "label": "3",
+        "text": "サービスを提供するサーバと、利用するクライアントに役割を分ける方式。",
+        "choice_id": "original_knowledge_0044__choice_3",
+        "is_correct": true,
+        "explanation": "Webやメールなどでは、サーバが機能やデータを提供し、クライアントが利用する。\n\nサービスを提供する側(サーバ)とサービスを要求する側(クライアント)を区別するシステムはクライアント・サーバシステムである。\nクライアントサーバシステムはWebブラウジングや電子メールなどの多くのインターネットサービスで広く使われている。\n分散処理とは、複数のコンピュータが協力してタスクを実行するシステムのことである。\nクライアント・サーバシステムは分散処理を実現するためのひとつの方法ではあるが、分散処理では必ずしもクライアントとサーバを区別する必要はない。\nクライアントとサーバの区別がない分散処理としては、複数のコンピュータが対等な関係で通信し合い、データや機能を共有するピアツーピアシステム(P2P)がある。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "Webやメールなどでは、サーバが機能やデータを提供し、クライアントが利用する。\n\nサービスを提供する側(サーバ)とサービスを要求する側(クライアント)を区別するシステムはクライアント・サーバシステムである。\nクライアントサーバシステムはWebブラウジングや電子メールなどの多くのインターネットサービスで広く使われている。\n分散処理とは、複数のコンピュータが協力してタスクを実行するシステムのことである。\nクライアント・サーバシステムは分散処理を実現するためのひとつの方法ではあるが、分散処理では必ずしもクライアントとサーバを区別する必要はない。\nクライアントとサーバの区別がない分散処理としては、複数のコンピュータが対等な関係で通信し合い、データや機能を共有するピアツーピアシステム(P2P)がある。",
+    "tags": [
+      "ネットワーク",
+      "クライアント・サーバシステム"
+    ],
+    "primary_term_names": [
+      "クライアント/サーバシステム"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_137"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.137）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0505"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0505",
+        "term": "クライアント/サーバシステム",
+        "category": "クライアント・サーバシステム",
+        "code": "４ア",
+        "matched_variant": "manual:クライアント・サーバシステム"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0044__choice_3"
+  },
+  {
+    "id": "original_knowledge_0045",
+    "stem": "P2P方式として最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "端末同士が対等な立場で機能やデータを提供し合う方式。",
+        "choice_id": "original_knowledge_0045__choice_0",
+        "is_correct": true,
+        "explanation": "P2Pでは、各端末がクライアントにもサーバにもなり得る。\n\nデータや機能を共有するために、複数のコンピュータが対等な関係で通信し合うシステムをピアツーピアシステム(Peer-to-Peer,P2P)という。\nこのとき、ネットワーク上の端末をノードという。\nP2Pを利用したアプリケーションではノード間で直接通信を行うことで、中央のサーバを必要とせず、データの転送が高速化され、システム全体の負荷が分散されるため、効率的なデータ共有ができる。\nP2Pのアプリケーションは多岐にわたり、ファイル共有（BitTorrentなど）やブロックチェーン技術（Bitcoinなどの仮想通貨）、VoIP（Voice over IP：LINE電話・Skypeなど）、ストリーミング配信などで使用されている。\nP2Pでは匿名性を利用した違法コンテンツの配布、ノード内にデータが残り続けるため削除の困難さ、コンピュータウイルスを送り込まれるなどセキュリティ上の危険性、大量のデータがやり取りされることによる通信回線への負荷などの問題を孕んでいる。"
+      },
+      {
+        "label": "1",
+        "text": "全ての処理を中央サーバだけが行う方式。",
+        "choice_id": "original_knowledge_0045__choice_1",
+        "is_correct": false,
+        "explanation": "これはクライアントサーバ方式の説明である。"
+      },
+      {
+        "label": "2",
+        "text": "ネットワークを使わず端末内だけで完結する方式。",
+        "choice_id": "original_knowledge_0045__choice_2",
+        "is_correct": false,
+        "explanation": "P2Pは端末間で通信する方式である。"
+      },
+      {
+        "label": "3",
+        "text": "端末のIPアドレスを自動的に割り当てる方式。",
+        "choice_id": "original_knowledge_0045__choice_3",
+        "is_correct": false,
+        "explanation": "P2Pはアドレス割当ての方式ではない。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "P2Pでは、各端末がクライアントにもサーバにもなり得る。\n\nデータや機能を共有するために、複数のコンピュータが対等な関係で通信し合うシステムをピアツーピアシステム(Peer-to-Peer,P2P)という。\nこのとき、ネットワーク上の端末をノードという。\nP2Pを利用したアプリケーションではノード間で直接通信を行うことで、中央のサーバを必要とせず、データの転送が高速化され、システム全体の負荷が分散されるため、効率的なデータ共有ができる。\nP2Pのアプリケーションは多岐にわたり、ファイル共有（BitTorrentなど）やブロックチェーン技術（Bitcoinなどの仮想通貨）、VoIP（Voice over IP：LINE電話・Skypeなど）、ストリーミング配信などで使用されている。\nP2Pでは匿名性を利用した違法コンテンツの配布、ノード内にデータが残り続けるため削除の困難さ、コンピュータウイルスを送り込まれるなどセキュリティ上の危険性、大量のデータがやり取りされることによる通信回線への負荷などの問題を孕んでいる。",
+    "tags": [
+      "ネットワーク",
+      "P2P型"
+    ],
+    "primary_term_names": [
+      "P2P型"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_138"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.138）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0510"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0510",
+        "term": "P2P型",
+        "category": "P2P型システム",
+        "code": "４ア",
+        "matched_variant": "manual:P2P型"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0045__choice_0"
+  },
+  {
+    "id": "original_knowledge_0046",
+    "stem": "クラウドコンピューティングとして最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "利用者の端末内だけに資源を置く形態。",
+        "choice_id": "original_knowledge_0046__choice_0",
+        "is_correct": false,
+        "explanation": "クラウドはネットワーク越しに資源を利用する。"
+      },
+      {
+        "label": "1",
+        "text": "ネットワーク経由で計算資源やソフトウェアを利用する形態。",
+        "choice_id": "original_knowledge_0046__choice_1",
+        "is_correct": true,
+        "explanation": "クラウドでは、利用者が必要に応じて遠隔の計算資源やサービスを利用できる。\n\nクラウドコンピューティングは、ユーザが必要なときに必要な量の機能を提供するインターネット上のサービスである。\n提供される機能には、ハードウェアリソース（CPU、ストレージ、メモリなど）やソフトウェアリソース（データベース、AI、アプリケーションなど）である。\nユーザは物理的なサーバを持つ必要や、自身のコンピュータにアプリケーションをインストールして管理する負担がなくなる。\nこれにより、需要に応じたスケールアップ・スケールダウンができ、最新の機能とセキュリティを使用することができる。\nクラウドで何を提供するかで、SaaS、PaaS、IaaSに分類できる。"
+      },
+      {
+        "label": "2",
+        "text": "全端末を同じ部屋に置くための配線規格。",
+        "choice_id": "original_knowledge_0046__choice_2",
+        "is_correct": false,
+        "explanation": "クラウドは配線規格ではない。"
+      },
+      {
+        "label": "3",
+        "text": "通信を必ず暗号化する一つのプロトコル。",
+        "choice_id": "original_knowledge_0046__choice_3",
+        "is_correct": false,
+        "explanation": "クラウドは資源提供・利用の形態を指す。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "クラウドでは、利用者が必要に応じて遠隔の計算資源やサービスを利用できる。\n\nクラウドコンピューティングは、ユーザが必要なときに必要な量の機能を提供するインターネット上のサービスである。\n提供される機能には、ハードウェアリソース（CPU、ストレージ、メモリなど）やソフトウェアリソース（データベース、AI、アプリケーションなど）である。\nユーザは物理的なサーバを持つ必要や、自身のコンピュータにアプリケーションをインストールして管理する負担がなくなる。\nこれにより、需要に応じたスケールアップ・スケールダウンができ、最新の機能とセキュリティを使用することができる。\nクラウドで何を提供するかで、SaaS、PaaS、IaaSに分類できる。",
+    "tags": [
+      "ネットワーク",
+      "クラウドコンピューティング"
+    ],
+    "primary_term_names": [
+      "クラウドコンピューティング"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_140"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.140）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0142"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0142",
+        "term": "クラウドコンピューティング",
+        "category": "情報技術",
+        "code": "１ウ;４イ;４イ;１ウ",
+        "matched_variant": "manual:クラウドコンピューティング"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0046__choice_1"
+  },
+  {
+    "id": "original_knowledge_0047",
+    "stem": "パケット交換方式として最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "通信中は送受信者間の物理回線を占有し続ける方式。",
+        "choice_id": "original_knowledge_0047__choice_0",
+        "is_correct": false,
+        "explanation": "これは回線交換の説明である。"
+      },
+      {
+        "label": "1",
+        "text": "送信データを必ず一つの画像ファイルにする方式。",
+        "choice_id": "original_knowledge_0047__choice_1",
+        "is_correct": false,
+        "explanation": "パケット交換はデータ形式を限定しない。"
+      },
+      {
+        "label": "2",
+        "text": "データを小さなパケットに分け、ネットワークで順に転送する方式。",
+        "choice_id": "original_knowledge_0047__choice_2",
+        "is_correct": true,
+        "explanation": "インターネットはデータをパケットに分けて送るパケット交換を基本としている。\n\nインターネットでは、通信のためにパケット交換方式を採用している。\nパケット交換方式は、データをパケットという小さな部分に分割し、それらを独立して送信する方式である。\n受信側では、送られてきたパケットを再度組み立て、データを復元する。\nパケットに分割して送信することで、ネットワークの混雑状況に合わせて柔軟なルート変更や、別のコンピュータが送っているパケットと回線を共有しながら通信を行うことができる。\nこれにより、通信の信頼性と効率性を向上させている。"
+      },
+      {
+        "label": "3",
+        "text": "全ての通信を一台の端末だけで処理する方式。",
+        "choice_id": "original_knowledge_0047__choice_3",
+        "is_correct": false,
+        "explanation": "パケット交換はネットワークでの転送方式である。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "インターネットはデータをパケットに分けて送るパケット交換を基本としている。\n\nインターネットでは、通信のためにパケット交換方式を採用している。\nパケット交換方式は、データをパケットという小さな部分に分割し、それらを独立して送信する方式である。\n受信側では、送られてきたパケットを再度組み立て、データを復元する。\nパケットに分割して送信することで、ネットワークの混雑状況に合わせて柔軟なルート変更や、別のコンピュータが送っているパケットと回線を共有しながら通信を行うことができる。\nこれにより、通信の信頼性と効率性を向上させている。",
+    "tags": [
+      "ネットワーク",
+      "パケット交換方式",
+      "パケット"
+    ],
+    "primary_term_names": [
+      "パケット交換方式",
+      "パケット"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_148"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.148）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0494",
+      "T0493"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0494",
+        "term": "パケット交換方式",
+        "category": "ネットワーク",
+        "code": "４ア",
+        "matched_variant": "manual:パケット交換方式"
+      },
+      {
+        "term_id": "T0493",
+        "term": "パケット",
+        "category": "ネットワーク",
+        "code": "４ア",
+        "matched_variant": "manual:パケット"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0047__choice_2"
+  },
+  {
+    "id": "original_knowledge_0048",
+    "stem": "IPアドレスの主な役割として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "同一機器内で通信先のアプリケーションを識別すること。",
+        "choice_id": "original_knowledge_0048__choice_0",
+        "is_correct": false,
+        "explanation": "これは主にポート番号の役割である。"
+      },
+      {
+        "label": "1",
+        "text": "利用者の氏名や所属などの個人情報を暗号化すること。",
+        "choice_id": "original_knowledge_0048__choice_1",
+        "is_correct": false,
+        "explanation": "IPアドレスは暗号化の仕組みではない。"
+      },
+      {
+        "label": "2",
+        "text": "Webページ内の見出しの階層構造を表すこと。",
+        "choice_id": "original_knowledge_0048__choice_2",
+        "is_correct": false,
+        "explanation": "IPアドレスはHTMLの要素ではない。"
+      },
+      {
+        "label": "3",
+        "text": "ネットワーク上の通信先となる機器や接続点を識別すること。",
+        "choice_id": "original_knowledge_0048__choice_3",
+        "is_correct": true,
+        "explanation": "IPアドレスは通信相手を特定するための論理アドレスである。\n\nIPアドレスはインターネット上のデバイスに割り当てられた番号（住所）であり、通信を行う際の宛先として使用される。\nより正確には、TCP/IPで通信を行うデバイスに割り当てられた番号である。\n現在広く使われているIPアドレスはIPv4（バージョン4）である。\nIPv4は32ビット（2進数32桁）の数である。\n人間が見てわかりやすくするために、8ビットずつを「.」で区切り、0から255の10進数で表現される。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "IPアドレスは通信相手を特定するための論理アドレスである。\n\nIPアドレスはインターネット上のデバイスに割り当てられた番号（住所）であり、通信を行う際の宛先として使用される。\nより正確には、TCP/IPで通信を行うデバイスに割り当てられた番号である。\n現在広く使われているIPアドレスはIPv4（バージョン4）である。\nIPv4は32ビット（2進数32桁）の数である。\n人間が見てわかりやすくするために、8ビットずつを「.」で区切り、0から255の10進数で表現される。",
+    "tags": [
+      "ネットワーク",
+      "IPアドレス"
+    ],
+    "primary_term_names": [
+      "IPアドレス"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_152"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.152）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0522"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0522",
+        "term": "IPアドレス",
+        "category": "ネットワーク層",
+        "code": "４ア",
+        "matched_variant": "manual:IPアドレス"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0048__choice_3"
+  },
+  {
+    "id": "original_knowledge_0049",
+    "stem": "IPv6の説明として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "128ビットで、IPv4より広いアドレス空間を持つ方式。",
+        "choice_id": "original_knowledge_0049__choice_0",
+        "is_correct": true,
+        "explanation": "IPv6はアドレス不足への対応を主要な目的の一つとし、IPv4の32ビットより大きな空間を持つ。\n\nプライベートアドレスはIPv4 のグローバルアドレスの枯渇対策として導入された。\nIPアドレス（グローバルアドレス）はインターネット上の住所のようなものであり、インターネット上で重複なく割り当てる必要がある。\nIPv4は32ビット（2進数32桁）の数であるため、IPアドレスの総数は2³²＝約43億個しかなく、現代の端末数を大幅に下回っている。\nしかし、すべての端末がインターネットから直接アクセスできる必要はない。\nWebを閲覧する場合、ユーザからウェブサーバに閲覧のための要求を送り、ウェブサーバからユーザへデータを返送する。"
+      },
+      {
+        "label": "1",
+        "text": "16ビットのアドレスだけを用いる方式。",
+        "choice_id": "original_knowledge_0049__choice_1",
+        "is_correct": false,
+        "explanation": "IPv6のアドレス長は128ビットである。"
+      },
+      {
+        "label": "2",
+        "text": "IPv4より小さなアドレス空間を持つ方式。",
+        "choice_id": "original_knowledge_0049__choice_2",
+        "is_correct": false,
+        "explanation": "IPv6はIPv4より大幅に広い空間を持つ。"
+      },
+      {
+        "label": "3",
+        "text": "無線LAN専用の通信方式。",
+        "choice_id": "original_knowledge_0049__choice_3",
+        "is_correct": false,
+        "explanation": "IPv6は有線・無線を問わず使えるIPの方式である。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "IPv6はアドレス不足への対応を主要な目的の一つとし、IPv4の32ビットより大きな空間を持つ。\n\nプライベートアドレスはIPv4 のグローバルアドレスの枯渇対策として導入された。\nIPアドレス（グローバルアドレス）はインターネット上の住所のようなものであり、インターネット上で重複なく割り当てる必要がある。\nIPv4は32ビット（2進数32桁）の数であるため、IPアドレスの総数は2³²＝約43億個しかなく、現代の端末数を大幅に下回っている。\nしかし、すべての端末がインターネットから直接アクセスできる必要はない。\nWebを閲覧する場合、ユーザからウェブサーバに閲覧のための要求を送り、ウェブサーバからユーザへデータを返送する。",
+    "tags": [
+      "ネットワーク",
+      "IPv6",
+      "IPv4"
+    ],
+    "primary_term_names": [
+      "IP version 6",
+      "IPv4"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_154"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.154）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0519",
+      "T0521"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0519",
+        "term": "IP version 6",
+        "category": "ネットワーク層",
+        "code": "４ア",
+        "matched_variant": "manual:IPv6"
+      },
+      {
+        "term_id": "T0521",
+        "term": "IPv4",
+        "category": "ネットワーク層",
+        "code": "４ア",
+        "matched_variant": "manual:IPv4"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0049__choice_0"
+  },
+  {
+    "id": "original_knowledge_0050",
+    "stem": "DNSの主な役割として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "Webページを画像へ変換して配信すること。",
+        "choice_id": "original_knowledge_0050__choice_0",
+        "is_correct": false,
+        "explanation": "DNSはWebページの変換を行わない。"
+      },
+      {
+        "label": "1",
+        "text": "ドメイン名などの名前とIPアドレスを対応付けて調べること。",
+        "choice_id": "original_knowledge_0050__choice_1",
+        "is_correct": true,
+        "explanation": "DNSは人が扱いやすい名前を、通信に使うIPアドレスへ対応付ける名前解決に用いる。\n\nIPアドレス（例：142.250.196.99）は数字とドットの組み合わせであり、人間にとって覚えることは難しい。\nそこで、人間にとって覚えやすく、扱いやすい識別子（名前）としてドメイン名（例：www.google.com）が考案された。\nURLならhttps://www.example.co.jp/jouhou/index.htmlのexample.co.jpがドメイン名である。\nホスト名であるwwwも含め、www.example.co.jpを完全修飾ドメイン名という。\n完全修飾ドメイン名を単にドメイン名ということもある。"
+      },
+      {
+        "label": "2",
+        "text": "電子メールの本文を暗号化すること。",
+        "choice_id": "original_knowledge_0050__choice_2",
+        "is_correct": false,
+        "explanation": "DNSはメールの暗号化方式ではない。"
+      },
+      {
+        "label": "3",
+        "text": "利用者の端末にソフトウェアを配布すること。",
+        "choice_id": "original_knowledge_0050__choice_3",
+        "is_correct": false,
+        "explanation": "DNSは名前解決を行う仕組みである。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "DNSは人が扱いやすい名前を、通信に使うIPアドレスへ対応付ける名前解決に用いる。\n\nIPアドレス（例：142.250.196.99）は数字とドットの組み合わせであり、人間にとって覚えることは難しい。\nそこで、人間にとって覚えやすく、扱いやすい識別子（名前）としてドメイン名（例：www.google.com）が考案された。\nURLならhttps://www.example.co.jp/jouhou/index.htmlのexample.co.jpがドメイン名である。\nホスト名であるwwwも含め、www.example.co.jpを完全修飾ドメイン名という。\n完全修飾ドメイン名を単にドメイン名ということもある。",
+    "tags": [
+      "ネットワーク",
+      "DNS",
+      "名前解決"
+    ],
+    "primary_term_names": [
+      "DNS"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_158"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.158）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0514"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0514",
+        "term": "DNS",
+        "category": "DNS",
+        "code": "４ア",
+        "matched_variant": "manual:DNS"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0050__choice_1"
+  },
+  {
+    "id": "original_knowledge_0051",
+    "stem": "TCPの特徴として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "到達確認や順序制御を全く行わない。",
+        "choice_id": "original_knowledge_0051__choice_0",
+        "is_correct": false,
+        "explanation": "TCPはこれらの制御を行う。"
+      },
+      {
+        "label": "1",
+        "text": "通信先のドメイン名をIPアドレスに変換する。",
+        "choice_id": "original_knowledge_0051__choice_1",
+        "is_correct": false,
+        "explanation": "これはDNSの役割である。"
+      },
+      {
+        "label": "2",
+        "text": "確認応答や再送、順序制御によって信頼性を高める。",
+        "choice_id": "original_knowledge_0051__choice_2",
+        "is_correct": true,
+        "explanation": "TCPは到達確認や再送などを行い、データを確実に届けることを支援する。\n\nTCP(Transmission Control Protocol)は、データの転送の信頼性を向上させるためのプロトコルである。\nTCP/IPではトランスポート層にあたる。\nただし、データを受け渡しするたびに確認を行うため、処理に時間がかかるという問題がある。\nトランスポート層の主要な別のプロトコルであるUDP(User Datagram Protocol)はこれらの確認プロセスを省略する。\nつまり、UDPはアプリケーション（ポート番号）の指定とデータの分割を行うが、整列やエラー時の再送は行わない。"
+      },
+      {
+        "label": "3",
+        "text": "Webページの内容を必ず暗号化する。",
+        "choice_id": "original_knowledge_0051__choice_3",
+        "is_correct": false,
+        "explanation": "TCP自体は暗号化を保証するものではない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "TCPは到達確認や再送などを行い、データを確実に届けることを支援する。\n\nTCP(Transmission Control Protocol)は、データの転送の信頼性を向上させるためのプロトコルである。\nTCP/IPではトランスポート層にあたる。\nただし、データを受け渡しするたびに確認を行うため、処理に時間がかかるという問題がある。\nトランスポート層の主要な別のプロトコルであるUDP(User Datagram Protocol)はこれらの確認プロセスを省略する。\nつまり、UDPはアプリケーション（ポート番号）の指定とデータの分割を行うが、整列やエラー時の再送は行わない。",
+    "tags": [
+      "ネットワーク",
+      "TCP"
+    ],
+    "primary_term_names": [
+      "TCP"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_161"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.161）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0513"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0513",
+        "term": "TCP",
+        "category": "トランスポート層",
+        "code": "４ア",
+        "matched_variant": "manual:TCP"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0051__choice_2"
+  },
+  {
+    "id": "original_knowledge_0052",
+    "stem": "ポート番号の主な役割として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "世界中の通信先となる機器や接続点を識別する番号。",
+        "choice_id": "original_knowledge_0052__choice_0",
+        "is_correct": false,
+        "explanation": "機器や接続点の識別にはIPアドレスを使う。"
+      },
+      {
+        "label": "1",
+        "text": "利用者のパスワードを暗号化するために使う番号。",
+        "choice_id": "original_knowledge_0052__choice_1",
+        "is_correct": false,
+        "explanation": "ポート番号は暗号化の仕組みではない。"
+      },
+      {
+        "label": "2",
+        "text": "文書を表示する際の文字コードを指定する番号。",
+        "choice_id": "original_knowledge_0052__choice_2",
+        "is_correct": false,
+        "explanation": "ポート番号は文字コードの指定ではない。"
+      },
+      {
+        "label": "3",
+        "text": "同じ機器上のアプリケーションやサービスを識別する番号。",
+        "choice_id": "original_knowledge_0052__choice_3",
+        "is_correct": true,
+        "explanation": "Webやメールなど複数のサービスを一つの機器で動かすため、IPアドレスに加えてポート番号を使う。\n\n1台のコンピュータには様々なアプリケーションが同時に動作している。\n例えば、WebブラウザでWebサイトを見ながら、メールソフトでメールの送受信をするなどである。\nウェブサーバやメールサーバからクライアントのコンピュータまではIPアドレスをもとにデータが送られてくる。\nサーバから送られてきたデータをクライアントがどのアプリケーションで受け取るかを指定するのがポート番号である。\nつまり、ポート番号は通信が行われるアプリケーションを特定するための番号である。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "Webやメールなど複数のサービスを一つの機器で動かすため、IPアドレスに加えてポート番号を使う。\n\n1台のコンピュータには様々なアプリケーションが同時に動作している。\n例えば、WebブラウザでWebサイトを見ながら、メールソフトでメールの送受信をするなどである。\nウェブサーバやメールサーバからクライアントのコンピュータまではIPアドレスをもとにデータが送られてくる。\nサーバから送られてきたデータをクライアントがどのアプリケーションで受け取るかを指定するのがポート番号である。\nつまり、ポート番号は通信が行われるアプリケーションを特定するための番号である。",
+    "tags": [
+      "ネットワーク",
+      "トランスポート層"
+    ],
+    "primary_term_names": [
+      "トランスポート層"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_163"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.163）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0511"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0511",
+        "term": "トランスポート層",
+        "category": "トランスポート層",
+        "code": "４ア",
+        "matched_variant": "manual:トランスポート層"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0052__choice_3"
+  },
+  {
+    "id": "original_knowledge_0053",
+    "stem": "HTTPSで保護されたWebサイトについて、最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "通信経路を保護するが、サイト内容の真実性は保証しない。",
+        "choice_id": "original_knowledge_0053__choice_0",
+        "is_correct": true,
+        "explanation": "HTTPSは通信の保護を主目的とし、詐欺サイトでないことや商品品質まで保証するものではない。\n\nHTTP(Hyper Text Transfer Protocol)はウェブブラウザとウェブサーバの間でのやり取りの手順、書式を決めるプロトコルである。\n通信は平文（暗号化されていない文）で行われるため、悪意を持ったユーザに盗聴される可能性がある。\nHTTPS(HTTP Secure)はSSL(Secure Sockets Layer)やその後継であるTLS(Transport Layer Security)プロトコルによって提供される暗号化された通信を行う。\nURLがhttpsで始まるウェブサイトはSSL(Secure Sockets Layer)やその後継であるTLS(Transport Layer Security)を用いて暗号化されたセキュアな通信をウェブサーバとブラウザとの間で行っていることを意味する。\nこれにより、第三者に通信の傍受や改ざんがされにくくなる。\nしかし、httpsであることはそのウェブサイトの信頼性や正確性を保証するものではない。"
+      },
+      {
+        "label": "1",
+        "text": "httpsで始まるURLなら詐欺サイトではあり得ない。",
+        "choice_id": "original_knowledge_0053__choice_1",
+        "is_correct": false,
+        "explanation": "HTTPSでもサイト内容の信頼性は別に確認が必要である。"
+      },
+      {
+        "label": "2",
+        "text": "HTTPは暗号化され、HTTPSは暗号化されない。",
+        "choice_id": "original_knowledge_0053__choice_2",
+        "is_correct": false,
+        "explanation": "一般にHTTPSはTLSによる暗号化を加える。"
+      },
+      {
+        "label": "3",
+        "text": "著作権侵害を自動的に防ぐ仕組みである。",
+        "choice_id": "original_knowledge_0053__choice_3",
+        "is_correct": false,
+        "explanation": "通信保護と著作権管理は別の問題である。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "HTTPSは通信の保護を主目的とし、詐欺サイトでないことや商品品質まで保証するものではない。\n\nHTTP(Hyper Text Transfer Protocol)はウェブブラウザとウェブサーバの間でのやり取りの手順、書式を決めるプロトコルである。\n通信は平文（暗号化されていない文）で行われるため、悪意を持ったユーザに盗聴される可能性がある。\nHTTPS(HTTP Secure)はSSL(Secure Sockets Layer)やその後継であるTLS(Transport Layer Security)プロトコルによって提供される暗号化された通信を行う。\nURLがhttpsで始まるウェブサイトはSSL(Secure Sockets Layer)やその後継であるTLS(Transport Layer Security)を用いて暗号化されたセキュアな通信をウェブサーバとブラウザとの間で行っていることを意味する。\nこれにより、第三者に通信の傍受や改ざんがされにくくなる。\nしかし、httpsであることはそのウェブサイトの信頼性や正確性を保証するものではない。",
+    "tags": [
+      "ネットワーク",
+      "HTTPS",
+      "TLS"
+    ],
+    "primary_term_names": [
+      "HTTPS",
+      "TLS"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_167",
+      "original_xlsx_s4_168"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.167・168）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0592",
+      "T0591"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0592",
+        "term": "HTTPS",
+        "category": "Webと暗号化",
+        "code": "４ア",
+        "matched_variant": "manual:HTTPS"
+      },
+      {
+        "term_id": "T0591",
+        "term": "TLS",
+        "category": "Webと暗号化",
+        "code": "４ア",
+        "matched_variant": "manual:TLS"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0053__choice_0"
+  },
+  {
+    "id": "original_knowledge_0054",
+    "stem": "Webブラウザのキャッシュの主な目的として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "毎回必ずデータを削除して再取得すること。",
+        "choice_id": "original_knowledge_0054__choice_0",
+        "is_correct": false,
+        "explanation": "キャッシュは再利用するための仕組みである。"
+      },
+      {
+        "label": "1",
+        "text": "以前取得したデータを再利用し、通信量や表示時間を減らすこと。",
+        "choice_id": "original_knowledge_0054__choice_1",
+        "is_correct": true,
+        "explanation": "キャッシュは画像などを一時的に保存して再利用し、閲覧を高速化する。\n\nウェブブラウザがインターネット上のウェブページを表示する際、HTML、CSS、JavaScript、画像など多くのファイルをダウンロードする必要がある。\nウェブブラウザは受け取ったこれらのファイルをキャッシュ（貯蔵庫）に保存し、その後、画面に表示する。\n再度、同じページを閲覧するときには、キャッシュからこれらのファイルを読み込む。\nこのようにすることで、ファイルを何度もダウンロードする必要がなくなり、ウェブページの読み込み時間を大幅に短縮することができる。\nただし、キャッシュはあくまで一時的なものであり、ウェブページの最新版を反映していない場合があるため注意が必要である。"
+      },
+      {
+        "label": "2",
+        "text": "閲覧履歴を全て外部に公開すること。",
+        "choice_id": "original_knowledge_0054__choice_2",
+        "is_correct": false,
+        "explanation": "キャッシュの目的は公開ではない。"
+      },
+      {
+        "label": "3",
+        "text": "WebサーバのIPアドレスを変更すること。",
+        "choice_id": "original_knowledge_0054__choice_3",
+        "is_correct": false,
+        "explanation": "キャッシュはIPアドレスを変更しない。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "キャッシュは画像などを一時的に保存して再利用し、閲覧を高速化する。\n\nウェブブラウザがインターネット上のウェブページを表示する際、HTML、CSS、JavaScript、画像など多くのファイルをダウンロードする必要がある。\nウェブブラウザは受け取ったこれらのファイルをキャッシュ（貯蔵庫）に保存し、その後、画面に表示する。\n再度、同じページを閲覧するときには、キャッシュからこれらのファイルを読み込む。\nこのようにすることで、ファイルを何度もダウンロードする必要がなくなり、ウェブページの読み込み時間を大幅に短縮することができる。\nただし、キャッシュはあくまで一時的なものであり、ウェブページの最新版を反映していない場合があるため注意が必要である。",
+    "tags": [
+      "ネットワーク",
+      "Browser"
+    ],
+    "primary_term_names": [
+      "Browser"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_170"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.170）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0183"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0183",
+        "term": "Browser",
+        "category": "Web",
+        "code": "２ア",
+        "matched_variant": "manual:Browser"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0054__choice_1"
+  },
+  {
+    "id": "original_knowledge_0055",
+    "stem": "HTTPステータスコード404が示すものとして最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "利用者のPCの電源が切れていること。",
+        "choice_id": "original_knowledge_0055__choice_0",
+        "is_correct": false,
+        "explanation": "404はサーバが返すHTTP応答である。"
+      },
+      {
+        "label": "1",
+        "text": "要求したサーバが必ず停止していること。",
+        "choice_id": "original_knowledge_0055__choice_1",
+        "is_correct": false,
+        "explanation": "サーバが応答した上で資源だけが存在しない場合もある。"
+      },
+      {
+        "label": "2",
+        "text": "要求したWeb上の資源がサーバで見つからないこと。",
+        "choice_id": "original_knowledge_0055__choice_2",
+        "is_correct": true,
+        "explanation": "404は、指定したページやファイルが見つからないことを表す応答である。\n\n404 Not Foundは、サーバ自体は存在するが、クライアント（ウェブブラウザ）が要求したリソース（ウェブページやコンテンツ）がサーバ上の指定された場所に存在しないことを示すHTTPステータスコード（エラーメッセージ）である。\nこのエラーメッセージは、リソースが削除・移動されていたとき、URLのパスの部分を打ち間違えてた場合などに発生する。\n例：example.com/indexとすべきところをexample.com/imdexとしている。\nドメイン名が間違っているなどの理由で、指定されたサーバ自体が存在しない場合、ブラウザやOSによって異なるが「このサイトにアクセスできません」や「このページに到達できません」などのエラーメッセージが表示される。\nつまり、404 Not Foundというエラーは「サーバが存在しない」ことを示すのでなく「要求されたリソースがサーバ上に見当たらない」ことを示すものである。"
+      },
+      {
+        "label": "3",
+        "text": "通信内容が暗号化されていること。",
+        "choice_id": "original_knowledge_0055__choice_3",
+        "is_correct": false,
+        "explanation": "暗号化の有無を示すコードではない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "404は、指定したページやファイルが見つからないことを表す応答である。\n\n404 Not Foundは、サーバ自体は存在するが、クライアント（ウェブブラウザ）が要求したリソース（ウェブページやコンテンツ）がサーバ上の指定された場所に存在しないことを示すHTTPステータスコード（エラーメッセージ）である。\nこのエラーメッセージは、リソースが削除・移動されていたとき、URLのパスの部分を打ち間違えてた場合などに発生する。\n例：example.com/indexとすべきところをexample.com/imdexとしている。\nドメイン名が間違っているなどの理由で、指定されたサーバ自体が存在しない場合、ブラウザやOSによって異なるが「このサイトにアクセスできません」や「このページに到達できません」などのエラーメッセージが表示される。\nつまり、404 Not Foundというエラーは「サーバが存在しない」ことを示すのでなく「要求されたリソースがサーバ上に見当たらない」ことを示すものである。",
+    "tags": [
+      "ネットワーク",
+      "HTTP",
+      "404 Not Found"
+    ],
+    "primary_term_names": [
+      "HTTP"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_171"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.171）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0582"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0582",
+        "term": "HTTP",
+        "category": "Web",
+        "code": "４ア",
+        "matched_variant": "manual:HTTP"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0055__choice_2"
+  },
+  {
+    "id": "original_knowledge_0056",
+    "stem": "電子メールの配送について、最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "送信者と受信者の端末が常に直接接続して配送する。",
+        "choice_id": "original_knowledge_0056__choice_0",
+        "is_correct": false,
+        "explanation": "電子メールは通常メールサーバを経由する。"
+      },
+      {
+        "label": "1",
+        "text": "受信者の端末が停止中なら直ちに永久消失する。",
+        "choice_id": "original_knowledge_0056__choice_1",
+        "is_correct": false,
+        "explanation": "サーバに保管されるため、後で受信できることがある。"
+      },
+      {
+        "label": "2",
+        "text": "メールアドレスにはドメイン部分が不要である。",
+        "choice_id": "original_knowledge_0056__choice_2",
+        "is_correct": false,
+        "explanation": "ドメイン部分は配送先サーバの特定などに使われる。"
+      },
+      {
+        "label": "3",
+        "text": "送信メールはメールサーバを経由し、宛先側のサーバに配送・保管される。",
+        "choice_id": "original_knowledge_0056__choice_3",
+        "is_correct": true,
+        "explanation": "受信者の端末が停止中でも、通常は宛先のメールサーバに保管され、後で取得できる。\n\n電子メール（以下メール）は直接ユーザの端末に送られるわけではない。\nユーザの端末に直接メールを送る仕組みとした場合、その端末の電源が入っていなければ、メールを届けることができない。\nそこで、メールをやり取りする専門のコンピュータ（メールサーバ）を用意し、常時稼働させておくことにする。\n電子メールは必ずしも暗号化された通信で送られるわけではない。\nメールの送受信に用いられるプロトコル（SMTP,POP,IMAPなど）には元来、暗号化機能がないためである。\nそのため、これらのプロトコルを用いてメールを送受信した場合、その内容は第三者によって盗聴や改ざんの可能性がある。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "受信者の端末が停止中でも、通常は宛先のメールサーバに保管され、後で取得できる。\n\n電子メール（以下メール）は直接ユーザの端末に送られるわけではない。\nユーザの端末に直接メールを送る仕組みとした場合、その端末の電源が入っていなければ、メールを届けることができない。\nそこで、メールをやり取りする専門のコンピュータ（メールサーバ）を用意し、常時稼働させておくことにする。\n電子メールは必ずしも暗号化された通信で送られるわけではない。\nメールの送受信に用いられるプロトコル（SMTP,POP,IMAPなど）には元来、暗号化機能がないためである。\nそのため、これらのプロトコルを用いてメールを送受信した場合、その内容は第三者によって盗聴や改ざんの可能性がある。",
+    "tags": [
+      "ネットワーク",
+      "電子メール",
+      "メールサーバ",
+      "SMTP"
+    ],
+    "primary_term_names": [
+      "E-mail",
+      "メールサーバ",
+      "SMTP"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_172",
+      "original_xlsx_s4_173"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.172・173）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0187",
+      "T0579",
+      "T0576"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0187",
+        "term": "E-mail",
+        "category": "電子メール",
+        "code": "２ア;４ア;４ア;２ア",
+        "matched_variant": "manual:電子メール"
+      },
+      {
+        "term_id": "T0579",
+        "term": "メールサーバ",
+        "category": "電子メール",
+        "code": "４ア",
+        "matched_variant": "manual:メールサーバ"
+      },
+      {
+        "term_id": "T0576",
+        "term": "SMTP",
+        "category": "電子メール",
+        "code": "４ア",
+        "matched_variant": "manual:SMTP"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0056__choice_3"
+  },
+  {
+    "id": "original_knowledge_0057",
+    "stem": "プロキシサーバの主な役割として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "利用者に代わって外部のWebサーバなどへのアクセスを中継すること。",
+        "choice_id": "original_knowledge_0057__choice_0",
+        "is_correct": true,
+        "explanation": "プロキシサーバは内部の利用者と外部のサービスとの間で通信を代理・中継する。\n\nプロキシサーバはクライアント（ウェブブラウザ）とウェブサーバ（ウェブサイト）の通信を中継するサーバである。\nウェブブラウザがウェブサイトにアクセスする際、リクエストをプロキシサーバに送り、プロキシサーバがリクエストに基づきウェブサーバと通信を行う。\nウェブサーバからプロキシサーバに送られたデータを、プロキシサーバがウェブブラウザへ転送する。\nこの仕組みにはいくつかのメリットがある。\n1．キャッシング：プロキシサーバは一度アクセスしたウェブサイトのデータをキャッシュとして保存する。"
+      },
+      {
+        "label": "1",
+        "text": "通信規則に基づいてパケットを許可・遮断すること。",
+        "choice_id": "original_knowledge_0057__choice_1",
+        "is_correct": false,
+        "explanation": "これはファイアウォールの主な役割である。"
+      },
+      {
+        "label": "2",
+        "text": "CPU内部の計算誤差を訂正すること。",
+        "choice_id": "original_knowledge_0057__choice_2",
+        "is_correct": false,
+        "explanation": "プロキシサーバは計算装置ではない。"
+      },
+      {
+        "label": "3",
+        "text": "データベースの主キーを自動設定すること。",
+        "choice_id": "original_knowledge_0057__choice_3",
+        "is_correct": false,
+        "explanation": "プロキシサーバはデータベース設計の機能ではない。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "プロキシサーバは内部の利用者と外部のサービスとの間で通信を代理・中継する。\n\nプロキシサーバはクライアント（ウェブブラウザ）とウェブサーバ（ウェブサイト）の通信を中継するサーバである。\nウェブブラウザがウェブサイトにアクセスする際、リクエストをプロキシサーバに送り、プロキシサーバがリクエストに基づきウェブサーバと通信を行う。\nウェブサーバからプロキシサーバに送られたデータを、プロキシサーバがウェブブラウザへ転送する。\nこの仕組みにはいくつかのメリットがある。\n1．キャッシング：プロキシサーバは一度アクセスしたウェブサイトのデータをキャッシュとして保存する。",
+    "tags": [
+      "ネットワーク",
+      "プロキシサーバ"
+    ],
+    "primary_term_names": [
+      "プロキシサーバ"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_175"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.175）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0585"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0585",
+        "term": "プロキシサーバ",
+        "category": "Web",
+        "code": "４ア",
+        "matched_variant": "manual:プロキシサーバ"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0057__choice_0"
+  },
+  {
+    "id": "original_knowledge_0058",
+    "stem": "ファイアウォールの主な役割として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "利用者に代わってWebアクセスを中継すること。",
+        "choice_id": "original_knowledge_0058__choice_0",
+        "is_correct": false,
+        "explanation": "これはプロキシサーバの主な役割である。"
+      },
+      {
+        "label": "1",
+        "text": "通信規則に基づき、ネットワーク通信を許可または遮断すること。",
+        "choice_id": "original_knowledge_0058__choice_1",
+        "is_correct": true,
+        "explanation": "ファイアウォールは内部と外部の境界などで通信を制御し、不正な接続を減らすために用いる。\n\nファイアウォールは外部のネットワークから送られてくるデータを検査し、不審な通信から内部のネットワークを守る仕組みの総称である。\nファイアウォールはLANの入り口であるルータに備わっていることが多い。\nルータに備わったファイアウォールはLAN全体を守ることができる。\nまた、個々のコンピュータのOSやセキュリティソフトに備わったパーソナルファイアウォールもある。\nファイアウォールは大きく分けると以下のような設定ができる。"
+      },
+      {
+        "label": "2",
+        "text": "全てのマルウェアを必ず削除すること。",
+        "choice_id": "original_knowledge_0058__choice_2",
+        "is_correct": false,
+        "explanation": "通信制御だけで全ての感染除去を保証するものではない。"
+      },
+      {
+        "label": "3",
+        "text": "ファイルを必ず暗号化して保存すること。",
+        "choice_id": "original_knowledge_0058__choice_3",
+        "is_correct": false,
+        "explanation": "ファイアウォールは暗号化専用の機能ではない。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "ファイアウォールは内部と外部の境界などで通信を制御し、不正な接続を減らすために用いる。\n\nファイアウォールは外部のネットワークから送られてくるデータを検査し、不審な通信から内部のネットワークを守る仕組みの総称である。\nファイアウォールはLANの入り口であるルータに備わっていることが多い。\nルータに備わったファイアウォールはLAN全体を守ることができる。\nまた、個々のコンピュータのOSやセキュリティソフトに備わったパーソナルファイアウォールもある。\nファイアウォールは大きく分けると以下のような設定ができる。",
+    "tags": [
+      "ネットワーク",
+      "firewall",
+      "アクセス制御"
+    ],
+    "primary_term_names": [
+      "Firewall",
+      "アクセス制御"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_176"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.176）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0103",
+      "T0564"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0103",
+        "term": "Firewall",
+        "category": "不正アクセス",
+        "code": "１イ;４ア;４ア;１イ",
+        "matched_variant": "manual:firewall"
+      },
+      {
+        "term_id": "T0564",
+        "term": "アクセス制御",
+        "category": "アクセス制御と認証",
+        "code": "４ア",
+        "matched_variant": "manual:アクセス制御"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0058__choice_1"
+  },
+  {
+    "id": "original_knowledge_0059",
+    "stem": "Web閲覧中にウイルス感染を告げ、すぐにソフトを入れるよう促す警告が表示された。最も適切な初動はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "表示されたソフトを直ちにインストールする。",
+        "choice_id": "original_knowledge_0059__choice_0",
+        "is_correct": false,
+        "explanation": "警告自体が不正ソフトを導入させる罠の可能性がある。"
+      },
+      {
+        "label": "1",
+        "text": "警告のリンクを友人全員へ転送して確認してもらう。",
+        "choice_id": "original_knowledge_0059__choice_1",
+        "is_correct": false,
+        "explanation": "被害や不正サイトへの誘導を広げるおそれがある。"
+      },
+      {
+        "label": "2",
+        "text": "表示内のリンクを押さず、ブラウザを閉じて信頼できる経路で確認する。",
+        "choice_id": "original_knowledge_0059__choice_2",
+        "is_correct": true,
+        "explanation": "偽警告から不正ソフトを入れさせる手口があるため、表示の指示には従わず別経路で確認する。\n\nURLをクリックしただけで一方的にサービスへの入会などの契約の成立を宣言し、使用料金を請求する詐欺をワンクリック詐欺という。\nURLのクリックだけで契約が成立することはないため、無視してもよい。\nただし、不安な場合は警察や消費者センターなどに相談をするとよい。\nコンピュータ・ウィルスなどの悪意あるソフトウェアをまとめてマルウェアという。\nマルウェアはシステムを破壊するものだけではなく、ユーザに気づかれることなく情報を盗み取ったり、遠隔操作を行うものもある。\n例えば、マルウェアの一種であるスパイウェアはキーボードからの入力やウェブブラウザを監視し、ユーザIDやパスワード、クレジットカード番号、閲覧履歴などを盗み出し、外部に送信する。\nこのような警告は、ユーザを驚かせることで、悪意あるウェブサイトやマルウェア（悪意あるソフトウェア）のインストールへと誘導している可能性が非常に高い。\nそのため、警告メッセージが表示されても、無視するとよい。\nこれらのメッセージは広告のポップアップ機能を利用している可能性が高い。"
+      },
+      {
+        "label": "3",
+        "text": "表示された電話番号に連絡して遠隔操作を許可する。",
+        "choice_id": "original_knowledge_0059__choice_3",
+        "is_correct": false,
+        "explanation": "サポート詐欺の可能性があり、遠隔操作を許可すべきでない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "偽警告から不正ソフトを入れさせる手口があるため、表示の指示には従わず別経路で確認する。\n\nURLをクリックしただけで一方的にサービスへの入会などの契約の成立を宣言し、使用料金を請求する詐欺をワンクリック詐欺という。\nURLのクリックだけで契約が成立することはないため、無視してもよい。\nただし、不安な場合は警察や消費者センターなどに相談をするとよい。\nコンピュータ・ウィルスなどの悪意あるソフトウェアをまとめてマルウェアという。\nマルウェアはシステムを破壊するものだけではなく、ユーザに気づかれることなく情報を盗み取ったり、遠隔操作を行うものもある。\n例えば、マルウェアの一種であるスパイウェアはキーボードからの入力やウェブブラウザを監視し、ユーザIDやパスワード、クレジットカード番号、閲覧履歴などを盗み出し、外部に送信する。\nこのような警告は、ユーザを驚かせることで、悪意あるウェブサイトやマルウェア（悪意あるソフトウェア）のインストールへと誘導している可能性が非常に高い。\nそのため、警告メッセージが表示されても、無視するとよい。\nこれらのメッセージは広告のポップアップ機能を利用している可能性が高い。",
+    "tags": [
+      "ネットワーク",
+      "マルウェア",
+      "偽警告",
+      "情報セキュリティ"
+    ],
+    "primary_term_names": [
+      "マルウェア",
+      "情報セキュリティ"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_177",
+      "original_xlsx_s4_178",
+      "original_xlsx_s4_180"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.177・178・180）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0093",
+      "T0081"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0093",
+        "term": "マルウェア",
+        "category": "マルウェア",
+        "code": "１イ;１ウ;１ウ;１イ",
+        "matched_variant": "manual:マルウェア"
+      },
+      {
+        "term_id": "T0081",
+        "term": "情報セキュリティ",
+        "category": "情報セキュリティ",
+        "code": "１イ;４ア;４ア;１イ",
+        "matched_variant": "manual:情報セキュリティ"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0059__choice_2"
+  },
+  {
+    "id": "original_knowledge_0060",
+    "stem": "ロボット型検索エンジンが検索結果を返す仕組みとして最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "検索のたびに全Webページへ直接問い合わせる。",
+        "choice_id": "original_knowledge_0060__choice_0",
+        "is_correct": false,
+        "explanation": "ロボット型では事前に作成した索引を用いる。"
+      },
+      {
+        "label": "1",
+        "text": "全てのWebページが必ず検索対象になる。",
+        "choice_id": "original_knowledge_0060__choice_1",
+        "is_correct": false,
+        "explanation": "クロールできないページや非公開領域は対象外になり得る。"
+      },
+      {
+        "label": "2",
+        "text": "人手だけで全サイトを分類して結果を返す。",
+        "choice_id": "original_knowledge_0060__choice_2",
+        "is_correct": false,
+        "explanation": "ロボット型は自動収集・索引作成を基本とする。"
+      },
+      {
+        "label": "3",
+        "text": "クローラで作った索引を、検索時に利用する仕組み。",
+        "choice_id": "original_knowledge_0060__choice_3",
+        "is_correct": true,
+        "explanation": "検索のたびに全Webページを巡回するのではなく、あらかじめ構築したインデックスを利用する。\n\nウェブ検索エンジンは、その場で世界中のウェブサイトから情報を収集するのではない。\nウェブクローラ（＝ウェブスパイダー、ロボット）と呼ばれるプログラムを使用し、定期的にインターネット上のウェブサイトを巡回し、データを収集する。\n収集する情報はページの内容だけでなく、HTMLの構造を理解しページのタイトルや説明、キーワード、著者、作成日、最終更新日などの情報も読み取る。\nディレクトリ型の検索エンジンとは、人間がウェブページをカテゴリ分けしてデータベースに登録する方式であり、ウェブサイトの目録（リンク集）である。\n手作業で一覧の作成を行うため、掲載されるウェブサイトが一定の品質以上のものであり、特定の分野や地域など目的のサイトがわかりやすく分類されているなどの利点がある。\n過去、日本では、Yahoo!カテゴリが有名であったが、2018年にサービスを終了している。\n通常の検索エンジンによって収集・インデックス化されないウェブサイトを深層ウェブ（deep web)という。\nGoogleやMicrosoft Bingなどの検索エンジンでは、ウェブクローラ（＝ウェブスパイダー、ロボット）と呼ばれるプログラムを用いて、定期的にインターネット上のウェブサイトを巡回し情報を収集している。\nしかし、クローラによる情報の取得を拒否しているサイトや会員専用ページや個人のストレージ、有料コンテンツ、パスワードで保護されているサイト、動的に生成されるサイト（Googleの検索結果など）などを巡回することはできず、ディープウェブとなる。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "検索のたびに全Webページを巡回するのではなく、あらかじめ構築したインデックスを利用する。\n\nウェブ検索エンジンは、その場で世界中のウェブサイトから情報を収集するのではない。\nウェブクローラ（＝ウェブスパイダー、ロボット）と呼ばれるプログラムを使用し、定期的にインターネット上のウェブサイトを巡回し、データを収集する。\n収集する情報はページの内容だけでなく、HTMLの構造を理解しページのタイトルや説明、キーワード、著者、作成日、最終更新日などの情報も読み取る。\nディレクトリ型の検索エンジンとは、人間がウェブページをカテゴリ分けしてデータベースに登録する方式であり、ウェブサイトの目録（リンク集）である。\n手作業で一覧の作成を行うため、掲載されるウェブサイトが一定の品質以上のものであり、特定の分野や地域など目的のサイトがわかりやすく分類されているなどの利点がある。\n過去、日本では、Yahoo!カテゴリが有名であったが、2018年にサービスを終了している。\n通常の検索エンジンによって収集・インデックス化されないウェブサイトを深層ウェブ（deep web)という。\nGoogleやMicrosoft Bingなどの検索エンジンでは、ウェブクローラ（＝ウェブスパイダー、ロボット）と呼ばれるプログラムを用いて、定期的にインターネット上のウェブサイトを巡回し情報を収集している。\nしかし、クローラによる情報の取得を拒否しているサイトや会員専用ページや個人のストレージ、有料コンテンツ、パスワードで保護されているサイト、動的に生成されるサイト（Googleの検索結果など）などを巡回することはできず、ディープウェブとなる。",
+    "tags": [
+      "ネットワーク",
+      "検索エンジン",
+      "クローラ",
+      "インデックス"
+    ],
+    "primary_term_names": [
+      "検索エンジン",
+      "クローラ",
+      "さくいん"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_190",
+      "original_xlsx_s4_191",
+      "original_xlsx_s4_192"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.190・191・192）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0031",
+      "T0588",
+      "T0661"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0031",
+        "term": "検索エンジン",
+        "category": "問題解決",
+        "code": "１ア;４ア;４ア;１ア",
+        "matched_variant": "manual:検索エンジン"
+      },
+      {
+        "term_id": "T0588",
+        "term": "クローラ",
+        "category": "Web",
+        "code": "４ア",
+        "matched_variant": "manual:クローラ"
+      },
+      {
+        "term_id": "T0661",
+        "term": "さくいん",
+        "category": "検索",
+        "code": "４ウ",
+        "matched_variant": "manual:インデックス"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0060__choice_3"
+  },
+  {
+    "id": "original_knowledge_0061",
+    "stem": "リレーショナルデータベースの特徴として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "データを表形式で管理し、キーを用いて表同士を関連付けられること。",
+        "choice_id": "original_knowledge_0061__choice_0",
+        "is_correct": true,
+        "explanation": "リレーショナルデータベースは行と列からなる表でデータを管理し、関係を扱う。\n\nデータベースとは大量のデータを共有性や再利用性を意図して組織的に管理するためのシステム、またはそのシステムで管理されているデータの集まりを指す。\nデータベース登場当時の代表的なモデルは階層型とネットワーク型であった。\nしかし、現在のデータベースの主流はリレーショナル型のデータベース（リレーショナルデータベース）である。\nリレーショナルデータベースでは、データを内容ごとに分類したテーブル（表）に格納し、表同士を関連付けること（リレーションシップ）でデータを統合的に扱うことができる。\n音声や画像といったマルチデータは表を用いて表現することが難しい。"
+      },
+      {
+        "label": "1",
+        "text": "画像だけを保存し、行や列を持たないこと。",
+        "choice_id": "original_knowledge_0061__choice_1",
+        "is_correct": false,
+        "explanation": "表形式で構造化したデータを扱う。"
+      },
+      {
+        "label": "2",
+        "text": "同時に一人しか利用できないこと。",
+        "choice_id": "original_knowledge_0061__choice_2",
+        "is_correct": false,
+        "explanation": "DBMSは複数利用者の同時利用を支援できる。"
+      },
+      {
+        "label": "3",
+        "text": "データを必ず一つの巨大な文字列にまとめること。",
+        "choice_id": "original_knowledge_0061__choice_3",
+        "is_correct": false,
+        "explanation": "データを表の項目として分けて管理する。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "リレーショナルデータベースは行と列からなる表でデータを管理し、関係を扱う。\n\nデータベースとは大量のデータを共有性や再利用性を意図して組織的に管理するためのシステム、またはそのシステムで管理されているデータの集まりを指す。\nデータベース登場当時の代表的なモデルは階層型とネットワーク型であった。\nしかし、現在のデータベースの主流はリレーショナル型のデータベース（リレーショナルデータベース）である。\nリレーショナルデータベースでは、データを内容ごとに分類したテーブル（表）に格納し、表同士を関連付けること（リレーションシップ）でデータを統合的に扱うことができる。\n音声や画像といったマルチデータは表を用いて表現することが難しい。",
+    "tags": [
+      "ネットワーク",
+      "relational database",
+      "DBMS"
+    ],
+    "primary_term_names": [
+      "RDB",
+      "DBMS"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_195"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.195）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0602",
+      "T0594"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0602",
+        "term": "RDB",
+        "category": "リレーショナルデータベース",
+        "code": "４イ",
+        "matched_variant": "manual:relational database"
+      },
+      {
+        "term_id": "T0594",
+        "term": "DBMS",
+        "category": "データベース",
+        "code": "４イ",
+        "matched_variant": "manual:DBMS"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0061__choice_0"
+  },
+  {
+    "id": "original_knowledge_0062",
+    "stem": "SQLの主な用途として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "画像をRGBからCMYKへ変換すること。",
+        "choice_id": "original_knowledge_0062__choice_0",
+        "is_correct": false,
+        "explanation": "SQLは画像変換用の言語ではない。"
+      },
+      {
+        "label": "1",
+        "text": "データベースのデータを検索、追加、更新、削除すること。",
+        "choice_id": "original_knowledge_0062__choice_1",
+        "is_correct": true,
+        "explanation": "SQLはリレーショナルデータベースを操作するための標準的な言語である。\n\nSQL(Structured Query Language)はリレーショナルデータベースを構築・操作するための標準的な言語である。\nSQLはユーザやアプリケーションからの要求をリレーショナルデータベース管理システムに伝える。\nリレーショナルデータベース管理システムはSQLによって出された指示をデータベースに問い合わせ、その結果を受け取り、ユーザに表示する。\n現代では、マイクロソフト社のACCESSやクラリス社のFileMakerのように、リレーショナルデータベース管理システムに対する指示を画面操作によって行うことができるデータベースソフトが登場している。\nこれらのツールを使えば、SQLを知らないユーザであってもリレーショナルデータベース管理システムを扱うことができる。"
+      },
+      {
+        "label": "2",
+        "text": "Webブラウザの画面配置を指定すること。",
+        "choice_id": "original_knowledge_0062__choice_2",
+        "is_correct": false,
+        "explanation": "これは主にHTMLやCSSの役割である。"
+      },
+      {
+        "label": "3",
+        "text": "ネットワークのIPアドレスを割り当てること。",
+        "choice_id": "original_knowledge_0062__choice_3",
+        "is_correct": false,
+        "explanation": "SQLはIPアドレスの割当て方式ではない。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "SQLはリレーショナルデータベースを操作するための標準的な言語である。\n\nSQL(Structured Query Language)はリレーショナルデータベースを構築・操作するための標準的な言語である。\nSQLはユーザやアプリケーションからの要求をリレーショナルデータベース管理システムに伝える。\nリレーショナルデータベース管理システムはSQLによって出された指示をデータベースに問い合わせ、その結果を受け取り、ユーザに表示する。\n現代では、マイクロソフト社のACCESSやクラリス社のFileMakerのように、リレーショナルデータベース管理システムに対する指示を画面操作によって行うことができるデータベースソフトが登場している。\nこれらのツールを使えば、SQLを知らないユーザであってもリレーショナルデータベース管理システムを扱うことができる。",
+    "tags": [
+      "ネットワーク",
+      "SQL"
+    ],
+    "primary_term_names": [
+      "SQL"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_196"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.196）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0606"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0606",
+        "term": "SQL",
+        "category": "リレーショナルデータベース",
+        "code": "４イ",
+        "matched_variant": "manual:SQL"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0062__choice_1"
+  },
+  {
+    "id": "original_knowledge_0063",
+    "stem": "氏名が重複・変更する可能性がある生徒表で、主キーとして最も適切な項目はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "氏名",
+        "choice_id": "original_knowledge_0063__choice_0",
+        "is_correct": false,
+        "explanation": "同姓同名や改姓があり、一意性・安定性を保証しにくい。"
+      },
+      {
+        "label": "1",
+        "text": "所属クラス",
+        "choice_id": "original_knowledge_0063__choice_1",
+        "is_correct": false,
+        "explanation": "同じクラスに多数の生徒がいるため一意でない。"
+      },
+      {
+        "label": "2",
+        "text": "生徒ごとに重複せず、原則として変化しない学籍番号。",
+        "choice_id": "original_knowledge_0063__choice_2",
+        "is_correct": true,
+        "explanation": "主キーは各行を一意に識別でき、NULLにならず、安定している属性が望ましい。\n\nデータベースにおいて、主キーとはそのテーブル（表）のレコード（行）を特定するための属性（列）のことである。\n複数の列をまとめてひとつの主キーとすることもできる。\n主キーは空欄（NULL）を取ることはできず、列内で同じ値があってはならない。\nまた、主キーは原則として変更されることのない値である。\n名前は、同姓同名の人物が登録されると重複が起こりうるうえ、結婚などの理由により変更される可能性、打ち間違いや表記の揺れ（斉藤と齋藤など）の問題があるため、主キーとしては適切でない。"
+      },
+      {
+        "label": "3",
+        "text": "部活動名",
+        "choice_id": "original_knowledge_0063__choice_3",
+        "is_correct": false,
+        "explanation": "同じ部活動の生徒が複数おり、未所属の場合もある。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "主キーは各行を一意に識別でき、NULLにならず、安定している属性が望ましい。\n\nデータベースにおいて、主キーとはそのテーブル（表）のレコード（行）を特定するための属性（列）のことである。\n複数の列をまとめてひとつの主キーとすることもできる。\n主キーは空欄（NULL）を取ることはできず、列内で同じ値があってはならない。\nまた、主キーは原則として変更されることのない値である。\n名前は、同姓同名の人物が登録されると重複が起こりうるうえ、結婚などの理由により変更される可能性、打ち間違いや表記の揺れ（斉藤と齋藤など）の問題があるため、主キーとしては適切でない。",
+    "tags": [
+      "ネットワーク",
+      "主キー",
+      "データベース",
+      "レコード"
+    ],
+    "primary_term_names": [
+      "主キー",
+      "データベース",
+      "レコード"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_200"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.200）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0603",
+      "T0593",
+      "T0455"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0603",
+        "term": "主キー",
+        "category": "リレーショナルデータベース",
+        "code": "４イ",
+        "matched_variant": "manual:主キー"
+      },
+      {
+        "term_id": "T0593",
+        "term": "データベース",
+        "category": "データベース",
+        "code": "４イ",
+        "matched_variant": "manual:データベース"
+      },
+      {
+        "term_id": "T0455",
+        "term": "レコード",
+        "category": "レコード",
+        "code": "３イ;４イ;４イ;３イ",
+        "matched_variant": "manual:レコード"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0063__choice_2"
+  },
+  {
+    "id": "original_knowledge_0064",
+    "stem": "成績表が学籍番号・授業ID・素点からなり、各生徒は複数授業を受ける。各授業の試験が1回だけなら、主キーとして適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "学籍番号だけ",
+        "choice_id": "original_knowledge_0064__choice_0",
+        "is_correct": false,
+        "explanation": "一人が複数授業を受けるため重複する。"
+      },
+      {
+        "label": "1",
+        "text": "授業IDだけ",
+        "choice_id": "original_knowledge_0064__choice_1",
+        "is_correct": false,
+        "explanation": "同じ授業を複数生徒が受けるため重複する。"
+      },
+      {
+        "label": "2",
+        "text": "素点だけ",
+        "choice_id": "original_knowledge_0064__choice_2",
+        "is_correct": false,
+        "explanation": "同じ点数の生徒が複数いるため一意にならない。"
+      },
+      {
+        "label": "3",
+        "text": "学籍番号と授業IDの組合せ。",
+        "choice_id": "original_knowledge_0064__choice_3",
+        "is_correct": true,
+        "explanation": "一人の生徒は複数授業を受け、同じ授業は複数生徒が受けるため、二つの組合せで一意にする。\n\nデータベースにおいて、主キーとはそのテーブル内のレコード（行）を特定するための一つまたは複数の属性（列）のことである。\n定期考査の点数を保管するデータベースでは、一人の学生が複数の授業で試験を受けているため、学籍番号だけでレコードを特定することはできない。\nそのため、学籍番号のみでは主キーとはならない。\nまた、ひとつの授業を複数の学生が受講しているため、授業IDのみでもレコードを特定することはできない。\nつまり、授業IDも主キーにはならない。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "一人の生徒は複数授業を受け、同じ授業は複数生徒が受けるため、二つの組合せで一意にする。\n\nデータベースにおいて、主キーとはそのテーブル内のレコード（行）を特定するための一つまたは複数の属性（列）のことである。\n定期考査の点数を保管するデータベースでは、一人の学生が複数の授業で試験を受けているため、学籍番号だけでレコードを特定することはできない。\nそのため、学籍番号のみでは主キーとはならない。\nまた、ひとつの授業を複数の学生が受講しているため、授業IDのみでもレコードを特定することはできない。\nつまり、授業IDも主キーにはならない。",
+    "tags": [
+      "ネットワーク",
+      "複合主キー",
+      "主キー",
+      "リレーショナルデータベース"
+    ],
+    "primary_term_names": [
+      "主キー",
+      "RDB"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_201"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.201）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0603",
+      "T0602"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0603",
+        "term": "主キー",
+        "category": "リレーショナルデータベース",
+        "code": "４イ",
+        "matched_variant": "manual:主キー"
+      },
+      {
+        "term_id": "T0602",
+        "term": "RDB",
+        "category": "リレーショナルデータベース",
+        "code": "４イ",
+        "matched_variant": "manual:リレーショナルデータベース"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0064__choice_3"
+  },
+  {
+    "id": "original_knowledge_0065",
+    "stem": "生徒が複数の部活に所属でき、部活ごとに顧問が決まる情報を管理する。更新時の重複を減らす設計として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "生徒表、部活表、生徒と部活の所属関係表に分けてキーで関連付ける。",
+        "choice_id": "original_knowledge_0065__choice_0",
+        "is_correct": true,
+        "explanation": "事実ごとに表を分けると、顧問名の重複保存や複数部活を一行へ詰め込む問題を減らせる。\n\nデータベースにおける正規化とは、情報を無駄なく、効率よく保存するためのテーブル（表）の整理のことである。\n正規化を順に行っていく。\nまず、ひとつのレコード（行）には一つの情報だけを入れる。\nこの表では、「山田　次郎」が「将棋部」と「卓球部」に所属しているという情報がひとつのレコードに入っている。\nこれを2つのレコードにわけて、1レコード1情報にする。"
+      },
+      {
+        "label": "1",
+        "text": "全所属部活を一つのセルに読点で連結して保存する。",
+        "choice_id": "original_knowledge_0065__choice_1",
+        "is_correct": false,
+        "explanation": "値が繰返し構造になり、検索・更新・整合性維持が難しい。"
+      },
+      {
+        "label": "2",
+        "text": "氏名と顧問名を部活ごとに一つの巨大表へコピーする。",
+        "choice_id": "original_knowledge_0065__choice_2",
+        "is_correct": false,
+        "explanation": "同じ事実が重複し、更新不整合が起きやすい。"
+      },
+      {
+        "label": "3",
+        "text": "学籍番号を削除し、空白行で同じ生徒を表す。",
+        "choice_id": "original_knowledge_0065__choice_3",
+        "is_correct": false,
+        "explanation": "各行が自己完結せず、行の識別や処理が不安定になる。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "事実ごとに表を分けると、顧問名の重複保存や複数部活を一行へ詰め込む問題を減らせる。\n\nデータベースにおける正規化とは、情報を無駄なく、効率よく保存するためのテーブル（表）の整理のことである。\n正規化を順に行っていく。\nまず、ひとつのレコード（行）には一つの情報だけを入れる。\nこの表では、「山田　次郎」が「将棋部」と「卓球部」に所属しているという情報がひとつのレコードに入っている。\nこれを2つのレコードにわけて、1レコード1情報にする。",
+    "tags": [
+      "ネットワーク",
+      "正規化",
+      "データベース",
+      "外部キー"
+    ],
+    "primary_term_names": [
+      "正規化",
+      "データベース",
+      "外部キー"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_202"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.202）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0657",
+      "T0593",
+      "T0696"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0657",
+        "term": "正規化",
+        "category": "調査",
+        "code": "４ウ",
+        "matched_variant": "manual:正規化"
+      },
+      {
+        "term_id": "T0593",
+        "term": "データベース",
+        "category": "データベース",
+        "code": "４イ",
+        "matched_variant": "manual:データベース"
+      },
+      {
+        "term_id": "T0696",
+        "term": "外部キー",
+        "category": "リレーショナルデータベース",
+        "code": "４イ",
+        "matched_variant": "manual:外部キー"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0065__choice_0"
+  },
+  {
+    "id": "original_knowledge_0066",
+    "stem": "商品表がP1:ノート120円、P2:ペン80円、仕入表がP1を100個、P2を50個、P1を30個である。商品IDで関連付けたとき、ノートの仕入金額合計はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "12,000円",
+        "choice_id": "original_knowledge_0066__choice_0",
+        "is_correct": false,
+        "explanation": "最初の100個分だけで、追加の30個を含めていない。"
+      },
+      {
+        "label": "1",
+        "text": "15,600円",
+        "choice_id": "original_knowledge_0066__choice_1",
+        "is_correct": true,
+        "explanation": "ノートP1は100+30=130個なので、120円×130個=15,600円である。\n\n仕入表と商品表を商品コードのフィールド（列）に基づいて1つのテーブル（表）にまとめる。\n共有する列を使って表を1つにまとめることを結合という。\n表を見やすくするために、商品名と発注個数、単価の列のみを表示する。\nリレーショナル・データベースにおける関連付け（リレーションシップ）は必ずしも1対1である必要はない。\n主な関連付けのタイプは以下のようになる。\n1対1：1つのレコードが別のテーブルの特定の1つのレコードだけに関連付けられる場合。"
+      },
+      {
+        "label": "2",
+        "text": "4,000円",
+        "choice_id": "original_knowledge_0066__choice_2",
+        "is_correct": false,
+        "explanation": "ペンP2の80円×50個を計算している。"
+      },
+      {
+        "label": "3",
+        "text": "19,600円",
+        "choice_id": "original_knowledge_0066__choice_3",
+        "is_correct": false,
+        "explanation": "ノートとペンの仕入金額を合計しており、ノートだけという条件に合わない。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "ノートP1は100+30=130個なので、120円×130個=15,600円である。\n\n仕入表と商品表を商品コードのフィールド（列）に基づいて1つのテーブル（表）にまとめる。\n共有する列を使って表を1つにまとめることを結合という。\n表を見やすくするために、商品名と発注個数、単価の列のみを表示する。\nリレーショナル・データベースにおける関連付け（リレーションシップ）は必ずしも1対1である必要はない。\n主な関連付けのタイプは以下のようになる。\n1対1：1つのレコードが別のテーブルの特定の1つのレコードだけに関連付けられる場合。",
+    "tags": [
+      "ネットワーク",
+      "relation",
+      "join",
+      "集計",
+      "データベース"
+    ],
+    "primary_term_names": [
+      "データベース"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_203",
+      "original_xlsx_s4_204"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.203・204）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0593"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0593",
+        "term": "データベース",
+        "category": "データベース",
+        "code": "４イ",
+        "matched_variant": "manual:データベース"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0066__choice_1"
+  },
+  {
+    "id": "original_knowledge_0067",
+    "stem": "フールプルーフの例として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "停電時に踏切の遮断機を上げたままにする。",
+        "choice_id": "original_knowledge_0067__choice_0",
+        "is_correct": false,
+        "explanation": "故障時に危険側へ移るため、フェールセーフともいえない。"
+      },
+      {
+        "label": "1",
+        "text": "一部故障時に全機能を直ちに停止する。",
+        "choice_id": "original_knowledge_0067__choice_1",
+        "is_correct": false,
+        "explanation": "これは機能を縮退して継続するフェールソフトとは異なる。"
+      },
+      {
+        "label": "2",
+        "text": "電子レンジの扉が開いていると、加熱を開始できないようにする。",
+        "choice_id": "original_knowledge_0067__choice_2",
+        "is_correct": true,
+        "explanation": "フールプルーフは利用者が誤操作しても危険な動作にならないようにする設計である。\n\nフールプルーフとは、機器やシステムを利用する際、ユーザが操作を間違えたとしても、危険な状況にならない仕組み、もしくは、そもそも間違った使い方ができない設計のことである。\n電子レンジはドアを開けた状態で使用すると危険であるため、ドアが開いているときにはスタートボタンを押しても加熱が始まらない。\nこれがフールプルーフの考え方である。\n他にも、乾電池のプラス極とマイナス極を逆にすると入らない、全自動洗濯機の蓋が開いた状態では運転を開始しない、アクセルとブレーキの踏み間違いを検出して加速しない仕組みなどがある。\nコンピュータの世界でも、ソフトウェアが間違った操作をされても意図しない動作をしないようにしたり、入力できる型を指定することで不正なデータが入らないようにするなど、フールプルーフの考え方が使われている。"
+      },
+      {
+        "label": "3",
+        "text": "誤操作時にも警告せず危険な動作を実行する。",
+        "choice_id": "original_knowledge_0067__choice_3",
+        "is_correct": false,
+        "explanation": "誤操作を安全に抑える考え方と逆である。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "フールプルーフは利用者が誤操作しても危険な動作にならないようにする設計である。\n\nフールプルーフとは、機器やシステムを利用する際、ユーザが操作を間違えたとしても、危険な状況にならない仕組み、もしくは、そもそも間違った使い方ができない設計のことである。\n電子レンジはドアを開けた状態で使用すると危険であるため、ドアが開いているときにはスタートボタンを押しても加熱が始まらない。\nこれがフールプルーフの考え方である。\n他にも、乾電池のプラス極とマイナス極を逆にすると入らない、全自動洗濯機の蓋が開いた状態では運転を開始しない、アクセルとブレーキの踏み間違いを検出して加速しない仕組みなどがある。\nコンピュータの世界でも、ソフトウェアが間違った操作をされても意図しない動作をしないようにしたり、入力できる型を指定することで不正なデータが入らないようにするなど、フールプルーフの考え方が使われている。",
+    "tags": [
+      "ネットワーク",
+      "フールプルーフ"
+    ],
+    "primary_term_names": [
+      "フールプルーフ"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_209"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.209）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0562"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0562",
+        "term": "フールプルーフ",
+        "category": "情報セキュリティ",
+        "code": "４ア",
+        "matched_variant": "manual:フールプルーフ"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0067__choice_2"
+  },
+  {
+    "id": "original_knowledge_0068",
+    "stem": "情報セキュリティの三要素CIAの組合せはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "機密性・完全性・冗長性",
+        "choice_id": "original_knowledge_0068__choice_0",
+        "is_correct": false,
+        "explanation": "冗長性は可用性を高める手段になり得るが、CIAのAは可用性である。"
+      },
+      {
+        "label": "1",
+        "text": "認証性・匿名性・圧縮性",
+        "choice_id": "original_knowledge_0068__choice_1",
+        "is_correct": false,
+        "explanation": "CIA三要素の組合せではない。"
+      },
+      {
+        "label": "2",
+        "text": "公開性・独占性・即時性",
+        "choice_id": "original_knowledge_0068__choice_2",
+        "is_correct": false,
+        "explanation": "情報セキュリティの基本三要素ではない。"
+      },
+      {
+        "label": "3",
+        "text": "機密性・完全性・可用性",
+        "choice_id": "original_knowledge_0068__choice_3",
+        "is_correct": true,
+        "explanation": "CIAは、許可された者だけが扱える機密性、正確さを保つ完全性、必要時に利用できる可用性からなる。\n\n情報セキュリティの3要素とは、機密性、完全性、可用性のことである。\n機密性とは、許可された者だけが情報にアクセスできるように制限がかけられている状態のことである。\nID・パスワードによる認証だけでなく、データの閲覧や編集を制限するなどといったアクセス権限を制御することも機密性の向上につながる。\n完全性とは、保有している情報が改ざん・破損しておらず、正確な状態であることである。\nデジタル署名やエラーチェックなどにより完全性を維持することができる。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "CIAは、許可された者だけが扱える機密性、正確さを保つ完全性、必要時に利用できる可用性からなる。\n\n情報セキュリティの3要素とは、機密性、完全性、可用性のことである。\n機密性とは、許可された者だけが情報にアクセスできるように制限がかけられている状態のことである。\nID・パスワードによる認証だけでなく、データの閲覧や編集を制限するなどといったアクセス権限を制御することも機密性の向上につながる。\n完全性とは、保有している情報が改ざん・破損しておらず、正確な状態であることである。\nデジタル署名やエラーチェックなどにより完全性を維持することができる。",
+    "tags": [
+      "ネットワーク",
+      "情報セキュリティ",
+      "機密性",
+      "完全性",
+      "可用性"
+    ],
+    "primary_term_names": [
+      "情報セキュリティ",
+      "機密性",
+      "完全性",
+      "可用性"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_217"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.217）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0081",
+      "T0077",
+      "T0076",
+      "T0075"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0081",
+        "term": "情報セキュリティ",
+        "category": "情報セキュリティ",
+        "code": "１イ;４ア;４ア;１イ",
+        "matched_variant": "manual:情報セキュリティ"
+      },
+      {
+        "term_id": "T0077",
+        "term": "機密性",
+        "category": "情報セキュリティ",
+        "code": "１イ",
+        "matched_variant": "manual:機密性"
+      },
+      {
+        "term_id": "T0076",
+        "term": "完全性",
+        "category": "情報セキュリティ",
+        "code": "１イ",
+        "matched_variant": "manual:完全性"
+      },
+      {
+        "term_id": "T0075",
+        "term": "可用性",
+        "category": "情報セキュリティ",
+        "code": "１イ",
+        "matched_variant": "manual:可用性"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0068__choice_3"
+  },
+  {
+    "id": "original_knowledge_0069",
+    "stem": "ISBNの先頭12桁978410109205について、左から奇数番目に1、偶数番目に3を掛けた合計が10の倍数になるよう末尾のチェックディジットCを付ける。Cはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "8",
+        "choice_id": "original_knowledge_0069__choice_0",
+        "is_correct": true,
+        "explanation": "先頭12桁の加重和は82である。82にCを加えて10の倍数にするには、Cは8となる。\n\nパリティビットとは、データの転送や保存をする際に、誤りを検出するために追加されるビットのことである。\n偶数パリティでは、データビットの中にある「1」の個数が偶数になるようにパリティビットを追加する。\nデータの転送や保存をするときに、誤りが発生し、あるビットで0と1が反転してしまったとする。\n以上より、このISBNにおけるチェックディジットは8である。\nなお、ISBN(International Standard Book Number：国際標準図書番号)は書籍などの出版物の識別用コードである。\n形式は978-4-A-B-Cであり、978-4は日本を表す。"
+      },
+      {
+        "label": "1",
+        "text": "2",
+        "choice_id": "original_knowledge_0069__choice_1",
+        "is_correct": false,
+        "explanation": "2は加重和82を10で割った余りであり、補数ではない。"
+      },
+      {
+        "label": "2",
+        "text": "0",
+        "choice_id": "original_knowledge_0069__choice_2",
+        "is_correct": false,
+        "explanation": "加重和82は10の倍数ではないため、Cは0にならない。"
+      },
+      {
+        "label": "3",
+        "text": "9",
+        "choice_id": "original_knowledge_0069__choice_3",
+        "is_correct": false,
+        "explanation": "82+9は10の倍数にならず、条件を満たさない。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "先頭12桁の加重和は82である。82にCを加えて10の倍数にするには、Cは8となる。\n\nパリティビットとは、データの転送や保存をする際に、誤りを検出するために追加されるビットのことである。\n偶数パリティでは、データビットの中にある「1」の個数が偶数になるようにパリティビットを追加する。\nデータの転送や保存をするときに、誤りが発生し、あるビットで0と1が反転してしまったとする。\n以上より、このISBNにおけるチェックディジットは8である。\nなお、ISBN(International Standard Book Number：国際標準図書番号)は書籍などの出版物の識別用コードである。\n形式は978-4-A-B-Cであり、978-4は日本を表す。",
+    "tags": [
+      "ネットワーク",
+      "チェックディジット",
+      "ISBN",
+      "誤り検出"
+    ],
+    "primary_term_names": [
+      "チェックディジット"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_219",
+      "original_xlsx_s4_220"
+    ],
+    "difficulty": "calculation_basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.219・220）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0269"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0269",
+        "term": "チェックディジット",
+        "category": "誤り検出",
+        "code": "２ア",
+        "matched_variant": "manual:チェックディジット"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0069__choice_0"
+  },
+  {
+    "id": "original_knowledge_0070",
+    "stem": "ハイブリッド暗号方式で大量の本文を送る方法として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "受信者の秘密鍵で共通鍵を暗号化して送る。",
+        "choice_id": "original_knowledge_0070__choice_0",
+        "is_correct": false,
+        "explanation": "秘密鍵は受信者だけが保持し、送信者は通常使えない。"
+      },
+      {
+        "label": "1",
+        "text": "本文用の共通鍵を、受信者の公開鍵で暗号化して送る。",
+        "choice_id": "original_knowledge_0070__choice_1",
+        "is_correct": true,
+        "explanation": "鍵配送には公開鍵暗号、本文の高速な暗号化には共通鍵暗号を使い、両者の利点を組み合わせる。\n\n共通鍵暗号方式は暗号化と復号で同じ鍵を使う暗号化の方式である。\nこの鍵を第三者に盗まれると暗号が解読され、秘密にしていた通信内容が知られてしまう。\nそのため、共通鍵暗号方式では、送信者と受信者の間で鍵を安全に共有する必要がある。\n公開鍵暗号方式は、暗号化と復号で異なる鍵を使用する暗号化の方式である。\n暗号化のための鍵を誰でも利用できるように公開するため公開鍵と呼ばれる。\n復号のための鍵は受信者のみが知っている鍵であり、秘密にされるため秘密鍵という。\n共通鍵暗号方式は暗号化と復号で同じ鍵を使う方式の暗号化である。\n暗号化・復号を高速に処理できるため、大量のデータを暗号化し、リアルタイムに通信することに適している。\n一方で、送信者・受信者以外の第三者に鍵を知られてはならないため、鍵の配付・管理が難しいという欠点がある。\nハイブリッド暗号方式は、公開鍵暗号方式と共通鍵方式を組み合わせた暗号方式である。\n具体的には公開鍵暗号を使って共通鍵（セッション鍵）を安全に送付し、その後の通信は共通鍵（セッション鍵）を使って行われる。\n以下、送信者アリスと受信者ボブのハイブリッド暗号方式での通信の一例である。\nHTTPSでは公開鍵暗号方式を使って共通鍵暗号方式の鍵を配送するハイブリッド暗号方式や、公開された値から送信側・受信側それぞれで共通の鍵を生成するDiffie-Hellman鍵交換（特に、楕円曲線Diffie-Hellman）を使うことで、安全に共通鍵を交換し、その後の通信は共通鍵暗号方式を使った効率的な通信を実現している。"
+      },
+      {
+        "label": "2",
+        "text": "本文をハッシュ値だけに変換して送る。",
+        "choice_id": "original_knowledge_0070__choice_2",
+        "is_correct": false,
+        "explanation": "ハッシュ値から本文を復元することはできない。"
+      },
+      {
+        "label": "3",
+        "text": "共通鍵を本文と一緒に平文で公開する。",
+        "choice_id": "original_knowledge_0070__choice_3",
+        "is_correct": false,
+        "explanation": "第三者も共通鍵を得て本文を復号できてしまう。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "鍵配送には公開鍵暗号、本文の高速な暗号化には共通鍵暗号を使い、両者の利点を組み合わせる。\n\n共通鍵暗号方式は暗号化と復号で同じ鍵を使う暗号化の方式である。\nこの鍵を第三者に盗まれると暗号が解読され、秘密にしていた通信内容が知られてしまう。\nそのため、共通鍵暗号方式では、送信者と受信者の間で鍵を安全に共有する必要がある。\n公開鍵暗号方式は、暗号化と復号で異なる鍵を使用する暗号化の方式である。\n暗号化のための鍵を誰でも利用できるように公開するため公開鍵と呼ばれる。\n復号のための鍵は受信者のみが知っている鍵であり、秘密にされるため秘密鍵という。\n共通鍵暗号方式は暗号化と復号で同じ鍵を使う方式の暗号化である。\n暗号化・復号を高速に処理できるため、大量のデータを暗号化し、リアルタイムに通信することに適している。\n一方で、送信者・受信者以外の第三者に鍵を知られてはならないため、鍵の配付・管理が難しいという欠点がある。\nハイブリッド暗号方式は、公開鍵暗号方式と共通鍵方式を組み合わせた暗号方式である。\n具体的には公開鍵暗号を使って共通鍵（セッション鍵）を安全に送付し、その後の通信は共通鍵（セッション鍵）を使って行われる。\n以下、送信者アリスと受信者ボブのハイブリッド暗号方式での通信の一例である。\nHTTPSでは公開鍵暗号方式を使って共通鍵暗号方式の鍵を配送するハイブリッド暗号方式や、公開された値から送信側・受信側それぞれで共通の鍵を生成するDiffie-Hellman鍵交換（特に、楕円曲線Diffie-Hellman）を使うことで、安全に共通鍵を交換し、その後の通信は共通鍵暗号方式を使った効率的な通信を実現している。",
+    "tags": [
+      "ネットワーク",
+      "共通鍵方式",
+      "公開かぎ暗号方式",
+      "暗号化",
+      "復号"
+    ],
+    "primary_term_names": [
+      "共通鍵方式",
+      "公開かぎ暗号方式",
+      "暗号化",
+      "復号"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_222",
+      "original_xlsx_s4_223",
+      "original_xlsx_s4_225",
+      "original_xlsx_s4_228",
+      "original_xlsx_s4_229"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.222・223・225・228・229）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0556",
+      "T0557",
+      "T0550",
+      "T0552"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0556",
+        "term": "共通鍵方式",
+        "category": "暗号",
+        "code": "４ア",
+        "matched_variant": "manual:共通鍵方式"
+      },
+      {
+        "term_id": "T0557",
+        "term": "公開かぎ暗号方式",
+        "category": "公開鍵暗号",
+        "code": "４ア",
+        "matched_variant": "manual:公開かぎ暗号方式"
+      },
+      {
+        "term_id": "T0550",
+        "term": "暗号化",
+        "category": "暗号",
+        "code": "４ア",
+        "matched_variant": "manual:暗号化"
+      },
+      {
+        "term_id": "T0552",
+        "term": "復号",
+        "category": "暗号",
+        "code": "４ア",
+        "matched_variant": "manual:復号"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0070__choice_1"
+  },
+  {
+    "id": "original_knowledge_0071",
+    "stem": "認証局CAとWebサーバ証明書の主な役割として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "サイトに書かれた全ての内容が真実だと保証すること。",
+        "choice_id": "original_knowledge_0071__choice_0",
+        "is_correct": false,
+        "explanation": "証明書は主に主体と公開鍵の対応を保証し、内容全般を保証しない。"
+      },
+      {
+        "label": "1",
+        "text": "全利用者の秘密鍵を公開すること。",
+        "choice_id": "original_knowledge_0071__choice_1",
+        "is_correct": false,
+        "explanation": "秘密鍵は所有者が秘密に保持すべきものである。"
+      },
+      {
+        "label": "2",
+        "text": "公開鍵とドメイン名の対応を確認できるようにすること。",
+        "choice_id": "original_knowledge_0071__choice_2",
+        "is_correct": true,
+        "explanation": "ブラウザは証明書チェーンや有効期限、接続先名などを検証して、相手の公開鍵を確認する。\n\n公開鍵認証局（電子認証局、単に認証局ともいう）は、公開鍵証明書を発行する機関である。\n公開鍵証明書は公開鍵と持ち主の対応を保証するものであり、その持ち主が公開鍵に対する秘密鍵を持っていることを第三者に向けて証明している。\nこの仕組みを含むシステム全体を公開鍵基盤(PKI : Public Key Infrastructure)という。\n電子認証局（公開鍵認証局、単に認証局ともいう）は、公開鍵証明書を発行する機関である。\n認証局の主要な役割は以下の通りである。\n身元の検証：認証局に証明書の発行を依頼する人物の身元を確認する。"
+      },
+      {
+        "label": "3",
+        "text": "通信の暗号化を不要にすること。",
+        "choice_id": "original_knowledge_0071__choice_3",
+        "is_correct": false,
+        "explanation": "証明書はTLSでの相手確認と鍵共有に利用される。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "ブラウザは証明書チェーンや有効期限、接続先名などを検証して、相手の公開鍵を確認する。\n\n公開鍵認証局（電子認証局、単に認証局ともいう）は、公開鍵証明書を発行する機関である。\n公開鍵証明書は公開鍵と持ち主の対応を保証するものであり、その持ち主が公開鍵に対する秘密鍵を持っていることを第三者に向けて証明している。\nこの仕組みを含むシステム全体を公開鍵基盤(PKI : Public Key Infrastructure)という。\n電子認証局（公開鍵認証局、単に認証局ともいう）は、公開鍵証明書を発行する機関である。\n認証局の主要な役割は以下の通りである。\n身元の検証：認証局に証明書の発行を依頼する人物の身元を確認する。",
+    "tags": [
+      "ネットワーク",
+      "certificate authority",
+      "digital certificate",
+      "public key",
+      "TLS"
+    ],
+    "primary_term_names": [
+      "TLS"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_226",
+      "original_xlsx_s4_227"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.226・227）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0591"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0591",
+        "term": "TLS",
+        "category": "Webと暗号化",
+        "code": "４ア",
+        "matched_variant": "manual:TLS"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0071__choice_2"
+  },
+  {
+    "id": "original_knowledge_0072",
+    "stem": "デジタル署名の検証に用いる鍵として最も適切なものはどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "署名者の秘密鍵",
+        "choice_id": "original_knowledge_0072__choice_0",
+        "is_correct": false,
+        "explanation": "秘密鍵は署名者だけが保持すべきで、検証のために配布しない。"
+      },
+      {
+        "label": "1",
+        "text": "受信者の秘密鍵",
+        "choice_id": "original_knowledge_0072__choice_1",
+        "is_correct": false,
+        "explanation": "受信者の秘密鍵は署名者の署名検証には使わない。"
+      },
+      {
+        "label": "2",
+        "text": "誰でも作れる乱数鍵",
+        "choice_id": "original_knowledge_0072__choice_2",
+        "is_correct": false,
+        "explanation": "対応関係のない鍵では署名を検証できない。"
+      },
+      {
+        "label": "3",
+        "text": "署名者に対応する公開鍵",
+        "choice_id": "original_knowledge_0072__choice_3",
+        "is_correct": true,
+        "explanation": "署名は署名者の秘密鍵で作成し、対応する公開鍵で検証する。\n\n電子透かし（デジタルウォーターマーク）は、画像や動画、音声などのデジタルコンテンツに情報を埋め込む技術のひとつである。\n電子透かしには知覚可能型と知覚困難型がある。\n知覚可能型は画像に「SAMPLE」という文字が表示されているなど、人が見てわかる透かし情報を入れることである。\nデジタル署名とは、メッセージ（電子文書や公開鍵など）が署名者（送信者）のものであり（真正性）、改ざんがされていない（完全性）ことを保証するための技術である。\nまた、これにより、署名者が後になってメッセージを否定することを防ぐ（否認防止）。\n署名者（デジタル署名をした人・送信者）と検証者（デジタル署名を受け取った人・受信者）の間でのデジタル署名のひとつのモデルを示すと以下のようになる。"
+      }
+    ],
+    "correct_choice": "3",
+    "explanation": "署名は署名者の秘密鍵で作成し、対応する公開鍵で検証する。\n\n電子透かし（デジタルウォーターマーク）は、画像や動画、音声などのデジタルコンテンツに情報を埋め込む技術のひとつである。\n電子透かしには知覚可能型と知覚困難型がある。\n知覚可能型は画像に「SAMPLE」という文字が表示されているなど、人が見てわかる透かし情報を入れることである。\nデジタル署名とは、メッセージ（電子文書や公開鍵など）が署名者（送信者）のものであり（真正性）、改ざんがされていない（完全性）ことを保証するための技術である。\nまた、これにより、署名者が後になってメッセージを否定することを防ぐ（否認防止）。\n署名者（デジタル署名をした人・送信者）と検証者（デジタル署名を受け取った人・受信者）の間でのデジタル署名のひとつのモデルを示すと以下のようになる。",
+    "tags": [
+      "ネットワーク",
+      "ディジタル署名",
+      "秘密鍵",
+      "公開鍵"
+    ],
+    "primary_term_names": [
+      "ディジタル署名",
+      "秘密鍵",
+      "公開鍵"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_218",
+      "original_xlsx_s4_230"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.218・230）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0082",
+      "T0559",
+      "T0558"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0082",
+        "term": "ディジタル署名",
+        "category": "情報セキュリティ",
+        "code": "１イ;４ア;４ア;１イ",
+        "matched_variant": "manual:ディジタル署名"
+      },
+      {
+        "term_id": "T0559",
+        "term": "秘密鍵",
+        "category": "公開鍵暗号",
+        "code": "４ア",
+        "matched_variant": "manual:秘密鍵"
+      },
+      {
+        "term_id": "T0558",
+        "term": "公開鍵",
+        "category": "公開鍵暗号",
+        "code": "４ア",
+        "matched_variant": "manual:公開鍵"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0072__choice_3"
+  },
+  {
+    "id": "original_knowledge_0073",
+    "stem": "ブロックチェーンとして最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "記録を複数の参加者で共有する分散型台帳の仕組み。",
+        "choice_id": "original_knowledge_0073__choice_0",
+        "is_correct": true,
+        "explanation": "ブロックチェーンは取引などの記録を共有・検証し、改ざんを困難にする仕組みとして利用される。\n\nブロックチェーンとは、ある程度の大きさの情報の塊（ブロック）を数珠つなぎ（チェーン）にして保存するデータ構造のことである。\nブロックチェーンの特徴は、この数珠つなぎとなった一連のデータを多数のコンピュータで同時に管理・保管することである。\nこれにより、ブロックチェーンは分散型台帳システムとも言われている。\nデータを持っているそれぞれのコンピュータ（ノード）が互いに確かめ合うことで、データの正しさを保証している。\nこのとき、ノード同士は対等な関係で通信を行う。"
+      },
+      {
+        "label": "1",
+        "text": "一人の中央管理者だけが台帳を書き換える仕組み。",
+        "choice_id": "original_knowledge_0073__choice_1",
+        "is_correct": false,
+        "explanation": "複数主体で共有・検証する点が代表的な特徴である。"
+      },
+      {
+        "label": "2",
+        "text": "モノを無線LANへ接続するための規格。",
+        "choice_id": "original_knowledge_0073__choice_2",
+        "is_correct": false,
+        "explanation": "これはIoTの利用形態に関わる説明である。"
+      },
+      {
+        "label": "3",
+        "text": "Webページの見た目を指定する言語。",
+        "choice_id": "original_knowledge_0073__choice_3",
+        "is_correct": false,
+        "explanation": "ブロックチェーンはWebデザイン言語ではない。"
+      }
+    ],
+    "correct_choice": "0",
+    "explanation": "ブロックチェーンは取引などの記録を共有・検証し、改ざんを困難にする仕組みとして利用される。\n\nブロックチェーンとは、ある程度の大きさの情報の塊（ブロック）を数珠つなぎ（チェーン）にして保存するデータ構造のことである。\nブロックチェーンの特徴は、この数珠つなぎとなった一連のデータを多数のコンピュータで同時に管理・保管することである。\nこれにより、ブロックチェーンは分散型台帳システムとも言われている。\nデータを持っているそれぞれのコンピュータ（ノード）が互いに確かめ合うことで、データの正しさを保証している。\nこのとき、ノード同士は対等な関係で通信を行う。",
+    "tags": [
+      "ネットワーク",
+      "ブロックチェーン"
+    ],
+    "primary_term_names": [
+      "ブロックチェーン"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_213"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.213）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0131"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0131",
+        "term": "ブロックチェーン",
+        "category": "電子商取引",
+        "code": "１ウ;４ア;４イ;４ア;４イ;１ウ;４イ;１ウ;４ア",
+        "matched_variant": "manual:ブロックチェーン"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0073__choice_0"
+  },
+  {
+    "id": "original_knowledge_0074",
+    "stem": "Society 5.0として最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "取引記録を分散して管理する台帳技術。",
+        "choice_id": "original_knowledge_0074__choice_0",
+        "is_correct": false,
+        "explanation": "これはブロックチェーンの説明である。"
+      },
+      {
+        "label": "1",
+        "text": "サイバー空間と現実空間を結ぶ人間中心の社会構想。",
+        "choice_id": "original_knowledge_0074__choice_1",
+        "is_correct": true,
+        "explanation": "Society 5.0はAIやIoTなどを活用し、社会課題の解決と経済発展の両立を目指す。\n\n日本政府はSociety5.0を「サイバー空間とフィジカル空間を高度に融合させたシステムにより、経済発展と社会的課題の解決を両立する、人間中心の社会」と定義している。\n具体的には、IoT(Internet of Things)によりあらゆるモノがインターネットを通して繋がり、人工知能(AI:Artificial Intelligence)によって解析され、必要な情報が必要なときに必要な人に届けられるようになる。\n例えば、健康状態をモニタリングし、データをAIが分析、健康に関するアドバイスを行うといったことが考えられる。\nこの構想により、これまで不十分であった情報の共有・連携、地域や能力による格差、年齢や障害による行動の制限などが解消される。\nこれらの変化は単なる技術の進展や経済的な利益の追求をするものでなく、AI・ロボットにより支配された社会でもない。"
+      },
+      {
+        "label": "2",
+        "text": "モノをネットワークへ接続する仕組み。",
+        "choice_id": "original_knowledge_0074__choice_2",
+        "is_correct": false,
+        "explanation": "これはIoTの説明である。"
+      },
+      {
+        "label": "3",
+        "text": "誰もがブログを書けるWeb 2.0の別名。",
+        "choice_id": "original_knowledge_0074__choice_3",
+        "is_correct": false,
+        "explanation": "Society 5.0は社会の将来像を表す構想である。"
+      }
+    ],
+    "correct_choice": "1",
+    "explanation": "Society 5.0はAIやIoTなどを活用し、社会課題の解決と経済発展の両立を目指す。\n\n日本政府はSociety5.0を「サイバー空間とフィジカル空間を高度に融合させたシステムにより、経済発展と社会的課題の解決を両立する、人間中心の社会」と定義している。\n具体的には、IoT(Internet of Things)によりあらゆるモノがインターネットを通して繋がり、人工知能(AI:Artificial Intelligence)によって解析され、必要な情報が必要なときに必要な人に届けられるようになる。\n例えば、健康状態をモニタリングし、データをAIが分析、健康に関するアドバイスを行うといったことが考えられる。\nこの構想により、これまで不十分であった情報の共有・連携、地域や能力による格差、年齢や障害による行動の制限などが解消される。\nこれらの変化は単なる技術の進展や経済的な利益の追求をするものでなく、AI・ロボットにより支配された社会でもない。",
+    "tags": [
+      "ネットワーク",
+      "Society 5.0"
+    ],
+    "primary_term_names": [
+      "Society5.0"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_214"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.214）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0135"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0135",
+        "term": "Society5.0",
+        "category": "情報政策",
+        "code": "１ウ",
+        "matched_variant": "manual:Society 5.0"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0074__choice_1"
+  },
+  {
+    "id": "original_knowledge_0075",
+    "stem": "IoTとして最も適切な説明はどれか。",
+    "choices": [
+      {
+        "label": "0",
+        "text": "ネットワークから全てのモノを切り離す考え方。",
+        "choice_id": "original_knowledge_0075__choice_0",
+        "is_correct": false,
+        "explanation": "IoTはモノをネットワークへ接続して活用する。"
+      },
+      {
+        "label": "1",
+        "text": "記録をブロックにまとめて共有する台帳技術。",
+        "choice_id": "original_knowledge_0075__choice_1",
+        "is_correct": false,
+        "explanation": "これはブロックチェーンの説明である。"
+      },
+      {
+        "label": "2",
+        "text": "モノをネットワークにつなぎ、データを活用する仕組み。",
+        "choice_id": "original_knowledge_0075__choice_2",
+        "is_correct": true,
+        "explanation": "IoTでは、モノがネットワークを通じてデータを交換し、遠隔操作や自動制御などに利用される。\n\nIoT(Internet of Things)は、様々なデバイスやモノをインターネットに繋ぎ、情報の交換を可能にする仕組みである。\n例えば、照明やエアコン、セキュリティカメラなどの家電製品がインターネットに接続され、遠隔操作ができるようになっている。\nさらに、温度や湿度、明るさをセンサーで感知し、照明やエアコンが自動的に動作し、快適な状態を作り出すことができるスマートホームも作られている。\n大きな視点では交通システムや電気供給、公共サービスなどをIoTにより効率化するスマートシティ構想がある。\n身近な例では、スマートウォッチなどを使って心拍数などのバイタルデータを取得し、健康に関するアドバイスを受けられるウェアラブルデバイスもIoTのひとつである。"
+      },
+      {
+        "label": "3",
+        "text": "Webサイトの掲載内容を保証する認証制度。",
+        "choice_id": "original_knowledge_0075__choice_3",
+        "is_correct": false,
+        "explanation": "IoTはWeb認証の制度ではない。"
+      }
+    ],
+    "correct_choice": "2",
+    "explanation": "IoTでは、モノがネットワークを通じてデータを交換し、遠隔操作や自動制御などに利用される。\n\nIoT(Internet of Things)は、様々なデバイスやモノをインターネットに繋ぎ、情報の交換を可能にする仕組みである。\n例えば、照明やエアコン、セキュリティカメラなどの家電製品がインターネットに接続され、遠隔操作ができるようになっている。\nさらに、温度や湿度、明るさをセンサーで感知し、照明やエアコンが自動的に動作し、快適な状態を作り出すことができるスマートホームも作られている。\n大きな視点では交通システムや電気供給、公共サービスなどをIoTにより効率化するスマートシティ構想がある。\n身近な例では、スマートウォッチなどを使って心拍数などのバイタルデータを取得し、健康に関するアドバイスを受けられるウェアラブルデバイスもIoTのひとつである。",
+    "tags": [
+      "ネットワーク",
+      "IoT"
+    ],
+    "primary_term_names": [
+      "IoT"
+    ],
+    "source_question_ids": [
+      "original_xlsx_s4_215"
+    ],
+    "difficulty": "basic",
+    "source_display": "知識問題一問一答.xlsx（動画No.215）",
+    "改題": true,
+    "primary_term_ids": [
+      "T0147"
+    ],
+    "primary_terms": [
+      {
+        "term_id": "T0147",
+        "term": "IoT",
+        "category": "情報システム",
+        "code": "１ウ;４イ;４イ;１ウ",
+        "matched_variant": "manual:IoT"
+      }
+    ],
+    "curation_status": "completed",
+    "adoption_status": "completed",
+    "evaluation_class": "as_is",
+    "evaluation_reasons": [],
+    "answer_choice_id": "original_knowledge_0075__choice_2"
   }
 ]
