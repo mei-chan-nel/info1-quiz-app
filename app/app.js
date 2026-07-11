@@ -214,6 +214,9 @@ const state = {
   pendingResponseSubmissions: [],
   outOfScopeSubmission: null,
   pendingOutOfScopeSubmissions: [],
+  cumulativeTotal: 0,
+  cumulativeCorrect: 0,
+  sessionSummaryRecorded: false,
 };
 
 init();
@@ -266,12 +269,15 @@ async function detectApiAvailability() {
 
 function bindStartControls() {
   startButton.addEventListener("click", () => {
+    resetCumulativeResults();
     startSession();
   });
 
   clearFiltersButton.addEventListener("click", () => {
-    for (const input of fieldFilters.querySelectorAll("input[type='checkbox']")) {
-      input.checked = false;
+    const inputs = fieldFilters.querySelectorAll("input[type='checkbox']");
+    const shouldSelectAll = !Array.from(inputs).some((input) => input.checked);
+    for (const input of inputs) {
+      input.checked = shouldSelectAll;
     }
     updateStartControls();
   });
@@ -354,6 +360,7 @@ function resetSessionState() {
   state.pastStatsLoading = false;
   state.pastStatsLoaded = false;
   state.sessionHistoryRecorded = false;
+  state.sessionSummaryRecorded = false;
   state.responseSubmission = null;
   state.outOfScopeSubmission = null;
   retryButton.disabled = false;
@@ -386,6 +393,7 @@ function startSession() {
   state.pastStatsLoading = false;
   state.pastStatsLoaded = false;
   state.sessionHistoryRecorded = false;
+  state.sessionSummaryRecorded = false;
   state.responseSubmission = null;
   state.outOfScopeSubmission = null;
 
@@ -422,6 +430,8 @@ function renderFieldFilters() {
 }
 
 function updateStartControls() {
+  updateFieldSelectionButton();
+
   if (state.questionDataStatus === "loading") {
     questionCount.textContent = "";
     questionCount.classList.add("metric-loading");
@@ -445,6 +455,16 @@ function updateStartControls() {
   updateSetSizeControls(pool.length);
   startButton.disabled = pool.length === 0;
   startButton.textContent = pool.length === 0 ? TEXT.empty : "挑戦を開始";
+}
+
+function updateFieldSelectionButton() {
+  const hasSelectedField = fieldFilters.querySelector("input[type='checkbox']:checked") !== null;
+  clearFiltersButton.textContent = hasSelectedField ? "全解除" : "全選択";
+}
+
+function resetCumulativeResults() {
+  state.cumulativeTotal = 0;
+  state.cumulativeCorrect = 0;
 }
 
 function changeSetSize(delta) {
@@ -679,6 +699,7 @@ async function showSummary() {
   questionView.hidden = true;
   summaryView.hidden = false;
   setStatus.textContent = TEXT.result;
+  recordCumulativeResults();
   renderSummary();
   scrollToTop();
   recordSessionHistory();
@@ -688,10 +709,18 @@ async function showSummary() {
   }
 }
 
+function recordCumulativeResults() {
+  if (state.sessionSummaryRecorded) {
+    return;
+  }
+  state.cumulativeTotal += state.sessionQuestions.length;
+  state.cumulativeCorrect += state.responses.filter((response) => response.isCorrect).length;
+  state.sessionSummaryRecorded = true;
+}
+
 function renderSummary() {
-  const answered = state.responses.filter((response) => response.selectedChoiceId !== null);
-  const correct = answered.filter((response) => response.isCorrect).length;
-  const total = state.sessionQuestions.length;
+  const correct = state.cumulativeCorrect;
+  const total = state.cumulativeTotal;
   const rate = total ? Math.round((correct / total) * 100) : 0;
 
   summaryTitle.textContent = `${total}問中 ${correct}問正解`;
