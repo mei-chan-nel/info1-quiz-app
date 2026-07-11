@@ -1,6 +1,6 @@
 {
   "generated_on": "2026-07-12",
-  "generator": "scripts/generate_site.py",
+  "generator": "scripts/generate_question_pages.py",
   "question_source": "data/questions/completed_questions.json",
   "question_count": 861,
   "page_size": 30,
@@ -13,7 +13,6 @@
     "design": 39
   },
   "learning_pages": [
-    "index.html",
     "questions/index.html",
     "questions/society-security.html",
     "questions/society-security-2.html",
@@ -48,9 +47,7 @@
     "questions/information-design.html",
     "questions/information-design-2.html"
   ],
-  "ad_free_pages": [
-    "about.html",
-    "privacy.html"
-  ],
+  "related_app_page": "app/",
+  "portal_repository": "https://github.com/mei-chan-nel/mei-chan-nel.github.io",
   "app_files_changed_by_generator": false
 }

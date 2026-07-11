@@ -1,0 +1,47 @@
+# 問題一覧の生成・所有範囲
+
+更新日: 2026-07-12
+
+## このリポジトリが所有するもの
+
+- `app/`: 既存学習アプリ
+- `data/questions/`: 問題データ、主分野、スキーマ
+- `questions/`: 読むための問題一覧
+- `assets/questions.css`: 問題一覧専用デザイン
+- `assets/favicon.svg`: 問題一覧用アイコン
+- `sitemap.xml`: アプリと問題一覧だけを収録するプロジェクトサイトマップ
+
+ポータルトップ、サイト案内、全体プライバシーポリシー、ホスト直下の `ads.txt` と `robots.txt` は、`mei-chan-nel.github.io` リポジトリが所有する。
+
+## 生成手順
+
+```powershell
+python scripts/classify_questions.py --check
+python scripts/generate_question_pages.py
+python scripts/validate_question_pages.py
+```
+
+問題データの主分野を再分類するときだけ、最初に次を実行する。
+
+```powershell
+python scripts/classify_questions.py --apply
+```
+
+## 現在の生成結果
+
+- 全問題: 861問
+- 問題一覧ページ: 33ページ（一覧トップ1、分野ページ32）
+- 1ページ上限: 30問
+- 未分類: 0問
+- 重複掲載: 0問
+- 未掲載: 0問
+
+生成対象一覧と分野別件数は `docs/reports/question-library-build.json` に保存する。
+
+## アプリ保護
+
+`docs/reports/app-baseline-sha256.json` と現在の `app/` を比較し、既存アプリの変更を検知する。今回のリポジトリ分離では `app/` を変更していない。
+
+## ポータルへのリンク
+
+問題一覧の「学習トップ」「このサイトについて」「プライバシーポリシー」は `https://mei-chan-nel.github.io/` 側へリンクする。問題一覧と学習アプリの相互リンクは、このリポジトリ内の相対URLを使う。

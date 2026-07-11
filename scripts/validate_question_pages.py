@@ -94,7 +94,7 @@ def main() -> int:
     errors.extend(validate_field_ids(questions))
     expected_ids = {str(question["id"]) for question in questions}
 
-    html_paths = sorted(ROOT.glob("*.html")) + sorted((ROOT / "questions").glob("*.html"))
+    html_paths = sorted((ROOT / "questions").glob("*.html"))
     parsed: dict[Path, PageParser] = {}
     canonicals: list[str] = []
     for path in html_paths:
@@ -159,13 +159,13 @@ def main() -> int:
     if unexpected_ids:
         errors.append(f"Unexpected rendered question IDs: {unexpected_ids[:10]}")
 
-    ad_required = [ROOT / "index.html", ROOT / "questions" / "index.html", *generated_question_pages]
+    ad_required = [ROOT / "questions" / "index.html", *generated_question_pages]
     for path in ad_required:
         if AD_SCRIPT_MARKER not in path.read_text(encoding="utf-8"):
             errors.append(f"{path.relative_to(ROOT)}: AdSense script missing from learning content")
-    for path in (ROOT / "about.html", ROOT / "privacy.html"):
-        if AD_SCRIPT_MARKER in path.read_text(encoding="utf-8"):
-            errors.append(f"{path.relative_to(ROOT)}: informational page must be ad-free")
+    for obsolete_name in ("index.html", "about.html", "privacy.html", "ads.txt", "robots.txt"):
+        if (ROOT / obsolete_name).exists():
+            errors.append(f"Repository-boundary violation: {obsolete_name} belongs to mei-chan-nel.github.io")
 
     baseline_path = REPORT_DIR / "app-baseline-sha256.json"
     if not baseline_path.exists():
@@ -185,16 +185,13 @@ def main() -> int:
         sitemap_urls = [node.text for node in sitemap.findall("s:url/s:loc", namespace)]
         if len(sitemap_urls) != len(set(sitemap_urls)):
             errors.append("sitemap.xml contains duplicate URLs")
-        expected_sitemap_count = len(generated_question_pages) + 5
+        expected_sitemap_count = len(generated_question_pages) + 2
         if len(sitemap_urls) != expected_sitemap_count:
             errors.append(f"sitemap.xml: expected {expected_sitemap_count} URLs, found {len(sitemap_urls)}")
+        if any(not url.startswith("https://mei-chan-nel.github.io/info1-quiz-app/") for url in sitemap_urls if url):
+            errors.append("sitemap.xml contains a URL outside the app repository")
     except (ET.ParseError, OSError) as exc:
         errors.append(f"Invalid sitemap.xml: {exc}")
-
-    if (ROOT / "ads.txt").read_text(encoding="utf-8").strip() != "google.com, pub-6257644709224446, DIRECT, f08c47fec0942fa0":
-        errors.append("ads.txt does not contain the expected publisher record")
-    if "Sitemap: https://mei-chan-nel.github.io/info1-quiz-app/sitemap.xml" not in (ROOT / "robots.txt").read_text(encoding="utf-8"):
-        errors.append("robots.txt does not advertise the production sitemap")
 
     report = {
         "status": "pass" if not errors else "fail",
@@ -211,9 +208,10 @@ def main() -> int:
             "maximum 30 questions per generated page",
             "titles, descriptions, canonicals, and one h1 per page",
             "local links, assets, and fragments",
-            "AdSense included only on generated learning pages",
+            "AdSense included on every generated question-library page",
             "protected app file SHA-256 baseline",
-            "sitemap, robots.txt, and ads.txt",
+            "app-repository sitemap scope",
+            "absence of portal-owned root files",
         ],
     }
     REPORT_DIR.mkdir(parents=True, exist_ok=True)

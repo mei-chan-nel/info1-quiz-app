@@ -3,7 +3,7 @@
   "question_count": 861,
   "rendered_question_count": 861,
   "generated_question_pages": 32,
-  "html_pages_checked": 36,
+  "html_pages_checked": 33,
   "field_counts": {
     "society_security": 321,
     "data_db": 92,
@@ -20,8 +20,9 @@
     "maximum 30 questions per generated page",
     "titles, descriptions, canonicals, and one h1 per page",
     "local links, assets, and fragments",
-    "AdSense included only on generated learning pages",
+    "AdSense included on every generated question-library page",
     "protected app file SHA-256 baseline",
-    "sitemap, robots.txt, and ads.txt"
+    "app-repository sitemap scope",
+    "absence of portal-owned root files"
   ]
 }
