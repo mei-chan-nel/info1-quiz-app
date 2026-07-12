@@ -27,6 +27,10 @@ if (summaryList) {
 document.addEventListener(
   "click",
   (event) => {
+    if (!(event.target instanceof Element)) {
+      return;
+    }
+
     const button = event.target.closest(".scope-report-button");
     if (!button) {
       return;
@@ -39,7 +43,12 @@ document.addEventListener(
       return;
     }
 
-    openIssueReportDialog(button);
+    try {
+      openIssueReportDialog(button);
+    } catch (error) {
+      console.error("報告対象の問題を取得できませんでした。", error);
+      showToast("報告対象の問題を取得できませんでした。");
+    }
   },
   true,
 );
@@ -112,7 +121,10 @@ function updateReportButtons() {
     const questionId = String(button.dataset.id || "");
     const isReported = reportedQuestionIds.has(questionId);
 
-    button.textContent = isReported ? "報告済み" : "不備を報告";
+    const label = isReported ? "報告済み" : "不備を報告";
+    if (button.textContent !== label) {
+      button.textContent = label;
+    }
     button.dataset.issueReported = String(isReported);
     button.disabled = isReported;
     button.classList.toggle("issue-reported", isReported);
