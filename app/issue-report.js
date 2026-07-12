@@ -10,14 +10,18 @@ const ISSUE_REPORT_REASONS = [
 ];
 
 const reportedQuestionIds = new Set();
+const questionCatalogPromise = loadQuestionCatalog();
 let activeReport = null;
 let isSending = false;
+let currentQuestionSyncId = 0;
 
 const dialog = createIssueReportDialog();
 const toast = createIssueReportToast();
+const statusReportButton = createStatusReportButton();
 const summaryList = document.querySelector("#summaryList");
 
 updateReportButtons();
+observeCurrentQuestion();
 
 if (summaryList) {
   const observer = new MutationObserver(updateReportButtons);
@@ -43,15 +47,87 @@ document.addEventListener(
       return;
     }
 
-    try {
-      openIssueReportDialog(button);
-    } catch (error) {
-      console.error("報告対象の問題を取得できませんでした。", error);
-      showToast("報告対象の問題を取得できませんでした。");
-    }
+    void openIssueReportDialog(button);
   },
   true,
 );
+
+function createStatusReportButton() {
+  const progressLabel = document.querySelector(".progress-label");
+  const setStatus = document.querySelector("#setStatus");
+  if (!progressLabel || !setStatus) {
+    return null;
+  }
+
+  const actions = document.createElement("span");
+  actions.className = "progress-status-actions";
+  progressLabel.insertBefore(actions, setStatus);
+  actions.append(setStatus);
+
+  const button = document.createElement("button");
+  button.className = "scope-report-button status-report-button";
+  button.type = "button";
+  button.textContent = "不備報告";
+  button.hidden = true;
+  actions.append(button);
+
+  return button;
+}
+
+function observeCurrentQuestion() {
+  if (!statusReportButton) {
+    return;
+  }
+
+  const statusBar = document.querySelector("#statusBar");
+  const questionStem = document.querySelector("#questionStem");
+  const choices = document.querySelector("#choices");
+  const observer = new MutationObserver(syncCurrentQuestionButton);
+
+  if (statusBar) {
+    observer.observe(statusBar, { attributes: true, attributeFilter: ["hidden"] });
+  }
+  if (questionStem) {
+    observer.observe(questionStem, { childList: true, characterData: true, subtree: true });
+  }
+  if (choices) {
+    observer.observe(choices, { childList: true, subtree: true });
+  }
+
+  syncCurrentQuestionButton();
+}
+
+function syncCurrentQuestionButton() {
+  if (!statusReportButton) {
+    return;
+  }
+
+  const statusBar = document.querySelector("#statusBar");
+  const stem = document.querySelector("#questionStem")?.textContent?.trim() || "";
+  const shouldShow = Boolean(statusBar && !statusBar.hidden && stem);
+  const syncId = ++currentQuestionSyncId;
+
+  statusReportButton.hidden = !shouldShow;
+  statusReportButton.dataset.id = "";
+  statusReportButton.dataset.issueLoading = "false";
+  statusReportButton.dataset.issueReported = "false";
+  statusReportButton.disabled = false;
+  statusReportButton.classList.remove("issue-reported");
+  statusReportButton.textContent = "不備報告";
+
+  if (!shouldShow) {
+    return;
+  }
+
+  void resolveCurrentQuestionRecord().then((question) => {
+    const currentStem = document.querySelector("#questionStem")?.textContent?.trim() || "";
+    if (syncId !== currentQuestionSyncId || currentStem !== stem || !question?.id) {
+      return;
+    }
+    statusReportButton.dataset.id = String(question.id);
+    updateReportButtons();
+  });
+}
 
 function createIssueReportDialog() {
   const element = document.createElement("dialog");
@@ -119,32 +195,52 @@ function createIssueReportToast() {
 function updateReportButtons() {
   for (const button of document.querySelectorAll(".scope-report-button")) {
     const questionId = String(button.dataset.id || "");
-    const isReported = reportedQuestionIds.has(questionId);
+    const isReported = Boolean(questionId && reportedQuestionIds.has(questionId));
+    const isLoading = button.dataset.issueLoading === "true";
+    const label = isReported ? "報告済み" : "不備報告";
 
-    const label = isReported ? "報告済み" : "不備を報告";
     if (button.textContent !== label) {
       button.textContent = label;
     }
     button.dataset.issueReported = String(isReported);
-    button.disabled = isReported;
+    button.disabled = isReported || isLoading;
     button.classList.toggle("issue-reported", isReported);
   }
 }
 
-function openIssueReportDialog(button) {
-  activeReport = buildReportData(button);
-  setDialogSendingState(false);
-  dialog.querySelector(".issue-report-status").textContent = "";
+async function openIssueReportDialog(button) {
+  button.dataset.issueLoading = "true";
+  updateReportButtons();
 
-  if (typeof dialog.showModal === "function") {
-    if (!dialog.open) {
-      dialog.showModal();
+  try {
+    activeReport = await buildReportData(button);
+    button.dataset.id = activeReport.questionId;
+
+    if (reportedQuestionIds.has(activeReport.questionId)) {
+      activeReport = null;
+      showToast("この問題は報告済みです。");
+      return;
     }
-  } else {
-    dialog.setAttribute("open", "");
-  }
 
-  dialog.querySelector(".issue-report-reason")?.focus();
+    setDialogSendingState(false);
+    dialog.querySelector(".issue-report-status").textContent = "";
+
+    if (typeof dialog.showModal === "function") {
+      if (!dialog.open) {
+        dialog.showModal();
+      }
+    } else {
+      dialog.setAttribute("open", "");
+    }
+
+    dialog.querySelector(".issue-report-reason")?.focus();
+  } catch (error) {
+    console.error("報告対象の問題を取得できませんでした。", error);
+    showToast("報告対象の問題を取得できませんでした。");
+  } finally {
+    button.dataset.issueLoading = "false";
+    updateReportButtons();
+  }
 }
 
 function closeIssueReportDialog() {
@@ -210,18 +306,24 @@ function setDialogSendingState(sending) {
   dialog.classList.toggle("is-sending", sending);
 }
 
-function buildReportData(button) {
+async function buildReportData(button) {
   const item = button.closest(".summary-item");
-  if (!item) {
-    throw new Error("報告対象の問題を取得できませんでした。");
+  if (item) {
+    return buildSummaryReportData(button, item);
   }
+  if (button.classList.contains("status-report-button")) {
+    return buildCurrentQuestionReportData(button);
+  }
+  throw new Error("報告対象の問題を取得できませんでした。");
+}
 
+function buildSummaryReportData(button, item) {
   const questionId = String(button.dataset.id || "").trim();
   const stem = item.querySelector(".summary-stem")?.textContent?.trim() || "";
   const explanation =
     item.querySelector(".summary-result-panel .explanation")?.textContent?.trim() || "";
   const choices = Array.from(item.querySelectorAll(".choice-stat"))
-    .map(formatChoiceForReport)
+    .map(formatSummaryChoiceForReport)
     .filter(Boolean)
     .join("\n");
 
@@ -238,7 +340,34 @@ function buildReportData(button) {
   };
 }
 
-function formatChoiceForReport(row) {
+async function buildCurrentQuestionReportData(button) {
+  const stem = document.querySelector("#questionStem")?.textContent?.trim() || "";
+  const question = await resolveCurrentQuestionRecord();
+  const questionId = String(question?.id || button.dataset.id || "").trim();
+  const correctChoiceId = getCorrectChoiceId(question);
+  const choices = Array.from(document.querySelectorAll("#choices .choice-button"))
+    .map((choiceButton) => formatCurrentChoiceForReport(choiceButton, correctChoiceId))
+    .filter(Boolean)
+    .join("\n");
+  const displayedExplanation =
+    document.querySelector("#resultPanel:not([hidden]) #explanation")?.textContent?.trim() || "";
+  const explanation = displayedExplanation || normalizeText(question?.explanation);
+
+  if (!questionId || !stem) {
+    throw new Error("報告に必要な問題情報を取得できませんでした。");
+  }
+
+  button.dataset.id = questionId;
+  return {
+    questionId,
+    reason: "",
+    stem,
+    choices,
+    explanation,
+  };
+}
+
+function formatSummaryChoiceForReport(row) {
   const label = row.querySelector(".choice-stat-label")?.textContent?.trim() || "";
   const textElement = row.querySelector(".choice-stat-text");
   if (!textElement) {
@@ -251,6 +380,89 @@ function formatChoiceForReport(row) {
   const correctMarker = row.classList.contains("correct") ? "（正解）" : "";
 
   return `${label}. ${text}${correctMarker}`.trim();
+}
+
+function formatCurrentChoiceForReport(button, correctChoiceId) {
+  const label = button.querySelector(".choice-label")?.textContent?.trim() || "";
+  const text = button.querySelector(".choice-text")?.textContent?.trim() || "";
+  const choiceId = String(button.dataset.choiceId || "");
+  const correctMarker = correctChoiceId && choiceId === correctChoiceId ? "（正解）" : "";
+  return `${label}. ${text}${correctMarker}`.trim();
+}
+
+async function resolveCurrentQuestionRecord() {
+  const stem = document.querySelector("#questionStem")?.textContent?.trim() || "";
+  if (!stem) {
+    return null;
+  }
+
+  const catalog = await questionCatalogPromise;
+  const candidates = catalog.filter(
+    (question) => normalizeComparableText(question?.stem) === normalizeComparableText(stem),
+  );
+  if (candidates.length <= 1) {
+    return candidates[0] || null;
+  }
+
+  const currentSignature = getCurrentChoiceSignature();
+  return (
+    candidates.find((question) => getCatalogChoiceSignature(question) === currentSignature) || candidates[0]
+  );
+}
+
+async function loadQuestionCatalog() {
+  try {
+    const response = await fetch("../data/questions/completed_questions.json", { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error("不備報告用の問題データを読み込めませんでした。", error);
+    return [];
+  }
+}
+
+function getCurrentChoiceSignature() {
+  return Array.from(document.querySelectorAll("#choices .choice-text"))
+    .map((element) => normalizeComparableText(element.textContent))
+    .sort()
+    .join("\u241f");
+}
+
+function getCatalogChoiceSignature(question) {
+  return (Array.isArray(question?.choices) ? question.choices : [])
+    .map((choice) => normalizeComparableText(choice?.text))
+    .sort()
+    .join("\u241f");
+}
+
+function getCorrectChoiceId(question) {
+  if (!question) {
+    return "";
+  }
+  if (question.answer_choice_id) {
+    return String(question.answer_choice_id);
+  }
+
+  const correctChoice = (Array.isArray(question.choices) ? question.choices : []).find(
+    (choice) => choice?.is_correct || String(choice?.label) === String(question.correct_choice),
+  );
+  if (!correctChoice) {
+    return "";
+  }
+  return String(correctChoice.choice_id || `${question.id}__choice_${correctChoice.label}`);
+}
+
+function normalizeComparableText(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizeText(value) {
+  return value == null ? "" : String(value).trim();
 }
 
 let toastTimer = null;
