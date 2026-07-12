@@ -22,7 +22,7 @@
     "local links, assets, and fragments",
     "AdSense included on every generated question-library page",
     "protected app file SHA-256 baseline",
-    "app-repository sitemap scope",
+    "shared portal stylesheet and favicon references",
     "absence of portal-owned root files"
   ]
 }

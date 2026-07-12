@@ -18,9 +18,6 @@
 ## フォルダ構成
 
 ```text
-assets/
-  questions.css
-  favicon.svg
 questions/
   index.html
   <6分野の生成ページ>.html
@@ -36,10 +33,9 @@ scripts/
   generate_question_pages.py
   validate_question_pages.py
   quiz_server.py
-sitemap.xml
 ```
 
-`app/` は既存の学習アプリ、`questions/` は問題データから生成する学習コンテンツです。ホスト直下にだけ置く `ads.txt`、`robots.txt` とポータルページはこのリポジトリへ置きません。
+`app/` は既存の学習アプリ、`questions/` は問題データから生成する学習コンテンツです。ポータルページ、共通CSS・favicon、`ads.txt`、`robots.txt`、`sitemap.xml` はこのリポジトリへ置きません。
 
 ## 分類・サイト生成・検証
 
@@ -57,7 +53,7 @@ python scripts/generate_question_pages.py
 python scripts/validate_question_pages.py
 ```
 
-`generate_question_pages.py` は `questions/` とプロジェクト用 `sitemap.xml` だけを再生成します。`validate_question_pages.py` は全問題の一意掲載、ページ上限、内部リンク、広告コード、サイトマップ、アプリ保護ハッシュ、ポータル所有ファイルの混入を検査します。
+`generate_question_pages.py` は `questions/` を再生成します。`validate_question_pages.py` は全問題の一意掲載、ページ上限、内部リンク、広告コード、共通資産参照、アプリ保護ハッシュ、ポータル所有ファイルの混入を検査します。
 
 分類と検証の記録は `docs/reports/` に生成されます。
 

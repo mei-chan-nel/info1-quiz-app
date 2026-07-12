@@ -134,8 +134,8 @@ def head(title: str, description: str, path: str, prefix: str, *, ads: bool) -> 
     <meta name="description" content="{esc(description)}" />
     <meta name="theme-color" content="#102f35" />
     <link rel="canonical" href="{esc(canonical(path))}" />
-    <link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="{prefix}assets/questions.css" />{ad_script}
+    <link rel="icon" href="{PORTAL_URL}assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="{PORTAL_URL}assets/site.css" />{ad_script}
   </head>"""
 
 
@@ -331,16 +331,6 @@ def render_field_pages(field: dict, questions: list[dict]) -> list[str]:
 
 
 
-def render_machine_files(generated_paths: list[str]) -> None:
-    sitemap_paths = ["questions/index.html", *generated_paths, "app/"]
-    urls = []
-    for path in sitemap_paths:
-        loc = esc(canonical(path))
-        urls.append(f"  <url><loc>{loc}</loc><lastmod>{REVIEW_DATE.isoformat()}</lastmod></url>")
-    sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(urls) + "\n</urlset>\n"
-    (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
-
-
 def app_hashes() -> dict[str, str]:
     return {
         path.relative_to(ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
@@ -380,13 +370,11 @@ def main() -> int:
     if QUESTIONS_DIR.exists():
         shutil.rmtree(QUESTIONS_DIR)
     QUESTIONS_DIR.mkdir(parents=True)
-    (ROOT / "assets").mkdir(parents=True, exist_ok=True)
 
     render_questions_index(grouped)
     generated_paths: list[str] = []
     for field in FIELDS:
         generated_paths.extend(render_field_pages(field, grouped[field["id"]]))
-    render_machine_files(generated_paths)
     write_build_report(grouped, generated_paths)
     print(f"questions={len(questions)} field_pages={len(generated_paths)} question_library_pages={len(generated_paths) + 1}")
     return 0

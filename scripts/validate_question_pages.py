@@ -4,7 +4,6 @@ import hashlib
 import json
 import re
 import sys
-import xml.etree.ElementTree as ET
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
@@ -16,6 +15,8 @@ from classify_questions import FIELD_LABELS, load_questions, validate_field_ids
 ROOT = Path(__file__).resolve().parents[1]
 REPORT_DIR = ROOT / "docs" / "reports"
 AD_SCRIPT_MARKER = "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+SHARED_STYLESHEET = "https://mei-chan-nel.github.io/assets/site.css"
+SHARED_FAVICON = "https://mei-chan-nel.github.io/assets/favicon.svg"
 
 
 class PageParser(HTMLParser):
@@ -115,6 +116,10 @@ def main() -> int:
             errors.append(f"{relative}: expected one h1, found {parser.h1_count}")
         if re.search(r"\{[a-zA-Z_][^}]*\}", text):
             errors.append(f"{relative}: unresolved template placeholder")
+        if SHARED_STYLESHEET not in text:
+            errors.append(f"{relative}: shared portal stylesheet is missing")
+        if SHARED_FAVICON not in text:
+            errors.append(f"{relative}: shared portal favicon is missing")
 
     duplicates = [url for url, count in Counter(canonicals).items() if count > 1]
     if duplicates:
@@ -163,7 +168,7 @@ def main() -> int:
     for path in ad_required:
         if AD_SCRIPT_MARKER not in path.read_text(encoding="utf-8"):
             errors.append(f"{path.relative_to(ROOT)}: AdSense script missing from learning content")
-    for obsolete_name in ("index.html", "about.html", "privacy.html", "ads.txt", "robots.txt"):
+    for obsolete_name in ("index.html", "about.html", "privacy.html", "ads.txt", "robots.txt", "sitemap.xml"):
         if (ROOT / obsolete_name).exists():
             errors.append(f"Repository-boundary violation: {obsolete_name} belongs to mei-chan-nel.github.io")
 
@@ -177,21 +182,6 @@ def main() -> int:
             changed = sorted(set(baseline) | set(current))
             changed = [name for name in changed if baseline.get(name) != current.get(name)]
             errors.append(f"Protected app files changed: {changed}")
-
-    sitemap_path = ROOT / "sitemap.xml"
-    try:
-        sitemap = ET.parse(sitemap_path)
-        namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
-        sitemap_urls = [node.text for node in sitemap.findall("s:url/s:loc", namespace)]
-        if len(sitemap_urls) != len(set(sitemap_urls)):
-            errors.append("sitemap.xml contains duplicate URLs")
-        expected_sitemap_count = len(generated_question_pages) + 2
-        if len(sitemap_urls) != expected_sitemap_count:
-            errors.append(f"sitemap.xml: expected {expected_sitemap_count} URLs, found {len(sitemap_urls)}")
-        if any(not url.startswith("https://mei-chan-nel.github.io/info1-quiz-app/") for url in sitemap_urls if url):
-            errors.append("sitemap.xml contains a URL outside the app repository")
-    except (ET.ParseError, OSError) as exc:
-        errors.append(f"Invalid sitemap.xml: {exc}")
 
     report = {
         "status": "pass" if not errors else "fail",
@@ -210,7 +200,7 @@ def main() -> int:
             "local links, assets, and fragments",
             "AdSense included on every generated question-library page",
             "protected app file SHA-256 baseline",
-            "app-repository sitemap scope",
+            "shared portal stylesheet and favicon references",
             "absence of portal-owned root files",
         ],
     }

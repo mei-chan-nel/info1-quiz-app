@@ -7,11 +7,9 @@
 - `app/`: 既存学習アプリ
 - `data/questions/`: 問題データ、主分野、スキーマ
 - `questions/`: 読むための問題一覧
-- `assets/questions.css`: 問題一覧専用デザイン
-- `assets/favicon.svg`: 問題一覧用アイコン
-- `sitemap.xml`: アプリと問題一覧だけを収録するプロジェクトサイトマップ
+- `docs/reports/question-library-build.json`: ポータルのサイトマップ生成に渡す公開ページ一覧
 
-ポータルトップ、サイト案内、全体プライバシーポリシー、ホスト直下の `ads.txt` と `robots.txt` は、`mei-chan-nel.github.io` リポジトリが所有する。
+ポータルトップ、サイト案内、全体プライバシーポリシー、共通CSS・favicon、`ads.txt`、`robots.txt`、`sitemap.xml` は、`mei-chan-nel.github.io` リポジトリが所有する。
 
 ## 生成手順
 
