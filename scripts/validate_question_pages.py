@@ -17,6 +17,7 @@ REPORT_DIR = ROOT / "docs" / "reports"
 AD_SCRIPT_MARKER = "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
 SHARED_STYLESHEET = "https://mei-chan-nel.github.io/assets/site.css"
 SHARED_FAVICON = "https://mei-chan-nel.github.io/assets/favicon.svg"
+PROTECTED_APP_FILES = ("app/index.html", "app/app.js", "app/startup.js", "app/styles.css")
 
 
 class PageParser(HTMLParser):
@@ -63,11 +64,10 @@ class PageParser(HTMLParser):
         return "".join(self.title_parts).strip()
 
 
-def app_hashes() -> dict[str, str]:
+def protected_app_hashes() -> dict[str, str]:
     return {
-        path.relative_to(ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
-        for path in sorted((ROOT / "app").glob("*"))
-        if path.is_file()
+        relative: hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
+        for relative in PROTECTED_APP_FILES
     }
 
 
@@ -171,13 +171,30 @@ def main() -> int:
     for obsolete_name in ("index.html", "about.html", "privacy.html", "ads.txt", "robots.txt", "sitemap.xml"):
         if (ROOT / obsolete_name).exists():
             errors.append(f"Repository-boundary violation: {obsolete_name} belongs to mei-chan-nel.github.io")
+    for obsolete_app_page in ("app/about.html", "app/privacy.html"):
+        if (ROOT / obsolete_app_page).exists():
+            errors.append(f"Obsolete app information page still exists: {obsolete_app_page}")
 
-    baseline_path = REPORT_DIR / "app-baseline-sha256.json"
+    app_index = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
+    expected_footer_links = (
+        'href="https://mei-chan-nel.github.io/"',
+        'href="https://mei-chan-nel.github.io/about.html"',
+        'href="https://mei-chan-nel.github.io/privacy.html"',
+    )
+    for expected_link in expected_footer_links:
+        if expected_link not in app_index:
+            errors.append(f"app/index.html: missing consolidated footer link {expected_link}")
+    if SHARED_FAVICON not in app_index:
+        errors.append("app/index.html: shared portal favicon is missing")
+    if 'href="./about.html"' in app_index or 'href="./privacy.html"' in app_index:
+        errors.append("app/index.html: obsolete local information-page link remains")
+
+    baseline_path = REPORT_DIR / "app-core-baseline-sha256.json"
     if not baseline_path.exists():
         errors.append("Missing app baseline hash report")
     else:
         baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
-        current = app_hashes()
+        current = protected_app_hashes()
         if current != baseline:
             changed = sorted(set(baseline) | set(current))
             changed = [name for name in changed if baseline.get(name) != current.get(name)]
@@ -199,7 +216,8 @@ def main() -> int:
             "titles, descriptions, canonicals, and one h1 per page",
             "local links, assets, and fragments",
             "AdSense included on every generated question-library page",
-            "protected app file SHA-256 baseline",
+            "protected app core-file SHA-256 baseline",
+            "consolidated app footer links and removal of old information pages",
             "shared portal stylesheet and favicon references",
             "absence of portal-owned root files",
         ],

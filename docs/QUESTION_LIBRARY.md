@@ -38,7 +38,7 @@ python scripts/classify_questions.py --apply
 
 ## アプリ保護
 
-`docs/reports/app-baseline-sha256.json` と現在の `app/` を比較し、既存アプリの変更を検知する。今回のリポジトリ分離では `app/` を変更していない。
+`docs/reports/app-core-baseline-sha256.json` と `app/index.html`、`app/app.js`、`app/startup.js`、`app/styles.css` を比較し、意図しないアプリ変更を検知する。サイト案内とプライバシーポリシーはポータルへ統合し、アプリのフッターはポータル3ページへ直接リンクする。
 
 ## ポータルへのリンク
 

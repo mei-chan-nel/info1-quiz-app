@@ -21,6 +21,7 @@ PORTAL_URL = "https://mei-chan-nel.github.io/"
 ADSENSE_CLIENT = "ca-pub-6257644709224446"
 PAGE_SIZE = 30
 REVIEW_DATE = date(2026, 7, 12)
+PROTECTED_APP_FILES = ("app/index.html", "app/app.js", "app/startup.js", "app/styles.css")
 
 FIELDS = [
     {
@@ -331,19 +332,18 @@ def render_field_pages(field: dict, questions: list[dict]) -> list[str]:
 
 
 
-def app_hashes() -> dict[str, str]:
+def protected_app_hashes() -> dict[str, str]:
     return {
-        path.relative_to(ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
-        for path in sorted((ROOT / "app").glob("*"))
-        if path.is_file()
+        relative: hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
+        for relative in PROTECTED_APP_FILES
     }
 
 
 def write_build_report(grouped: dict[str, list[dict]], generated_paths: list[str]) -> None:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
-    baseline_path = REPORT_DIR / "app-baseline-sha256.json"
+    baseline_path = REPORT_DIR / "app-core-baseline-sha256.json"
     if not baseline_path.exists():
-        baseline_path.write_text(json.dumps(app_hashes(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        baseline_path.write_text(json.dumps(protected_app_hashes(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     report = {
         "generated_on": REVIEW_DATE.isoformat(),
         "generator": "scripts/generate_question_pages.py",
