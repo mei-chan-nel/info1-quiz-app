@@ -1,0 +1,163 @@
+.issue-report-dialog {
+  width: min(92vw, 520px);
+  max-width: none;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.3);
+}
+
+.issue-report-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.52);
+  backdrop-filter: blur(2px);
+}
+
+.issue-report-card {
+  padding: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 20px;
+  background: #fff;
+}
+
+.issue-report-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.issue-report-eyebrow {
+  margin: 0 0 4px;
+  color: #6d28d9;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.issue-report-head h2 {
+  margin: 0;
+  color: #111827;
+  font-size: clamp(1.15rem, 4vw, 1.45rem);
+  line-height: 1.45;
+}
+
+.issue-report-close {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 1.55rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.issue-report-note {
+  margin: 12px 0 16px;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.issue-report-reasons {
+  display: grid;
+  gap: 10px;
+}
+
+.issue-report-reason {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #fff;
+  color: #1e293b;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.issue-report-reason:hover,
+.issue-report-reason:focus-visible {
+  border-color: #7c3aed;
+  background: #f5f3ff;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.issue-report-status {
+  min-height: 1.5em;
+  margin: 12px 0 0;
+  color: #475569;
+  font-size: 0.88rem;
+}
+
+.issue-report-cancel {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #64748b;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.issue-report-dialog button:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+.scope-report-button.issue-reported,
+.scope-report-button.issue-reported:hover {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: default;
+}
+
+.issue-report-toast {
+  position: fixed;
+  z-index: 10000;
+  left: 50%;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  width: min(calc(100vw - 32px), 520px);
+  margin: 0;
+  padding: 13px 18px;
+  border-radius: 999px;
+  background: #1e293b;
+  color: #fff;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.28);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: center;
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.issue-report-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 520px) {
+  .issue-report-card {
+    padding: 20px 16px 16px;
+  }
+
+  .issue-report-reason {
+    min-height: 52px;
+  }
+}
