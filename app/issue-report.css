@@ -125,6 +125,43 @@
   cursor: default;
 }
 
+.progress-status-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.scope-report-button.status-report-button {
+  min-height: 24px;
+  padding: 0 7px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #667085;
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.scope-report-button.status-report-button:hover:not(:disabled),
+.scope-report-button.status-report-button:focus-visible {
+  border-color: #d8dde3;
+  background: #f1f4f6;
+  color: #344054;
+  outline: none;
+}
+
+.scope-report-button.status-report-button.issue-reported,
+.scope-report-button.status-report-button.issue-reported:hover {
+  border-color: transparent;
+  background: transparent;
+  color: #98a2b3;
+}
+
 .issue-report-toast {
   position: fixed;
   z-index: 10000;
@@ -159,5 +196,15 @@
 
   .issue-report-reason {
     min-height: 52px;
+  }
+
+  .progress-status-actions {
+    gap: 5px;
+  }
+
+  .scope-report-button.status-report-button {
+    min-height: 22px;
+    padding: 0 5px;
+    font-size: 0.68rem;
   }
 }
