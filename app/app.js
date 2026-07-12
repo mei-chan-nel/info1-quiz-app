@@ -51,7 +51,7 @@ const TEXT = {
   answer: "正答",
   selected: "選んだ選択肢",
   unanswered: "未解答",
-  outOfScopeReport: "範囲外報告",
+  outOfScopeReport: "不備報告",
   you: "あなた",
   statsUnavailable: "公開版では選択率を保存・表示できません。",
 };
