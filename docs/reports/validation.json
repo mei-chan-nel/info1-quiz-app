@@ -12,7 +12,11 @@
     "digital": 216,
     "design": 63
   },
-  "tag_count": 613,
+  "raw_tag_count": 613,
+  "tag_count": 244,
+  "minimum_public_tag_questions": 4,
+  "hidden_low_frequency_tag_count": 369,
+  "questions_without_public_tags": 10,
   "errors": [],
   "warnings": [],
   "checks": [
@@ -22,7 +26,7 @@
     "titles, descriptions, canonicals, and one h1 per page",
     "Open Graph and BreadcrumbList structured metadata",
     "local links, assets, and fragments",
-    "linked tags, complete tag index, and multi-tag OR filtering",
+    "tags shown only when linked to at least four questions, with a complete eligible-tag index and multi-tag OR filtering",
     "six-field tag grouping and source-question-first single-tag navigation",
     "AdSense included on every generated question-library page",
     "protected app core-file SHA-256 baseline",

@@ -12,7 +12,11 @@
     "algorithm": 99,
     "design": 63
   },
-  "tag_count": 613,
+  "raw_tag_count": 613,
+  "tag_count": 244,
+  "minimum_public_tag_questions": 4,
+  "hidden_low_frequency_tag_count": 369,
+  "questions_without_public_tags": 10,
   "tag_filter_page": "questions/tags.html",
   "tag_filter_data": "questions/filter-data.json",
   "filter_match_mode": "OR",

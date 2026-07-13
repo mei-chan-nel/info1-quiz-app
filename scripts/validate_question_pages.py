@@ -17,6 +17,7 @@ REPORT_DIR = ROOT / "docs" / "reports"
 AD_SCRIPT_MARKER = "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
 SHARED_STYLESHEET = "https://mei-chan-nel.github.io/assets/site.css"
 SHARED_FAVICON = "https://mei-chan-nel.github.io/assets/favicon.svg"
+MIN_PUBLIC_TAG_QUESTIONS = 4
 PROTECTED_APP_FILES = (
     "app/index.html",
     "app/app.js",
@@ -101,12 +102,19 @@ def main() -> int:
     questions = load_questions()
     errors.extend(validate_field_ids(questions))
     expected_ids = {str(question["id"]) for question in questions}
-    expected_tags = {
+    raw_tag_counts = Counter(
         str(tag).strip()
         for question in questions
         for tag in question.get("tags", [])
         if str(tag).strip()
+    )
+    expected_tags = {
+        tag for tag, count in raw_tag_counts.items() if count >= MIN_PUBLIC_TAG_QUESTIONS
     }
+    expected_tag_links = sum(
+        sum(str(tag).strip() in expected_tags for tag in question.get("tags", []))
+        for question in questions
+    )
 
     html_paths = sorted((ROOT / "questions").glob("*.html"))
     parsed: dict[Path, PageParser] = {}
@@ -187,17 +195,24 @@ def main() -> int:
         errors.append(f"Unexpected rendered question IDs: {unexpected_ids[:10]}")
 
     question_html = "\n".join(path.read_text(encoding="utf-8") for path in generated_question_pages)
-    if question_html.count('class="tag-link"') != sum(
-        len([tag for tag in question.get("tags", []) if str(tag).strip()]) for question in questions
-    ):
-        errors.append("Every published question tag must be a link")
+    if question_html.count('class="tag-link"') != expected_tag_links:
+        errors.append("Every eligible question tag must be published exactly once as a link")
     if 'href="tags.html?tag=' not in question_html:
         errors.append("Generated question tags do not link to the tag filter")
-    expected_tag_links = sum(
-        len([tag for tag in question.get("tags", []) if str(tag).strip()]) for question in questions
-    )
     if question_html.count("&amp;question=") + question_html.count("&question=") != expected_tag_links:
         errors.append("Every question tag link must preserve its source question")
+    questions_with_public_tags = sum(
+        any(str(tag).strip() in expected_tags for tag in question.get("tags", []))
+        for question in questions
+    )
+    if question_html.count('class="tag-row"') != questions_with_public_tags:
+        errors.append("Question pages must omit the entire tag row when no eligible tag remains")
+    rendered_tag_values = {
+        unquote(value)
+        for value in re.findall(r'class="tag-link" href="tags\.html\?tag=([^"&]+)', question_html)
+    }
+    if rendered_tag_values != expected_tags:
+        errors.append("Question pages expose a missing or low-frequency tag")
 
     tag_page = ROOT / "questions" / "tags.html"
     filter_data_path = ROOT / "questions" / "filter-data.json"
@@ -217,11 +232,25 @@ def main() -> int:
             errors.append("filter-data.json: question or tag counts are invalid")
         if payload.get("match_mode") != "OR" or len(payload.get("questions", [])) != len(questions):
             errors.append("filter-data.json: OR filter payload is invalid")
+        payload_tags = {
+            str(tag)
+            for question in payload.get("questions", [])
+            for tag in question.get("tags", [])
+        }
+        if payload_tags != expected_tags:
+            errors.append("filter-data.json: missing or low-frequency tags are exposed")
+        if any(
+            any(raw_tag_counts[str(tag)] < MIN_PUBLIC_TAG_QUESTIONS for tag in question.get("tags", []))
+            for question in payload.get("questions", [])
+        ):
+            errors.append("filter-data.json: a tag used by three or fewer questions remains")
         filter_script = filter_script_path.read_text(encoding="utf-8")
         if "URLSearchParams" not in filter_script:
             errors.append("question-filter.js: URL-based multi-tag filter is missing")
         if "focusId" not in filter_script or "scrollIntoView" not in filter_script:
             errors.append("question-filter.js: source-question prioritization or result scrolling is missing")
+        if "if (question.tags.length > 0)" not in filter_script:
+            errors.append("question-filter.js: empty result tag rows are not suppressed")
 
     ad_required = [ROOT / "questions" / "index.html", ROOT / "questions" / "tags.html", *generated_question_pages]
     for path in ad_required:
@@ -262,6 +291,21 @@ def main() -> int:
             changed = [name for name in changed if baseline.get(name) != current.get(name)]
             errors.append(f"Protected app files changed: {changed}")
 
+    build_report_path = REPORT_DIR / "question-library-build.json"
+    if not build_report_path.is_file():
+        errors.append("Missing question-library build report")
+    else:
+        build_report = json.loads(build_report_path.read_text(encoding="utf-8"))
+        expected_without_public_tags = len(questions) - questions_with_public_tags
+        if (
+            build_report.get("raw_tag_count") != len(raw_tag_counts)
+            or build_report.get("tag_count") != len(expected_tags)
+            or build_report.get("minimum_public_tag_questions") != MIN_PUBLIC_TAG_QUESTIONS
+            or build_report.get("hidden_low_frequency_tag_count") != len(raw_tag_counts) - len(expected_tags)
+            or build_report.get("questions_without_public_tags") != expected_without_public_tags
+        ):
+            errors.append("question-library-build.json: public-tag audit metadata is not synchronized")
+
     report = {
         "status": "pass" if not errors else "fail",
         "question_count": len(questions),
@@ -269,7 +313,14 @@ def main() -> int:
         "generated_question_pages": len(generated_question_pages),
         "html_pages_checked": len(html_paths),
         "field_counts": dict(Counter(question["field_ids"][0] for question in questions)),
+        "raw_tag_count": len(raw_tag_counts),
         "tag_count": len(expected_tags),
+        "minimum_public_tag_questions": MIN_PUBLIC_TAG_QUESTIONS,
+        "hidden_low_frequency_tag_count": len(raw_tag_counts) - len(expected_tags),
+        "questions_without_public_tags": sum(
+            not any(str(tag).strip() in expected_tags for tag in question.get("tags", []))
+            for question in questions
+        ),
         "errors": errors,
         "warnings": warnings,
         "checks": [
@@ -279,7 +330,7 @@ def main() -> int:
             "titles, descriptions, canonicals, and one h1 per page",
             "Open Graph and BreadcrumbList structured metadata",
             "local links, assets, and fragments",
-            "linked tags, complete tag index, and multi-tag OR filtering",
+            "tags shown only when linked to at least four questions, with a complete eligible-tag index and multi-tag OR filtering",
             "six-field tag grouping and source-question-first single-tag navigation",
             "AdSense included on every generated question-library page",
             "protected app core-file SHA-256 baseline",

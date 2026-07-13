@@ -21,6 +21,7 @@ SITE_URL = "https://mei-chan-nel.github.io/info1-quiz-app/"
 PORTAL_URL = "https://mei-chan-nel.github.io/"
 ADSENSE_CLIENT = "ca-pub-6257644709224446"
 PAGE_SIZE = 10
+MIN_PUBLIC_TAG_QUESTIONS = 4
 REVIEW_DATE = date.today()
 PROTECTED_APP_FILES = (
     "app/index.html",
@@ -259,13 +260,15 @@ def facet_links(counts: Counter[str], parameter: str) -> str:
     return "".join(links)
 
 
-def primary_tag_groups(grouped: dict[str, list[dict]]) -> list[tuple[str, Counter[str]]]:
+def primary_tag_groups(
+    grouped: dict[str, list[dict]], public_tags: set[str]
+) -> list[tuple[str, Counter[str]]]:
     counts_by_field = {
         field["id"]: Counter(
             str(tag).strip()
             for question in grouped.get(field["id"], [])
             for tag in question.get("tags", [])
-            if str(tag).strip()
+            if str(tag).strip() in public_tags
         )
         for field in FIELDS
     }
@@ -329,18 +332,18 @@ def field_card(field: dict, count: int, href: str) -> str:
 
 
 
-def render_questions_index(grouped: dict[str, list[dict]]) -> None:
+def render_questions_index(grouped: dict[str, list[dict]], public_tags: set[str]) -> None:
     total = sum(len(items) for items in grouped.values())
     tag_counts = Counter(
         str(tag).strip()
         for questions in grouped.values()
         for question in questions
         for tag in question.get("tags", [])
-        if str(tag).strip()
+        if str(tag).strip() in public_tags
     )
     cards = "".join(field_card(field, len(grouped[field["id"]]), page_filename(field, 1)) for field in FIELDS)
-    title = f"情報Ⅰ（情報1）共通テスト対策問題{total}問 | Study Atlas"
-    description = f"高校生・受験生向けの情報Ⅰ（情報1）共通テスト対策問題{total}問。6分野から正答・解説・出典を読み、{len(tag_counts)}種類のタグで問題を探せます。"
+    title = f"情報Ⅰ共通テスト対策問題{total}問 | Study Atlas"
+    description = f"高校生・受験生向けの情報Ⅰ共通テスト対策問題{total}問。検索では「情報1」とも表記される科目を6分野に整理し、正答・解説・出典と{len(tag_counts)}種類のタグを掲載しています。"
     schema = structured_data(
         {
             "@context": "https://schema.org",
@@ -364,7 +367,7 @@ def render_questions_index(grouped: dict[str, list[dict]]) -> None:
     <main id="main-content" class="subpage">
       {breadcrumb([('学習トップ', PORTAL_URL), ('問題一覧', None)])}
       <section class="page-hero compact-hero">
-        <p class="eyebrow">INFORMATION I · QUESTION LIBRARY</p><h1>情報Ⅰの共通テスト対策問題</h1>
+        <p class="eyebrow">INFORMATION I · QUESTION LIBRARY</p><h1>情報Ⅰ共通テスト対策問題</h1>
         <p>高校生・受験生向けに、情報Ⅰ（「情報1」「情報I」と検索される科目）の全{total}問を主分野ごとに整理しています。正答と解説は各問の「正答と解説を確認」から開けます。</p>
       </section>
       <section class="library-notes" aria-label="一覧の使い方">
@@ -372,7 +375,7 @@ def render_questions_index(grouped: dict[str, list[dict]]) -> None:
         <article><strong>10問</strong><span>読みやすさのため1ページの上限を設定</span></article>
         <article><strong>根拠付き</strong><span>正答・解説・出典・タグをまとめて掲載</span></article>
       </section>
-      {facet_panel(tag_counts, groups=primary_tag_groups(grouped))}
+      {facet_panel(tag_counts, groups=primary_tag_groups(grouped, public_tags))}
       <section class="section no-top-padding" aria-labelledby="choose-field"><div class="section-heading"><div><p class="eyebrow">CHOOSE A FIELD</p><h2 id="choose-field">分野を選ぶ</h2></div></div><div class="field-grid">{cards}</div></section>
       <aside class="content-note"><h2>掲載内容について</h2><p>問題は共通テスト「情報Ⅰ」の学習用として作成・改題したものです。公式の問題・解答・解説ではありません。出典表示は各問題に記載しています。勉強の進め方は<a href="{PORTAL_URL}study-guide.html">情報Ⅰの勉強法</a>、誤りや範囲については<a href="{PORTAL_URL}about.html#contact">お問い合わせ先</a>をご確認ください。</p></aside>
       {schema}
@@ -399,7 +402,7 @@ def source_label(question: dict) -> str:
     return source
 
 
-def render_question(question: dict, number: int) -> str:
+def render_question(question: dict, number: int, public_tags: set[str]) -> str:
     choices = "".join(
         f'<li><span>{esc(choice.get("label", ""))}</span><p>{esc(choice.get("text", ""))}</p></li>'
         for choice in question.get("choices", [])
@@ -411,8 +414,9 @@ def render_question(question: dict, number: int) -> str:
     tags = "".join(
         f'<li><a class="tag-link" href="{tag_filter_href(str(tag), str(question["id"]))}">{esc(tag)}</a></li>'
         for tag in question.get("tags", [])
-        if str(tag).strip()
+        if str(tag).strip() in public_tags
     )
+    tag_row = f'\n              <div class="tag-row"><span>タグ</span><ul>{tags}</ul></div>' if tags else ""
     explanation = str(question.get("explanation", "")).strip()
     return f"""
         <article class="question-card" id="q-{esc(question['id'])}">
@@ -424,8 +428,7 @@ def render_question(question: dict, number: int) -> str:
             <div class="answer-content">
               <p class="correct-answer"><span>正答</span><strong>{esc(correct.get('label', ''))}. {esc(correct.get('text', ''))}</strong></p>
               <div class="explanation"><h3>解説</h3><p>{esc(explanation)}</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>{esc(source)}</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul>{tags}</ul></div>
+              <dl class="source-row"><dt>出典</dt><dd>{esc(source)}</dd></dl>{tag_row}
             </div>
           </details>
         </article>"""
@@ -457,14 +460,14 @@ def pagination(field: dict, current: int, total_pages: int, *, top: bool = False
     return f'<nav class="pagination{extra}" aria-label="{esc(field["label"])}のページ移動">' + "".join(links) + "</nav>"
 
 
-def render_field_pages(field: dict, questions: list[dict]) -> list[str]:
+def render_field_pages(field: dict, questions: list[dict], public_tags: set[str]) -> list[str]:
     paths: list[str] = []
     total_pages = math.ceil(len(questions) / PAGE_SIZE)
     tag_counts = Counter(
         str(tag).strip()
         for question in questions
         for tag in question.get("tags", [])
-        if str(tag).strip()
+        if str(tag).strip() in public_tags
     )
     for page_number in range(1, total_pages + 1):
         filename = page_filename(field, page_number)
@@ -473,10 +476,13 @@ def render_field_pages(field: dict, questions: list[dict]) -> list[str]:
         page_questions = questions[(page_number - 1) * PAGE_SIZE : page_number * PAGE_SIZE]
         start_number = (page_number - 1) * PAGE_SIZE + 1
         end_number = start_number + len(page_questions) - 1
-        cards = "".join(render_question(question, index) for index, question in enumerate(page_questions, start=start_number))
+        cards = "".join(
+            render_question(question, index, public_tags)
+            for index, question in enumerate(page_questions, start=start_number)
+        )
         page_suffix = f"（{page_number}/{total_pages}ページ）" if total_pages > 1 else ""
         title = f"情報Ⅰ {field['label']}の問題 {page_suffix} | 共通テスト対策"
-        description = f"高校生・受験生向けの情報Ⅰ（情報1）共通テスト対策。「{field['label']}」の問題{start_number}〜{end_number}を、正答・解説・出典・タグ付きで掲載しています。"
+        description = f"高校生・受験生向けの情報Ⅰ共通テスト対策。「{field['label']}」の問題{start_number}〜{end_number}を、正答・解説・出典と、該当する場合は関連タグも付けて掲載しています。"
         page_url = canonical(path)
         schema = structured_data(
             {
@@ -533,7 +539,7 @@ def render_field_pages(field: dict, questions: list[dict]) -> list[str]:
     return paths
 
 
-def build_filter_payload(grouped: dict[str, list[dict]]) -> dict:
+def build_filter_payload(grouped: dict[str, list[dict]], public_tags: set[str]) -> dict:
     items: list[dict] = []
     global_number = 0
     for field in FIELDS:
@@ -559,7 +565,11 @@ def build_filter_payload(grouped: dict[str, list[dict]]) -> dict:
                     "correct": {"label": str(correct.get("label", "")), "text": str(correct.get("text", ""))},
                     "explanation": str(question.get("explanation", "")).strip(),
                     "source": source_label(question),
-                    "tags": [str(tag).strip() for tag in question.get("tags", []) if str(tag).strip()],
+                    "tags": [
+                        str(tag).strip()
+                        for tag in question.get("tags", [])
+                        if str(tag).strip() in public_tags
+                    ],
                     "source_href": f"{page_filename(field, page_number)}#q-{question['id']}",
                 }
             )
@@ -612,7 +622,7 @@ def render_tag_filter_page(payload: dict) -> None:
         <h1>タグから問題を探す</h1>
         <p>調べたいタグを選ぶと、そのタグを含む情報Ⅰの問題を抽出します。複数選択した場合は、いずれか1つ以上を含む問題を表示します。</p>
       </section>
-      {facet_panel(tag_counts, open_panel=True, searchable=True, groups=primary_tag_groups(grouped))}
+      {facet_panel(tag_counts, open_panel=True, searchable=True, groups=primary_tag_groups(grouped, set(tag_counts)))}
       <section class="filter-results" aria-labelledby="filter-results-heading">
         <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading>タグを選択してください</h2><p data-filter-summary>{payload['question_count']}問からOR条件で抽出します。</p></div>
         <div class="filter-result-list" data-filter-results></div>
@@ -639,7 +649,9 @@ def protected_app_hashes() -> dict[str, str]:
     }
 
 
-def write_build_report(grouped: dict[str, list[dict]], generated_paths: list[str]) -> None:
+def write_build_report(
+    grouped: dict[str, list[dict]], generated_paths: list[str], public_tags: set[str]
+) -> None:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     baseline_path = REPORT_DIR / "app-core-baseline-sha256.json"
     if not baseline_path.exists():
@@ -658,7 +670,15 @@ def write_build_report(grouped: dict[str, list[dict]], generated_paths: list[str
         "question_count": sum(len(items) for items in grouped.values()),
         "page_size": PAGE_SIZE,
         "field_counts": {field["id"]: len(grouped[field["id"]]) for field in FIELDS},
-        "tag_count": len(tag_counts),
+        "raw_tag_count": len(tag_counts),
+        "tag_count": len(public_tags),
+        "minimum_public_tag_questions": MIN_PUBLIC_TAG_QUESTIONS,
+        "hidden_low_frequency_tag_count": len(tag_counts) - len(public_tags),
+        "questions_without_public_tags": sum(
+            not any(str(tag).strip() in public_tags for tag in question.get("tags", []))
+            for items in grouped.values()
+            for question in items
+        ),
         "tag_filter_page": "questions/tags.html",
         "tag_filter_data": "questions/filter-data.json",
         "filter_match_mode": "OR",
@@ -676,20 +696,30 @@ def main() -> int:
     for question in questions:
         grouped[question["field_ids"][0]].append(question)
 
+    tag_counts = Counter(
+        str(tag).strip()
+        for question in questions
+        for tag in question.get("tags", [])
+        if str(tag).strip()
+    )
+    public_tags = {
+        tag for tag, count in tag_counts.items() if count >= MIN_PUBLIC_TAG_QUESTIONS
+    }
+
     if QUESTIONS_DIR.resolve().parent != ROOT.resolve():
         raise RuntimeError("Refusing to regenerate questions outside the repository root")
     if QUESTIONS_DIR.exists():
         shutil.rmtree(QUESTIONS_DIR)
     QUESTIONS_DIR.mkdir(parents=True)
 
-    render_questions_index(grouped)
+    render_questions_index(grouped, public_tags)
     generated_paths: list[str] = []
     for field in FIELDS:
-        generated_paths.extend(render_field_pages(field, grouped[field["id"]]))
-    filter_payload = build_filter_payload(grouped)
+        generated_paths.extend(render_field_pages(field, grouped[field["id"]], public_tags))
+    filter_payload = build_filter_payload(grouped, public_tags)
     render_tag_filter_page(filter_payload)
     generated_paths.append("questions/tags.html")
-    write_build_report(grouped, generated_paths)
+    write_build_report(grouped, generated_paths, public_tags)
     print(f"questions={len(questions)} field_pages={len(generated_paths)} question_library_pages={len(generated_paths) + 1}")
     return 0
 

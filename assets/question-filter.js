@@ -104,13 +104,15 @@
     const source = element("dl", "source-row");
     source.append(element("dt", "", "出典"), element("dd", "", question.source));
 
-    const tagRow = element("div", "tag-row");
-    tagRow.append(element("span", "", "タグ"));
-    const tags = element("ul");
-    appendTags(tags, question.tags, question.id);
-    tagRow.append(tags);
-
-    content.append(correct, explanation, source, tagRow);
+    content.append(correct, explanation, source);
+    if (question.tags.length > 0) {
+      const tagRow = element("div", "tag-row");
+      tagRow.append(element("span", "", "タグ"));
+      const tags = element("ul");
+      appendTags(tags, question.tags, question.id);
+      tagRow.append(tags);
+      content.append(tagRow);
+    }
     details.append(detailsSummary, content);
     article.append(details);
     return article;
