@@ -241,8 +241,11 @@ def breadcrumb_data(items: list[tuple[str, str]]) -> dict:
     }
 
 
-def tag_filter_href(tag: str) -> str:
-    return f"tags.html?tag={quote(tag, safe='')}"
+def tag_filter_href(tag: str, question_id: str | None = None) -> str:
+    href = f"tags.html?tag={quote(tag, safe='')}"
+    if question_id:
+        href += f"&question={quote(question_id, safe='')}#filter-results-heading"
+    return href
 
 
 def facet_links(counts: Counter[str], parameter: str) -> str:
@@ -256,7 +259,33 @@ def facet_links(counts: Counter[str], parameter: str) -> str:
     return "".join(links)
 
 
-def facet_panel(counts: Counter[str], *, open_panel: bool = False, searchable: bool = False) -> str:
+def primary_tag_groups(grouped: dict[str, list[dict]]) -> list[tuple[str, Counter[str]]]:
+    counts_by_field = {
+        field["id"]: Counter(
+            str(tag).strip()
+            for question in grouped.get(field["id"], [])
+            for tag in question.get("tags", [])
+            if str(tag).strip()
+        )
+        for field in FIELDS
+    }
+    overall = Counter(
+        tag for counts in counts_by_field.values() for tag, count in counts.items() for _ in range(count)
+    )
+    assigned = {field["id"]: Counter() for field in FIELDS}
+    for tag, total in overall.items():
+        primary = max(FIELDS, key=lambda field: counts_by_field[field["id"]][tag])
+        assigned[primary["id"]][tag] = total
+    return [(field["label"], assigned[field["id"]]) for field in FIELDS]
+
+
+def facet_panel(
+    counts: Counter[str],
+    *,
+    open_panel: bool = False,
+    searchable: bool = False,
+    groups: list[tuple[str, Counter[str]]] | None = None,
+) -> str:
     open_attr = " open" if open_panel else ""
     search = ""
     if searchable:
@@ -266,11 +295,22 @@ def facet_panel(counts: Counter[str], *, open_panel: bool = False, searchable: b
             '</label><a class="facet-clear" href="tags.html" data-facet-clear>選択を解除</a></div>'
         )
     search_markup = f"          {search}\n" if search else ""
+    if groups:
+        facet_markup = "".join(
+            f'''<details class="facet-group" data-facet-group{(" open" if index == 0 else "")}>
+            <summary>{esc(label)} <span>{len(group_counts)}種類</span></summary>
+            <div class="facet-links" data-facet-list>{facet_links(group_counts, "tag")}</div>
+          </details>'''
+            for index, (label, group_counts) in enumerate(groups)
+            if group_counts
+        )
+    else:
+        facet_markup = f'<div class="facet-links" data-facet-list>{facet_links(counts, "tag")}</div>'
     return f"""<details class="facet-panel"{open_attr}>
         <summary>タグ一覧から問題を絞り込む <span>{len(counts)}種類・複数選択はOR検索</span></summary>
         <div class="facet-panel-body">
-          <p>タグはすべてリンクです。絞り込み画面では複数のタグを選ぶと、いずれかのタグを含む問題を表示します。</p>
-{search_markup}          <div class="facet-links" data-facet-list>{facet_links(counts, "tag")}</div>
+          <p>タグは主に関連する分野へ整理しています。この一覧では複数選択のOR検索、各問題に付くタグからはそのタグだけの検索になります。</p>
+{search_markup}          <div class="facet-groups" data-facet-groups>{facet_markup}</div>
         </div>
       </details>"""
 
@@ -332,7 +372,7 @@ def render_questions_index(grouped: dict[str, list[dict]]) -> None:
         <article><strong>10問</strong><span>読みやすさのため1ページの上限を設定</span></article>
         <article><strong>根拠付き</strong><span>正答・解説・出典・タグをまとめて掲載</span></article>
       </section>
-      {facet_panel(tag_counts)}
+      {facet_panel(tag_counts, groups=primary_tag_groups(grouped))}
       <section class="section no-top-padding" aria-labelledby="choose-field"><div class="section-heading"><div><p class="eyebrow">CHOOSE A FIELD</p><h2 id="choose-field">分野を選ぶ</h2></div></div><div class="field-grid">{cards}</div></section>
       <aside class="content-note"><h2>掲載内容について</h2><p>問題は共通テスト「情報Ⅰ」の学習用として作成・改題したものです。公式の問題・解答・解説ではありません。出典表示は各問題に記載しています。勉強の進め方は<a href="{PORTAL_URL}study-guide.html">情報Ⅰの勉強法</a>、誤りや範囲については<a href="{PORTAL_URL}about.html#contact">お問い合わせ先</a>をご確認ください。</p></aside>
       {schema}
@@ -369,7 +409,7 @@ def render_question(question: dict, number: int) -> str:
         raise ValueError(f"{question['id']}: correct choice not found")
     source = source_label(question)
     tags = "".join(
-        f'<li><a class="tag-link" href="{tag_filter_href(str(tag))}">{esc(tag)}</a></li>'
+        f'<li><a class="tag-link" href="{tag_filter_href(str(tag), str(question["id"]))}">{esc(tag)}</a></li>'
         for tag in question.get("tags", [])
         if str(tag).strip()
     )
@@ -535,6 +575,10 @@ def build_filter_payload(grouped: dict[str, list[dict]]) -> dict:
 
 def render_tag_filter_page(payload: dict) -> None:
     tag_counts = Counter(tag for question in payload["questions"] for tag in question["tags"])
+    grouped = {
+        field["id"]: [question for question in payload["questions"] if question["field_id"] == field["id"]]
+        for field in FIELDS
+    }
     title = "情報Ⅰ（情報1）の問題をタグから探す | 共通テスト対策"
     description = f"情報Ⅰの問題{payload['question_count']}問を{payload['tag_count']}種類のタグから検索。複数タグはOR条件で抽出し、正答・解説・出典まで確認できます。"
     schema = structured_data(
@@ -568,7 +612,7 @@ def render_tag_filter_page(payload: dict) -> None:
         <h1>タグから問題を探す</h1>
         <p>調べたいタグを選ぶと、そのタグを含む情報Ⅰの問題を抽出します。複数選択した場合は、いずれか1つ以上を含む問題を表示します。</p>
       </section>
-      {facet_panel(tag_counts, open_panel=True, searchable=True)}
+      {facet_panel(tag_counts, open_panel=True, searchable=True, groups=primary_tag_groups(grouped))}
       <section class="filter-results" aria-labelledby="filter-results-heading">
         <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading>タグを選択してください</h2><p data-filter-summary>{payload['question_count']}問からOR条件で抽出します。</p></div>
         <div class="filter-result-list" data-filter-results></div>

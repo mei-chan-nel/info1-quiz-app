@@ -193,6 +193,11 @@ def main() -> int:
         errors.append("Every published question tag must be a link")
     if 'href="tags.html?tag=' not in question_html:
         errors.append("Generated question tags do not link to the tag filter")
+    expected_tag_links = sum(
+        len([tag for tag in question.get("tags", []) if str(tag).strip()]) for question in questions
+    )
+    if question_html.count("&amp;question=") + question_html.count("&question=") != expected_tag_links:
+        errors.append("Every question tag link must preserve its source question")
 
     tag_page = ROOT / "questions" / "tags.html"
     filter_data_path = ROOT / "questions" / "filter-data.json"
@@ -203,6 +208,8 @@ def main() -> int:
         tag_text = tag_page.read_text(encoding="utf-8")
         if tag_text.count('class="facet-link"') != len(expected_tags):
             errors.append("tags.html: expected one link for every unique tag")
+        if tag_text.count('class="facet-group"') != len(FIELD_LABELS):
+            errors.append("tags.html: tags must be grouped into all six learning fields")
         if "data-question-filter" not in tag_text or "data-filter-param=\"tag\"" not in tag_text:
             errors.append("tags.html: OR filter configuration is missing")
         payload = json.loads(filter_data_path.read_text(encoding="utf-8"))
@@ -210,8 +217,11 @@ def main() -> int:
             errors.append("filter-data.json: question or tag counts are invalid")
         if payload.get("match_mode") != "OR" or len(payload.get("questions", [])) != len(questions):
             errors.append("filter-data.json: OR filter payload is invalid")
-        if "URLSearchParams" not in filter_script_path.read_text(encoding="utf-8"):
+        filter_script = filter_script_path.read_text(encoding="utf-8")
+        if "URLSearchParams" not in filter_script:
             errors.append("question-filter.js: URL-based multi-tag filter is missing")
+        if "focusId" not in filter_script or "scrollIntoView" not in filter_script:
+            errors.append("question-filter.js: source-question prioritization or result scrolling is missing")
 
     ad_required = [ROOT / "questions" / "index.html", ROOT / "questions" / "tags.html", *generated_question_pages]
     for path in ad_required:
@@ -270,6 +280,7 @@ def main() -> int:
             "Open Graph and BreadcrumbList structured metadata",
             "local links, assets, and fragments",
             "linked tags, complete tag index, and multi-tag OR filtering",
+            "six-field tag grouping and source-question-first single-tag navigation",
             "AdSense included on every generated question-library page",
             "protected app core-file SHA-256 baseline",
             "consolidated app footer links and removal of old information pages",

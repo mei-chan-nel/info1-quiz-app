@@ -7,12 +7,14 @@
   const parameter = root.dataset.filterParam || "tag";
   const dataUrl = root.dataset.filterData;
   const results = root.querySelector("[data-filter-results]");
+  const resultsSection = root.querySelector(".filter-results");
   const heading = root.querySelector("[data-filter-heading]");
   const summary = root.querySelector("[data-filter-summary]");
   const search = root.querySelector("[data-facet-search]");
   const clear = root.querySelector("[data-facet-clear]");
   let payload = null;
   let selected = [];
+  let focusId = null;
 
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -26,11 +28,14 @@
     return [...new Set(params.getAll(parameter).map((value) => value.trim()).filter(Boolean))];
   };
 
-  const filterHref = (values) => {
+  const readFocus = () => new URL(window.location.href).searchParams.get("question");
+
+  const filterHref = (values, questionId = null) => {
     const params = new URLSearchParams();
     values.forEach((value) => params.append(parameter, value));
+    if (questionId) params.set("question", questionId);
     const query = params.toString();
-    return `tags.html${query ? `?${query}` : ""}`;
+    return `tags.html${query ? `?${query}` : ""}${questionId ? "#filter-results-heading" : ""}`;
   };
 
   const toggledSelection = (value) => {
@@ -54,12 +59,11 @@
     }
   };
 
-  const appendTags = (container, tags) => {
+  const appendTags = (container, tags, questionId) => {
     tags.forEach((tag) => {
       const item = element("li");
       const link = element("a", "tag-link", tag);
-      link.href = filterHref(toggledSelection(tag));
-      link.dataset.facetValue = tag;
+      link.href = filterHref([tag], questionId);
       item.append(link);
       container.append(item);
     });
@@ -68,6 +72,7 @@
   const renderQuestion = (question) => {
     const article = element("article", "question-card filtered-question-card");
     article.id = `filtered-q-${question.id}`;
+    if (focusId === question.id) article.classList.add("is-origin-question");
 
     const meta = element("div", "question-meta");
     meta.append(element("span", "", `${question.field_label} · QUESTION ${String(question.field_number).padStart(3, "0")}`));
@@ -102,7 +107,7 @@
     const tagRow = element("div", "tag-row");
     tagRow.append(element("span", "", "タグ"));
     const tags = element("ul");
-    appendTags(tags, question.tags);
+    appendTags(tags, question.tags, question.id);
     tagRow.append(tags);
 
     content.append(correct, explanation, source, tagRow);
@@ -124,6 +129,10 @@
     }
 
     const matches = payload.questions.filter((question) => question.tags.some((tag) => selected.includes(tag)));
+    if (focusId) {
+      const originIndex = matches.findIndex((question) => question.id === focusId);
+      if (originIndex > 0) matches.unshift(...matches.splice(originIndex, 1));
+    }
     heading.textContent = `「${selected.join("」「")}」の問題`;
     summary.textContent = `${selected.length}タグのOR検索で${matches.length}問が見つかりました。`;
     if (matches.length === 0) {
@@ -134,10 +143,14 @@
     matches.forEach((question) => fragment.append(renderQuestion(question)));
     results.append(fragment);
     syncFacetLinks();
+    if (focusId && matches.some((question) => question.id === focusId)) {
+      window.requestAnimationFrame(() => resultsSection.scrollIntoView({ block: "start" }));
+    }
   };
 
   const setSelection = (values, push = true) => {
     selected = [...new Set(values)];
+    focusId = null;
     if (push) window.history.pushState({}, "", filterHref(selected));
     render();
   };
@@ -162,15 +175,22 @@
       root.querySelectorAll(".facet-links > .facet-link").forEach((link) => {
         link.hidden = Boolean(query) && !link.dataset.facetValue.toLocaleLowerCase("ja").includes(query);
       });
+      root.querySelectorAll("[data-facet-group]").forEach((group) => {
+        const visible = [...group.querySelectorAll(".facet-link")].some((link) => !link.hidden);
+        group.hidden = Boolean(query) && !visible;
+        if (query && visible) group.open = true;
+      });
     });
   }
 
   window.addEventListener("popstate", () => {
     selected = readSelection();
+    focusId = readFocus();
     render();
   });
 
   selected = readSelection();
+  focusId = readFocus();
   syncFacetLinks();
   fetch(dataUrl)
     .then((response) => {
