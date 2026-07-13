@@ -158,8 +158,8 @@ def main() -> int:
         ids = re.findall(r'<article class="question-card" id="q-([^"]+)">', text)
         rendered_ids.extend(ids)
         page_counts[path.relative_to(ROOT).as_posix()] = len(ids)
-        if not 1 <= len(ids) <= 30:
-            errors.append(f"{path.relative_to(ROOT)}: question count must be 1-30, found {len(ids)}")
+        if not 1 <= len(ids) <= 10:
+            errors.append(f"{path.relative_to(ROOT)}: question count must be 1-10, found {len(ids)}")
     rendered_counter = Counter(rendered_ids)
     missing_ids = sorted(expected_ids - set(rendered_counter))
     duplicate_ids = sorted(question_id for question_id, count in rendered_counter.items() if count != 1)
@@ -173,9 +173,12 @@ def main() -> int:
 
     ad_required = [ROOT / "questions" / "index.html", *generated_question_pages]
     for path in ad_required:
-        if AD_SCRIPT_MARKER not in path.read_text(encoding="utf-8"):
+        page_text = path.read_text(encoding="utf-8")
+        if AD_SCRIPT_MARKER not in page_text:
             errors.append(f"{path.relative_to(ROOT)}: AdSense script missing from learning content")
-    for obsolete_name in ("index.html", "about.html", "privacy.html", "ads.txt", "robots.txt", "sitemap.xml"):
+        if 'href="https://mei-chan-nel.github.io/sitemap.html"' not in page_text:
+            errors.append(f"{path.relative_to(ROOT)}: footer sitemap link missing")
+    for obsolete_name in ("index.html", "about.html", "privacy.html", "sitemap.html", "ads.txt", "robots.txt", "sitemap.xml"):
         if (ROOT / obsolete_name).exists():
             errors.append(f"Repository-boundary violation: {obsolete_name} belongs to mei-chan-nel.github.io")
     for obsolete_app_page in ("app/about.html", "app/privacy.html"):
@@ -219,7 +222,7 @@ def main() -> int:
         "checks": [
             "field_ids completeness and allowed values",
             "unique question IDs and exactly-once publication",
-            "maximum 30 questions per generated page",
+            "maximum 10 questions per generated page",
             "titles, descriptions, canonicals, and one h1 per page",
             "local links, assets, and fragments",
             "AdSense included on every generated question-library page",

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>アルゴリズムの問題 （7/10ページ） | 情報Ⅰ Study Atlas</title>
+    <meta name="description" content="情報Ⅰ「アルゴリズム」の知識問題61〜70。正答・解説・出典・タグを掲載しています。" />
+    <meta name="theme-color" content="#102f35" />
+    <link rel="canonical" href="https://mei-chan-nel.github.io/info1-quiz-app/questions/algorithm-7.html" />
+    <link rel="icon" href="https://mei-chan-nel.github.io/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="https://mei-chan-nel.github.io/assets/site.css" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6257644709224446" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="https://mei-chan-nel.github.io/" aria-label="情報Ⅰ Study Atlas トップ">
+          <span class="brand-mark" aria-hidden="true">I</span>
+          <span><strong>情報Ⅰ Study Atlas</strong><small>知識問題と解説</small></span>
+        </a>
+        <nav class="global-nav" aria-label="メインナビゲーション"><a href="https://mei-chan-nel.github.io/">学習トップ</a><a href="../questions/index.html" aria-current="page">問題一覧</a><a href="https://mei-chan-nel.github.io/archive/">動画問題</a><a href="../app/">学習アプリ</a><a href="https://mei-chan-nel.github.io/about.html">このサイトについて</a></nav>
+      </div>
+    </header>
+    <main id="main-content" class="subpage question-page">
+      <nav class="breadcrumb" aria-label="パンくずリスト"><a href="https://mei-chan-nel.github.io/">学習トップ</a><span aria-hidden="true">/</span><a href="index.html">問題一覧</a><span aria-hidden="true">/</span><span aria-current="page">アルゴリズム</span></nav>
+      <section class="field-hero accent-violet">
+        <div><p class="eyebrow">FIELD 05</p><h1>アルゴリズム</h1><p>変数、配列、条件分岐、繰返し、探索、シミュレーション、プログラムの読解などを扱います。値がどの順番で変わるかを追うことが基本です。</p></div>
+        <dl><div><dt>掲載数</dt><dd>99問</dd></div><div><dt>このページ</dt><dd>61–70問</dd></div></dl>
+      </section>
+      <nav class="pagination pagination-top" aria-label="アルゴリズムのページ移動"><a class="page-direction" href="algorithm-6.html" rel="prev">← 前へ</a><span class="page-numbers"><a href="algorithm.html" aria-label="1ページ目">1</a><span class="page-ellipsis" aria-hidden="true">…</span><a href="algorithm-5.html" aria-label="5ページ目">5</a><a href="algorithm-6.html" aria-label="6ページ目">6</a><span aria-current="page">7</span><a href="algorithm-8.html" aria-label="8ページ目">8</a><a href="algorithm-9.html" aria-label="9ページ目">9</a><a href="algorithm-10.html" aria-label="10ページ目">10</a></span><a class="page-direction" href="algorithm-8.html" rel="next">次へ →</a></nav>
+      <section class="question-list" aria-label="アルゴリズムの問題">
+        <article class="question-card" id="q-center_style_curated_072_005">
+          <div class="question-meta"><span>QUESTION 061</span><a href="#q-center_style_curated_072_005" aria-label="この問題へのリンク">#center_style_curated_072_005</a></div>
+          <h2>先に入れたデータから順に取り出す待ち行列がある。空の状態から，1，2，3を入れ，1つ取り出し，4，5を入れ，1つ取り出し，6を入れ，2つ取り出した。次に取り出される値はどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>1</p></li><li><span>1</span><p>2</p></li><li><span>2</span><p>5</p></li><li><span>3</span><p>6</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 5</strong></p>
+              <div class="explanation"><h3>解説</h3><p>待ち行列は先に入れたものから取り出す。操作後の列を追うと，[1,2,3]から1を取り出して[2,3]，4と5を入れて[2,3,4,5]，2を取り出して[3,4,5]，6を入れて[3,4,5,6]，3と4を取り出して[5,6]となる。次に取り出すのは5である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H25秋期午前 問3（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>待ち行列</li><li>シミュレーション</li><li>データ</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_curated_072_011">
+          <div class="question-meta"><span>QUESTION 062</span><a href="#q-center_style_curated_072_011" aria-label="この問題へのリンク">#center_style_curated_072_011</a></div>
+          <h2>10人が1対1で全員と1回ずつ話す予定に，2人を追加して12人にした。話合いの回数は何回増えるか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>12回</p></li><li><span>1</span><p>21回</p></li><li><span>2</span><p>22回</p></li><li><span>3</span><p>24回</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. 21回</strong></p>
+              <div class="explanation"><h3>解説</h3><p>10人の1対1の組は10×9÷2=45組，12人では12×11÷2=66組である。増加分は66-45=21回である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者R1秋期午前 問72（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>1対1</li><li>コミュニケーション</li><li>アルゴリズム</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_curated_073_001">
+          <div class="question-meta"><span>QUESTION 063</span><a href="#q-center_style_curated_073_001" aria-label="この問題へのリンク">#center_style_curated_073_001</a></div>
+          <h2>7人が互いに1対1で1回ずつ情報を伝えるとき，必要な伝達経路は最大で幾つか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>7</p></li><li><span>1</span><p>14</p></li><li><span>2</span><p>21</p></li><li><span>3</span><p>42</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 21</strong></p>
+              <div class="explanation"><h3>解説</h3><p>7人から2人を選ぶ組合せなので，7×6÷2=21経路である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH24秋期 問42（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>1対1</li><li>コミュニケーション</li><li>アルゴリズム</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_curated_073_007">
+          <div class="question-meta"><span>QUESTION 064</span><a href="#q-center_style_curated_073_007" aria-label="この問題へのリンク">#center_style_curated_073_007</a></div>
+          <h2>1対1の伝達経路が6本あるグループに，1人が加わった。新しいグループの1対1の伝達経路は何本か。</h2>
+          <ol class="choice-list"><li><span>0</span><p>7本</p></li><li><span>1</span><p>9本</p></li><li><span>2</span><p>10本</p></li><li><span>3</span><p>15本</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 10本</strong></p>
+              <div class="explanation"><h3>解説</h3><p>1対1の経路が6本ということは，もとの人数は4人である。1人加わると5人になり，5×4÷2=10本である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH25秋期 問85（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>1対1</li><li>コミュニケーション</li><li>アルゴリズム</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_curated_073_023">
+          <div class="question-meta"><span>QUESTION 065</span><a href="#q-center_style_curated_073_023" aria-label="この問題へのリンク">#center_style_curated_073_023</a></div>
+          <h2>1対1の情報伝達経路が必要なチームで，人数が10人から15人に増えた。必要な経路は幾つ増えるか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>5</p></li><li><span>1</span><p>10</p></li><li><span>2</span><p>60</p></li><li><span>3</span><p>165</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 60</strong></p>
+              <div class="explanation"><h3>解説</h3><p>10人では10×9÷2=45経路，15人では15×14÷2=105経路である。増加分は105-45=60経路である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH29春期 問50（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>1対1</li><li>コミュニケーション</li><li>アルゴリズム</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_curated_075_001">
+          <div class="question-meta"><span>QUESTION 066</span><a href="#q-center_style_curated_075_001" aria-label="この問題へのリンク">#center_style_curated_075_001</a></div>
+          <h2>ロボットなどを動かす制御システムで使われるアクチュエータの役割として，最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>動きを計測する</p></li><li><span>1</span><p>動きを制御するための計算や判断を行う</p></li><li><span>2</span><p>機械や機構を物理的に動かす</p></li><li><span>3</span><p>制御システムを動かすエネルギーを供給する</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>2. 機械や機構を物理的に動かす</strong></p>
+              <div class="explanation"><h3>解説</h3><p>アクチュエータは，電気信号などを受けてモータや機構を動かす装置である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H22秋期午前 問4（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>アクチュエータ</li><li>センサ</li><li>制御</li><li>コンピュータ</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_curated_078_002">
+          <div class="question-meta"><span>QUESTION 067</span><a href="#q-center_style_curated_078_002" aria-label="この問題へのリンク">#center_style_curated_078_002</a></div>
+          <h2>モンテカルロ法を用いて円周率を近似する考え方として，最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>正方形内に乱数で多数の点を打ち，内接する円に入った点の割合から面積比を推定する。</p></li><li><span>1</span><p>正方形内に等間隔の格子点だけを置き，乱数を使わずに円内の点を数える。</p></li><li><span>2</span><p>円に内接する正多角形の周の長さを計算し，辺の数を増やして近づける。</p></li><li><span>3</span><p>円の直径を何度も測定し，測定値の最大値だけを使って求める。</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. 正方形内に乱数で多数の点を打ち，内接する円に入った点の割合から面積比を推定する。</strong></p>
+              <div class="explanation"><h3>解説</h3><p>モンテカルロ法は，乱数を用いた試行を多数行い，その結果から値を近似する方法である。正方形内にランダムな点を打ち，円の中に入る割合から面積比を推定する。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者R2秋期午前 問6（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>モンテカルロ法</li><li>シミュレーション</li><li>乱数</li><li>確率</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_curated_079_002">
+          <div class="question-meta"><span>QUESTION 068</span><a href="#q-center_style_curated_079_002" aria-label="この問題へのリンク">#center_style_curated_079_002</a></div>
+          <h2>バブルソートの説明として，最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>隣り合う要素を比較し，順序が逆なら入れ替える操作を繰り返す。</p></li><li><span>1</span><p>基準値を一つ選び，それより小さい要素と大きい要素の組に分ける操作を繰り返す。</p></li><li><span>2</span><p>離れた位置の要素だけを先に比べ，間隔を少しずつ狭める。</p></li><li><span>3</span><p>未整列の要素を木の形に並べ，根にある要素を順に取り出す。</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. 隣り合う要素を比較し，順序が逆なら入れ替える操作を繰り返す。</strong></p>
+              <div class="explanation"><h3>解説</h3><p>バブルソートは，隣り合う要素を比較し，並べたい順序と逆なら交換することを繰り返す整列方法である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者R3秋期午前 問5（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>バブルソート</li><li>ソート</li><li>アルゴリズム</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_curated_081_004">
+          <div class="question-meta"><span>QUESTION 069</span><a href="#q-center_style_curated_081_004" aria-label="この問題へのリンク">#center_style_curated_081_004</a></div>
+          <h2>フィードバック制御の説明として，最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>あらかじめ決めた順序だけに従って制御する。</p></li><li><span>1</span><p>出力結果と目標値を比べ，差が小さくなるように制御する。</p></li><li><span>2</span><p>出力結果を一切見ずに制御する。</p></li><li><span>3</span><p>外部からの影響を測定せず，入力だけで制御を終える。</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>1. 出力結果と目標値を比べ，差が小さくなるように制御する。</strong></p>
+              <div class="explanation"><h3>解説</h3><p>フィードバック制御は，出力結果を入力側に戻して目標値と比べ，差を小さくするように制御する考え方である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H29秋期午前 問3（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>フィードバック</li><li>制御</li><li>モデル化</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_curated_083_003">
+          <div class="question-meta"><span>QUESTION 070</span><a href="#q-center_style_curated_083_003" aria-label="この問題へのリンク">#center_style_curated_083_003</a></div>
+          <h2>変数AとBの値を入れ替える。値を一時的に保存する変数TMPを使う手順として，最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>TMP ← A，A ← B，B ← TMP</p></li><li><span>1</span><p>TMP ← A，B ← TMP，A ← B</p></li><li><span>2</span><p>A ← B，B ← A，TMP ← A</p></li><li><span>3</span><p>TMP ← B，A ← TMP，B ← A</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. TMP ← A，A ← B，B ← TMP</strong></p>
+              <div class="explanation"><h3>解説</h3><p>先にAの値をTMPに退避し，AにBの値を入れ，最後に退避しておいた元のAの値をBに入れると入替えができる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH22春期 問53（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>変数</li><li>代入</li><li>アルゴリズム</li></ul></div>
+            </div>
+          </details>
+        </article></section>
+      <nav class="pagination" aria-label="アルゴリズムのページ移動"><a class="page-direction" href="algorithm-6.html" rel="prev">← 前へ</a><span class="page-numbers"><a href="algorithm.html" aria-label="1ページ目">1</a><span class="page-ellipsis" aria-hidden="true">…</span><a href="algorithm-5.html" aria-label="5ページ目">5</a><a href="algorithm-6.html" aria-label="6ページ目">6</a><span aria-current="page">7</span><a href="algorithm-8.html" aria-label="8ページ目">8</a><a href="algorithm-9.html" aria-label="9ページ目">9</a><a href="algorithm-10.html" aria-label="10ページ目">10</a></span><a class="page-direction" href="algorithm-8.html" rel="next">次へ →</a></nav>
+      <aside class="next-action"><div><p class="eyebrow">PRACTICE</p><h2>読んだ知識をランダム出題で確認</h2><p>学習アプリでは「アルゴリズム」を選んで、1〜50問に挑戦できます。</p></div><a class="button button-primary" href="../app/">学習アプリを開く</a></aside>
+    </main>
+    
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand">情報Ⅰ Study Atlas</p>
+          <p class="footer-copy">知識を、繋ぎ、ひろげる。</p>
+        </div>
+        <nav aria-label="フッターナビゲーション">
+          <a href="../questions/index.html">問題一覧</a>
+          <a href="https://mei-chan-nel.github.io/archive/">動画問題</a>
+          <a href="https://mei-chan-nel.github.io/books/">問題集</a>
+          <a href="../app/">学習アプリ</a>
+          <a href="https://mei-chan-nel.github.io/about.html">このサイトについて</a>
+          <a href="https://mei-chan-nel.github.io/privacy.html">プライバシーポリシー</a>
+          <a href="https://mei-chan-nel.github.io/sitemap.html">サイトマップ</a>
+        </nav>
+      </div>
+      <p class="copyright"><small>&copy; 2026 めいちゃんねる</small></p>
+    </footer>
+  </body>
+</html>

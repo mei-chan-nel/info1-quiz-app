@@ -2,8 +2,8 @@
   "status": "pass",
   "question_count": 1000,
   "rendered_question_count": 1000,
-  "generated_question_pages": 36,
-  "html_pages_checked": 37,
+  "generated_question_pages": 102,
+  "html_pages_checked": 103,
   "field_counts": {
     "society_security": 359,
     "data_db": 113,
@@ -17,7 +17,7 @@
   "checks": [
     "field_ids completeness and allowed values",
     "unique question IDs and exactly-once publication",
-    "maximum 30 questions per generated page",
+    "maximum 10 questions per generated page",
     "titles, descriptions, canonicals, and one h1 per page",
     "local links, assets, and fragments",
     "AdSense included on every generated question-library page",

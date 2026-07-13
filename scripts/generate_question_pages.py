@@ -19,9 +19,16 @@ REPORT_DIR = ROOT / "docs" / "reports"
 SITE_URL = "https://mei-chan-nel.github.io/info1-quiz-app/"
 PORTAL_URL = "https://mei-chan-nel.github.io/"
 ADSENSE_CLIENT = "ca-pub-6257644709224446"
-PAGE_SIZE = 30
+PAGE_SIZE = 10
 REVIEW_DATE = date.today()
-PROTECTED_APP_FILES = ("app/index.html", "app/app.js", "app/startup.js", "app/styles.css")
+PROTECTED_APP_FILES = (
+    "app/index.html",
+    "app/app.js",
+    "app/startup.js",
+    "app/styles.css",
+    "app/issue-report.js",
+    "app/issue-report.css",
+)
 
 FIELDS = [
     {
@@ -180,6 +187,7 @@ def footer(prefix: str) -> str:
           <a href="{prefix}app/">学習アプリ</a>
           <a href="{PORTAL_URL}about.html">このサイトについて</a>
           <a href="{PORTAL_URL}privacy.html">プライバシーポリシー</a>
+          <a href="{PORTAL_URL}sitemap.html">サイトマップ</a>
         </nav>
       </div>
       <p class="copyright"><small>&copy; 2026 めいちゃんねる</small></p>
@@ -227,7 +235,7 @@ def render_questions_index(grouped: dict[str, list[dict]]) -> None:
       </section>
       <section class="library-notes" aria-label="一覧の使い方">
         <article><strong>6分野</strong><span>学習内容の主題で各問を1つの分野へ分類</span></article>
-        <article><strong>30問</strong><span>読みやすさのため1ページの上限を設定</span></article>
+        <article><strong>10問</strong><span>読みやすさのため1ページの上限を設定</span></article>
         <article><strong>根拠付き</strong><span>正答・解説・出典・タグをまとめて掲載</span></article>
       </section>
       <section class="section no-top-padding" aria-labelledby="choose-field"><div class="section-heading"><div><p class="eyebrow">CHOOSE A FIELD</p><h2 id="choose-field">分野を選ぶ</h2></div></div><div class="field-grid">{cards}</div></section>
@@ -284,12 +292,17 @@ def pagination(field: dict, current: int, total_pages: int, *, top: bool = False
         links.append(f'<a class="page-direction" href="{page_filename(field, current - 1)}" rel="prev">← 前へ</a>')
     else:
         links.append('<span class="page-direction disabled">← 前へ</span>')
+    visible_numbers = sorted({1, total_pages, *range(max(1, current - 2), min(total_pages, current + 2) + 1)})
     numbered = []
-    for number in range(1, total_pages + 1):
+    previous_number = 0
+    for number in visible_numbers:
+        if previous_number and number - previous_number > 1:
+            numbered.append('<span class="page-ellipsis" aria-hidden="true">…</span>')
         if number == current:
             numbered.append(f'<span aria-current="page">{number}</span>')
         else:
             numbered.append(f'<a href="{page_filename(field, number)}" aria-label="{number}ページ目">{number}</a>')
+        previous_number = number
     links.append('<span class="page-numbers">' + "".join(numbered) + "</span>")
     if current < total_pages:
         links.append(f'<a class="page-direction" href="{page_filename(field, current + 1)}" rel="next">次へ →</a>')

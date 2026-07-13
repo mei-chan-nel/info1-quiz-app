@@ -1,6 +1,6 @@
 # 問題一覧の生成・所有範囲
 
-更新日: 2026-07-13
+更新日: 2026-07-14
 
 ## このリポジトリが所有するもの
 
@@ -9,7 +9,7 @@
 - `questions/`: 読むための問題一覧
 - `docs/reports/question-library-build.json`: ポータルのサイトマップ生成に渡す公開ページ一覧
 
-ポータルトップ、サイト案内、全体プライバシーポリシー、共通CSS・favicon、`ads.txt`、`robots.txt`、`sitemap.xml` は、`mei-chan-nel.github.io` リポジトリが所有する。
+ポータルトップ、サイト案内、全体プライバシーポリシー、利用者向け `sitemap.html`、共通CSS・favicon、`ads.txt`、`robots.txt`、`sitemap.xml` は、`mei-chan-nel.github.io` リポジトリが所有する。
 
 ## 生成手順
 
@@ -28,8 +28,8 @@ python scripts/classify_questions.py --apply
 ## 現在の生成結果
 
 - 全問題: 1,000問
-- 問題一覧ページ: 37ページ（一覧トップ1、分野ページ36）
-- 1ページ上限: 30問
+- 問題一覧ページ: 103ページ（一覧トップ1、分野ページ102）
+- 1ページ上限: 10問
 - 未分類: 0問
 - 重複掲載: 0問
 - 未掲載: 0問
@@ -42,4 +42,4 @@ python scripts/classify_questions.py --apply
 
 ## ポータルへのリンク
 
-問題一覧の「学習トップ」「動画問題」「問題集」「このサイトについて」「プライバシーポリシー」は `https://mei-chan-nel.github.io/` 側へリンクする。問題一覧と学習アプリの相互リンクは、このリポジトリ内の相対URLを使う。
+問題一覧の「学習トップ」「動画問題」「問題集」「このサイトについて」「プライバシーポリシー」「サイトマップ」は `https://mei-chan-nel.github.io/` 側へリンクする。問題一覧と学習アプリの相互リンクは、このリポジトリ内の相対URLを使う。

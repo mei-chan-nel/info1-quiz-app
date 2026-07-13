@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>アルゴリズムの問題 （2/4ページ） | 情報Ⅰ Study Atlas</title>
-    <meta name="description" content="情報Ⅰ「アルゴリズム」の知識問題31〜60。正答・解説・出典・タグを掲載しています。" />
+    <title>アルゴリズムの問題 （2/10ページ） | 情報Ⅰ Study Atlas</title>
+    <meta name="description" content="情報Ⅰ「アルゴリズム」の知識問題11〜20。正答・解説・出典・タグを掲載しています。" />
     <meta name="theme-color" content="#102f35" />
     <link rel="canonical" href="https://mei-chan-nel.github.io/info1-quiz-app/questions/algorithm-2.html" />
     <link rel="icon" href="https://mei-chan-nel.github.io/assets/favicon.svg" type="image/svg+xml" />
@@ -27,437 +27,151 @@
       <nav class="breadcrumb" aria-label="パンくずリスト"><a href="https://mei-chan-nel.github.io/">学習トップ</a><span aria-hidden="true">/</span><a href="index.html">問題一覧</a><span aria-hidden="true">/</span><span aria-current="page">アルゴリズム</span></nav>
       <section class="field-hero accent-violet">
         <div><p class="eyebrow">FIELD 05</p><h1>アルゴリズム</h1><p>変数、配列、条件分岐、繰返し、探索、シミュレーション、プログラムの読解などを扱います。値がどの順番で変わるかを追うことが基本です。</p></div>
-        <dl><div><dt>掲載数</dt><dd>99問</dd></div><div><dt>このページ</dt><dd>31–60問</dd></div></dl>
+        <dl><div><dt>掲載数</dt><dd>99問</dd></div><div><dt>このページ</dt><dd>11–20問</dd></div></dl>
       </section>
-      <nav class="pagination pagination-top" aria-label="アルゴリズムのページ移動"><a class="page-direction" href="algorithm.html" rel="prev">← 前へ</a><span class="page-numbers"><a href="algorithm.html" aria-label="1ページ目">1</a><span aria-current="page">2</span><a href="algorithm-3.html" aria-label="3ページ目">3</a><a href="algorithm-4.html" aria-label="4ページ目">4</a></span><a class="page-direction" href="algorithm-3.html" rel="next">次へ →</a></nav>
+      <nav class="pagination pagination-top" aria-label="アルゴリズムのページ移動"><a class="page-direction" href="algorithm.html" rel="prev">← 前へ</a><span class="page-numbers"><a href="algorithm.html" aria-label="1ページ目">1</a><span aria-current="page">2</span><a href="algorithm-3.html" aria-label="3ページ目">3</a><a href="algorithm-4.html" aria-label="4ページ目">4</a><span class="page-ellipsis" aria-hidden="true">…</span><a href="algorithm-10.html" aria-label="10ページ目">10</a></span><a class="page-direction" href="algorithm-3.html" rel="next">次へ →</a></nav>
       <section class="question-list" aria-label="アルゴリズムの問題">
-        <article class="question-card" id="q-center_style_ip_curated_093">
-          <div class="question-meta"><span>QUESTION 031</span><a href="#q-center_style_ip_curated_093" aria-label="この問題へのリンク">#center_style_ip_curated_093</a></div>
-          <h2>3桁の社員コードで、上位2桁の各数字を足した値の1の位をチェックディジットとして3桁目に付ける。上位2桁が57のとき、チェックディジットとして最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>1</p></li><li><span>1</span><p>2</p></li><li><span>2</span><p>5</p></li><li><span>3</span><p>7</p></li></ol>
+        <article class="question-card" id="q-center_style_fe_curated_006">
+          <div class="question-meta"><span>QUESTION 011</span><a href="#q-center_style_fe_curated_006" aria-label="この問題へのリンク">#center_style_fe_curated_006</a></div>
+          <h2>データ7394に重み1234を左から対応させ、各桁の積の和を求める。和を11で割った余りをrとし、11-rの1の位をチェックディジットとして末尾に付ける。得られる値はどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>73940</p></li><li><span>1</span><p>73941</p></li><li><span>2</span><p>73944</p></li><li><span>3</span><p>73947</p></li></ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>0. 73940</strong></p>
+              <div class="explanation"><h3>解説</h3><p>7×1+3×2+9×3+4×4=56である。56を11で割った余りは1なので、11-1=10、その1の位は0である。したがって73940。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H29秋期午前 問26（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>チェックディジット</li><li>データ</li></ul></div>
+            </div>
+          </details>
+        </article>
+        <article class="question-card" id="q-center_style_fe_curated_013">
+          <div class="question-meta"><span>QUESTION 012</span><a href="#q-center_style_fe_curated_013" aria-label="この問題へのリンク">#center_style_fe_curated_013</a></div>
+          <h2>5桁の数54321について、各桁の和を13で割った余りをハッシュ値として配列の位置に使う。54321を格納する位置として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>1</p></li><li><span>1</span><p>2</p></li><li><span>2</span><p>7</p></li><li><span>3</span><p>11</p></li></ol>
           <details class="answer-panel">
             <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
             <div class="answer-content">
               <p class="correct-answer"><span>正答</span><strong>1. 2</strong></p>
-              <div class="explanation"><h3>解説</h3><p>上位2桁57では、5+7=12である。1の位は2なのでチェックディジットは2になる。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH22秋期 問61（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>チェックディジット</li><li>表計算ソフト</li><li>データ</li></ul></div>
+              <div class="explanation"><h3>解説</h3><p>各桁の和は5+4+3+2+1=15である。15を13で割った余りは2なので、位置は2となる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H25春期午前 問8（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>ハッシュ値</li><li>配列の要素</li><li>データ</li></ul></div>
             </div>
           </details>
         </article>
-        <article class="question-card" id="q-center_style_ap_curated_079">
-          <div class="question-meta"><span>QUESTION 032</span><a href="#q-center_style_ap_curated_079" aria-label="この問題へのリンク">#center_style_ap_curated_079</a></div>
-          <h2>ある店では、翌週の販売予測量を先週と今週の販売量の平均とし、安全在庫量を販売予測量の10%とする。先週の販売量が80個、今週が100個、今週末の在庫量が35個のとき、「販売予測量＋安全在庫量－現在の在庫量」で求める補充量は何個か。</h2>
-          <ol class="choice-list"><li><span>0</span><p>55個</p></li><li><span>1</span><p>64個</p></li><li><span>2</span><p>90個</p></li><li><span>3</span><p>99個</p></li></ol>
+        <article class="question-card" id="q-center_style_fe_curated_019">
+          <div class="question-meta"><span>QUESTION 013</span><a href="#q-center_style_fe_curated_019" aria-label="この問題へのリンク">#center_style_fe_curated_019</a></div>
+          <h2>2分探索を使ってデータを探すための前提として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>データが昇順または降順に並んでいる</p></li><li><span>1</span><p>データが毎回ランダムに並べ替えられている</p></li><li><span>2</span><p>データが必ず画像ファイルとして保存されている</p></li><li><span>3</span><p>データの個数が必ず2個だけである</p></li></ol>
           <details class="answer-panel">
             <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
             <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>1. 64個</strong></p>
-              <div class="explanation"><h3>解説</h3><p>翌週の販売予測量は（80＋100）÷2＝90個、安全在庫量は90×0.1＝9個である。したがって補充量は90＋9－35＝64個となる。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H22春期午前 問77（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>数式モデル</li><li>平均値</li><li>在庫管理</li></ul></div>
+              <p class="correct-answer"><span>正答</span><strong>0. データが昇順または降順に並んでいる</strong></p>
+              <div class="explanation"><h3>解説</h3><p>2分探索は、探索範囲の中央と比べて半分ずつ範囲を狭める方法なので、データがあらかじめ整列されている必要がある。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H29春期午前 問10（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>ソート</li></ul></div>
             </div>
           </details>
         </article>
-        <article class="question-card" id="q-center_style_ip_curated_096">
-          <div class="question-meta"><span>QUESTION 033</span><a href="#q-center_style_ip_curated_096" aria-label="この問題へのリンク">#center_style_ip_curated_096</a></div>
-          <h2>表計算ソフトで，商品Cの1月から3月までの売上額のうち，15000以上の値の個数を求めたい。売上額は次のとおりである。
-
-1月：10000
-2月：20000
-3月：30000
-
-条件を満たす個数として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>1</p></li><li><span>1</span><p>2</p></li><li><span>2</span><p>3</p></li><li><span>3</span><p>4</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>1. 2</strong></p>
-              <div class="explanation"><h3>解説</h3><p>商品Cの値は10000，20000，30000である。このうち15000以上なのは20000と30000の2個である。対象の商品，条件，月数の範囲をそろえて数えることがポイントである。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートR2公開問題 問71（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>COUNTIF</li><li>表計算ソフト</li><li>行</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_fe_curated_065">
-          <div class="question-meta"><span>QUESTION 034</span><a href="#q-center_style_fe_curated_065" aria-label="この問題へのリンク">#center_style_fe_curated_065</a></div>
-          <h2>4桁のデータ4816にチェックディジットを付ける。各桁に左から順に重み2、1、2、1を掛け、その和を10で割った余りをrとする。（10－r）を10で割った余りをチェックディジットとすると、付ける数字はどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>0</p></li><li><span>1</span><p>4</p></li><li><span>2</span><p>6</p></li><li><span>3</span><p>8</p></li></ol>
+        <article class="question-card" id="q-center_style_fe_curated_024">
+          <div class="question-meta"><span>QUESTION 014</span><a href="#q-center_style_fe_curated_024" aria-label="この問題へのリンク">#center_style_fe_curated_024</a></div>
+          <h2>整列された64個のデータを2分探索で探す。探索範囲を1個に絞るまでに、半分にする操作は何回必要か。</h2>
+          <ol class="choice-list"><li><span>0</span><p>4</p></li><li><span>1</span><p>5</p></li><li><span>2</span><p>6</p></li><li><span>3</span><p>64</p></li></ol>
           <details class="answer-panel">
             <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
             <div class="answer-content">
               <p class="correct-answer"><span>正答</span><strong>2. 6</strong></p>
-              <div class="explanation"><h3>解説</h3><p>重み付きの和は4×2＋8×1＋1×2＋6×1＝24で、10で割った余りrは4である。（10－4）を10で割った余りは6なので、チェックディジットは6となる。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H29秋期午前 問29（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>チェックディジット</li><li>データ</li><li>10進法</li></ul></div>
+              <div class="explanation"><h3>解説</h3><p>64＝2⁶なので、64個の範囲は半分にする操作を6回行うと1個になる。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H27春期午前 問6（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>ソート</li></ul></div>
             </div>
           </details>
         </article>
-        <article class="question-card" id="q-center_style_fe_curated_066">
-          <div class="question-meta"><span>QUESTION 035</span><a href="#q-center_style_fe_curated_066" aria-label="この問題へのリンク">#center_style_fe_curated_066</a></div>
-          <h2>工場の機器メンテナンスでIoTを利用し，機器の温度を測定して異常の兆候を見つけたい。温度という現実の状態をデータとして取得するために必要なものとして最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>異常値を判定する分析ツール</p></li><li><span>1</span><p>機器に取り付ける温度センサ</p></li><li><span>2</span><p>工場内の無線通信ネットワーク</p></li><li><span>3</span><p>作業者に指示を表示するディスプレイ</p></li></ol>
+        <article class="question-card" id="q-center_style_fe_curated_026">
+          <div class="question-meta"><span>QUESTION 015</span><a href="#q-center_style_fe_curated_026" aria-label="この問題へのリンク">#center_style_fe_curated_026</a></div>
+          <h2>状態遷移図で表す内容として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>状態と、状態が変わるきっかけや条件</p></li><li><span>1</span><p>文書の見出しと本文の階層構造だけ</p></li><li><span>2</span><p>表から特定の列だけを取り出す操作</p></li><li><span>3</span><p>画像の画素数と色数だけ</p></li></ol>
           <details class="answer-panel">
             <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
             <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>1. 機器に取り付ける温度センサ</strong></p>
-              <div class="explanation"><h3>解説</h3><p>温度をデータとして取得するには，物理的な状態を電気信号やデータに変換するセンサが必要である。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H29秋期午前 問73（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>IoT</li><li>センサ</li><li>異常値</li></ul></div>
+              <p class="correct-answer"><span>正答</span><strong>0. 状態と、状態が変わるきっかけや条件</strong></p>
+              <div class="explanation"><h3>解説</h3><p>状態遷移図は、システムや対象が取り得る状態と、状態が変わるきっかけや条件を表す。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H26春期午前 問72（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>状態遷移図</li><li>プログラム</li></ul></div>
             </div>
           </details>
         </article>
-        <article class="question-card" id="q-center_style_ip_curated_107">
-          <div class="question-meta"><span>QUESTION 036</span><a href="#q-center_style_ip_curated_107" aria-label="この問題へのリンク">#center_style_ip_curated_107</a></div>
-          <h2>プログラミング言語で，人間が読んで理解しやすい形で記述されたプログラムを表す語として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>ソースコード</p></li><li><span>1</span><p>文字コード</p></li><li><span>2</span><p>QRコード</p></li><li><span>3</span><p>暗号文</p></li></ol>
+        <article class="question-card" id="q-center_style_fe_curated_031">
+          <div class="question-meta"><span>QUESTION 016</span><a href="#q-center_style_fe_curated_031" aria-label="この問題へのリンク">#center_style_fe_curated_031</a></div>
+          <h2>昇順に整列した配列の範囲を、先頭の添字xから末尾の添字yまでとして2分探索する。中央の添字mを求める式として最も適当なものはどれか。ここで、小数点以下は切り捨てる。</h2>
+          <ol class="choice-list"><li><span>0</span><p>x+y</p></li><li><span>1</span><p>(x+y)/2</p></li><li><span>2</span><p>(x-y)/2</p></li><li><span>3</span><p>(y-x)/2</p></li></ol>
           <details class="answer-panel">
             <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
             <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. ソースコード</strong></p>
-              <div class="explanation"><h3>解説</h3><p>ソースコードは，プログラミング言語で記述された，人間が比較的読み書きしやすいプログラムの表現である。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH29秋期 問81（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>ソース</li><li>プログラム</li><li>文字コード</li></ul></div>
+              <p class="correct-answer"><span>正答</span><strong>1. (x+y)/2</strong></p>
+              <div class="explanation"><h3>解説</h3><p>2分探索では探索範囲の中央を調べるので、先頭xと末尾yの平均である(x+y)/2を使う。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H24秋期午前 問4（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>配列の要素</li></ul></div>
             </div>
           </details>
         </article>
-        <article class="question-card" id="q-center_style_ap_curated_084">
-          <div class="question-meta"><span>QUESTION 037</span><a href="#q-center_style_ap_curated_084" aria-label="この問題へのリンク">#center_style_ap_curated_084</a></div>
-          <h2>小文字のアルファベット a から z に，順に 0 から 25 を対応させる。ハッシュ値を「対応する数を10で割った余り」とすると，同じハッシュ値になる組合せはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>a と i</p></li><li><span>1</span><p>b と m</p></li><li><span>2</span><p>c と l</p></li><li><span>3</span><p>d と n</p></li></ol>
+        <article class="question-card" id="q-center_style_fe_curated_039">
+          <div class="question-meta"><span>QUESTION 017</span><a href="#q-center_style_fe_curated_039" aria-label="この問題へのリンク">#center_style_fe_curated_039</a></div>
+          <h2>300円の商品を売る自動販売機を、状態S0=投入額0円、S1=100円、S2=200円で表す。100円硬貨が入ると投入額が100円増え、合計300円になったときには商品を出して初期状態S0へ戻る。このとき、状態S2で100円硬貨が入ったときの動作として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>商品を出さずにS1へ戻る</p></li><li><span>1</span><p>商品を出さずにS2にとどまる</p></li><li><span>2</span><p>商品を出してS0へ戻る</p></li><li><span>3</span><p>商品を出してS2にとどまる</p></li></ol>
           <details class="answer-panel">
             <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
             <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>3. d と n</strong></p>
-              <div class="explanation"><h3>解説</h3><p>dは3，nは13に対応し，どちらも10で割った余りは3なので同じハッシュ値になる。ハッシュ関数の規則をそれぞれの文字に適用して，同じ余りになる組合せを探す。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H27秋期午前 問5（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>ハッシュ値</li><li>剰余</li><li>衝突</li></ul></div>
+              <p class="correct-answer"><span>正答</span><strong>2. 商品を出してS0へ戻る</strong></p>
+              <div class="explanation"><h3>解説</h3><p>S2はすでに200円投入された状態なので、さらに100円が入ると合計300円になり、商品を出して初期状態S0へ戻る。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H28秋期午前 問3（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>状態遷移図</li><li>シミュレーション</li></ul></div>
             </div>
           </details>
         </article>
-        <article class="question-card" id="q-center_style_ip_curated_111">
-          <div class="question-meta"><span>QUESTION 038</span><a href="#q-center_style_ip_curated_111" aria-label="この問題へのリンク">#center_style_ip_curated_111</a></div>
-          <h2>関数 sum(max) は，1からmaxまでの整数の合計を戻り値とする。sum(4) を呼び出したときの戻り値として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>4</p></li><li><span>1</span><p>6</p></li><li><span>2</span><p>10</p></li><li><span>3</span><p>24</p></li></ol>
+        <article class="question-card" id="q-center_style_fe_curated_047">
+          <div class="question-meta"><span>QUESTION 018</span><a href="#q-center_style_fe_curated_047" aria-label="この問題へのリンク">#center_style_fe_curated_047</a></div>
+          <h2>データの値から計算したハッシュ値を使って格納位置を直接求める方法の特徴として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>必ずデータを昇順に並べてから中央を調べる</p></li><li><span>1</span><p>異なるデータから同じ格納位置が求まる衝突が起こることがある</p></li><li><span>2</span><p>先頭から順にすべてのデータを必ず調べる</p></li><li><span>3</span><p>画像データだけにしか使えない</p></li></ol>
           <details class="answer-panel">
             <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
             <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>2. 10</strong></p>
-              <div class="explanation"><h3>解説</h3><p>sum(4)では，1+2+3+4を計算するので戻り値は10である。引数の値そのものではなく，1からその値までの合計を求める処理である。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートR5公開問題 問64（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>サブルーチン</li><li>戻り値</li><li>パラメータ</li></ul></div>
+              <p class="correct-answer"><span>正答</span><strong>1. 異なるデータから同じ格納位置が求まる衝突が起こることがある</strong></p>
+              <div class="explanation"><h3>解説</h3><p>ハッシュ値を使って格納位置を求める方法では、異なるデータから同じ値が得られ、格納位置が衝突することがある。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H31春期午前 問28（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>ハッシュ法</li><li>衝突</li><li>データ構造</li></ul></div>
             </div>
           </details>
         </article>
-        <article class="question-card" id="q-center_style_fe_curated_072">
-          <div class="question-meta"><span>QUESTION 039</span><a href="#q-center_style_fe_curated_072" aria-label="この問題へのリンク">#center_style_fe_curated_072</a></div>
-          <h2>インタプリタの説明として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>ソースコードを読み取りながら解釈し，逐次実行するプログラム</p></li><li><span>1</span><p>ソースコード全体を事前に機械語などへ変換するプログラム</p></li><li><span>2</span><p>画像を圧縮してファイルサイズを小さくするプログラム</p></li><li><span>3</span><p>通信相手のIPアドレスを割り当てるプログラム</p></li></ol>
+        <article class="question-card" id="q-center_style_ap_curated_033">
+          <div class="question-meta"><span>QUESTION 019</span><a href="#q-center_style_ap_curated_033" aria-label="この問題へのリンク">#center_style_ap_curated_033</a></div>
+          <h2>データをもとに計算したハッシュ値について、異なる元データから同じ値が得られることを何というか。最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>衝突</p></li><li><span>1</span><p>標本化</p></li><li><span>2</span><p>量子化</p></li><li><span>3</span><p>正規化</p></li></ol>
           <details class="answer-panel">
             <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
             <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. ソースコードを読み取りながら解釈し，逐次実行するプログラム</strong></p>
-              <div class="explanation"><h3>解説</h3><p>インタプリタは，ソースコードを逐次解釈しながら実行するプログラムである。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H31春期午前 問23（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>インタプリタ</li><li>コンパイラ</li><li>ソース</li></ul></div>
+              <p class="correct-answer"><span>正答</span><strong>0. 衝突</strong></p>
+              <div class="explanation"><h3>解説</h3><p>ハッシュ値では、異なる入力から同じ値が得られることを衝突という。ハッシュを使うときは、衝突が起こり得ることを考える必要がある。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H22春期午前 問30（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>ハッシュ法</li><li>ハッシュ値</li><li>衝突</li></ul></div>
             </div>
           </details>
         </article>
-        <article class="question-card" id="q-center_style_fe_curated_073">
-          <div class="question-meta"><span>QUESTION 040</span><a href="#q-center_style_fe_curated_073" aria-label="この問題へのリンク">#center_style_fe_curated_073</a></div>
-          <h2>コンパイラの役割として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>ソースコードを，コンピュータが実行しやすい機械語などのコードに変換する。</p></li><li><span>1</span><p>ソースコードを1行ずつ解釈しながら逐次実行する。</p></li><li><span>2</span><p>プログラムの実行を一時停止し，変数の値を確認しながら誤りを探す。</p></li><li><span>3</span><p>ソースコードを編集しやすいように入力画面や補完機能を提供する。</p></li></ol>
+        <article class="question-card" id="q-center_style_ap_curated_049">
+          <div class="question-meta"><span>QUESTION 020</span><a href="#q-center_style_ap_curated_049" aria-label="この問題へのリンク">#center_style_ap_curated_049</a></div>
+          <h2>第n週の販売量をC[n]、第n週末の在庫量をB[n]とする。翌週の販売予測量を(C[n-1]+C[n])/2、安全在庫量を販売予測量の10%とすると、第n週末の補充量を表す式として最も適当なものはどれか。</h2>
+          <ol class="choice-list"><li><span>0</span><p>(C[n-1]+C[n])/2×1.1 - B[n]</p></li><li><span>1</span><p>(C[n-1]+C[n])/2×1.1 - B[n-1]</p></li><li><span>2</span><p>(C[n-1]+C[n])/2 + C[n]×0.1 - B[n]</p></li><li><span>3</span><p>(C[n-2]+C[n-1])/2 + C[n]×0.1 - B[n]</p></li></ol>
           <details class="answer-panel">
             <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
             <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. ソースコードを，コンピュータが実行しやすい機械語などのコードに変換する。</strong></p>
-              <div class="explanation"><h3>解説</h3><p>コンパイラは，プログラミング言語で書かれたソースコードを，機械語またはそれに近いコードへ変換するソフトウェアである。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H26春期午前 問26（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>コンパイラ</li><li>ソース</li><li>プログラミング言語</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_ip_curated_115">
-          <div class="question-meta"><span>QUESTION 041</span><a href="#q-center_style_ip_curated_115" aria-label="この問題へのリンク">#center_style_ip_curated_115</a></div>
-          <h2>関数 isPrime(n) は，nが素数ならtrue，素数でなければfalseを戻り値とする。isPrime(9) の戻り値として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>true</p></li><li><span>1</span><p>false</p></li><li><span>2</span><p>9</p></li><li><span>3</span><p>3</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>1. false</strong></p>
-              <div class="explanation"><h3>解説</h3><p>9は3で割り切れるので素数ではなく，isPrime(9) の戻り値はfalseである。この関数は数値ではなく，素数かどうかを表す論理値を返す。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートR8公開問題 問85（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>戻り値</li><li>プログラム</li><li>論理値</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_ap_curated_097">
-          <div class="question-meta"><span>QUESTION 042</span><a href="#q-center_style_ap_curated_097" aria-label="この問題へのリンク">#center_style_ap_curated_097</a></div>
-          <h2>ソフトウェア開発で使う統合開発環境の説明として，最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>プログラムの編集や実行を支援する機能をまとめて使えるソフトウェア</p></li><li><span>1</span><p>Webページを閲覧するためだけのブラウザ</p></li><li><span>2</span><p>電子メールを送受信するためだけのソフトウェア</p></li><li><span>3</span><p>画像を圧縮するためだけのソフトウェア</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. プログラムの編集や実行を支援する機能をまとめて使えるソフトウェア</strong></p>
-              <div class="explanation"><h3>解説</h3><p>統合開発環境は，プログラムの作成，編集，実行など，開発に必要な機能をまとめて使えるようにしたソフトウェアである。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者R4春期午前 問50（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>統合開発環境</li><li>プログラミング</li><li>ソフトウェア</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_ip_curated_131">
-          <div class="question-meta"><span>QUESTION 043</span><a href="#q-center_style_ip_curated_131" aria-label="この問題へのリンク">#center_style_ip_curated_131</a></div>
-          <h2>6人全員が，それぞれ他の全員と1対1で情報をやり取りする経路を用意する。必要な経路数として，最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>6</p></li><li><span>1</span><p>12</p></li><li><span>2</span><p>15</p></li><li><span>3</span><p>36</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>2. 15</strong></p>
-              <div class="explanation"><h3>解説</h3><p>6人から2人の組合せを選ぶので，経路数は 6×5÷2=15 である。同じ2人の組合せを逆向きに重複して数えないため，最後に2で割る。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH25春期 問36（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>場合の数</li><li>組合せ</li><li>ネットワーク構成</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_fe_curated_078">
-          <div class="question-meta"><span>QUESTION 044</span><a href="#q-center_style_fe_curated_078" aria-label="この問題へのリンク">#center_style_fe_curated_078</a></div>
-          <h2>表の列に 4，9，2，5 という数値がある。表計算やデータベースで使われる関数SUMとMAXをこの列に適用した結果の組合せとして，最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>SUMは20，MAXは9</p></li><li><span>1</span><p>SUMは9，MAXは20</p></li><li><span>2</span><p>SUMは4，MAXは9</p></li><li><span>3</span><p>SUMは20，MAXは5</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. SUMは20，MAXは9</strong></p>
-              <div class="explanation"><h3>解説</h3><p>SUMは合計を求める関数なので 4+9+2+5=20 であり，MAXは最大値を求める関数なので9である。関数名が表す処理を確認して値を求める。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H24春期午前 問39、基本情報技術者H27秋期午前 問31（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>SUM</li><li>MAX</li><li>表計算関数</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_ap_curated_100">
-          <div class="question-meta"><span>QUESTION 045</span><a href="#q-center_style_ap_curated_100" aria-label="この問題へのリンク">#center_style_ap_curated_100</a></div>
-          <h2>プログラムから再利用できるように，よく使う機能や部品をまとめたものとして，最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>ライブラリ</p></li><li><span>1</span><p>変数</p></li><li><span>2</span><p>Cookie</p></li><li><span>3</span><p>プロトコル</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. ライブラリ</strong></p>
-              <div class="explanation"><h3>解説</h3><p>ライブラリは，プログラムから再利用できる機能や部品をまとめたものである。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H25秋期午前 問47（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>ライブラリ</li><li>プログラミング</li><li>プログラム</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_fe_curated_100">
-          <div class="question-meta"><span>QUESTION 046</span><a href="#q-center_style_fe_curated_100" aria-label="この問題へのリンク">#center_style_fe_curated_100</a></div>
-          <h2>昇順に並んだ配列［3, 7, 12, 18, 25, 31, 40］から2分探索で31を探す。最初に中央の18と比較した直後、次に探索する範囲として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>［3, 7, 12］</p></li><li><span>1</span><p>［25, 31, 40］</p></li><li><span>2</span><p>［12, 18, 25］</p></li><li><span>3</span><p>［3, 7, 12, 18］</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>1. ［25, 31, 40］</strong></p>
-              <div class="explanation"><h3>解説</h3><p>目的の31は中央の18より大きいので、中央より右側の［25, 31, 40］に探索範囲を絞る。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H29春期午前 問7（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>配列</li><li>探索範囲</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_ip_curated_213">
-          <div class="question-meta"><span>QUESTION 047</span><a href="#q-center_style_ip_curated_213" aria-label="この問題へのリンク">#center_style_ip_curated_213</a></div>
-          <h2>商品識別コードなどに付けられるチェックディジットの目的として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>読み取りや入力の誤りを検出しやすくする。</p></li><li><span>1</span><p>商品の販売価格を暗号化して隠す。</p></li><li><span>2</span><p>商品の画像データを圧縮する。</p></li><li><span>3</span><p>同じ商品を複数の会社が自由に同じ番号で登録できるようにする。</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. 読み取りや入力の誤りを検出しやすくする。</strong></p>
-              <div class="explanation"><h3>解説</h3><p>チェックディジットは，決められた規則で計算した数字を付け，コードの読み取り誤りや入力誤りを検出しやすくするために使う。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH22秋期 問15（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>チェックディジット</li><li>コード</li><li>誤り検出</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_fe_curated_114">
-          <div class="question-meta"><span>QUESTION 048</span><a href="#q-center_style_fe_curated_114" aria-label="この問題へのリンク">#center_style_fe_curated_114</a></div>
-          <h2>点Pから点Rまでは右へ2回，下へ2回の計4回で進む。点Rから点Qまでは右へ3回，下へ2回の計5回で進む。PからRを通ってQへ行く最短経路は何通りか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>60通り</p></li><li><span>1</span><p>16通り</p></li><li><span>2</span><p>20通り</p></li><li><span>3</span><p>30通り</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. 60通り</strong></p>
-              <div class="explanation"><h3>解説</h3><p>PからRまでは4回の移動のうち右へ進む2回の位置を選ぶので4C2=6通りである。RからQまでは5回の移動のうち右へ進む3回の位置を選ぶので5C3=10通りである。したがって6×10=60通り。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H30春期午前 問4（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>Algorithm</li><li>モデル化</li><li>問題の解決</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_ip_curated_216">
-          <div class="question-meta"><span>QUESTION 049</span><a href="#q-center_style_ip_curated_216" aria-label="この問題へのリンク">#center_style_ip_curated_216</a></div>
-          <h2>表計算ソフトで，B2:M2にコードの各桁，B3:M3に各桁に掛ける重みが入っている。B4に「その桁×重み」を求める式を入れ，右方向のC4:M4へコピーしたい。B4に入れる式として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>B2*B3</p></li><li><span>1</span><p>$B2*B$3</p></li><li><span>2</span><p>B1*B2</p></li><li><span>3</span><p>$B$2*$B$3</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. B2*B3</strong></p>
-              <div class="explanation"><h3>解説</h3><p>右方向へコピーすると，B列の式はC列，D列へと参照先も移る必要がある。したがって行・列を固定しない相対参照のB2*B3が適切である。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH24春期 問99（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>表計算ソフト</li><li>相対参照</li><li>絶対参照</li><li>チェックディジット</li><li>コード</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_ip_curated_217">
-          <div class="question-meta"><span>QUESTION 050</span><a href="#q-center_style_ip_curated_217" aria-label="この問題へのリンク">#center_style_ip_curated_217</a></div>
-          <h2>表計算ソフトで，B3:B202に回答データがあり，A208に数えたい値が入っている。B208に，B3:B202のうちA208と等しい値の個数を求める式を入れ，右方向と下方向へコピーしたい。B208に入れる式として最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>COUNTIF(B$3:B$202,$A208)</p></li><li><span>1</span><p>COUNTIF($B$3:$B$202,A208)</p></li><li><span>2</span><p>COUNTIF(B3:B202,A$208)</p></li><li><span>3</span><p>COUNTIF($B3:$B202,$A$208)</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. COUNTIF(B$3:B$202,$A208)</strong></p>
-              <div class="explanation"><h3>解説</h3><p>右へコピーすると集計対象の列はB列からC列へ移るので列は固定しない。一方，データ範囲の行3から行202は固定する。条件値は常にA列を参照し，下へコピーすると行番号だけが変わるので$A208が適切である。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH27秋期 問85（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>表計算ソフト</li><li>COUNTIF</li><li>相対参照</li><li>絶対参照</li><li>データ</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_fe_curated_119">
-          <div class="question-meta"><span>QUESTION 051</span><a href="#q-center_style_fe_curated_119" aria-label="この問題へのリンク">#center_style_fe_curated_119</a></div>
-          <h2>リストを配列で実現し，要素を連続した位置に格納する場合の特徴として，最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>位置を指定して，その位置の要素に直接アクセスしやすい。</p></li><li><span>1</span><p>先頭に要素を追加するとき，既存の要素を移動する必要がまったくない。</p></li><li><span>2</span><p>どの要素も，必ず前の要素だけから順にたどらないと参照できない。</p></li><li><span>3</span><p>要素数が増えても，あらかじめ確保した領域の上限を考える必要がない。</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. 位置を指定して，その位置の要素に直接アクセスしやすい。</strong></p>
-              <div class="explanation"><h3>解説</h3><p>配列では要素が添字に対応する位置に並ぶため，位置を指定した直接アクセスがしやすい。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H29春期午前 問4（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>配列</li><li>リスト</li><li>データ構造</li><li>Algorithm</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_ap_curated_130">
-          <div class="question-meta"><span>QUESTION 052</span><a href="#q-center_style_ap_curated_130" aria-label="この問題へのリンク">#center_style_ap_curated_130</a></div>
-          <h2>機器やプログラムが，イベントをきっかけに状態を変えながら動作する様子を表す図として，最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>状態遷移図</p></li><li><span>1</span><p>散布図</p></li><li><span>2</span><p>ヒストグラム</p></li><li><span>3</span><p>表</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. 状態遷移図</strong></p>
-              <div class="explanation"><h3>解説</h3><p>状態遷移図は，状態と，入力や出来事による状態の変化を表す図である。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H28春期午前 問48（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>状態遷移図</li><li>モデル化</li><li>プログラム</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_ap_curated_133">
-          <div class="question-meta"><span>QUESTION 053</span><a href="#q-center_style_ap_curated_133" aria-label="この問題へのリンク">#center_style_ap_curated_133</a></div>
-          <h2>リストを配列で実現するとき，実際の要素数より多めに領域を確保しておく場合がある。この特徴として，最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>最大個数に合わせて確保した領域の一部が，使われないまま残ることがある。</p></li><li><span>1</span><p>中間の要素を参照するたびに，必ず先頭から順番にたどる必要がある。</p></li><li><span>2</span><p>どの要素も，前後の要素と無関係にばらばらの場所へ保存される。</p></li><li><span>3</span><p>挿入位置が分かれば，どの位置への挿入も要素移動なしでできる。</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. 最大個数に合わせて確保した領域の一部が，使われないまま残ることがある。</strong></p>
-              <div class="explanation"><h3>解説</h3><p>配列でリストを実現する場合，最大個数を見込んで連続した領域を確保するため，実際には使われない領域が発生することがある。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者R4春期午前 問5（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>配列</li><li>リスト</li><li>データ構造</li><li>メモリ</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_curated_064_003">
-          <div class="question-meta"><span>QUESTION 054</span><a href="#q-center_style_curated_064_003" aria-label="この問題へのリンク">#center_style_curated_064_003</a></div>
-          <h2>昇順に並んだ1,000個の異なるデータから、2分探索で値を探す。1回の比較ごとに探索範囲をおよそ半分にするとき、値があるかどうかを確定するまでの比較回数は、最大でおよそ何回か。</h2>
-          <ol class="choice-list"><li><span>0</span><p>10回</p></li><li><span>1</span><p>100回</p></li><li><span>2</span><p>500回</p></li><li><span>3</span><p>1,000回</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. 10回</strong></p>
-              <div class="explanation"><h3>解説</h3><p>2¹⁰＝1,024なので、1,000個の探索範囲も10回程度の比較で1個以下に絞り込める。先頭から順に調べる線形探索より比較回数を大幅に減らせる。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>基本情報技術者H26秋期午前 問8（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>計算量</li><li>探索</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_curated_065_003">
-          <div class="question-meta"><span>QUESTION 055</span><a href="#q-center_style_curated_065_003" aria-label="この問題へのリンク">#center_style_curated_065_003</a></div>
-          <h2>プログラムで変数名の付け方やコメントの書き方をそろえる主な目的として，最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>テストをいつ行うかを決めるため</p></li><li><span>1</span><p>仕様書の法的な効力を高めるため</p></li><li><span>2</span><p>コードを読みやすくし，修正や保守をしやすくするため</p></li><li><span>3</span><p>データベースの保存容量を必ず減らすため</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>2. コードを読みやすくし，修正や保守をしやすくするため</strong></p>
-              <div class="explanation"><h3>解説</h3><p>変数名やコメントの書き方をそろえると，プログラムの意味を理解しやすくなり，修正や保守がしやすくなる。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH22秋期 問43（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>プログラム</li><li>プログラミング</li><li>コメント</li><li>ソース</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_curated_066_004">
-          <div class="question-meta"><span>QUESTION 056</span><a href="#q-center_style_curated_066_004" aria-label="この問題へのリンク">#center_style_curated_066_004</a></div>
-          <h2>アルゴリズムの説明として，最も適当なものはどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>プログラムを機械語に変換するソフトウェア</p></li><li><span>1</span><p>ある目的を達成するための処理手順</p></li><li><span>2</span><p>コンピュータへ命令を書くための人工言語の総称</p></li><li><span>3</span><p>コンピュータを使って建物や製品を設計すること</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>1. ある目的を達成するための処理手順</strong></p>
-              <div class="explanation"><h3>解説</h3><p>アルゴリズムは，問題を解いたり目的を達成したりするための処理手順である。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>ITパスポートH25春期 問53（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>Algorithm</li><li>プログラム</li><li>プログラミング言語</li><li>コンピュータ</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_curated_071_003">
-          <div class="question-meta"><span>QUESTION 057</span><a href="#q-center_style_curated_071_003" aria-label="この問題へのリンク">#center_style_curated_071_003</a></div>
-          <h2>同じ容量の保存先A，B，Cに，90，30，40，40，70，30MBのデータを順に保存する。毎回，空き容量が最も大きい保存先を選び，同じならA，B，Cの順に選ぶ。保存したデータ量が大きい順はどれか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>A，B，C</p></li><li><span>1</span><p>A，C，B</p></li><li><span>2</span><p>B，A，C</p></li><li><span>3</span><p>C，B，A</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>3. C，B，A</strong></p>
-              <div class="explanation"><h3>解説</h3><p>順に保存すると，Aに90，Bに30，Cに40，Bに40，Cに70，Bに30MBが入る。合計はA=90，B=100，C=110MBなので，C，B，Aの順である。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H22春期午前 問20（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>アルゴリズム</li><li>データ量</li><li>B</li><li>ファイル</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_curated_071_004">
-          <div class="question-meta"><span>QUESTION 058</span><a href="#q-center_style_curated_071_004" aria-label="この問題へのリンク">#center_style_curated_071_004</a></div>
-          <h2>4桁の会員IDを0001から0528まで発行する。ただし，各桁に4と9を使わない。この条件で発行できる会員IDは何個か。</h2>
-          <ol class="choice-list"><li><span>0</span><p>279</p></li><li><span>1</span><p>344</p></li><li><span>2</span><p>422</p></li><li><span>3</span><p>427</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. 279</strong></p>
-              <div class="explanation"><h3>解説</h3><p>0000から0399までは，千の位が0，百の位が0から3の4通り，十と一の位がそれぞれ8通りで256個ある。このうち0000を除くので255個。さらに0500から0528では，0500台，0510台，0520台で各8個ずつあり，合計24個。255+24=279個である。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H25秋期午前 問1（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>アルゴリズム</li><li>コード</li><li>10進数</li><li>ユーザID</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_curated_071_005">
-          <div class="question-meta"><span>QUESTION 059</span><a href="#q-center_style_curated_071_005" aria-label="この問題へのリンク">#center_style_curated_071_005</a></div>
-          <h2>0以上1以下の範囲を半分ずつ狭めて値を探す。範囲の幅が0.001未満になるまでには，最少で何回半分にすればよいか。</h2>
-          <ol class="choice-list"><li><span>0</span><p>10回</p></li><li><span>1</span><p>20回</p></li><li><span>2</span><p>100回</p></li><li><span>3</span><p>1000回</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>0. 10回</strong></p>
-              <div class="explanation"><h3>解説</h3><p>範囲の幅は，1回ごとに1/2，1/4，1/8のように半分になる。10回で1/1024となり，0.001未満になる。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H28秋期午前 問2（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>2分探索</li><li>探索</li><li>アルゴリズム</li></ul></div>
-            </div>
-          </details>
-        </article>
-        <article class="question-card" id="q-center_style_curated_071_008">
-          <div class="question-meta"><span>QUESTION 060</span><a href="#q-center_style_curated_071_008" aria-label="この問題へのリンク">#center_style_curated_071_008</a></div>
-          <h2>16人が1対1で全員と1回ずつ話す。1回の話合いを0.5時間とすると，必要な延べ時間は何時間か。</h2>
-          <ol class="choice-list"><li><span>0</span><p>8時間</p></li><li><span>1</span><p>16時間</p></li><li><span>2</span><p>30時間</p></li><li><span>3</span><p>60時間</p></li></ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>3. 60時間</strong></p>
-              <div class="explanation"><h3>解説</h3><p>16人から2人を選ぶ組合せは16×15÷2=120組である。1組0.5時間なので，120×0.5=60時間となる。</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者R3春期午前 問55（改題）</dd></dl>
-              <div class="tag-row"><span>タグ</span><ul><li>1対1</li><li>コミュニケーション</li><li>アルゴリズム</li></ul></div>
+              <p class="correct-answer"><span>正答</span><strong>0. (C[n-1]+C[n])/2×1.1 - B[n]</strong></p>
+              <div class="explanation"><h3>解説</h3><p>補充量は、翌週の販売予測量に安全在庫量を加え、現在の在庫量を引く。販売予測量をP=(C[n-1]+C[n])/2とすると、安全在庫量は0.1Pなので、P+0.1P-B[n]=P×1.1-B[n]である。</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>応用情報技術者H22春期午前 問77（改題）</dd></dl>
+              <div class="tag-row"><span>タグ</span><ul><li>移動平均</li><li>数式モデル</li><li>在庫管理</li></ul></div>
             </div>
           </details>
         </article></section>
-      <nav class="pagination" aria-label="アルゴリズムのページ移動"><a class="page-direction" href="algorithm.html" rel="prev">← 前へ</a><span class="page-numbers"><a href="algorithm.html" aria-label="1ページ目">1</a><span aria-current="page">2</span><a href="algorithm-3.html" aria-label="3ページ目">3</a><a href="algorithm-4.html" aria-label="4ページ目">4</a></span><a class="page-direction" href="algorithm-3.html" rel="next">次へ →</a></nav>
+      <nav class="pagination" aria-label="アルゴリズムのページ移動"><a class="page-direction" href="algorithm.html" rel="prev">← 前へ</a><span class="page-numbers"><a href="algorithm.html" aria-label="1ページ目">1</a><span aria-current="page">2</span><a href="algorithm-3.html" aria-label="3ページ目">3</a><a href="algorithm-4.html" aria-label="4ページ目">4</a><span class="page-ellipsis" aria-hidden="true">…</span><a href="algorithm-10.html" aria-label="10ページ目">10</a></span><a class="page-direction" href="algorithm-3.html" rel="next">次へ →</a></nav>
       <aside class="next-action"><div><p class="eyebrow">PRACTICE</p><h2>読んだ知識をランダム出題で確認</h2><p>学習アプリでは「アルゴリズム」を選んで、1〜50問に挑戦できます。</p></div><a class="button button-primary" href="../app/">学習アプリを開く</a></aside>
     </main>
     
@@ -474,6 +188,7 @@
           <a href="../app/">学習アプリ</a>
           <a href="https://mei-chan-nel.github.io/about.html">このサイトについて</a>
           <a href="https://mei-chan-nel.github.io/privacy.html">プライバシーポリシー</a>
+          <a href="https://mei-chan-nel.github.io/sitemap.html">サイトマップ</a>
         </nav>
       </div>
       <p class="copyright"><small>&copy; 2026 めいちゃんねる</small></p>
