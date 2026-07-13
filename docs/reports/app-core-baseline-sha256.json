@@ -1,6 +1,8 @@
 {
-  "app/index.html": "279ab50f8717d7e0dcaffd7ac2e633200c0a8f5175685895b7329f877bb65afc",
-  "app/app.js": "2c3b86d240908654ae56298a2b688eb6c237cfdae1edbd78d949aead063dccea",
+  "app/index.html": "8910989394fea9e82db1c236ebdf3e7a3274b4c735e9efc68418db72d919cda3",
+  "app/app.js": "699a08175650d34be91123ddf14d0ec2d15fd8351195171503a53806d1f7713c",
   "app/startup.js": "3f30c955224fdee06a7973c2f8faa9d60336fe96513722fe3a6662040e62d2be",
-  "app/styles.css": "9d9d78d8628aa0f51d46ad8168c3cd8003a7b5ffefdf24d5c3e400f6b72f9c1e"
+  "app/styles.css": "9d9d78d8628aa0f51d46ad8168c3cd8003a7b5ffefdf24d5c3e400f6b72f9c1e",
+  "app/issue-report.js": "74ac293a4765838a2707a027d6ed4d46346407025c5819f8dfc9a08bd1cdd012",
+  "app/issue-report.css": "12477b7144ca757a089d432b6f7e4ebf2f47884bac0fc6cf0a78dcc886992ea7"
 }

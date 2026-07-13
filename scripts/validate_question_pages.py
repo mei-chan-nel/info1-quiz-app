@@ -17,7 +17,14 @@ REPORT_DIR = ROOT / "docs" / "reports"
 AD_SCRIPT_MARKER = "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
 SHARED_STYLESHEET = "https://mei-chan-nel.github.io/assets/site.css"
 SHARED_FAVICON = "https://mei-chan-nel.github.io/assets/favicon.svg"
-PROTECTED_APP_FILES = ("app/index.html", "app/app.js", "app/startup.js", "app/styles.css")
+PROTECTED_APP_FILES = (
+    "app/index.html",
+    "app/app.js",
+    "app/startup.js",
+    "app/styles.css",
+    "app/issue-report.js",
+    "app/issue-report.css",
+)
 
 
 class PageParser(HTMLParser):

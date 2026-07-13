@@ -20,7 +20,7 @@ SITE_URL = "https://mei-chan-nel.github.io/info1-quiz-app/"
 PORTAL_URL = "https://mei-chan-nel.github.io/"
 ADSENSE_CLIENT = "ca-pub-6257644709224446"
 PAGE_SIZE = 30
-REVIEW_DATE = date(2026, 7, 12)
+REVIEW_DATE = date.today()
 PROTECTED_APP_FILES = ("app/index.html", "app/app.js", "app/startup.js", "app/styles.css")
 
 FIELDS = [
@@ -144,6 +144,7 @@ def header(prefix: str, current: str) -> str:
     nav_items = [
         ("home", PORTAL_URL, "学習トップ"),
         ("questions", f"{prefix}questions/index.html", "問題一覧"),
+        ("archive", f"{PORTAL_URL}archive/", "動画問題"),
         ("app", f"{prefix}app/", "学習アプリ"),
         ("about", f"{PORTAL_URL}about.html", "このサイトについて"),
     ]
@@ -170,10 +171,12 @@ def footer(prefix: str) -> str:
       <div class="footer-grid">
         <div>
           <p class="footer-brand">情報Ⅰ Study Atlas</p>
-          <p class="footer-copy">知識を読む。問題で確かめる。根拠まで振り返る。</p>
+          <p class="footer-copy">知識を、繋ぎ、ひろげる。</p>
         </div>
         <nav aria-label="フッターナビゲーション">
           <a href="{prefix}questions/index.html">問題一覧</a>
+          <a href="{PORTAL_URL}archive/">動画問題</a>
+          <a href="{PORTAL_URL}books/">問題集</a>
           <a href="{prefix}app/">学習アプリ</a>
           <a href="{PORTAL_URL}about.html">このサイトについて</a>
           <a href="{PORTAL_URL}privacy.html">プライバシーポリシー</a>

@@ -198,15 +198,36 @@ def classify(questions: list[dict]) -> list[dict]:
         if question_id in manual:
             field_id, reason = manual[question_id]
             if candidates:
-                raise ValueError(f"Manual-review question now has automatic candidates: {question_id}: {candidates}")
-            scores: dict[str, int] = {}
-            mode = "manual_review"
+                _, scores, _ = automatic_primary(question, candidates)
+                mode = "manual_review_retained"
+            else:
+                scores = {}
+                mode = "manual_review"
         else:
             if not candidates:
-                raise ValueError(f"Unreviewed question has no field candidate: {question_id}")
-            field_id, scores, _ = automatic_primary(question, candidates)
-            reason = "既存の分野キーワード候補から、タグ順と一致の強さで主分野を選択"
-            mode = "automatic_candidate"
+                existing_fields = question.get("field_ids")
+                if not isinstance(existing_fields, list) or len(existing_fields) != 1 or existing_fields[0] not in FIELD_LABELS:
+                    raise ValueError(f"Unreviewed question has no candidate or valid existing field: {question_id}")
+                field_id = existing_fields[0]
+                scores = {}
+                reason = "完成済み問題データで確認された主分野を保持（キーワード候補なし）"
+                mode = "existing_assignment_review"
+            else:
+                field_id, scores, _ = automatic_primary(question, candidates)
+                reason = "既存の分野キーワード候補から、タグ順と一致の強さで主分野を選択"
+                mode = "automatic_candidate"
+
+        existing_fields = question.get("field_ids")
+        if isinstance(existing_fields, list) and len(existing_fields) == 1 and existing_fields[0] in FIELD_LABELS:
+            existing_field = existing_fields[0]
+            if existing_field != field_id:
+                suggested_field = field_id
+                field_id = existing_field
+                reason = (
+                    "完成済み問題データで確認された主分野を保持。"
+                    f"自動候補の先頭は{FIELD_LABELS[suggested_field]}。"
+                )
+                mode = "existing_assignment_override"
 
         records.append(
             {
@@ -242,7 +263,10 @@ def write_reports(records: list[dict]) -> None:
     candidate_path = REPORT_DIR / "field-classification.json"
     candidate_path.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    manual_records = [record for record in records if record["selection"] == "manual_review"]
+    manual_ids = set(manual_assignments())
+    manual_records = [record for record in records if record["question_id"] in manual_ids]
+    existing_records = [record for record in records if record["selection"].startswith("existing_assignment") and record["question_id"] not in manual_ids]
+    automatic_records = [record for record in records if record["selection"] == "automatic_candidate" and record["question_id"] not in manual_ids]
     counts = Counter(record["field_id"] for record in records)
     lines = [
         "# 分野分類レビュー記録",
@@ -252,8 +276,9 @@ def write_reports(records: list[dict]) -> None:
         "## 集計",
         "",
         f"- 全問題: {len(records)}問",
-        f"- 自動候補から決定: {len(records) - len(manual_records)}問",
-        f"- 候補なしを個別確認: {len(manual_records)}問",
+        f"- 自動候補から決定: {len(automatic_records)}問",
+        f"- 初期分類で候補なしを個別確認: {len(manual_records)}問",
+        f"- 完成済みデータの主分野を保持: {len(existing_records)}問",
         "- 未分類: 0問",
         "",
     ]
@@ -262,7 +287,7 @@ def write_reports(records: list[dict]) -> None:
     lines.extend(
         [
             "",
-            "## 候補なし69問の確認結果",
+            "## 初期分類時に候補がなかった69問の確認結果",
             "",
             "| 問題ID | 主分野 | 判断理由 | タグ |",
             "|---|---|---|---|",
@@ -311,8 +336,10 @@ def main() -> int:
             raise SystemExit("\n".join(errors))
 
     write_reports(records)
-    manual_count = sum(record["selection"] == "manual_review" for record in records)
-    print(f"classified={len(records)} automatic={len(records) - manual_count} manual={manual_count}")
+    manual_ids = set(manual_assignments())
+    manual_count = sum(record["question_id"] in manual_ids for record in records)
+    existing_count = sum(record["selection"].startswith("existing_assignment") and record["question_id"] not in manual_ids for record in records)
+    print(f"classified={len(records)} automatic={len(records) - manual_count - existing_count} manual={manual_count} existing={existing_count}")
     print(" ".join(f"{field_id}={count}" for field_id, count in Counter(r["field_id"] for r in records).items()))
     return 0
 

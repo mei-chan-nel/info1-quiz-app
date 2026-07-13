@@ -1,16 +1,16 @@
 {
-  "generated_on": "2026-07-12",
+  "generated_on": "2026-07-13",
   "generator": "scripts/generate_question_pages.py",
   "question_source": "data/questions/completed_questions.json",
-  "question_count": 861,
+  "question_count": 1000,
   "page_size": 30,
   "field_counts": {
-    "society_security": 321,
-    "digital": 189,
-    "network": 146,
-    "data_db": 92,
-    "algorithm": 74,
-    "design": 39
+    "society_security": 359,
+    "digital": 216,
+    "network": 150,
+    "data_db": 113,
+    "algorithm": 99,
+    "design": 63
   },
   "learning_pages": [
     "questions/index.html",
@@ -25,6 +25,7 @@
     "questions/society-security-9.html",
     "questions/society-security-10.html",
     "questions/society-security-11.html",
+    "questions/society-security-12.html",
     "questions/digital-expression.html",
     "questions/digital-expression-2.html",
     "questions/digital-expression-3.html",
@@ -32,6 +33,7 @@
     "questions/digital-expression-5.html",
     "questions/digital-expression-6.html",
     "questions/digital-expression-7.html",
+    "questions/digital-expression-8.html",
     "questions/network.html",
     "questions/network-2.html",
     "questions/network-3.html",
@@ -44,8 +46,10 @@
     "questions/algorithm.html",
     "questions/algorithm-2.html",
     "questions/algorithm-3.html",
+    "questions/algorithm-4.html",
     "questions/information-design.html",
-    "questions/information-design-2.html"
+    "questions/information-design-2.html",
+    "questions/information-design-3.html"
   ],
   "related_app_page": "app/",
   "portal_repository": "https://github.com/mei-chan-nel/mei-chan-nel.github.io",
