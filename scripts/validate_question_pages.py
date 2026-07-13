@@ -101,6 +101,12 @@ def main() -> int:
     questions = load_questions()
     errors.extend(validate_field_ids(questions))
     expected_ids = {str(question["id"]) for question in questions}
+    expected_tags = {
+        str(tag).strip()
+        for question in questions
+        for tag in question.get("tags", [])
+        if str(tag).strip()
+    }
 
     html_paths = sorted((ROOT / "questions").glob("*.html"))
     parsed: dict[Path, PageParser] = {}
@@ -127,6 +133,11 @@ def main() -> int:
             errors.append(f"{relative}: shared portal stylesheet is missing")
         if SHARED_FAVICON not in text:
             errors.append(f"{relative}: shared portal favicon is missing")
+        for marker in ('property="og:title"', 'property="og:description"', 'property="og:url"'):
+            if marker not in text:
+                errors.append(f"{relative}: missing Open Graph metadata {marker}")
+        if '"@type":"BreadcrumbList"' not in text:
+            errors.append(f"{relative}: BreadcrumbList structured data is missing")
 
     duplicates = [url for url, count in Counter(canonicals).items() if count > 1]
     if duplicates:
@@ -150,7 +161,11 @@ def main() -> int:
                 if fragment not in target_parser.ids:
                     errors.append(f"{source.relative_to(ROOT)}: missing fragment target {href}")
 
-    generated_question_pages = [path for path in html_paths if path.parent == ROOT / "questions" and path.name != "index.html"]
+    generated_question_pages = [
+        path
+        for path in html_paths
+        if path.parent == ROOT / "questions" and path.name not in {"index.html", "tags.html"}
+    ]
     rendered_ids: list[str] = []
     page_counts: dict[str, int] = {}
     for path in generated_question_pages:
@@ -171,7 +186,34 @@ def main() -> int:
     if unexpected_ids:
         errors.append(f"Unexpected rendered question IDs: {unexpected_ids[:10]}")
 
-    ad_required = [ROOT / "questions" / "index.html", *generated_question_pages]
+    question_html = "\n".join(path.read_text(encoding="utf-8") for path in generated_question_pages)
+    if question_html.count('class="tag-link"') != sum(
+        len([tag for tag in question.get("tags", []) if str(tag).strip()]) for question in questions
+    ):
+        errors.append("Every published question tag must be a link")
+    if 'href="tags.html?tag=' not in question_html:
+        errors.append("Generated question tags do not link to the tag filter")
+
+    tag_page = ROOT / "questions" / "tags.html"
+    filter_data_path = ROOT / "questions" / "filter-data.json"
+    filter_script_path = ROOT / "assets" / "question-filter.js"
+    if not tag_page.is_file() or not filter_data_path.is_file() or not filter_script_path.is_file():
+        errors.append("Tag filter page, data, or script is missing")
+    else:
+        tag_text = tag_page.read_text(encoding="utf-8")
+        if tag_text.count('class="facet-link"') != len(expected_tags):
+            errors.append("tags.html: expected one link for every unique tag")
+        if "data-question-filter" not in tag_text or "data-filter-param=\"tag\"" not in tag_text:
+            errors.append("tags.html: OR filter configuration is missing")
+        payload = json.loads(filter_data_path.read_text(encoding="utf-8"))
+        if payload.get("question_count") != len(questions) or payload.get("tag_count") != len(expected_tags):
+            errors.append("filter-data.json: question or tag counts are invalid")
+        if payload.get("match_mode") != "OR" or len(payload.get("questions", [])) != len(questions):
+            errors.append("filter-data.json: OR filter payload is invalid")
+        if "URLSearchParams" not in filter_script_path.read_text(encoding="utf-8"):
+            errors.append("question-filter.js: URL-based multi-tag filter is missing")
+
+    ad_required = [ROOT / "questions" / "index.html", ROOT / "questions" / "tags.html", *generated_question_pages]
     for path in ad_required:
         page_text = path.read_text(encoding="utf-8")
         if AD_SCRIPT_MARKER not in page_text:
@@ -217,6 +259,7 @@ def main() -> int:
         "generated_question_pages": len(generated_question_pages),
         "html_pages_checked": len(html_paths),
         "field_counts": dict(Counter(question["field_ids"][0] for question in questions)),
+        "tag_count": len(expected_tags),
         "errors": errors,
         "warnings": warnings,
         "checks": [
@@ -224,7 +267,9 @@ def main() -> int:
             "unique question IDs and exactly-once publication",
             "maximum 10 questions per generated page",
             "titles, descriptions, canonicals, and one h1 per page",
+            "Open Graph and BreadcrumbList structured metadata",
             "local links, assets, and fragments",
+            "linked tags, complete tag index, and multi-tag OR filtering",
             "AdSense included on every generated question-library page",
             "protected app core-file SHA-256 baseline",
             "consolidated app footer links and removal of old information pages",

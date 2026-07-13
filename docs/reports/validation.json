@@ -3,7 +3,7 @@
   "question_count": 1000,
   "rendered_question_count": 1000,
   "generated_question_pages": 102,
-  "html_pages_checked": 103,
+  "html_pages_checked": 104,
   "field_counts": {
     "society_security": 359,
     "data_db": 113,
@@ -12,6 +12,7 @@
     "digital": 216,
     "design": 63
   },
+  "tag_count": 613,
   "errors": [],
   "warnings": [],
   "checks": [
@@ -19,7 +20,9 @@
     "unique question IDs and exactly-once publication",
     "maximum 10 questions per generated page",
     "titles, descriptions, canonicals, and one h1 per page",
+    "Open Graph and BreadcrumbList structured metadata",
     "local links, assets, and fragments",
+    "linked tags, complete tag index, and multi-tag OR filtering",
     "AdSense included on every generated question-library page",
     "protected app core-file SHA-256 baseline",
     "consolidated app footer links and removal of old information pages",

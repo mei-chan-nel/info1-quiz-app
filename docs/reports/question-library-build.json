@@ -12,6 +12,10 @@
     "algorithm": 99,
     "design": 63
   },
+  "tag_count": 613,
+  "tag_filter_page": "questions/tags.html",
+  "tag_filter_data": "questions/filter-data.json",
+  "filter_match_mode": "OR",
   "learning_pages": [
     "questions/index.html",
     "questions/society-security.html",
@@ -115,7 +119,8 @@
     "questions/information-design-4.html",
     "questions/information-design-5.html",
     "questions/information-design-6.html",
-    "questions/information-design-7.html"
+    "questions/information-design-7.html",
+    "questions/tags.html"
   ],
   "related_app_page": "app/",
   "portal_repository": "https://github.com/mei-chan-nel/mei-chan-nel.github.io",
