@@ -984,13 +984,15 @@
         "label": "2",
         "text": "パスワード",
         "choice_id": "center_style_ip_0001__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "パスワードは本人確認に用いる秘密の文字列などであり、Webサイトが端末へ保存して状態管理に使うデータの名称ではない。"
       },
       {
         "label": "3",
         "text": "Webページの見出し",
         "choice_id": "center_style_ip_0001__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "見出しはWebページの内容や構造を示す要素であり、利用者の端末に保存される状態管理用データではない。"
       }
     ],
     "correct_choice": "0",
@@ -1532,7 +1534,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_common_test_0005__choice_2",
     "field_ids": [
-      "design"
+      "data_db"
     ]
   },
   {
@@ -1572,7 +1574,8 @@
     "explanation": "1，2，4，8のように2の累乗を割り当てると，選ぶか選ばないかを各ビットの0/1に対応させられるため，どの組合せも異なる合計値になる。",
     "tags": [
       "共通テスト",
-      "データ活用"
+      "デジタル表現",
+      "符号化"
     ],
     "source_question_ids": [
       "common_test_2025_main_q006"
@@ -1614,7 +1617,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_common_test_0006__choice_1",
     "field_ids": [
-      "data_db"
+      "digital"
     ]
   },
   {
@@ -1646,14 +1649,16 @@
         "label": "3",
         "text": "8種類",
         "choice_id": "center_style_common_test_0007__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "8種類では2⁸=256通りの組合せが必要となり、00～99の100個の値では一意に表せない。"
       }
     ],
     "correct_choice": "1",
     "explanation": "n種類のトッピングには，それぞれ選ぶ・選ばないの2通りがあるので，組合せ数は2ⁿ通りである。00から99までは100個の値なので，2⁶=64は表せるが，2⁷=128は100を超える。したがって最大は6種類である。",
     "tags": [
       "共通テスト",
-      "データ活用"
+      "デジタル表現",
+      "場合の数"
     ],
     "source_question_ids": [
       "common_test_2025_main_q007"
@@ -1695,7 +1700,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_common_test_0007__choice_1",
     "field_ids": [
-      "data_db"
+      "digital"
     ]
   },
   {
@@ -1736,7 +1741,8 @@
     "tags": [
       "共通テスト",
       "情報セキュリティ",
-      "プログラミング"
+      "パスワード",
+      "場合の数"
     ],
     "source_question_ids": [
       "common_test_2025_main_q008"
@@ -1913,7 +1919,7 @@
     "source_question_ids": [
       "common_test_2025_main_q010"
     ],
-    "difficulty": "calculation_basic",
+    "difficulty": "basic",
     "source_display": "共通テストR7本試験 第2問A 問3a",
     "改題": true,
     "primary_term_ids": [
@@ -2072,7 +2078,8 @@
     "explanation": "PDF内の二次元コードはファイルをコピーしたり画面を撮影したりして複製されやすいため，不正な複製を抑える効果は最も期待しにくい。",
     "tags": [
       "共通テスト",
-      "情報I"
+      "情報セキュリティ",
+      "認証"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q012"
@@ -2098,7 +2105,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_common_test_0012__choice_2",
     "field_ids": [
-      "digital"
+      "society_security"
     ]
   },
   {
@@ -2243,8 +2250,7 @@
     "tags": [
       "共通テスト",
       "ネットワーク",
-      "デジタル表現",
-      "基本計算"
+      "IPv6"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q014"
@@ -2335,8 +2341,7 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "基本計算",
-      "プログラミング"
+      "場合の数"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q015"
@@ -2373,13 +2378,15 @@
         "label": "0",
         "text": "3桁",
         "choice_id": "center_style_common_test_0016__choice_0",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "3桁では8×5×10=400通りしか表せず、5000種類に届かない。"
       },
       {
         "label": "1",
         "text": "4桁",
         "choice_id": "center_style_common_test_0016__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "4桁では8×5×10²=4000通りとなり、5000種類に届かない。"
       },
       {
         "label": "2",
@@ -2393,14 +2400,15 @@
         "text": "6桁",
         "choice_id": "center_style_common_test_0016__choice_3",
         "is_correct": false,
-        "explanation": "ない。"
+        "explanation": "6桁なら5000種類以上を表せるが、5桁ですでに40000通りを表せるため、必要な最小桁数ではない。"
       }
     ],
     "correct_choice": "2",
     "explanation": "1桁目と2桁目だけで8×5=40通りである。3桁なら40×10=400通り，4桁なら40×100=4000通りで5000に届かない。5桁なら40×1000=40000通りとなり5000種類以上を表せる。したがって最小は5桁である。",
     "tags": [
       "共通テスト",
-      "データ活用"
+      "デジタル表現",
+      "場合の数"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q016"
@@ -2442,7 +2450,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_common_test_0016__choice_2",
     "field_ids": [
-      "data_db"
+      "digital"
     ]
   },
   {
@@ -2479,12 +2487,13 @@
     "explanation": "ID 22609では，N5=2，N4=2，N3=6，N2=0，N1=9である。3倍する桁の和は3×(2+6+9)=51，残りの桁を足すと51+2+0=53である。53を10で割った余りは3なので，チェックディジットは10-3=7となる。",
     "tags": [
       "共通テスト",
-      "プログラミング"
+      "チェックディジット",
+      "基本計算"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q017"
     ],
-    "difficulty": "basic",
+    "difficulty": "calculation_basic",
     "source_display": "共通テストR7追試験 第1問 問3",
     "改題": true,
     "primary_term_ids": [
@@ -2524,13 +2533,15 @@
         "label": "0",
         "text": "奇数桁の数字を二つとも別の数字に変える。",
         "choice_id": "center_style_common_test_0018__choice_0",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "変更する値の組合せによっては方式Aでも加算結果が変化するため、方式Aでは検出できず方式Bだけで検出できる誤りとはいえない。"
       },
       {
         "label": "1",
         "text": "連続する二つの桁をそれぞれ別の数字に変える。",
         "choice_id": "center_style_common_test_0018__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "二つの数字を別の値に変えると単純な和も変わる場合があり、方式Aで検出できることがある。設問が求める入替え誤りではない。"
       },
       {
         "label": "2",
@@ -2551,7 +2562,8 @@
     "explanation": "方式Aはすべての桁を同じ重みで足すので，二つの数字の順序を入れ替えても合計は変わらず，入替えを検出できない。方式Bでは隣り合う桁が奇数番目と偶数番目になり重みが異なるため，連続する二つの数字を入れ替えると重み付きの和が変わり，検出できることがある。",
     "tags": [
       "共通テスト",
-      "プログラミング"
+      "チェックディジット",
+      "誤り検出"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q018"
@@ -2604,7 +2616,7 @@
         "text": "カーソルから遠いが，画面中央にある大きな対象物",
         "choice_id": "center_style_common_test_0019__choice_1",
         "is_correct": false,
-        "explanation": ""
+        "explanation": "対象物が大きい点は有利だが、カーソルから遠く画面端にも接していないため、示された三つの性質を最も満たす選択肢ではない。"
       },
       {
         "label": "2",
@@ -2625,7 +2637,8 @@
     "explanation": "示された性質では，対象物が近いほど，また画面端に接しているほど選択しやすい。正答の内容は距離が短く，画面端にも接しているため，最も短時間で選択しやすい。",
     "tags": [
       "共通テスト",
-      "情報デザイン"
+      "情報デザイン",
+      "ユーザインタフェース"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q019"
@@ -2662,7 +2675,8 @@
         "label": "0",
         "text": "カーソルに最も近い場所に配置する。",
         "choice_id": "center_style_common_test_0020__choice_0",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "カーソルに近い場所は選択しやすいため、利用頻度の高い項目を優先して配置する方が適切である。"
       },
       {
         "label": "1",
@@ -2675,7 +2689,8 @@
         "label": "2",
         "text": "画面端に接する場所に配置する。",
         "choice_id": "center_style_common_test_0020__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "画面端に接する場所は選択しやすいため、低頻度項目より高頻度項目へ割り当てる方が効率的である。"
       },
       {
         "label": "3",
@@ -2689,7 +2704,8 @@
     "explanation": "同じ大きさなら，カーソルに近い場所や画面端は選択しやすい。利用頻度の低い項目は，頻繁に使う項目より選びやすい場所を優先する必要が低いため，カーソルから遠い場所に置くのが適当である。",
     "tags": [
       "共通テスト",
-      "情報デザイン"
+      "情報デザイン",
+      "ユーザインタフェース"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q020"
@@ -2760,7 +2776,7 @@
     "source_question_ids": [
       "common_test_2025_retest_q021"
     ],
-    "difficulty": "calculation_basic",
+    "difficulty": "basic",
     "source_display": "共通テストR7追試験 第2問A 問1",
     "改題": true,
     "primary_term_ids": [
@@ -2881,7 +2897,8 @@
         "label": "1",
         "text": "14枚",
         "choice_id": "center_style_common_test_0023__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "累積した最小値は−18枚になるため、14枚ではその時点で4枚不足する。"
       },
       {
         "label": "2",
@@ -2895,14 +2912,16 @@
         "text": "20枚",
         "choice_id": "center_style_common_test_0023__choice_3",
         "is_correct": false,
-        "explanation": "ない。"
+        "explanation": "20枚を用意すれば不足しないが、最小値−18を補う18枚で足りるため、必要な最小枚数ではない。"
       }
     ],
     "correct_choice": "2",
     "explanation": "最初を0枚として累積すると，-4，2，-2，-6，-10，-14，-18，-12，-16，-10となる。最も少なくなるのは-18枚なので，事前に18枚用意しておけば最小値が0になり，途中で不足しない。",
     "tags": [
       "共通テスト",
-      "情報I"
+      "シミュレーション",
+      "累積和",
+      "基本計算"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q023"
@@ -2984,7 +3003,9 @@
     "explanation": "最初の千円札を0枚として最小値が0なら，途中で負にならないため最後まで不足しなかったことを表す。最小値0の回が1000回未満なので，1万回中1割未満であり，「1割以下」と判断できる。",
     "tags": [
       "共通テスト",
-      "情報I"
+      "シミュレーション",
+      "確率",
+      "基本計算"
     ],
     "source_question_ids": [
       "common_test_2025_retest_q024"
@@ -3050,12 +3071,14 @@
     "explanation": "5人が1万円札で支払うと千円札は最大で4×5=20枚必要になる。最初に20枚あるので，その5人が先に来ても0枚になるだけで不足はしない。残り5人が千円札で支払えば千円札は増えるため，千円札で支払った人が5人いて途中で千円札が不足するケースは起こらない。",
     "tags": [
       "共通テスト",
-      "情報I"
+      "シミュレーション",
+      "場合分け",
+      "基本計算"
     ],
     "source_question_ids": [
       "common_test_2026_main_q025"
     ],
-    "difficulty": "basic",
+    "difficulty": "calculation_basic",
     "source_display": "共通テストR7追試験 第2問B 問3",
     "改題": true,
     "primary_term_ids": [
@@ -3132,12 +3155,13 @@
     "explanation": "補助記憶装置は，主記憶装置に比べると一般に読み書きは低速だが，容量が大きく，電源を切ってもデータを長期的に保存する用途に使われる。",
     "tags": [
       "共通テスト",
-      "コンピュータ"
+      "主記憶装置",
+      "補助記憶装置"
     ],
     "source_question_ids": [
       "common_test_2026_main_q026"
     ],
-    "difficulty": "calculation_basic",
+    "difficulty": "basic",
     "source_display": "共通テストR8本試験 第1問 問1a",
     "改題": true,
     "primary_term_ids": [
@@ -3312,8 +3336,8 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "基本計算",
-      "データ活用"
+      "2進数",
+      "16進数"
     ],
     "source_question_ids": [
       "common_test_2026_main_q028"
@@ -3388,8 +3412,8 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "基本計算",
-      "データ活用"
+      "2進数",
+      "画像変換"
     ],
     "source_question_ids": [
       "common_test_2026_main_q029"
@@ -3468,7 +3492,9 @@
     "explanation": "1月から12月が円形に並び，各月が同じ確率で選ばれるなら，どの月を初期値にしても周囲にある月の距離の並びは回転しただけで同じになる。平均移動距離も同じである。",
     "tags": [
       "共通テスト",
-      "プログラミング"
+      "情報デザイン",
+      "ユーザインタフェース",
+      "ユーザビリティ"
     ],
     "source_question_ids": [
       "common_test_2026_main_q031"
@@ -3494,7 +3520,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_common_test_0031__choice_3",
     "field_ids": [
-      "algorithm"
+      "design"
     ]
   },
   {
@@ -3602,7 +3628,8 @@
         "label": "1",
         "text": "受信側メールサーバが，受信側のドメイン名が存在しないと検出する。",
         "choice_id": "center_style_common_test_0033__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "受信側のドメインが存在しない場合は、受信側メールサーバへ到達できないため、受信側が最初に検出することはできない。"
       },
       {
         "label": "2",
@@ -3615,7 +3642,8 @@
         "label": "3",
         "text": "受信側メールサーバが，受信者のユーザ名が存在しないと検出する。",
         "choice_id": "center_style_common_test_0033__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "どちらも受信側ドメインが存在せず受信側メールサーバへ到達しないため、受信者ユーザ名を確認する段階には進まない。"
       }
     ],
     "correct_choice": "0",
@@ -3712,9 +3740,9 @@
     "explanation": "DNSは，ドメイン名とIPアドレスを対応付け，通信先のIPアドレスを調べる名前解決の仕組みである。",
     "tags": [
       "共通テスト",
-      "情報社会",
-      "個人情報",
-      "ネットワーク"
+      "ネットワーク",
+      "DNS",
+      "名前解決"
     ],
     "source_question_ids": [
       "common_test_2026_main_q034"
@@ -3764,7 +3792,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_common_test_0034__choice_0",
     "field_ids": [
-      "society_security"
+      "network"
     ]
   },
   {
@@ -3880,8 +3908,8 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "基本計算",
-      "データ活用"
+      "論理演算",
+      "画像処理"
     ],
     "source_question_ids": [
       "common_test_2026_main_q036"
@@ -3926,13 +3954,15 @@
         "label": "0",
         "text": "最も暗い階調から，被写体の山の終わりまで",
         "choice_id": "center_style_common_test_0037__choice_0",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "低～中階調側は被写体に対応するため、そこまでの範囲を選ぶと背景ではなく被写体側が含まれる。"
       },
       {
         "label": "1",
         "text": "被写体の山の範囲だけ",
         "choice_id": "center_style_common_test_0037__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "被写体の山だけを選ぶと、目的である高階調側の背景を選択できない。"
       },
       {
         "label": "2",
@@ -3953,7 +3983,9 @@
     "explanation": "背景に対応する山が高階調側にあるなら，二つの山の間の谷を境にして，それより高い階調側を選ぶと背景を取り出しやすい。",
     "tags": [
       "共通テスト",
-      "デジタル表現"
+      "デジタル表現",
+      "画像処理",
+      "ヒストグラム"
     ],
     "source_question_ids": [
       "common_test_2026_main_q037"
@@ -4019,7 +4051,9 @@
     "explanation": "マスクMが1の被写体部分ではCを使い，Mが0のそれ以外の部分ではBを使えばよい。式 ((B AND NOT M) OR (C AND M)) は，M=0の場所ではB AND 1で背景Bが残り，M=1の場所ではC AND 1で被写体Cが残る。",
     "tags": [
       "共通テスト",
-      "デジタル表現"
+      "デジタル表現",
+      "論理演算",
+      "画像合成"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q038"
@@ -4097,8 +4131,8 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "基本計算",
-      "データ活用"
+      "ビット数",
+      "基本計算"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q039"
@@ -4311,8 +4345,9 @@
     "explanation": "αααβαβαβα の3文字目から5文字目と，7文字目から9文字目はどちらも αβα である。この二つを γ に置き換えると，残る文字を含めて ααγβγ になる。",
     "tags": [
       "共通テスト",
-      "データ活用",
-      "プログラミング"
+      "アルゴリズム",
+      "文字列処理",
+      "パターン置換"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q042"
@@ -4338,7 +4373,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_common_test_0042__choice_2",
     "field_ids": [
-      "data_db"
+      "algorithm"
     ]
   },
   {
@@ -4378,8 +4413,8 @@
     "explanation": "見出しは文書構造の上位にあるため目立たせ，重要性の低い補足情報は本文より控えめに表示すると，構造を読み取りやすくなる。",
     "tags": [
       "共通テスト",
-      "データ活用",
-      "情報デザイン"
+      "情報デザイン",
+      "文書構造"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q043"
@@ -4498,7 +4533,7 @@
         "text": "個人を特定されにくくする。",
         "choice_id": "center_style_common_test_0045__choice_1",
         "is_correct": true,
-        "explanation": "住所を細かい町名から市名へ，年齢を1歳単位から10歳刻みへ粗くすると，複数の属性を組み合わせても個人を特定しにくくなる。これは匿名化や一般化の考え方に近く。"
+        "explanation": "住所を細かい町名から市名へ、年齢を1歳単位から10歳刻みへ粗くすると、複数の属性を組み合わせても個人を特定しにくくなる。この処理は、データの粒度を粗くする一般化に当たる。"
       },
       {
         "label": "2",
@@ -4516,11 +4551,12 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "住所を細かい町名から市名へ，年齢を1歳単位から10歳刻みへ粗くすると，複数の属性を組み合わせても個人を特定しにくくなる。これは匿名化や一般化の考え方に近く。",
+    "explanation": "住所を細かい町名から市名へ、年齢を1歳単位から10歳刻みへ粗くすると、複数の属性を組み合わせても個人を特定しにくくなる。この処理は、データの粒度を粗くする一般化に当たる。",
     "tags": [
       "共通テスト",
-      "情報社会",
-      "個人情報"
+      "個人情報",
+      "匿名化",
+      "一般化"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q045"
@@ -4740,14 +4776,14 @@
     "explanation": "aは誤りである。投稿を削除しても，すでに保存・複製された内容が再投稿されることがある。bは正しい。写真の建物や風景から生活圏や自宅付近を推測されることがある。cも正しい。写真ファイルには撮影場所の位置情報が含まれる場合がある。したがって正誤の組合せは「誤，正，正」である。",
     "tags": [
       "共通テスト",
-      "情報社会",
-      "個人情報",
-      "データ活用"
+      "情報モラル",
+      "SNS",
+      "個人情報"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q048"
     ],
-    "difficulty": "calculation_basic",
+    "difficulty": "basic",
     "source_display": "共通テストR8追試験 第2問A 問1",
     "改題": false,
     "primary_term_ids": [
@@ -4824,14 +4860,16 @@
         "label": "3",
         "text": "特許権",
         "choice_id": "center_style_common_test_0049__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "特許権は技術的な発明を保護する産業財産権であり、写真に写った人の容姿を無断で公表されない利益とは関係しない。"
       }
     ],
     "correct_choice": "1",
     "explanation": "人は，自分の姿を無断で撮影・公表されないことに関わる肖像権をもつと考えられている。無関係な人がはっきり写った写真を許可なくSNSに投稿すると，肖像権を侵害する可能性がある。",
     "tags": [
       "共通テスト",
-      "情報社会"
+      "肖像権",
+      "SNS"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q049"
@@ -4913,7 +4951,9 @@
     "explanation": "写真から指紋の細部を読み取れる可能性が高まった直接の理由は，スマートフォンなどのカメラの解像度が高くなり，指先の細かな模様まで写りやすくなったことである。",
     "tags": [
       "共通テスト",
-      "情報セキュリティ"
+      "情報セキュリティ",
+      "生体認証",
+      "画像"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q050"
@@ -4995,6 +5035,8 @@
     "explanation": "見知らぬ相手から届いたURL付きメッセージは，フィッシングやマルウェア誘導の危険がある。URLを開いたり返信したりせず，反応しないことが一般的に安全である。",
     "tags": [
       "共通テスト",
+      "フィッシング",
+      "SNS",
       "情報セキュリティ"
     ],
     "source_question_ids": [
@@ -5085,12 +5127,13 @@
     "explanation": "実在する企業などを装ってパスワードをだまし取る行為はフィッシングである。また，だまし取った認証情報で他人のWebサービスにログインする行為は，不正アクセス禁止法に違反する可能性が高い。",
     "tags": [
       "共通テスト",
-      "情報セキュリティ"
+      "フィッシング",
+      "不正アクセス禁止法"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q052"
     ],
-    "difficulty": "calculation_basic",
+    "difficulty": "basic",
     "source_display": "共通テストR8追試験 第2問A 問6",
     "改題": false,
     "primary_term_ids": [
@@ -5175,7 +5218,9 @@
     "explanation": "フレーム数を変えない場合，再生時間は「フレーム数÷fps」で決まる。同じフレーム数を24fpsではなく60fpsで再生するので，再生時間の比は24÷60=0.4である。",
     "tags": [
       "共通テスト",
-      "デジタル表現"
+      "デジタル表現",
+      "動画",
+      "フレームレート"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q053"
@@ -5247,8 +5292,8 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "基本計算",
-      "データ活用"
+      "動画",
+      "データ量"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q054"
@@ -5335,7 +5380,9 @@
     "explanation": "60fpsは1秒間に60フレームを再生するという意味である。360フレームの再生時間は360÷60=6秒である。",
     "tags": [
       "共通テスト",
-      "デジタル表現"
+      "デジタル表現",
+      "動画",
+      "フレームレート"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q055"
@@ -5410,12 +5457,13 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "データ活用"
+      "動画圧縮",
+      "フレーム間予測"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q056"
     ],
-    "difficulty": "calculation_basic",
+    "difficulty": "basic",
     "source_display": "共通テストR8追試験 第2問B 問3",
     "改題": true,
     "primary_term_ids": [
@@ -5482,8 +5530,8 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "基本計算",
-      "データ活用"
+      "動画",
+      "データ量"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q057"
@@ -5574,7 +5622,9 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "データ活用"
+      "音声",
+      "標本化周波数",
+      "動画"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q058"
@@ -5665,12 +5715,14 @@
     "tags": [
       "共通テスト",
       "デジタル表現",
-      "データ活用"
+      "動画",
+      "ストリーミング",
+      "圧縮"
     ],
     "source_question_ids": [
       "common_test_2026_retest_q059"
     ],
-    "difficulty": "calculation_basic",
+    "difficulty": "basic",
     "source_display": "共通テストR8追試験 第2問B 問6",
     "改題": false,
     "primary_term_ids": [
@@ -5724,10 +5776,10 @@
     "choices": [
       {
         "label": "0",
-        "text": "送信者が自分の署名鍵で署名を作成し、メッセージに付ける。",
+        "text": "送信者が自分の秘密鍵で署名を作成し、受信者が対応する公開鍵で検証する。",
         "choice_id": "center_style_ap_0001__choice_0",
         "is_correct": true,
-        "explanation": "電子署名では、送信者が署名鍵で署名を作成し、受信者はそれを検証して送信者や改ざんの有無を確認する。"
+        "explanation": "電子署名では、送信者が自分の秘密鍵で署名を作成し、受信者は対応する公開鍵で検証する。これにより署名者と、署名後の改ざんの有無を確認できる。"
       },
       {
         "label": "1",
@@ -5752,7 +5804,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "電子署名では、送信者が署名鍵で署名を作成し、受信者はそれを検証して送信者や改ざんの有無を確認する。",
+    "explanation": "電子署名では、送信者が自分の秘密鍵で署名を作成し、受信者は対応する公開鍵で検証する。これにより署名者と、署名後の改ざんの有無を確認できる。",
     "tags": [
       "電子署名",
       "暗号",
@@ -5809,7 +5861,8 @@
         "label": "1",
         "text": "位置や温度などを検出し、電気信号に変換する。",
         "choice_id": "center_style_ap_0004__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "位置や温度などを検出して電気信号へ変換するのはセンサの役割である。"
       },
       {
         "label": "2",
@@ -5822,7 +5875,8 @@
         "label": "3",
         "text": "センサなどが出力する微小な信号を増幅する。",
         "choice_id": "center_style_ap_0004__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "センサなどの微小な信号を増幅するのは増幅回路の役割であり、動きを生み出すアクチュエータとは異なる。"
       }
     ],
     "correct_choice": "2",
@@ -6046,13 +6100,14 @@
         "text": "機密性: アクセス制御、完全性: デジタル署名、可用性: 装置や回線の二重化",
         "choice_id": "center_style_ip_curated_005__choice_0",
         "is_correct": true,
-        "explanation": "機密性は許可された人だけが情報を扱えること、完全性は情報が正確で改ざんされていないこと、可用性は必要なときに利用できることである。0がそれぞれの対策として適切である。1と。"
+        "explanation": "機密性は許可された人だけが情報を扱えること、完全性は情報が正確で改ざんされていないこと、可用性は必要なときに利用できることである。アクセス制御、デジタル署名、装置や回線の二重化は、それぞれの性質を高める代表的な対策である。"
       },
       {
         "label": "1",
         "text": "機密性: 装置や回線の二重化、完全性: アクセス制御、可用性: デジタル署名",
         "choice_id": "center_style_ip_curated_005__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "二重化は可用性、アクセス制御は機密性、デジタル署名は完全性に主に対応するため、三つの対応が入れ替わっている。"
       },
       {
         "label": "2",
@@ -6070,7 +6125,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "機密性は許可された人だけが情報を扱えること、完全性は情報が正確で改ざんされていないこと、可用性は必要なときに利用できることである。0がそれぞれの対策として適切である。1と。",
+    "explanation": "機密性は許可された人だけが情報を扱えること、完全性は情報が正確で改ざんされていないこと、可用性は必要なときに利用できることである。アクセス制御、デジタル署名、装置や回線の二重化は、それぞれの性質を高める代表的な対策である。",
     "tags": [
       "機密性",
       "完全性",
@@ -6584,7 +6639,8 @@
         "label": "1",
         "text": "WebブラウザとWebサーバ間の通信を暗号化する。",
         "choice_id": "center_style_ip_curated_015__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "HTTPSは、Web通信をTLSによって暗号化し、盗聴や改ざんを防ぐための仕組みである。ドメイン名からIPアドレスを求める仕組みではない。"
       },
       {
         "label": "2",
@@ -6597,7 +6653,8 @@
         "label": "3",
         "text": "電子メールの本文を自動的に別の言語へ翻訳する。",
         "choice_id": "center_style_ip_curated_015__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "機械翻訳は、自然言語の文章を別の言語へ変換する技術であり、名前解決を行う仕組みではない。"
       }
     ],
     "correct_choice": "2",
@@ -6848,13 +6905,14 @@
         "text": "虹彩の特徴を読み取って本人確認を行う",
         "choice_id": "center_style_ip_curated_019__choice_1",
         "is_correct": false,
-        "explanation": "生体情報を用いた認証である。2も動作や身体的特徴を用いる生体認証に近い。"
+        "explanation": "虹彩の模様は身体的特徴を利用する生体認証であり、利用者が所有する物を使う所有物認証ではない。"
       },
       {
         "label": "2",
         "text": "署名時の筆跡や筆圧などの特徴を読み取る",
         "choice_id": "center_style_ip_curated_019__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "署名時の筆跡や筆圧は行動的特徴を利用する生体認証であり、利用者が所有する物を使う所有物認証ではない。"
       },
       {
         "label": "3",
@@ -6869,7 +6927,8 @@
     "tags": [
       "認証",
       "スマートフォン",
-      "生体認証"
+      "生体認証",
+      "所有物認証"
     ],
     "primary_term_names": [
       "認証",
@@ -7088,7 +7147,7 @@
   },
   {
     "id": "center_style_ip_curated_025",
-    "stem": "データベースを設計するとき、データ分析の段階で行うこととして最も適当なものはどれか。",
+    "stem": "データベースを設計するために、扱うデータとその関係を整理する段階で行うこととして最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
@@ -7291,7 +7350,7 @@
     "tags": [
       "データベース",
       "RDB",
-      "主キー"
+      "外部キー"
     ],
     "primary_term_names": [
       "データベース",
@@ -7451,13 +7510,15 @@
         "label": "2",
         "text": "VR",
         "choice_id": "center_style_ip_curated_030__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "VRは、コンピュータで作られた仮想空間を現実のように体験させる技術である。現実の風景に情報を重ねる仕組みではない。"
       },
       {
         "label": "3",
         "text": "Webページ",
         "choice_id": "center_style_ip_curated_030__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "Webページは情報を閲覧するための文書であり、現実の風景にデジタル情報を重ねる技術そのものを表す名称ではない。"
       }
     ],
     "correct_choice": "0",
@@ -7699,10 +7760,10 @@
     "choices": [
       {
         "label": "0",
-        "text": "一定時間ごとの取引データなどをまとめ、前のデータのハッシュ値と関連付けて記録することで、改ざんを検出しやすくする",
+        "text": "取引データなどをまとめたブロックを、前のブロックのハッシュ値と関連付けて記録することで、改ざんを検出しやすくする",
         "choice_id": "center_style_ip_curated_037__choice_0",
         "is_correct": true,
-        "explanation": "ブロックチェーンでは、取引などのデータをまとめたブロックを、前のブロックのハッシュ値などでつなぎ、改ざんを検出しやすくする。"
+        "explanation": "ブロックチェーンでは、取引などのデータをまとめたブロックを、前のブロックのハッシュ値などでつなぎ、改ざんを検出しやすくする。ブロックを作成する間隔や合意形成の方法は、仕組みによって異なる。"
       },
       {
         "label": "1",
@@ -7727,7 +7788,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "ブロックチェーンでは、取引などのデータをまとめたブロックを、前のブロックのハッシュ値などでつなぎ、改ざんを検出しやすくする。",
+    "explanation": "ブロックチェーンでは、取引などのデータをまとめたブロックを、前のブロックのハッシュ値などでつなぎ、改ざんを検出しやすくする。ブロックを作成する間隔や合意形成の方法は、仕組みによって異なる。",
     "tags": [
       "ブロックチェーン",
       "ハッシュ値",
@@ -7882,10 +7943,10 @@
       },
       {
         "label": "1",
-        "text": "添付ファイル自体を暗号化して送る",
+        "text": "添付ファイル自体を暗号化し、復号に必要な情報は電子メールとは別の安全な手段で共有する",
         "choice_id": "center_style_sg_curated_002__choice_1",
         "is_correct": true,
-        "explanation": "メール送信では、送信者から宛先までのすべての経路が暗号化されるとは限らないため、秘密情報を含む添付ファイル自体を暗号化するのが適切である。"
+        "explanation": "途中の通信経路で内容を読まれる可能性に備えるには、添付ファイル自体を暗号化する。復号に必要なパスワードや鍵は、同じメールに記載せず、別の安全な手段で受信者と共有する必要がある。"
       },
       {
         "label": "2",
@@ -7903,7 +7964,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "メール送信では、送信者から宛先までのすべての経路が暗号化されるとは限らないため、秘密情報を含む添付ファイル自体を暗号化するのが適切である。",
+    "explanation": "途中の通信経路で内容を読まれる可能性に備えるには、添付ファイル自体を暗号化する。復号に必要なパスワードや鍵は、同じメールに記載せず、別の安全な手段で受信者と共有する必要がある。",
     "tags": [
       "暗号化",
       "電子メール",
@@ -8207,26 +8268,28 @@
   },
   {
     "id": "center_style_sg_curated_010",
-    "stem": "ノートPCから内蔵記憶装置を抜き取られ，別のPCに接続されて中の情報を読まれる危険を減らす対策として最も適当なものはどれか。",
+    "stem": "ノートPCから内蔵記憶装置を抜き取られ、別のPCに接続されて中の情報を読まれる危険を減らす対策として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
         "text": "OSのログインパスワードだけを設定する。",
         "choice_id": "center_style_sg_curated_010__choice_0",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "OSのログイン認証は、記憶装置を別のPCに接続して直接読み取る攻撃を防げない場合がある。"
       },
       {
         "label": "1",
         "text": "保存ファイルの読取り権限だけを所有者に限定する。",
         "choice_id": "center_style_sg_curated_010__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "OSが管理するアクセス権は、記憶装置を別の環境から読み取られた場合には保護として機能しないことがある。"
       },
       {
         "label": "2",
-        "text": "記憶装置自体にパスワードや暗号化などの保護を設定する。",
+        "text": "記憶装置全体を暗号化し、復号には本人だけが知る認証情報を必要とするように設定する。",
         "choice_id": "center_style_sg_curated_010__choice_2",
         "is_correct": true,
-        "explanation": "記憶装置を抜き取って別のPCに接続される場合，OSのログイン制御だけでは守れないことがある。記憶装置自体のパスワードや暗号化が有効である。"
+        "explanation": "記憶装置全体を暗号化しておけば、装置を抜き取られても、復号に必要な認証情報がなければ保存内容を読み取られにくい。"
       },
       {
         "label": "3",
@@ -8237,7 +8300,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "記憶装置を抜き取って別のPCに接続される場合，OSのログイン制御だけでは守れないことがある。記憶装置自体のパスワードや暗号化が有効である。",
+    "explanation": "記憶装置全体を暗号化しておけば、装置を抜き取られても、復号に必要な認証情報がなければ保存内容を読み取られにくい。",
     "tags": [
       "パスワード",
       "暗号化",
@@ -8427,7 +8490,7 @@
     "tags": [
       "バックアップ",
       "データ",
-      "E-mail"
+      "情報セキュリティ"
     ],
     "primary_term_names": [
       "バックアップ",
@@ -8474,7 +8537,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_sg_curated_015__choice_0",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -8692,7 +8755,8 @@
         "label": "3",
         "text": "利用者の氏名",
         "choice_id": "center_style_sg_curated_020__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "氏名は暗号鍵ではなく、共通鍵暗号方式の暗号化や復号には使用できない。"
       }
     ],
     "correct_choice": "0",
@@ -8764,13 +8828,14 @@
         "text": "大量の通信でサーバが過負荷になり、利用できなくなる",
         "choice_id": "center_style_sg_curated_021__choice_2",
         "is_correct": false,
-        "explanation": "可用性を損なう例である。3も機密性を損なう例である。"
+        "explanation": "サービスを必要なときに利用できない状態であり、可用性を損なう例である。"
       },
       {
         "label": "3",
         "text": "通信内容を第三者に盗聴される",
         "choice_id": "center_style_sg_curated_021__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "秘密の通信内容が第三者に知られるため、機密性を損なう例である。"
       }
     ],
     "correct_choice": "0",
@@ -8844,7 +8909,7 @@
         "text": "本文末尾に書かれた会社名だけを見て判断する",
         "choice_id": "center_style_sg_curated_022__choice_1",
         "is_correct": false,
-        "explanation": "本文に任意の会社名を書ける。3も件名を偽装できるため確認方法として不十分である。"
+        "explanation": "本文には誰でも任意の会社名を書けるため、送信者本人であることの確認にはならない。"
       },
       {
         "label": "2",
@@ -8857,7 +8922,8 @@
         "label": "3",
         "text": "件名にECサイト名が含まれているかだけを確認する",
         "choice_id": "center_style_sg_curated_022__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "件名も容易に偽装できるため、ECサイト名が含まれるだけでは送信者本人であることを確認できない。"
       }
     ],
     "correct_choice": "2",
@@ -8948,13 +9014,14 @@
         "text": "BさんとCさんの両方が、それぞれ自分の秘密鍵で復号できる",
         "choice_id": "center_style_sg_curated_024__choice_2",
         "is_correct": false,
-        "explanation": "Cさんの秘密鍵ではBさん宛ての暗号文を復号できない。3もBさんの公開鍵で復号できるという誤りである。"
+        "explanation": "Bさんの公開鍵で暗号化した暗号文は、Cさん自身の秘密鍵では復号できない。"
       },
       {
         "label": "3",
         "text": "Cさんだけが、Bさんの公開鍵で復号できる",
         "choice_id": "center_style_sg_curated_024__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "Bさんの公開鍵は暗号化に用いた鍵であり、その公開鍵を用いて暗号文を復号することはできない。"
       }
     ],
     "correct_choice": "0",
@@ -9147,7 +9214,7 @@
     "explanation": "本文を共通鍵で暗号化し、その共通鍵を受信者の公開鍵で守る方法は、本文の機密性を高める。",
     "tags": [
       "共通鍵方式",
-      "公開かぎ暗号方式",
+      "公開鍵暗号方式",
       "暗号化",
       "E-mail",
       "機密性"
@@ -9220,7 +9287,7 @@
   },
   {
     "id": "center_style_fe_curated_001",
-    "stem": "60分のモノラル音声を、標本化周波数44.1kHz、量子化ビット数16ビットでディジタル化する。圧縮しない場合、データ量はおよそ何Mバイトか。",
+    "stem": "60分のモノラル音声を、標本化周波数44.1kHz、量子化ビット数16ビットでディジタル化する。圧縮しない場合、データ量はおよそ何Mバイトか。ただし、1kHz＝1,000Hz、1Mバイト＝1,000,000バイトとする。",
     "choices": [
       {
         "label": "0",
@@ -9340,7 +9407,6 @@
     "correct_choice": "2",
     "explanation": "16進数7Fは2進数で01111111である。これとANDをとると、最上位ビットは必ず0になり、下位7ビットは元の値が残る。",
     "tags": [
-      "パリティビット",
       "16進数",
       "AND",
       "論理演算"
@@ -9479,14 +9545,14 @@
   },
   {
     "id": "center_style_fe_curated_005",
-    "stem": "符号化速度192kビット/秒の音声データ2.4Mバイトを，通信速度128kビット/秒でダウンロードしながら途切れずに再生したい。再生前にあらかじめ蓄えておく必要があるデータの再生時間は最低何秒か。",
+    "stem": "符号化速度192kビット/秒の音声データ2.4Mバイトを、通信速度128kビット/秒でダウンロードしながら途切れずに再生したい。再生前にあらかじめ蓄えておく必要があるデータの再生時間は最低何秒か。ただし、1kビット＝1,000ビット、1Mバイト＝1,000,000バイトとする。",
     "choices": [
       {
         "label": "0",
         "text": "50",
         "choice_id": "center_style_fe_curated_005__choice_0",
         "is_correct": true,
-        "explanation": "2.4Mバイトは19.2Mビットで，192kビット/秒の音声なら再生時間は100秒である。再生中は1秒ごとに192kビット必要だが128kビットしか届かないので，差の64kビット/秒を100秒分，つまり6.4Mビット先に蓄える必要がある。128kビット/秒で6.4Mビットを受け取る時間は50秒なので。"
+        "explanation": "2.4Mバイトは19.2Mビットで、192kビット/秒の音声なら再生時間は100秒である。再生中は1秒ごとに192kビット必要だが128kビットしか届かないので、差の64kビット/秒を100秒分、つまり6.4Mビット先に蓄える必要がある。128kビット/秒で6.4Mビットを受け取る時間は50秒である。"
       },
       {
         "label": "1",
@@ -9508,7 +9574,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "2.4Mバイトは19.2Mビットで，192kビット/秒の音声なら再生時間は100秒である。再生中は1秒ごとに192kビット必要だが128kビットしか届かないので，差の64kビット/秒を100秒分，つまり6.4Mビット先に蓄える必要がある。128kビット/秒で6.4Mビットを受け取る時間は50秒なので。",
+    "explanation": "2.4Mバイトは19.2Mビットで、192kビット/秒の音声なら再生時間は100秒である。再生中は1秒ごとに192kビット必要だが128kビットしか届かないので、差の64kビット/秒を100秒分、つまり6.4Mビット先に蓄える必要がある。128kビット/秒で6.4Mビットを受け取る時間は50秒である。",
     "tags": [
       "データ量",
       "ネットワーク",
@@ -9648,11 +9714,11 @@
         "text": "256",
         "choice_id": "center_style_fe_curated_008__choice_3",
         "is_correct": true,
-        "explanation": "nビットで表せるパターン数は2^n個である。32ビットと24ビットの差は8ビットなので、2^32÷2^24=2^8=256倍となる。"
+        "explanation": "nビットで表せるパターン数は2ⁿ個である。32ビットと24ビットの差は8ビットなので、2³²÷2²⁴＝2⁸＝256倍となる。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "nビットで表せるパターン数は2^n個である。32ビットと24ビットの差は8ビットなので、2^32÷2^24=2^8=256倍となる。",
+    "explanation": "nビットで表せるパターン数は2ⁿ個である。32ビットと24ビットの差は8ビットなので、2³²÷2²⁴＝2⁸＝256倍となる。",
     "tags": [
       "2進数",
       "データ量"
@@ -9791,7 +9857,7 @@
         "text": "1.6",
         "choice_id": "center_style_fe_curated_011__choice_0",
         "is_correct": true,
-        "explanation": "65,536色は2^16色なので、1ドットに16ビット=2バイト必要である。1,000×800×2=1,600,000バイトで、1.6Mバイトとなる。"
+        "explanation": "65,536色は2¹⁶色なので、1ドットに16ビット=2バイト必要である。1,000×800×2=1,600,000バイトで、1.6Mバイトとなる。"
       },
       {
         "label": "1",
@@ -9813,7 +9879,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "65,536色は2^16色なので、1ドットに16ビット=2バイト必要である。1,000×800×2=1,600,000バイトで、1.6Mバイトとなる。",
+    "explanation": "65,536色は2¹⁶色なので、1ドットに16ビット=2バイト必要である。1,000×800×2=1,600,000バイトで、1.6Mバイトとなる。",
     "tags": [
       "解像度",
       "データ量",
@@ -9869,7 +9935,7 @@
   },
   {
     "id": "center_style_fe_curated_012",
-    "stem": "音声を1秒間に11,000回サンプリングし、各サンプルを8ビットで記録する。512×10^6バイトのフラッシュメモリに記録できる時間は最大でおよそ何分か。",
+    "stem": "音声を1秒間に11,000回サンプリングし、各サンプルを8ビットで記録する。512×10⁶バイトのフラッシュメモリに記録できる時間は最大でおよそ何分か。",
     "choices": [
       {
         "label": "0",
@@ -9888,7 +9954,7 @@
         "text": "775",
         "choice_id": "center_style_fe_curated_012__choice_2",
         "is_correct": true,
-        "explanation": "1秒のデータ量は11,000×8ビット=88,000ビット=11,000バイトである。512×10^6÷11,000≈46,545秒、分に直すと約775分である。"
+        "explanation": "1秒のデータ量は11,000×8ビット＝88,000ビット＝11,000バイトである。512×10⁶÷11,000≈46,545秒、分に直すと約775分である。"
       },
       {
         "label": "3",
@@ -9899,7 +9965,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "1秒のデータ量は11,000×8ビット=88,000ビット=11,000バイトである。512×10^6÷11,000≈46,545秒、分に直すと約775分である。",
+    "explanation": "1秒のデータ量は11,000×8ビット＝88,000ビット＝11,000バイトである。512×10⁶÷11,000≈46,545秒、分に直すと約775分である。",
     "tags": [
       "データ量",
       "サンプリング",
@@ -10051,7 +10117,7 @@
   },
   {
     "id": "center_style_fe_curated_014",
-    "stem": "10Mビット/秒の回線で、平均1Mバイトのファイルを10秒ごとに転送する。転送量の20%が制御情報として付加されるとき、回線利用率は何%か。",
+    "stem": "10Mビット/秒の回線で、平均1Mバイトのファイルを10秒ごとに転送する。転送量の20%が制御情報として付加されるとき、回線利用率は何%か。 ただし、1Mビット＝1,000,000ビット、1Mバイト＝1,000,000バイトとする。",
     "choices": [
       {
         "label": "0",
@@ -10127,7 +10193,7 @@
   },
   {
     "id": "center_style_fe_curated_015",
-    "stem": "1件2,000バイトの伝票データを2件ずつまとめ、400バイトのヘッダを付けて送る。伝票が1時間に100,000件発生し、回線速度が1Mビット/秒のとき、回線利用率はおよそ何%か。",
+    "stem": "1件2,000バイトの伝票データを2件ずつまとめ、400バイトのヘッダを付けて送る。伝票が1時間に100,000件発生し、回線速度が1Mビット/秒のとき、回線利用率はおよそ何%か。 ただし、1Mビット＝1,000,000ビットとする。",
     "choices": [
       {
         "label": "0",
@@ -10625,7 +10691,7 @@
   },
   {
     "id": "center_style_fe_curated_023",
-    "stem": "64kビット/秒の回線で、10^6バイトのファイルを送信する。伝送効率が80%のとき、伝送におよそ何秒かかるか。",
+    "stem": "64kビット/秒の回線で、10⁶バイトのファイルを送信する。伝送効率が80%のとき、伝送におよそ何秒かかるか。 ただし、1kビット＝1,000ビットとする。",
     "choices": [
       {
         "label": "0",
@@ -10653,11 +10719,11 @@
         "text": "156",
         "choice_id": "center_style_fe_curated_023__choice_3",
         "is_correct": true,
-        "explanation": "実効速度は64k×0.8=51.2kビット/秒である。10^6バイトは8×10^6ビット=8,000kビットなので、8,000÷51.2=156.25秒となる。"
+        "explanation": "実効速度は64k×0.8＝51.2kビット/秒である。10⁶バイトは8×10⁶ビット＝8,000kビットなので、8,000÷51.2＝156.25秒となる。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "実効速度は64k×0.8=51.2kビット/秒である。10^6バイトは8×10^6ビット=8,000kビットなので、8,000÷51.2=156.25秒となる。",
+    "explanation": "実効速度は64k×0.8＝51.2kビット/秒である。10⁶バイトは8×10⁶ビット＝8,000kビットなので、8,000÷51.2＝156.25秒となる。",
     "tags": [
       "データ量",
       "ネットワーク"
@@ -10722,7 +10788,7 @@
         "text": "6",
         "choice_id": "center_style_fe_curated_024__choice_2",
         "is_correct": true,
-        "explanation": "64=2^6なので、64個の範囲は半分にする操作を6回行うと1個になる。"
+        "explanation": "64＝2⁶なので、64個の範囲は半分にする操作を6回行うと1個になる。"
       },
       {
         "label": "3",
@@ -10733,7 +10799,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "64=2^6なので、64個の範囲は半分にする操作を6回行うと1個になる。",
+    "explanation": "64＝2⁶なので、64個の範囲は半分にする操作を6回行うと1個になる。",
     "tags": [
       "2分探索",
       "ソート"
@@ -10955,13 +11021,15 @@
         "label": "2",
         "text": "(x-y)/2",
         "choice_id": "center_style_fe_curated_031__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "x－yは通常負になるため、探索範囲の中央の添字を表さない。"
       },
       {
         "label": "3",
         "text": "(y-x)/2",
         "choice_id": "center_style_fe_curated_031__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "探索範囲の幅のおよそ半分を表すが、先頭の添字xを加えていないため、中央の添字にはならない。"
       }
     ],
     "correct_choice": "1",
@@ -11095,13 +11163,15 @@
         "label": "0",
         "text": "商品を出さずにS1へ戻る",
         "choice_id": "center_style_fe_curated_039__choice_0",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "S2から100円を受け取ると合計300円になるため、商品を出さない動作は条件に合わない。また、S1は投入額100円の状態である。"
       },
       {
         "label": "1",
         "text": "商品を出さずにS2にとどまる",
         "choice_id": "center_style_fe_curated_039__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "S2から100円を受け取ると合計300円になるため、商品を出さず200円の状態にとどまる動作は条件に合わない。"
       },
       {
         "label": "2",
@@ -11128,7 +11198,7 @@
       "状態遷移図",
       "シミュレーション"
     ],
-    "difficulty": "calculation_basic",
+    "difficulty": "basic",
     "source_question_ids": [
       "fe_h28_autumn_morning_q003"
     ],
@@ -11200,8 +11270,8 @@
     "explanation": "ログファイルは、データベースの更新前後の値などの更新履歴を記録し、障害時の回復に使う。",
     "tags": [
       "データベース",
-      "アクセスログ",
-      "バックアップ"
+      "トランザクションログ",
+      "障害回復"
     ],
     "primary_term_names": [
       "データベース",
@@ -11253,7 +11323,7 @@
   },
   {
     "id": "center_style_fe_curated_046",
-    "stem": "音声や動画配信など，少しの再送確認よりも遅れの少なさを重視する通信で使われるプロトコルとして，最も適当なものはどれか。",
+    "stem": "音声や動画のリアルタイム配信など、データの欠落を防ぐための再送制御よりも遅延の少なさを重視する通信で使われることがあるプロトコルとして、最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
@@ -11266,24 +11336,26 @@
         "label": "1",
         "text": "IP",
         "choice_id": "center_style_fe_curated_046__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "IPは、宛先のIPアドレスに基づいてパケットを届けるためのプロトコルであり、再送制御の有無を選ぶトランスポート層のプロトコルではない。"
       },
       {
         "label": "2",
         "text": "TCP",
         "choice_id": "center_style_fe_curated_046__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "TCPは到達確認や再送制御によって信頼性を高めるが、その処理によって遅延が生じることがある。"
       },
       {
         "label": "3",
         "text": "UDP",
         "choice_id": "center_style_fe_curated_046__choice_3",
         "is_correct": true,
-        "explanation": "UDPは，細かな再送確認などを省き，遅れの少なさを重視する通信に使われることがある。"
+        "explanation": "UDPは、到達確認や再送制御を基本的に行わないため、多少のデータ欠落を許容して遅延を抑えたいリアルタイム通信などに使われることがある。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "UDPは，細かな再送確認などを省き，遅れの少なさを重視する通信に使われることがある。",
+    "explanation": "UDPは、到達確認や再送制御を基本的に行わないため、多少のデータ欠落を許容して遅延を抑えたいリアルタイム通信などに使われることがある。",
     "tags": [
       "UDP",
       "TCP",
@@ -11376,9 +11448,9 @@
     "correct_choice": "1",
     "explanation": "ハッシュ値を使って格納位置を求める方法では、異なるデータから同じ値が得られ、格納位置が衝突することがある。",
     "tags": [
-      "ハッシュ値",
-      "データ",
-      "メモリ"
+      "ハッシュ法",
+      "衝突",
+      "データ構造"
     ],
     "primary_term_names": [
       "ハッシュ値",
@@ -11425,7 +11497,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_fe_curated_047__choice_1",
     "field_ids": [
-      "society_security"
+      "algorithm"
     ]
   },
   {
@@ -11729,7 +11801,7 @@
       "ディジタル化",
       "標本化",
       "符号化",
-      "D-A変換"
+      "A-D変換・D-A変換"
     ],
     "primary_term_names": [
       "ディジタル化",
@@ -11824,7 +11896,7 @@
     "correct_choice": "0",
     "explanation": "オープンソースソフトウェアは、ライセンス条件に従ってソースコードの利用、変更、再配布などが認められるソフトウェアである。",
     "tags": [
-      "オープンソフトウェア",
+      "オープンソースソフトウェア",
       "著作権",
       "ソース",
       "ソフト"
@@ -11922,7 +11994,7 @@
     "correct_choice": "1",
     "explanation": "公開鍵暗号方式で秘匿したいときは、受信者の公開鍵で暗号化し、対応する受信者の秘密鍵で復号する。秘密鍵を持つ受信者だけが読める。",
     "tags": [
-      "公開かぎ暗号方式",
+      "公開鍵暗号方式",
       "公開鍵",
       "秘密鍵",
       "暗号化"
@@ -12182,9 +12254,9 @@
     "correct_choice": "0",
     "explanation": "ハッシュ値では、異なる入力から同じ値が得られることを衝突という。ハッシュを使うときは、衝突が起こり得ることを考える必要がある。",
     "tags": [
+      "ハッシュ法",
       "ハッシュ値",
-      "データ量",
-      "さくいん"
+      "衝突"
     ],
     "primary_term_names": [
       "ハッシュ値",
@@ -12231,7 +12303,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_ap_curated_033__choice_0",
     "field_ids": [
-      "digital"
+      "algorithm"
     ]
   },
   {
@@ -12412,37 +12484,37 @@
   },
   {
     "id": "center_style_ap_curated_044",
-    "stem": "伝送速度64kビット/秒の回線でデータを連続送信したところ、平均して100秒に1回、1ビットの誤りが発生した。この回線のビット誤り率として最も近いものはどれか。",
+    "stem": "伝送速度64kビット/秒の回線でデータを連続送信したところ、平均して100秒に1回、1ビットの誤りが発生した。この回線のビット誤り率として最も近いものはどれか。 ただし、1kビット＝1,000ビットとする。",
     "choices": [
       {
         "label": "0",
-        "text": "1.95×10^-8",
+        "text": "1.95×10⁻⁸",
         "choice_id": "center_style_ap_curated_044__choice_0",
         "is_correct": false,
         "explanation": "送信ビット数の扱いが大きすぎる。"
       },
       {
         "label": "1",
-        "text": "1.56×10^-7",
+        "text": "1.56×10⁻⁷",
         "choice_id": "center_style_ap_curated_044__choice_1",
         "is_correct": true,
-        "explanation": "100秒間に送るビット数は64,000×100=6,400,000ビットである。1ビットの誤りなので、誤り率は1÷6,400,000=1.5625×10^-7となる。"
+        "explanation": "100秒間に送るビット数は64,000×100＝6,400,000ビットである。1ビットの誤りなので、誤り率は1÷6,400,000＝1.5625×10⁻⁷となる。"
       },
       {
         "label": "2",
-        "text": "1.95×10^-5",
+        "text": "1.95×10⁻⁵",
         "choice_id": "center_style_ap_curated_044__choice_2",
         "is_correct": false
       },
       {
         "label": "3",
-        "text": "1.56×10^-4",
+        "text": "1.56×10⁻⁴",
         "choice_id": "center_style_ap_curated_044__choice_3",
         "is_correct": false
       }
     ],
     "correct_choice": "1",
-    "explanation": "100秒間に送るビット数は64,000×100=6,400,000ビットである。1ビットの誤りなので、誤り率は1÷6,400,000=1.5625×10^-7となる。",
+    "explanation": "100秒間に送るビット数は64,000×100＝6,400,000ビットである。1ビットの誤りなので、誤り率は1÷6,400,000＝1.5625×10⁻⁷となる。",
     "tags": [
       "bit",
       "データ量",
@@ -12532,8 +12604,9 @@
     "correct_choice": "0",
     "explanation": "補充量は、翌週の販売予測量に安全在庫量を加え、現在の在庫量を引く。販売予測量をP=(C[n-1]+C[n])/2とすると、安全在庫量は0.1Pなので、P+0.1P-B[n]=P×1.1-B[n]である。",
     "tags": [
-      "アベレージ",
-      "データ量"
+      "移動平均",
+      "数式モデル",
+      "在庫管理"
     ],
     "primary_term_names": [
       "アベレージ",
@@ -12571,7 +12644,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_ap_curated_049__choice_0",
     "field_ids": [
-      "digital"
+      "algorithm"
     ]
   },
   {
@@ -12612,7 +12685,7 @@
     "tags": [
       "共通鍵方式",
       "暗号化",
-      "公開かぎ暗号方式",
+      "公開鍵暗号方式",
       "情報セキュリティ"
     ],
     "primary_term_names": [
@@ -12753,38 +12826,39 @@
   },
   {
     "id": "center_style_ap_curated_054",
-    "stem": "ユーザビリティ評価で、利用者に質問し、回答を通して満足度や困りごとを把握する方法として最も適当なものはどれか。",
+    "stem": "ユーザビリティ評価で、評価者が利用者と対話しながら質問し、回答を掘り下げて満足度や困りごとを把握する方法として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "利用者に質問し，回答から満足度や困りごとを把握する。",
+        "text": "インタビュー",
         "choice_id": "center_style_ap_curated_054__choice_0",
         "is_correct": true,
-        "explanation": "利用者に直接質問して回答を得る方法は，利用者の満足度や困りごとを把握するために使える。"
+        "explanation": "インタビューは、評価者が利用者と対話し、回答に応じて質問を掘り下げながら、満足度や困りごとを把握する方法である。"
       },
       {
         "label": "1",
-        "text": "画面の色をすべて同じにして，見た目だけをそろえる。",
+        "text": "アンケート",
         "choice_id": "center_style_ap_curated_054__choice_1",
         "is_correct": false,
-        "explanation": "見た目をそろえるだけで利用者の考えを聞いていない。"
+        "explanation": "アンケートは、あらかじめ用意した質問への回答を多数の利用者から集めるのに向くが、対話しながら回答を掘り下げる方法ではない。"
       },
       {
         "label": "2",
-        "text": "ファイルを暗号化して，内容を読みにくくする。",
+        "text": "行動観察",
         "choice_id": "center_style_ap_curated_054__choice_2",
         "is_correct": false,
-        "explanation": "暗号化。"
+        "explanation": "行動観察は、利用者が実際に操作する様子を観察して問題点を見つける方法であり、対話を中心に回答を掘り下げる方法ではない。"
       },
       {
         "label": "3",
-        "text": "データを圧縮して，保存に必要な容量を減らす。",
+        "text": "ヒューリスティック評価",
         "choice_id": "center_style_ap_curated_054__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "ヒューリスティック評価は、専門家が既知の原則や基準に照らして画面などを点検する方法であり、利用者への対話型の質問を中心とする方法ではない。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "利用者に直接質問して回答を得る方法は，利用者の満足度や困りごとを把握するために使える。",
+    "explanation": "インタビューは、評価者が利用者と対話し、回答に応じて質問を掘り下げながら、満足度や困りごとを把握する方法である。",
     "tags": [
       "ユーザビリティ",
       "インタビュー",
@@ -12929,7 +13003,7 @@
   },
   {
     "id": "center_style_ap_curated_057",
-    "stem": "LANの速度が100Mビット/秒、伝送効率が80%で、インターネット側の実効速度は90Mビット/秒である。540Mバイトのファイルをダウンロードするとき、かかる時間はおよそ何秒か。ここで、その他の遅延は考えない。",
+    "stem": "LANの速度が100Mビット/秒、伝送効率が80%で、インターネット側の実効速度は90Mビット/秒である。540Mバイトのファイルをダウンロードするとき、かかる時間はおよそ何秒か。ここで、その他の遅延は考えない。 ただし、1Mビット＝1,000,000ビット、1Mバイト＝1,000,000バイトとする。",
     "choices": [
       {
         "label": "0",
@@ -13060,8 +13134,8 @@
     "explanation": "外部キーは、別の表の主キーなどを参照して表同士の関係を表すために使う。一つの表に複数の外部キーを設定できる。",
     "tags": [
       "データベース",
-      "フィールド",
-      "レコード"
+      "外部キー",
+      "参照整合性"
     ],
     "primary_term_names": [
       "データベース",
@@ -13333,9 +13407,9 @@
     "correct_choice": "2",
     "explanation": "合計は2706で、データ数は9個なので平均値は2706÷9=約300.7である。小さい順に並んだ9個の中央、5番目は40なので中央値は40である。",
     "tags": [
-      "アベレージ",
-      "メジアン",
-      "データ"
+      "平均値",
+      "中央値",
+      "データ分析"
     ],
     "primary_term_names": [
       "アベレージ",
@@ -13475,39 +13549,39 @@
   },
   {
     "id": "center_style_ip_curated_053",
-    "stem": "表示や印刷で、文字ごとに幅が異なるフォントとして最も適当なものはどれか。",
+    "stem": "文章を自然な字間で表示するため、文字の形に応じて文字ごとの幅を変える設定を何というか。最も適当なものを選べ。",
     "choices": [
       {
         "label": "0",
         "text": "アウトラインフォント",
         "choice_id": "center_style_ip_curated_053__choice_0",
         "is_correct": false,
-        "explanation": "輪郭情報で文字を表すフォントである。"
+        "explanation": "アウトラインフォントは文字の輪郭を数式的に表す方式であり、文字幅を一定にするか文字ごとに変えるかとは別の分類である。"
       },
       {
         "label": "1",
         "text": "等幅フォント",
         "choice_id": "center_style_ip_curated_053__choice_1",
         "is_correct": false,
-        "explanation": "文字幅が一定のフォントである。"
+        "explanation": "等幅フォントは、すべての文字を同じ幅で表示するフォントである。"
       },
       {
         "label": "2",
         "text": "ビットマップフォント",
         "choice_id": "center_style_ip_curated_053__choice_2",
         "is_correct": false,
-        "explanation": "ドットの集まりで文字を表すフォントである。"
+        "explanation": "ビットマップフォントは文字を画素の集まりとして表す方式であり、文字幅を一定にするか文字ごとに変えるかとは別の分類である。"
       },
       {
         "label": "3",
         "text": "プロポーショナルフォント",
         "choice_id": "center_style_ip_curated_053__choice_3",
         "is_correct": true,
-        "explanation": "プロポーショナルフォントは、文字ごとに幅が異なるフォントで、文章を自然な字間で表示しやすい。"
+        "explanation": "プロポーショナルフォントは、文字の形に応じて文字ごとの幅を変えるフォントで、文章を自然な字間で表示しやすい。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "プロポーショナルフォントは、文字ごとに幅が異なるフォントで、文章を自然な字間で表示しやすい。",
+    "explanation": "プロポーショナルフォントは、文字の形に応じて文字ごとの幅を変えるフォントで、文章を自然な字間で表示しやすい。",
     "tags": [
       "フォント",
       "プロポーショナルフォント",
@@ -14459,44 +14533,44 @@
   },
   {
     "id": "center_style_ap_curated_065",
-    "stem": "Webページのアクセシビリティを高める設計として最も適当なものはどれか。",
+    "stem": "画像だけで表したリンクをWebページに設置する。スクリーンリーダーの利用者にもリンク先の目的が伝わるようにする方法として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "入力が必須の項目は、色だけでなく「必須」などの文字でも示す",
+        "text": "画像に、リンク先の目的が分かる代替テキストを設定する",
         "choice_id": "center_style_ap_curated_065__choice_0",
         "is_correct": true,
-        "explanation": "色だけに頼らず文字でも必須項目を示すと、色の見え方に左右されにくくなり、アクセシビリティが高まる。"
+        "explanation": "画像リンクにリンク先の目的を表す代替テキストを設定すると、スクリーンリーダーでもリンクの意味を読み上げられる。"
       },
       {
         "label": "1",
-        "text": "音声を確実に聞かせるため、ページ表示時に必ず自動再生する",
+        "text": "画像のファイル名だけを、意味を説明せず読み上げる",
         "choice_id": "center_style_ap_curated_065__choice_1",
         "is_correct": false,
-        "explanation": "利用者の操作を妨げることがある。"
+        "explanation": "ファイル名だけではリンク先の目的が伝わらない場合が多い。"
       },
       {
         "label": "2",
-        "text": "見た目を整えるためだけに、文書全体を表組みで配置する",
+        "text": "代替テキストを空にし、画像の色だけでリンク先を区別する",
         "choice_id": "center_style_ap_curated_065__choice_2",
         "is_correct": false,
-        "explanation": "読み上げ順などを分かりにくくすることがある。"
+        "explanation": "代替テキストが空では画像リンクの目的が読み上げられず、色だけの区別も利用者によっては認識しにくい。"
       },
       {
         "label": "3",
-        "text": "リンク先が分かる説明を省き、画像だけをクリックできるようにする",
+        "text": "リンク先の説明を、画像に埋め込んだ小さな文字だけで示す",
         "choice_id": "center_style_ap_curated_065__choice_3",
         "is_correct": false,
-        "explanation": "リンク先を予測しにくくする。"
+        "explanation": "画像内の小さな文字だけでは、スクリーンリーダーで情報を得られず、弱視の利用者にも読みにくい。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "色だけに頼らず文字でも必須項目を示すと、色の見え方に左右されにくくなり、アクセシビリティが高まる。",
+    "explanation": "画像リンクにリンク先の目的を表す代替テキストを設定すると、スクリーンリーダーでもリンクの意味を読み上げられる。",
     "tags": [
       "アクセシビリティ",
+      "代替テキスト",
       "Webページ",
-      "UI",
-      "レイアウト"
+      "スクリーンリーダー"
     ],
     "primary_term_names": [
       "アクセシビリティ",
@@ -15891,39 +15965,39 @@
   },
   {
     "id": "center_style_ip_curated_073",
-    "stem": "関係データベースで正規化を行う主な目的として最も適当なものはどれか。",
+    "stem": "注文表に，顧客の住所や商品の単価を注文のたびに繰り返し記録していたため，住所変更時に一部の行だけが更新される不整合が生じた。この問題を改善する設計として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "データの重複や矛盾を減らし、一貫性を保ちやすくする",
+        "text": "顧客と商品をそれぞれ別の表で管理し，注文表から顧客番号と商品番号で参照する",
         "choice_id": "center_style_ip_curated_073__choice_0",
         "is_correct": true,
-        "explanation": "正規化は、表の構造を整理してデータの重複や矛盾を減らし、一貫性を保ちやすくするために行う。"
+        "explanation": "顧客や商品の情報を別表に分け，識別番号で参照すれば，同じ住所や単価の重複保存を減らせる。これは正規化を利用した設計であり，更新時の不整合を防ぎやすい。"
       },
       {
         "label": "1",
-        "text": "データを暗号化して、第三者に読めなくする",
+        "text": "注文表の住所と単価を暗号化し，同じ内容を注文ごとに保存する",
         "choice_id": "center_style_ip_curated_073__choice_1",
         "is_correct": false,
-        "explanation": "暗号化の目的である。"
+        "explanation": "暗号化は情報の機密性を高めるが，値の重複や，一部の行だけが更新される不整合は解消しない。"
       },
       {
         "label": "2",
-        "text": "データの圧縮率を必ず高める",
+        "text": "顧客の住所と商品の単価を注文表から削除し，必要なときに入力し直す",
         "choice_id": "center_style_ip_curated_073__choice_2",
         "is_correct": false,
-        "explanation": "圧縮の目的である。"
+        "explanation": "必要な情報を毎回入力し直す方法では，入力負担や誤入力が増え，情報を一貫して管理できない。"
       },
       {
         "label": "3",
-        "text": "バックアップを不要にする",
+        "text": "注文表を複製し，一方を顧客情報用，もう一方を商品情報用として使う",
         "choice_id": "center_style_ip_curated_073__choice_3",
         "is_correct": false,
-        "explanation": "正規化してもバックアップは必要である。"
+        "explanation": "表をそのまま複製すると重複が増え，複数の表で同じ情報を更新する必要が生じるため，不整合を防ぐ設計にはならない。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "正規化は、表の構造を整理してデータの重複や矛盾を減らし、一貫性を保ちやすくするために行う。",
+    "explanation": "顧客や商品の情報をそれぞれ別の表に分け，注文表から識別番号で参照することで，同じ住所や単価を繰り返し保存せずに済む。このように表を適切に分割する正規化は，データの重複を減らし，ある行だけが更新されるといった不整合を防ぐのに役立つ。",
     "tags": [
       "正規化",
       "データベース",
@@ -15979,39 +16053,39 @@
   },
   {
     "id": "center_style_ip_curated_082",
-    "stem": "四つの組のテスト結果を比べる。平均点が全体の中ほどで、得点が平均点の近くに集まっている組を選びたい。重視すべき組合せとして最も適当なものはどれか。",
+    "stem": "四つの組のテスト結果が次の表のようになった。平均点が60点以上65点以下の組のうち、得点が平均点の近くに最も集まっている組はどれか。\n\nA組：平均点62点、標準偏差8点\nB組：平均点64点、標準偏差5点\nC組：平均点67点、標準偏差3点\nD組：平均点58点、標準偏差4点",
     "choices": [
       {
         "label": "0",
-        "text": "平均点が中ほどで、標準偏差が小さい組",
+        "text": "A組",
         "choice_id": "center_style_ip_curated_082__choice_0",
-        "is_correct": true,
-        "explanation": "平均点が中ほどなら、良すぎも悪すぎもしない組と判断しやすい。標準偏差が小さいほど、得点は平均点の近くに集まっている。"
+        "is_correct": false,
+        "explanation": "A組の平均点は条件内だが、標準偏差8点は同じく条件内のB組より大きく、得点のばらつきが大きい。"
       },
       {
         "label": "1",
-        "text": "平均点が中ほどで、標準偏差が大きい組",
+        "text": "B組",
         "choice_id": "center_style_ip_curated_082__choice_1",
-        "is_correct": false,
-        "explanation": "得点のばらつきが大きい。"
+        "is_correct": true,
+        "explanation": "平均点が60点以上65点以下という条件を満たすのはA組とB組である。そのうち標準偏差が小さいB組の方が、得点が平均点の近くに集まっている。"
       },
       {
         "label": "2",
-        "text": "平均点が最も高く、標準偏差が大きい組",
+        "text": "C組",
         "choice_id": "center_style_ip_curated_082__choice_2",
         "is_correct": false,
-        "explanation": "平均点が高すぎ、ばらつきも大きい。"
+        "explanation": "標準偏差は最も小さいが、平均点が67点であり、指定された平均点の範囲外である。"
       },
       {
         "label": "3",
-        "text": "平均点が最も低く、標準偏差が小さい組",
+        "text": "D組",
         "choice_id": "center_style_ip_curated_082__choice_3",
         "is_correct": false,
-        "explanation": "平均点が低すぎる。"
+        "explanation": "標準偏差は小さいが、平均点が58点であり、指定された平均点の範囲外である。"
       }
     ],
-    "correct_choice": "0",
-    "explanation": "平均点が中ほどなら、良すぎも悪すぎもしない組と判断しやすい。標準偏差が小さいほど、得点は平均点の近くに集まっている。",
+    "correct_choice": "1",
+    "explanation": "平均点が60点以上65点以下という条件を満たすのはA組とB組である。そのうち標準偏差が小さいB組の方が、得点が平均点の近くに集まっている。",
     "tags": [
       "標準偏差",
       "分散"
@@ -16050,7 +16124,7 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_ip_curated_082__choice_0",
+    "answer_choice_id": "center_style_ip_curated_082__choice_1",
     "field_ids": [
       "data_db"
     ]
@@ -16317,7 +16391,7 @@
   },
   {
     "id": "center_style_ip_curated_085",
-    "stem": "配列 [3, 5, 1, 2, 4] を選択ソートで昇順に並べる。先頭から順に、その位置以降の最小値を探して入れ替える。3回目の入替えが終わった直後の配列として最も適当なものはどれか。",
+    "stem": "配列 [3, 5, 1, 2, 4] を選択ソートで昇順に並べる。先頭から順に、その位置以降の最小値を探して入れ替える。先頭から3番目の位置を確定する処理が終わった直後の配列として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
@@ -16331,7 +16405,7 @@
         "text": "[1, 2, 3, 5, 4]",
         "choice_id": "center_style_ip_curated_085__choice_1",
         "is_correct": true,
-        "explanation": "1回目は最小値1を先頭へ移して[1, 5, 3, 2, 4]、2回目は2を2番目へ移して[1, 2, 3, 5, 4]となる。3回目は3がすでに3番目なので変わらず[1, 2, 3, 5, 4]である。"
+        "explanation": "1回目は最小値1を先頭へ移して[1, 5, 3, 2, 4]、2回目は2を2番目へ移して[1, 2, 3, 5, 4]となる。3番目の位置を確定する処理では、3がすでに3番目にあるので配列は変わらず[1, 2, 3, 5, 4]である。"
       },
       {
         "label": "2",
@@ -16347,7 +16421,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "1回目は最小値1を先頭へ移して[1, 5, 3, 2, 4]、2回目は2を2番目へ移して[1, 2, 3, 5, 4]となる。3回目は3がすでに3番目なので変わらず[1, 2, 3, 5, 4]である。",
+    "explanation": "1回目は最小値1を先頭へ移して[1, 5, 3, 2, 4]、2回目は2を2番目へ移して[1, 2, 3, 5, 4]となる。3番目の位置を確定する処理では、3がすでに3番目にあるので配列は変わらず[1, 2, 3, 5, 4]である。",
     "tags": [
       "ソート",
       "配列",
@@ -16403,39 +16477,39 @@
   },
   {
     "id": "center_style_fe_curated_064",
-    "stem": "5桁の数54321を、各桁の和を13で割った余りを使って配列に格納する。余りを配列の位置とすると、54321はどの位置に入るか。",
+    "stem": "5桁の数54321について、左の桁から順に1、2、3、4、5の重みを掛け、その積の和を13で割った余りを配列の位置に使う。54321を格納する位置はどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "1",
+        "text": "2",
         "choice_id": "center_style_fe_curated_064__choice_0",
         "is_correct": false,
-        "explanation": "余りを1と誤算している。"
+        "explanation": ""
       },
       {
         "label": "1",
-        "text": "2",
+        "text": "5",
         "choice_id": "center_style_fe_curated_064__choice_1",
-        "is_correct": true,
-        "explanation": "各桁の和は5+4+3+2+1=15である。15を13で割った余りは2なので、位置2に入る。"
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "2",
-        "text": "7",
+        "text": "9",
         "choice_id": "center_style_fe_curated_064__choice_2",
-        "is_correct": false,
-        "explanation": "13で割る前の一部の和などと混同している。"
+        "is_correct": true,
+        "explanation": "5×1＋4×2＋3×3＋2×4＋1×5＝35である。35を13で割った余りは9なので、位置9に格納する。"
       },
       {
         "label": "3",
-        "text": "12",
+        "text": "11",
         "choice_id": "center_style_fe_curated_064__choice_3",
         "is_correct": false,
-        "explanation": "余りではなく13に近い値を選んでいる。"
+        "explanation": ""
       }
     ],
-    "correct_choice": "1",
-    "explanation": "各桁の和は5+4+3+2+1=15である。15を13で割った余りは2なので、位置2に入る。",
+    "correct_choice": "2",
+    "explanation": "5×1＋4×2＋3×3＋2×4＋1×5＝35である。35を13で割った余りは9なので、位置9に格納する。",
     "tags": [
       "ハッシュ値",
       "配列の要素",
@@ -16484,7 +16558,7 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_064__choice_1",
+    "answer_choice_id": "center_style_fe_curated_064__choice_2",
     "field_ids": [
       "algorithm"
     ]
@@ -16662,43 +16736,44 @@
   },
   {
     "id": "center_style_ap_curated_078",
-    "stem": "Webフォームで、入力が必須である項目を利用者に分かりやすく示したい。アクセシビリティの観点から最も適当な方法はどれか。",
+    "stem": "Webフォームで入力内容に誤りがあったとき、利用者が誤りの箇所と直し方を把握しやすくする表示として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "必須項目を赤色にするだけにする",
+        "text": "誤りのある欄の枠を赤色に変えるだけにする",
         "choice_id": "center_style_ap_curated_078__choice_0",
         "is_correct": false,
-        "explanation": "色だけに依存している。"
+        "explanation": "色だけでは、色を判別しにくい利用者やスクリーンリーダーの利用者に誤りが伝わらないことがある。"
       },
       {
         "label": "1",
-        "text": "見た目を整えるため、入力項目全体を表だけで配置する",
+        "text": "ページの先頭に「入力エラー」とだけ表示し、該当欄は示さない",
         "choice_id": "center_style_ap_curated_078__choice_1",
         "is_correct": false,
-        "explanation": "表をレイアウト目的だけに使うと読み上げ順などで問題が起きやすい。"
+        "explanation": "エラーの存在は分かっても、どの欄をどのように直すべきか判断しにくい。"
       },
       {
         "label": "2",
-        "text": "色だけでなく、項目名の横に「必須」などの文字も示す",
+        "text": "誤りのある欄を示し、その近くに誤りの内容と修正方法を文字で表示する",
         "choice_id": "center_style_ap_curated_078__choice_2",
         "is_correct": true,
-        "explanation": "色の違いだけに頼ると、色を判別しにくい利用者や音声読み上げの利用者に伝わりにくい。文字でも「必須」と示すのが適切である。"
+        "explanation": "誤りの箇所と内容、修正方法を文字で具体的に示すと、利用者が問題を把握して修正しやすい。"
       },
       {
         "label": "3",
-        "text": "ページを開いたら説明音声を必ず自動再生する",
+        "text": "入力済みの内容をすべて消して、最初から入力させる",
         "choice_id": "center_style_ap_curated_078__choice_3",
         "is_correct": false,
-        "explanation": "自動再生が利用者の操作を妨げることがある。"
+        "explanation": "正しく入力された内容まで失われ、利用者の負担が大きくなる。"
       }
     ],
     "correct_choice": "2",
-    "explanation": "色の違いだけに頼ると、色を判別しにくい利用者や音声読み上げの利用者に伝わりにくい。文字でも「必須」と示すのが適切である。",
+    "explanation": "誤りの箇所と内容、修正方法を文字で具体的に示すと、利用者が問題を把握して修正しやすい。",
     "tags": [
       "アクセシビリティ",
-      "Webページ",
-      "レイアウト"
+      "Webフォーム",
+      "エラー表示",
+      "ユーザビリティ"
     ],
     "primary_term_names": [
       "アクセシビリティ",
@@ -16925,7 +17000,7 @@
   },
   {
     "id": "center_style_ip_curated_091",
-    "stem": "表計算で、A2とB2に2科目の点数が入っている。合計が120点以上、または、どちらか一方が100点ならC2に「合格」、それ以外は「不合格」と表示したい。式として最も適当なものはどれか。",
+    "stem": "表計算で、A2とB2に2科目の点数が入っている。合計が120点以上、または、少なくとも一方が100点ならC2に「合格」、それ以外は「不合格」と表示したい。式として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
@@ -17187,40 +17262,43 @@
   },
   {
     "id": "center_style_ap_curated_079",
-    "stem": "ある店では，今週末に発注する在庫補充量を次の規則で決める。\n\n・翌週の販売予測量は，先週の販売量 C[n-1] と今週の販売量 C[n] の平均値とする。\n・安全在庫量は，翌週の販売予測量の10%とする。\n・在庫補充量は，翌週の販売予測量から現在の在庫量 B[n] を引き，安全在庫量を加えた量とする。\n\nこのとき，在庫補充量を表す式として最も適当なものはどれか。",
+    "stem": "ある店では、翌週の販売予測量を先週と今週の販売量の平均とし、安全在庫量を販売予測量の10%とする。先週の販売量が80個、今週が100個、今週末の在庫量が35個のとき、「販売予測量＋安全在庫量－現在の在庫量」で求める補充量は何個か。",
     "choices": [
       {
         "label": "0",
-        "text": "(C[n-1]+C[n])/2*1.1-B[n]",
+        "text": "55個",
         "choice_id": "center_style_ap_curated_079__choice_0",
-        "is_correct": true,
-        "explanation": "販売予測量は (C[n-1]+C[n])/2 であり，安全在庫量はその10%である。したがって，在庫補充量は「販売予測量 + 安全在庫量 - 現在の在庫量」なので，(C[n-1]+C[n])/2*1.1-B[n] で表せる。"
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "1",
-        "text": "(C[n-1]+C[n])/2*1.1-B[n-1]",
+        "text": "64個",
         "choice_id": "center_style_ap_curated_079__choice_1",
-        "is_correct": false
+        "is_correct": true,
+        "explanation": "翌週の販売予測量は（80＋100）÷2＝90個、安全在庫量は90×0.1＝9個である。したがって補充量は90＋9－35＝64個となる。"
       },
       {
         "label": "2",
-        "text": "(C[n-1]+C[n])/2+C[n]*0.1-B[n]",
+        "text": "90個",
         "choice_id": "center_style_ap_curated_079__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "3",
-        "text": "(C[n-2]+C[n-1])/2+C[n]*0.1-B[n]",
+        "text": "99個",
         "choice_id": "center_style_ap_curated_079__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       }
     ],
-    "correct_choice": "0",
-    "explanation": "販売予測量は (C[n-1]+C[n])/2 であり，安全在庫量はその10%である。したがって，在庫補充量は「販売予測量 + 安全在庫量 - 現在の在庫量」なので，(C[n-1]+C[n])/2*1.1-B[n] で表せる。",
+    "correct_choice": "1",
+    "explanation": "翌週の販売予測量は（80＋100）÷2＝90個、安全在庫量は90×0.1＝9個である。したがって補充量は90＋9－35＝64個となる。",
     "tags": [
-      "アベレージ",
-      "表計算ソフト",
-      "変数"
+      "数式モデル",
+      "平均値",
+      "在庫管理"
     ],
     "primary_term_names": [
       "アベレージ",
@@ -17256,7 +17334,7 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_ap_curated_079__choice_0",
+    "answer_choice_id": "center_style_ap_curated_079__choice_1",
     "field_ids": [
       "algorithm"
     ]
@@ -17270,7 +17348,7 @@
         "text": "利用方法を理解しやすくするため，画面ごとのオンラインヘルプを充実させる。",
         "choice_id": "center_style_ap_curated_080__choice_0",
         "is_correct": true,
-        "explanation": "ユーザビリティは，利用者が目的を達成しやすく，効率よく快適に使えることに関係する。オンラインヘルプを充実させると操作方法を理解しやすくなるので。"
+        "explanation": "ユーザビリティは，利用者が目的を達成しやすく，効率よく快適に使えることに関係する。オンラインヘルプを充実させると操作方法を理解しやすくなる。"
       },
       {
         "label": "1",
@@ -17293,7 +17371,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "ユーザビリティは，利用者が目的を達成しやすく，効率よく快適に使えることに関係する。オンラインヘルプを充実させると操作方法を理解しやすくなるので。",
+    "explanation": "ユーザビリティは，利用者が目的を達成しやすく，効率よく快適に使えることに関係する。オンラインヘルプを充実させると操作方法を理解しやすくなる。",
     "tags": [
       "ユーザビリティ",
       "UI",
@@ -17425,36 +17503,39 @@
   },
   {
     "id": "center_style_fe_curated_065",
-    "stem": "4桁のデータ7394にチェックディジットを付ける。各桁に左から順に重み1，2，3，4を掛け，その和を11で割った余りを求める。11からその余りを引いた値の1の位をチェックディジットとする。このとき，付けるチェックディジットとして最も適当なものはどれか。",
+    "stem": "4桁のデータ4816にチェックディジットを付ける。各桁に左から順に重み2、1、2、1を掛け、その和を10で割った余りをrとする。（10－r）を10で割った余りをチェックディジットとすると、付ける数字はどれか。",
     "choices": [
       {
         "label": "0",
         "text": "0",
         "choice_id": "center_style_fe_curated_065__choice_0",
-        "is_correct": true,
-        "explanation": "重み付きの和は 7*1+3*2+9*3+4*4=56 である。56を11で割ると余りは1なので，11-1=10となる。この1の位は0だから，チェックディジットは0である。"
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "1",
-        "text": "1",
+        "text": "4",
         "choice_id": "center_style_fe_curated_065__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "2",
-        "text": "5",
+        "text": "6",
         "choice_id": "center_style_fe_curated_065__choice_2",
-        "is_correct": false
+        "is_correct": true,
+        "explanation": "重み付きの和は4×2＋8×1＋1×2＋6×1＝24で、10で割った余りrは4である。（10－4）を10で割った余りは6なので、チェックディジットは6となる。"
       },
       {
         "label": "3",
-        "text": "9",
+        "text": "8",
         "choice_id": "center_style_fe_curated_065__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       }
     ],
-    "correct_choice": "0",
-    "explanation": "重み付きの和は 7*1+3*2+9*3+4*4=56 である。56を11で割ると余りは1なので，11-1=10となる。この1の位は0だから，チェックディジットは0である。",
+    "correct_choice": "2",
+    "explanation": "重み付きの和は4×2＋8×1＋1×2＋6×1＝24で、10で割った余りrは4である。（10－4）を10で割った余りは6なので、チェックディジットは6となる。",
     "tags": [
       "チェックディジット",
       "データ",
@@ -17503,7 +17584,7 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_065__choice_0",
+    "answer_choice_id": "center_style_fe_curated_065__choice_2",
     "field_ids": [
       "algorithm"
     ]
@@ -17776,7 +17857,7 @@
     "tags": [
       "UI",
       "ユーザビリティ",
-      "オートフィル"
+      "オートコンプリート"
     ],
     "primary_term_names": [
       "UI",
@@ -18205,31 +18286,33 @@
         "label": "0",
         "text": "Bさんは，DさんとEさんがBccで受信したことを知ることができる。",
         "choice_id": "center_style_ip_curated_104__choice_0",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "Bccに指定されたDさんとEさんは、ToやCcで受信したBさんには表示されない。"
       },
       {
         "label": "1",
         "text": "Cさんは，BさんがToで受信したことを知ることができる。",
         "choice_id": "center_style_ip_curated_104__choice_1",
         "is_correct": true,
-        "explanation": "ToとCcの宛先は通常，受信者から見える。一方，Bccに指定された受信者は他の受信者から見えず，Bcc同士でも互いを知ることはできない。したがってCさんはBさんのTo指定を知ることができる。0，2，。"
+        "explanation": "ToとCcの宛先は通常、受信者から見える。一方、Bccに指定された受信者はTo・Cc欄には表示されず、Bccで受信した人同士も通常は互いの指定を確認できない。したがって、CさんはBさんがToで受信したことを確認できる。"
       },
       {
         "label": "2",
         "text": "Dさんは，EさんがBccで受信したことを知ることができる。",
         "choice_id": "center_style_ip_curated_104__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "Dさんには、同じくBccに指定されたEさんの宛先は表示されない。"
       },
       {
         "label": "3",
         "text": "Eさんは，DさんがBccで受信したことを知ることができる。",
         "choice_id": "center_style_ip_curated_104__choice_3",
         "is_correct": false,
-        "explanation": "いずれもBccの宛先が見えるとしている点が誤りである。"
+        "explanation": "Eさんには、同じくBccに指定されたDさんの宛先は表示されない。"
       }
     ],
     "correct_choice": "1",
-    "explanation": "ToとCcの宛先は通常，受信者から見える。一方，Bccに指定された受信者は他の受信者から見えず，Bcc同士でも互いを知ることはできない。したがってCさんはBさんのTo指定を知ることができる。0，2，。",
+    "explanation": "ToとCcの宛先は通常、受信者から見える。一方、Bccに指定された受信者はTo・Cc欄には表示されず、Bccで受信した人同士も通常は互いの指定を確認できない。したがって、CさんはBさんがToで受信したことを確認できる。",
     "tags": [
       "BCC",
       "E-mail",
@@ -18397,7 +18480,7 @@
         "text": "-128から127",
         "choice_id": "center_style_ap_curated_081__choice_1",
         "is_correct": true,
-        "explanation": "nビットの2の補数表現では，表せる整数の範囲は -2^(n-1) から 2^(n-1)-1 である。8ビットでは -128 から 127 になる。符号なし整数の範囲と混同しないようにする。"
+      "explanation": "nビットの2の補数表現では、表せる整数の範囲は－2⁽ⁿ⁻¹⁾から2⁽ⁿ⁻¹⁾－1である。8ビットでは－128から127になる。符号なし整数の範囲と混同しないようにする。"
       },
       {
         "label": "2",
@@ -18413,7 +18496,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "nビットの2の補数表現では，表せる整数の範囲は -2^(n-1) から 2^(n-1)-1 である。8ビットでは -128 から 127 になる。符号なし整数の範囲と混同しないようにする。",
+    "explanation": "nビットの2の補数表現では、表せる整数の範囲は－2⁽ⁿ⁻¹⁾から2⁽ⁿ⁻¹⁾－1である。8ビットでは－128から127になる。符号なし整数の範囲と混同しないようにする。",
     "tags": [
       "2の補数",
       "bit",
@@ -18975,8 +19058,8 @@
     "explanation": "dは3，nは13に対応し，どちらも10で割った余りは3なので同じハッシュ値になる。ハッシュ関数の規則をそれぞれの文字に適用して，同じ余りになる組合せを探す。",
     "tags": [
       "ハッシュ値",
-      "ASCII",
-      "剰余"
+      "剰余",
+      "衝突"
     ],
     "primary_term_names": [
       "ハッシュ値",
@@ -19014,41 +19097,44 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_ap_curated_084__choice_3",
     "field_ids": [
-      "society_security"
+      "algorithm"
     ]
   },
   {
     "id": "center_style_ap_curated_085",
-    "stem": "音声を標本化周波数10kHz，量子化ビット数16ビットで4秒間記録し，その後，データ量を4分の1に圧縮する。圧縮後のデータ量は何kバイトか。ここで，1kバイトは1,000バイトとする。",
+    "stem": "ステレオ音声を標本化周波数12kHz、量子化ビット数12ビットで5秒間記録し、その後、データ量を3分の1に圧縮する。圧縮後のデータ量は何kバイトか。ただし、ステレオは2チャンネル、1kバイト＝1,000バイトとする。",
     "choices": [
       {
         "label": "0",
-        "text": "10kバイト",
+        "text": "30kバイト",
         "choice_id": "center_style_ap_curated_085__choice_0",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "1",
-        "text": "20kバイト",
+        "text": "60kバイト",
         "choice_id": "center_style_ap_curated_085__choice_1",
         "is_correct": true,
-        "explanation": "記録前のデータ量は 10,000回/秒 × 16ビット × 4秒 = 640,000ビットで，80,000バイト，すなわち80kバイトである。これを4分の1に圧縮するので20kバイトになる。ビットからバイトへの換算も忘れない。"
+        "explanation": "圧縮前は12,000回/秒×12ビット×5秒×2チャンネル＝1,440,000ビットで、180,000バイト＝180kバイトである。3分の1に圧縮すると60kバイトになる。"
       },
       {
         "label": "2",
-        "text": "80kバイト",
+        "text": "180kバイト",
         "choice_id": "center_style_ap_curated_085__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "3",
-        "text": "160kバイト",
+        "text": "360kバイト",
         "choice_id": "center_style_ap_curated_085__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       }
     ],
     "correct_choice": "1",
-    "explanation": "記録前のデータ量は 10,000回/秒 × 16ビット × 4秒 = 640,000ビットで，80,000バイト，すなわち80kバイトである。これを4分の1に圧縮するので20kバイトになる。ビットからバイトへの換算も忘れない。",
+    "explanation": "圧縮前は12,000回/秒×12ビット×5秒×2チャンネル＝1,440,000ビットで、180,000バイト＝180kバイトである。3分の1に圧縮すると60kバイトになる。",
     "tags": [
       "標本化周波数",
       "量子化ビット数",
@@ -19191,43 +19277,43 @@
   },
   {
     "id": "center_style_ip_curated_110",
-    "stem": "関係データベースで，表を適切に分割するなどしてデータの重複を減らす正規化を行う主な目的として最も適当なものはどれか。",
+    "stem": "「所属コード、所属名、責任者名」を含む社員表で、同じ所属の社員ごとに所属名と責任者名が繰り返し記録されている。重複と更新時の矛盾を減らす表の分け方として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "画像や音声の圧縮率を高めるため",
+        "text": "社員表のすべての文字列を暗号化し、表の構成は変えない",
         "choice_id": "center_style_ip_curated_110__choice_0",
         "is_correct": false,
-        "explanation": "データ圧縮の目的である。"
+        "explanation": "暗号化は内容を読まれにくくする処理であり、同じ所属情報の重複や更新時の矛盾は解消しない。"
       },
       {
         "label": "1",
-        "text": "データの重複や矛盾を減らし，一貫性を保ちやすくするため",
+        "text": "「所属コード、所属名、責任者名」を所属表へ分け、社員表には所属コードを残して参照させる",
         "choice_id": "center_style_ip_curated_110__choice_1",
         "is_correct": true,
-        "explanation": "正規化は，関係データベースの表を整理し，重複や更新時の矛盾を減らして一貫性を保ちやすくするために行う。"
+        "explanation": "所属ごとに決まる所属名と責任者名を所属表へ分け、社員表から所属コードで参照すれば、所属情報の重複と更新時の矛盾を減らせる。"
       },
       {
         "label": "2",
-        "text": "すべてのデータを暗号化し，内容を読めなくするため",
+        "text": "社員ごとに所属名と責任者名の列をさらに複製する",
         "choice_id": "center_style_ip_curated_110__choice_2",
         "is_correct": false,
-        "explanation": "暗号化の目的である。"
+        "explanation": "同じ情報を複製すると重複が増え、変更時に値が食い違う可能性が高まる。"
       },
       {
         "label": "3",
-        "text": "通信速度を必ず高くするため",
+        "text": "所属コードを削除し、所属名だけを社員表の主キーにする",
         "choice_id": "center_style_ip_curated_110__choice_3",
         "is_correct": false,
-        "explanation": "通信速度の改善を直接の目的とした説明ではない。"
+        "explanation": "所属名だけでは各社員を一意に識別できず、社員表の主キーとして適切ではない。"
       }
     ],
     "correct_choice": "1",
-    "explanation": "正規化は，関係データベースの表を整理し，重複や更新時の矛盾を減らして一貫性を保ちやすくするために行う。",
+    "explanation": "所属ごとに決まる所属名と責任者名を所属表へ分け、社員表から所属コードで参照すれば、所属情報の重複と更新時の矛盾を減らせる。",
     "tags": [
+      "データベース",
       "正規化",
-      "RDB",
-      "テーブル"
+      "更新時異常"
     ],
     "primary_term_names": [
       "正規化",
@@ -21308,9 +21394,9 @@
     "correct_choice": "2",
     "explanation": "6人から2人の組合せを選ぶので，経路数は 6×5÷2=15 である。同じ2人の組合せを逆向きに重複して数えないため，最後に2で割る。",
     "tags": [
-      "1対1",
-      "コミュニケーション",
-      "場合の数"
+      "場合の数",
+      "組合せ",
+      "ネットワーク構成"
     ],
     "primary_term_names": [
       "1対1",
@@ -21348,7 +21434,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_ip_curated_131__choice_2",
     "field_ids": [
-      "network"
+      "algorithm"
     ]
   },
   {
@@ -22069,39 +22155,39 @@
   },
   {
     "id": "center_style_ip_curated_143",
-    "stem": "10^-9を表すSI接頭語と，10^9を表すSI接頭語の組合せとして，最も適当なものはどれか。",
+    "stem": "10⁻⁹を表すSI接頭語と、10⁹を表すSI接頭語の記号の組合せとして、最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
         "text": "n と G",
         "choice_id": "center_style_ip_curated_143__choice_0",
         "is_correct": true,
-        "explanation": "SI接頭語では，10^-9をナノといい記号はn，10^9をギガといい記号はGで表す。小さい単位と大きい単位の向きを取り違えないようにする。"
+        "explanation": "SI接頭語では、10⁻⁹をナノといい記号はn、10⁹をギガといい記号はGで表す。小さい単位と大きい単位の向きを取り違えないようにする。"
       },
       {
         "label": "1",
         "text": "m と k",
         "choice_id": "center_style_ip_curated_143__choice_1",
         "is_correct": false,
-        "explanation": "10^-3，kは10^3である。"
+      "explanation": "mは10⁻³を表すミリ，kは10³を表すキロの記号である。"
       },
       {
         "label": "2",
         "text": "p と M",
         "choice_id": "center_style_ip_curated_143__choice_2",
         "is_correct": false,
-        "explanation": "10^-12，Mは10^6である。"
+      "explanation": "pは10⁻¹²を表すピコ，Mは10⁶を表すメガの記号である。"
       },
       {
         "label": "3",
         "text": "μ と T",
         "choice_id": "center_style_ip_curated_143__choice_3",
         "is_correct": false,
-        "explanation": "10^-6，Tは10^12である。"
+      "explanation": "μは10⁻⁶を表すマイクロ，Tは10¹²を表すテラの記号である。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "SI接頭語では，10^-9をナノといい記号はn，10^9をギガといい記号はGで表す。小さい単位と大きい単位の向きを取り違えないようにする。",
+    "explanation": "SI接頭語では、10⁻⁹をナノといい記号はn、10⁹をギガといい記号はGで表す。小さい単位と大きい単位の向きを取り違えないようにする。",
     "tags": [
       "SI接頭語",
       "接頭語",
@@ -22478,39 +22564,39 @@
   },
   {
     "id": "center_style_ip_curated_148",
-    "stem": "ファイル名の末尾に付く拡張子「.avi」が表す対象として，最も適当なものはどれか。",
+    "stem": "映像と音声などを一つのファイルに格納する動画用コンテナ形式で使われる拡張子として、最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "動画",
+        "text": ".avi",
         "choice_id": "center_style_ip_curated_148__choice_0",
         "is_correct": true,
-        "explanation": ".aviは，動画ファイルで使われる拡張子の一つである。静止画，音声だけのデータ，表計算の数式を表す拡張子ではない。"
+        "explanation": ".aviは、映像や音声などを格納できる動画用コンテナ形式AVIの拡張子である。"
       },
       {
         "label": "1",
-        "text": "静止画",
+        "text": ".csv",
         "choice_id": "center_style_ip_curated_148__choice_1",
         "is_correct": false,
-        "explanation": "静止画ファイルを表す拡張子ではない。静止画では.jpgや.pngなどが使われる。"
+        "explanation": ".csvは、表形式のデータをカンマ区切りで保存する形式に使われる。"
       },
       {
         "label": "2",
-        "text": "音声だけのデータ",
+        "text": ".txt",
         "choice_id": "center_style_ip_curated_148__choice_2",
         "is_correct": false,
-        "explanation": "音声だけのデータを表す拡張子ではない。音声では.mp3や.wavなどが使われる。"
+        "explanation": ".txtは、一般的なプレーンテキストファイルに使われる。"
       },
       {
         "label": "3",
-        "text": "表計算の数式",
+        "text": ".xlsx",
         "choice_id": "center_style_ip_curated_148__choice_3",
         "is_correct": false,
-        "explanation": "表計算の数式を表すものではなく，動画ファイルの拡張子である。"
+        "explanation": ".xlsxは、表計算ソフトのブックに使われる形式である。"
       }
     ],
     "correct_choice": "0",
-    "explanation": ".aviは，動画ファイルで使われる拡張子の一つである。静止画，音声だけのデータ，表計算の数式を表す拡張子ではない。",
+    "explanation": ".aviは、映像や音声などを格納できる動画用コンテナ形式AVIの拡張子である。",
     "tags": [
       "拡張子",
       "動画",
@@ -22566,43 +22652,43 @@
   },
   {
     "id": "center_style_ip_curated_150",
-    "stem": "年齢，性別，言語，障害の有無などにかかわらず，できるだけ多くの人が使いやすいように設計する考え方として，最も適当なものはどれか。",
+    "stem": "公共施設の入口を新設する際、ユニバーサルデザインの考え方を最もよく表す計画はどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "ユニバーサルデザイン",
+        "text": "初めから、階段を使う人も車いすやベビーカーを使う人も同じ入口へ移動しやすい段差のない経路を設ける",
         "choice_id": "center_style_ip_curated_150__choice_0",
         "is_correct": true,
-        "explanation": "ユニバーサルデザインは，年齢，文化，能力，障害の有無などにかかわらず，できるだけ多くの人に使いやすくする設計の考え方である。"
+        "explanation": "多様な利用者が特別な手続をせず同じ入口を利用しやすいよう、計画段階から段差のない経路を設けることはユニバーサルデザインの考え方に合う。"
       },
       {
         "label": "1",
-        "text": "バックアップ",
+        "text": "階段だけで開館し、要望があった利用者には職員がその都度持ち上げて対応する",
         "choice_id": "center_style_ip_curated_150__choice_1",
         "is_correct": false,
-        "explanation": "データを失ったときに備えて複製を保存すること。"
+        "explanation": "利用者ごとの人的支援だけに頼るのではなく、初めから多様な人が利用しやすい環境を設計することが望ましい。"
       },
       {
         "label": "2",
-        "text": "暗号化",
+        "text": "正面入口は階段だけにし、車いす利用者には事前申請した場合だけ遠い搬入口を案内する",
         "choice_id": "center_style_ip_curated_150__choice_2",
         "is_correct": false,
-        "explanation": "内容を第三者に読まれにくくすること。"
+        "explanation": "特定の利用者に事前申請や遠回りを求める設計は、誰もが同じように利用しやすい設計とはいえない。"
       },
       {
         "label": "3",
-        "text": "負荷分散",
+        "text": "入口の外観を統一するため、案内表示や手すりを設けない",
         "choice_id": "center_style_ip_curated_150__choice_3",
         "is_correct": false,
-        "explanation": "処理や通信の負担を複数に分けること。"
+        "explanation": "外観だけを優先して必要な案内や支援設備を省くと、多様な利用者の使いやすさを損なう。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "ユニバーサルデザインは，年齢，文化，能力，障害の有無などにかかわらず，できるだけ多くの人に使いやすくする設計の考え方である。",
+    "explanation": "多様な利用者が特別な手続をせず同じ入口を利用しやすいよう、計画段階から段差のない経路を設けることはユニバーサルデザインの考え方に合う。",
     "tags": [
-      "UD",
+      "ユニバーサルデザイン",
       "アクセシビリティ",
-      "情報デザイン"
+      "公共施設"
     ],
     "primary_term_names": [
       "UD",
@@ -23350,7 +23436,7 @@
   },
   {
     "id": "center_style_ip_curated_165",
-    "stem": "著作権法で保護される対象として，最も適当なものはどれか。",
+    "stem": "著作権法による保護の対象となり得るものとして，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
@@ -23637,7 +23723,7 @@
     "correct_choice": "0",
     "explanation": "公開鍵暗号方式では，受信者の公開鍵で暗号化したデータは，対応する受信者の秘密鍵で復号する。したがってBさんの公開鍵で暗号化したメールはBさんの秘密鍵で復号する。",
     "tags": [
-      "公開かぎ暗号方式",
+      "公開鍵暗号方式",
       "公開鍵",
       "秘密鍵"
     ],
@@ -23691,41 +23777,43 @@
   },
   {
     "id": "center_style_ap_curated_107",
-    "stem": "伝送速度64kビット/秒の回線でデータを連続送信したところ，平均して100秒に1回，1ビットの誤りが発生した。この回線のビット誤り率として，最も適当なものはどれか。",
+    "stem": "伝送速度2Mビット/秒の回線で50秒間データを送り、5ビットの誤りが発生した。この間のビット誤り率として最も適当なものはどれか。ただし、1Mビット＝1,000,000ビットとする。",
     "choices": [
       {
         "label": "0",
-        "text": "1.56×10^-7",
+        "text": "5.0×10⁻⁸",
         "choice_id": "center_style_ap_curated_107__choice_0",
         "is_correct": true,
-        "explanation": "100秒間に送るビット数は64,000×100=6,400,000ビットである。1ビットの誤りなので，誤り率は1/6,400,000=1.5625×10^-7となる。"
+        "explanation": "送信したデータは2,000,000×50＝100,000,000ビットである。5ビットの誤りが発生したので、ビット誤り率は5÷100,000,000＝5.0×10⁻⁸となる。"
       },
       {
         "label": "1",
-        "text": "1.95×10^-8",
+        "text": "2.0×10⁻⁷",
         "choice_id": "center_style_ap_curated_107__choice_1",
         "is_correct": false,
-        "explanation": "送信ビット数を大きく見積もりすぎている。"
+        "explanation": ""
       },
       {
         "label": "2",
-        "text": "1.56×10^-4",
+        "text": "2.5×10⁻⁶",
         "choice_id": "center_style_ap_curated_107__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "3",
-        "text": "1.95×10^-5",
+        "text": "5.0×10⁻⁵",
         "choice_id": "center_style_ap_curated_107__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       }
     ],
     "correct_choice": "0",
-    "explanation": "100秒間に送るビット数は64,000×100=6,400,000ビットである。1ビットの誤りなので，誤り率は1/6,400,000=1.5625×10^-7となる。",
+    "explanation": "送信したデータは2,000,000×50＝100,000,000ビットである。5ビットの誤りが発生したので、ビット誤り率は5÷100,000,000＝5.0×10⁻⁸となる。",
     "tags": [
-      "bit",
-      "bps",
-      "データ量"
+      "ビット誤り率",
+      "伝送速度",
+      "ネットワーク"
     ],
     "primary_term_names": [
       "bit",
@@ -23772,7 +23860,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_ap_curated_107__choice_0",
     "field_ids": [
-      "digital"
+      "network"
     ]
   },
   {
@@ -23784,7 +23872,7 @@
         "text": "2.8%",
         "choice_id": "center_style_ap_curated_108__choice_0",
         "is_correct": true,
-        "explanation": "多数決が誤るのは，3回のうち2回または3回が誤る場合である。確率は3×0.1^2×0.9+0.1^3=0.027+0.001=0.028，つまり2.8%である。"
+        "explanation": "多数決が誤るのは，3回のうち2回または3回が誤る場合である。確率は3×0.1²×0.9+0.1³＝0.027+0.001＝0.028，つまり2.8%である。"
       },
       {
         "label": "1",
@@ -23809,7 +23897,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "多数決が誤るのは，3回のうち2回または3回が誤る場合である。確率は3×0.1^2×0.9+0.1^3=0.027+0.001=0.028，つまり2.8%である。",
+    "explanation": "多数決が誤るのは，3回のうち2回または3回が誤る場合である。確率は3×0.1²×0.9+0.1³＝0.027+0.001＝0.028，つまり2.8%である。",
     "tags": [
       "bit",
       "確率",
@@ -24132,41 +24220,43 @@
   },
   {
     "id": "center_style_fe_curated_084",
-    "stem": "32ビットで表現できるビットパターンの個数は，24ビットで表現できるビットパターンの個数の何倍か。",
+    "stem": "1画素を24ビットで表すカラー画像で表現できる色の数は、1画素を8ビットで表す画像の何倍か。",
     "choices": [
       {
         "label": "0",
-        "text": "256",
+        "text": "256倍",
         "choice_id": "center_style_fe_curated_084__choice_0",
-        "is_correct": true,
-        "explanation": "nビットで表現できるパターン数は2^n通りである。したがって2^32/2^24=2^8=256倍である。"
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "1",
-        "text": "8",
+        "text": "65,536倍",
         "choice_id": "center_style_fe_curated_084__choice_1",
-        "is_correct": false,
-        "explanation": "ビット数の差8をそのまま答えている。"
+        "is_correct": true,
+        "explanation": "nビットで表現できるパターン数は2ⁿ通りである。ビット数の差は24－8＝16なので、色数の比は2²⁴÷2⁸＝2¹⁶＝65,536倍となる。"
       },
       {
         "label": "2",
-        "text": "16",
+        "text": "16倍",
         "choice_id": "center_style_fe_curated_084__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "3",
-        "text": "128",
+        "text": "16,777,216倍",
         "choice_id": "center_style_fe_curated_084__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       }
     ],
-    "correct_choice": "0",
-    "explanation": "nビットで表現できるパターン数は2^n通りである。したがって2^32/2^24=2^8=256倍である。",
+    "correct_choice": "1",
+    "explanation": "nビットで表現できるパターン数は2ⁿ通りである。ビット数の差は24－8＝16なので、色数の比は2²⁴÷2⁸＝2¹⁶＝65,536倍となる。",
     "tags": [
-      "bit",
-      "データ量",
-      "2進数"
+      "色数",
+      "ビット深度",
+      "デジタル画像"
     ],
     "primary_term_names": [
       "bit",
@@ -24211,21 +24301,21 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_084__choice_0",
+    "answer_choice_id": "center_style_fe_curated_084__choice_1",
     "field_ids": [
       "digital"
     ]
   },
   {
     "id": "center_style_fe_curated_085",
-    "stem": "10Mバイトのデータを100,000ビット/秒の回線で転送する。伝送効率が50%，1Mバイト=10^6バイトのとき，転送時間は何秒か。",
+    "stem": "10Mバイトのデータを100,000ビット/秒の回線で転送する。伝送効率が50%，1Mバイト＝10⁶バイトのとき，転送時間は何秒か。",
     "choices": [
       {
         "label": "0",
         "text": "1,600",
         "choice_id": "center_style_fe_curated_085__choice_0",
         "is_correct": true,
-        "explanation": "データ量は10×10^6バイト=80,000,000ビットである。実効速度は100,000×0.5=50,000ビット/秒なので，転送時間は80,000,000/50,000=1,600秒である。"
+        "explanation": "データ量は10×10⁶バイト＝80,000,000ビットである。実効速度は100,000×0.5＝50,000ビット/秒なので，転送時間は80,000,000÷50,000＝1,600秒である。"
       },
       {
         "label": "1",
@@ -24248,12 +24338,11 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "データ量は10×10^6バイト=80,000,000ビットである。実効速度は100,000×0.5=50,000ビット/秒なので，転送時間は80,000,000/50,000=1,600秒である。",
+    "explanation": "データ量は10×10⁶バイト＝80,000,000ビットである。実効速度は100,000×0.5＝50,000ビット/秒なので，転送時間は80,000,000÷50,000＝1,600秒である。",
     "tags": [
-      "B",
-      "bit",
-      "bps",
-      "データ量"
+      "データ量",
+      "伝送速度",
+      "伝送効率"
     ],
     "primary_term_names": [
       "B",
@@ -24309,7 +24398,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_fe_curated_085__choice_0",
     "field_ids": [
-      "digital"
+      "network"
     ]
   },
   {
@@ -24321,7 +24410,7 @@
         "text": "20",
         "choice_id": "center_style_fe_curated_086__choice_0",
         "is_correct": true,
-        "explanation": "1Mバイトは1,024×1,024=2^10×2^10=2^20バイトである。2^20個の場所を区別するには20ビット分のアドレスが必要なので，信号線は20本である。"
+        "explanation": "1Mバイトは1,024×1,024＝2¹⁰×2¹⁰＝2²⁰バイトである。2²⁰個の場所を区別するには20ビット分のアドレスが必要なので、信号線は20本である。"
       },
       {
         "label": "1",
@@ -24344,7 +24433,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "1Mバイトは1,024×1,024=2^10×2^10=2^20バイトである。2^20個の場所を区別するには20ビット分のアドレスが必要なので，信号線は20本である。",
+    "explanation": "1Mバイトは1,024×1,024＝2¹⁰×2¹⁰＝2²⁰バイトである。2²⁰個の場所を区別するには20ビット分のアドレスが必要なので、信号線は20本である。",
     "tags": [
       "メモリ",
       "B",
@@ -24681,43 +24770,44 @@
   },
   {
     "id": "center_style_fe_curated_090",
-    "stem": "機密ファイルが保存されていた磁気ディスクを廃棄する。ファイルの内容を復元されにくくする対策として，最も適当なものはどれか。",
+    "stem": "ウェアレベリング機能をもつSSDを廃棄する。通常のファイル削除や同じファイルの上書きだけでは、すべての記憶領域が消去されたと保証できない。このSSD内の機密データを復元されにくくする対策として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "ディスク上の全領域を特定のビット列や乱数で上書きする。",
+        "text": "製造元が提供するセキュアイレース機能などでSSD全体を消去し、必要に応じて物理的に破壊する",
         "choice_id": "center_style_fe_curated_090__choice_0",
         "is_correct": true,
-        "explanation": "ファイルを通常の方法で削除しても，ディスク上にデータの痕跡が残ることがある。復元されにくくするには，全領域を別のビット列などで上書きする。"
+        "explanation": "SSDではウェアレベリングによって通常の上書きが全領域に及ばないことがある。対応するセキュアイレース機能を用い、再利用しない場合は物理的破壊も組み合わせると復元されにくくできる。"
       },
       {
         "label": "1",
-        "text": "ファイル名だけを変更する。",
+        "text": "デスクトップ上のショートカットだけを削除する",
         "choice_id": "center_style_fe_curated_090__choice_1",
         "is_correct": false,
-        "explanation": "データ本体を消さない。"
+        "explanation": "ショートカットを削除しても、SSD上の元データは消去されない。"
       },
       {
         "label": "2",
-        "text": "ファイルを圧縮してから削除する。",
+        "text": "機密ファイルの名前と拡張子だけを変更する",
         "choice_id": "center_style_fe_curated_090__choice_2",
         "is_correct": false,
-        "explanation": "圧縮しても復元可能なデータが残る。"
+        "explanation": "ファイル名や拡張子を変えても、保存された内容は残る。"
       },
       {
         "label": "3",
-        "text": "マスタブートレコードだけを消去する。",
+        "text": "SSDの空き容量の表示だけを確認して廃棄する",
         "choice_id": "center_style_fe_curated_090__choice_3",
         "is_correct": false,
-        "explanation": "起動情報を消すだけで，ファイルの内容そのものを消去したことにはならない。"
+        "explanation": "空き容量の表示だけでは、データが復元できない状態になったか確認できない。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "ファイルを通常の方法で削除しても，ディスク上にデータの痕跡が残ることがある。復元されにくくするには，全領域を別のビット列などで上書きする。",
+    "explanation": "SSDではウェアレベリングによって通常の上書きが全領域に及ばないことがある。対応するセキュアイレース機能を用い、再利用しない場合は物理的破壊も組み合わせると復元されにくくできる。",
     "tags": [
-      "ファイル",
-      "bit",
-      "情報セキュリティ"
+      "SSD",
+      "セキュアイレース",
+      "情報漏えい",
+      "データ消去"
     ],
     "primary_term_names": [
       "ファイル",
@@ -24978,7 +25068,7 @@
     "explanation": "共通鍵方式では通信相手と同じ鍵を共有するため，相手が増えると鍵の配布や保管の管理が難しくなりやすい。",
     "tags": [
       "共通鍵方式",
-      "公開かぎ暗号方式",
+      "公開鍵暗号方式",
       "暗号化",
       "公開鍵",
       "秘密鍵"
@@ -25133,10 +25223,10 @@
     "choices": [
       {
         "label": "0",
-        "text": "重要なファイルを，PCから取り外せる外部記憶装置などに定期的にバックアップしておく。",
+        "text": "重要なファイルを外部記憶装置などへ定期的にバックアップし、バックアップ後はPCから切り離して保管する。",
         "choice_id": "center_style_ip_curated_174__choice_0",
         "is_correct": true,
-        "explanation": "ランサムウェアはファイルを暗号化して利用できなくすることがあるため，感染前のバックアップがあれば復旧しやすく，損害を小さくできる。"
+        "explanation": "バックアップをPCから切り離して保管すれば、PCがランサムウェアに感染したときにバックアップまで暗号化される危険を減らし、感染前の状態へ復旧しやすくなる。"
       },
       {
         "label": "1",
@@ -25159,7 +25249,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "ランサムウェアはファイルを暗号化して利用できなくすることがあるため，感染前のバックアップがあれば復旧しやすく，損害を小さくできる。",
+    "explanation": "バックアップをPCから切り離して保管すれば、PCがランサムウェアに感染したときにバックアップまで暗号化される危険を減らし、感染前の状態へ復旧しやすくなる。",
     "tags": [
       "ランサムウェア",
       "バックアップ",
@@ -25247,7 +25337,7 @@
     "correct_choice": "0",
     "explanation": "公開鍵暗号方式で相手だけが読めるように送るには，受信者であるB社の公開鍵で暗号化し，B社だけが持つ秘密鍵で復号する。",
     "tags": [
-      "公開かぎ暗号方式",
+      "公開鍵暗号方式",
       "公開鍵",
       "秘密鍵",
       "暗号化"
@@ -25399,7 +25489,7 @@
   },
   {
     "id": "center_style_ip_curated_177",
-    "stem": "サーバ室への入室管理で，暗証番号に加えて虹彩認証を用い，無許可の人が入室しにくくした。この対策が特に高める情報セキュリティの要素として，最も適当なものはどれか。",
+    "stem": "サーバ室への入室管理で、暗証番号に加えて虹彩認証を用い、無許可の人に室内の機密情報を閲覧される危険を減らした。この対策が特に高める情報セキュリティの要素として、最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
@@ -25575,43 +25665,43 @@
   },
   {
     "id": "center_style_fe_curated_092",
-    "stem": "データ項目名の末尾に「名」「コード」「金額」「年月日」などを必ず付け，さらに項目名と意味を辞書に登録する命名規約を設けた。この規約だけでは防ぎにくい問題として，最も適当なものはどれか。",
+    "stem": "データ項目辞書に、項目名「売上金額」とその意味だけを登録している。負の値や想定を超える金額が誤って登録されるのを防ぐため、辞書やデータベースの定義に追加すべき情報として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "同じ項目名の金額について，取り得る値の範囲が表によって異なる。",
+        "text": "売上金額として許される最小値と最大値",
         "choice_id": "center_style_fe_curated_092__choice_0",
         "is_correct": true,
-        "explanation": "この規約は，区分語によるデータ型の統一や，同義語・同音異義語の整理には役立つが，表ごとに許される値の範囲までは直接そろえられない。"
+        "explanation": "許容する値の範囲を定め、制約として設定すれば、負の値や想定を超える金額の登録を防ぎやすい。"
       },
       {
         "label": "1",
-        "text": "「受信年月日」のデータ型が，日付型と文字列型で混在する。",
+        "text": "売上金額を入力する画面の背景色",
         "choice_id": "center_style_fe_curated_092__choice_1",
         "is_correct": false,
-        "explanation": "「年月日」の区分語でデータ型を決めれば防ぎやすい。"
+        "explanation": "背景色は見た目に関する情報であり、登録できる数値の範囲を制限しない。"
       },
       {
         "label": "2",
-        "text": "「賞与金額」と同じ意味で「ボーナス金額」という項目名が使われる。",
+        "text": "売上金額を表示する一覧の行間",
         "choice_id": "center_style_fe_curated_092__choice_2",
         "is_correct": false,
-        "explanation": "辞書で同義語を整理すれば防ぎやすい。"
+        "explanation": "行間は表示方法に関する情報であり、不正な値の登録を防ぐ制約にはならない。"
       },
       {
         "label": "3",
-        "text": "「取引先」のように，コードか名称か分からない項目名が使われる。",
+        "text": "売上金額を印刷する用紙の向き",
         "choice_id": "center_style_fe_curated_092__choice_3",
         "is_correct": false,
-        "explanation": "末尾に区分語を必ず付ける規約で防ぎやすい。"
+        "explanation": "用紙の向きは印刷設定であり、データとして許される値の範囲とは関係しない。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "この規約は，区分語によるデータ型の統一や，同義語・同音異義語の整理には役立つが，表ごとに許される値の範囲までは直接そろえられない。",
+    "explanation": "許容する値の範囲を定め、制約として設定すれば、負の値や想定を超える金額の登録を防ぎやすい。",
     "tags": [
-      "データベース",
-      "フィールド",
-      "テーブル"
+      "データ項目辞書",
+      "整合性制約",
+      "データベース"
     ],
     "primary_term_names": [
       "データベース",
@@ -25663,14 +25753,14 @@
   },
   {
     "id": "center_style_ip_curated_178",
-    "stem": "関係データベースで主キーを設定するときの説明として，適当なものを過不足なく含むものはどれか。\n\nA 値が他のレコードと重複する項目は，主キーとして使えない。\nB 主キーは，必ず一つのフィールドだけで構成しなければならない。\nC 主キーの値は，必ず数値でなければならない。\nD 複数のフィールドを組み合わせて主キーを構成できる。",
+    "stem": "関係データベースで主キーを設定するときの説明として、適当なものを過不足なく含むものはどれか。\n\nA 主キー全体の値（複合主キーでは値の組合せ）は、レコード間で重複してはならない。\nB 主キーの値には、未入力を表すNULLを含めてもよい。\nC 主キーは、必ず数値型のフィールドで構成しなければならない。\nD 複数のフィールドを組み合わせて主キーを構成できる。",
     "choices": [
       {
         "label": "0",
         "text": "A，D",
         "choice_id": "center_style_ip_curated_178__choice_0",
         "is_correct": true,
-        "explanation": "主キーはレコードを一意に識別するための項目なので，値が他のレコードと重複する項目は主キーとして使えない。また，複数のフィールドを組み合わせた複合主キーにすることもできる。したがってAとDを含むものが正答である。"
+        "explanation": "主キーはレコードを一意に識別するため、主キー全体の値は重複できず、NULLも許されない。文字列型を使うこともでき、複数のフィールドを組み合わせた複合主キーも構成できる。したがってAとDが適当である。"
       },
       {
         "label": "1",
@@ -25695,7 +25785,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "主キーはレコードを一意に識別するための項目なので，値が他のレコードと重複する項目は主キーとして使えない。また，複数のフィールドを組み合わせた複合主キーにすることもできる。したがってAとDを含むものが正答である。",
+    "explanation": "主キーはレコードを一意に識別するため、主キー全体の値は重複できず、NULLも許されない。文字列型を使うこともでき、複数のフィールドを組み合わせた複合主キーも構成できる。したがってAとDが適当である。",
     "tags": [
       "主キー",
       "レコード",
@@ -27176,45 +27266,43 @@
   },
   {
     "id": "center_style_fe_curated_100",
-    "stem": "2分探索を使ってデータを効率よく探すための前提として，最も適当なものはどれか。",
+    "stem": "昇順に並んだ配列［3, 7, 12, 18, 25, 31, 40］から2分探索で31を探す。最初に中央の18と比較した直後、次に探索する範囲として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "探索対象のデータが，キーの昇順または降順に並んでいる。",
+        "text": "［3, 7, 12］",
         "choice_id": "center_style_fe_curated_100__choice_0",
-        "is_correct": true,
-        "explanation": "2分探索は，整列済みのデータの中央を調べ，探す範囲を半分ずつ狭める方法である。"
+        "is_correct": false,
+        "explanation": "31は18より大きいため、18より小さい側を次の探索範囲にはしない。"
       },
       {
         "label": "1",
-        "text": "探索対象のデータが，完全にランダムな順序で並んでいる。",
+        "text": "［25, 31, 40］",
         "choice_id": "center_style_fe_curated_100__choice_1",
-        "is_correct": false,
-        "explanation": "並びの規則がないため2分探索に向かない。"
+        "is_correct": true,
+        "explanation": "目的の31は中央の18より大きいので、中央より右側の［25, 31, 40］に探索範囲を絞る。"
       },
       {
         "label": "2",
-        "text": "探索対象のデータが，すべて同じ値である。",
+        "text": "［12, 18, 25］",
         "choice_id": "center_style_fe_curated_100__choice_2",
         "is_correct": false,
-        "explanation": "探索の意味が薄く，通常の前提ではない。"
+        "explanation": "比較済みの18や、その左側の12を探索範囲に残す必要はない。"
       },
       {
         "label": "3",
-        "text": "探索対象のデータが，画像ファイルだけである。",
+        "text": "［3, 7, 12, 18］",
         "choice_id": "center_style_fe_curated_100__choice_3",
         "is_correct": false,
-        "explanation": "データ形式の条件ではない。"
+        "explanation": "31は18より大きいため、18以下の範囲を次に探索するのは不適切である。"
       }
     ],
-    "correct_choice": "0",
-    "explanation": "2分探索は，整列済みのデータの中央を調べ，探す範囲を半分ずつ狭める方法である。",
+    "correct_choice": "1",
+    "explanation": "目的の31は中央の18より大きいので、中央より右側の［25, 31, 40］に探索範囲を絞る。",
     "tags": [
       "2分探索",
-      "探索",
-      "ソート",
-      "昇順",
-      "降順"
+      "配列",
+      "探索範囲"
     ],
     "primary_term_names": [
       "2分探索",
@@ -27223,7 +27311,7 @@
       "昇順",
       "降順"
     ],
-    "difficulty": "basic",
+    "difficulty": "calculation_basic",
     "source_question_ids": [
       "fe_h29_spring_morning_q007"
     ],
@@ -27277,7 +27365,7 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_100__choice_0",
+    "answer_choice_id": "center_style_fe_curated_100__choice_1",
     "field_ids": [
       "algorithm"
     ]
@@ -27392,39 +27480,39 @@
   },
   {
     "id": "center_style_ap_curated_116",
-    "stem": "8ビットD-A変換器で，入力値が1増えると出力電圧が10mV増える。入力に16進数82を与えたときの出力電圧は何mVか。ここで，入力0の出力は0mVとする。",
+    "stem": "D-A変換器で、入力値が1増えると出力電圧が8mV増える。入力0の出力を0mVとすると、16進数3Cを入力したときの出力電圧は何mVか。",
     "choices": [
       {
         "label": "0",
-        "text": "1,300",
+        "text": "240",
         "choice_id": "center_style_ap_curated_116__choice_0",
-        "is_correct": true,
-        "explanation": "16進数82は，8×16+2=130である。入力値1当たり10mVなので，130×10=1,300mVとなる。"
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "1",
-        "text": "820",
+        "text": "384",
         "choice_id": "center_style_ap_curated_116__choice_1",
         "is_correct": false,
-        "explanation": "82を10進数の82として扱っている。"
+        "explanation": ""
       },
       {
         "label": "2",
-        "text": "1,024",
+        "text": "480",
         "choice_id": "center_style_ap_curated_116__choice_2",
-        "is_correct": false,
-        "explanation": "8ビットの最大状態数256などとの混同。"
+        "is_correct": true,
+        "explanation": "16進数3Cは、3×16＋12＝60である。入力値1当たり8mVなので、出力電圧は60×8＝480mVとなる。"
       },
       {
         "label": "3",
-        "text": "1,312",
+        "text": "768",
         "choice_id": "center_style_ap_curated_116__choice_3",
         "is_correct": false,
-        "explanation": "16進数82を131.2のように誤って扱った値である。"
+        "explanation": ""
       }
     ],
-    "correct_choice": "0",
-    "explanation": "16進数82は，8×16+2=130である。入力値1当たり10mVなので，130×10=1,300mVとなる。",
+    "correct_choice": "2",
+    "explanation": "16進数3Cは、3×16＋12＝60である。入力値1当たり8mVなので、出力電圧は60×8＝480mVとなる。",
     "tags": [
       "D-A変換",
       "16進数",
@@ -27473,21 +27561,21 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_ap_curated_116__choice_0",
+    "answer_choice_id": "center_style_ap_curated_116__choice_2",
     "field_ids": [
       "digital"
     ]
   },
   {
     "id": "center_style_ap_curated_117",
-    "stem": "正の整数aを2進数で表すとnビットである。b=a^2を2進数で表すとき，必要なビット数は多くとも何ビットか。",
+    "stem": "nを2以上の整数とする。正の整数aを2進数で表すとnビットであり，b＝a²とする。aが取り得る範囲で，bを2進数で表すために必要となるビット数の最大値はどれか。",
     "choices": [
       {
         "label": "0",
         "text": "2n",
         "choice_id": "center_style_ap_curated_117__choice_0",
         "is_correct": true,
-        "explanation": "nビットの正の整数aは最大で2^n-1である。a^2は(2^n-1)^2より小さく，2^(2n)未満なので，多くとも2nビットで表せる。"
+        "explanation": "aの最大値は2ⁿ－1である。n≧2では（2ⁿ－1）²は2⁽²ⁿ⁻¹⁾以上2²ⁿ未満なので，最大のbを表すには2nビットが必要である。"
       },
       {
         "label": "1",
@@ -27497,20 +27585,20 @@
       },
       {
         "label": "2",
-        "text": "n/2",
+        "text": "n",
         "choice_id": "center_style_ap_curated_117__choice_2",
         "is_correct": false
       },
       {
         "label": "3",
-        "text": "2^n",
+        "text": "3n",
         "choice_id": "center_style_ap_curated_117__choice_3",
         "is_correct": false,
-        "explanation": "値の大きさに関する表現で，ビット数ではない。"
+        "explanation": "3nビットあれば表せるが，最大のbに必要なビット数を超えており，必要ビット数の最大値ではない。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "nビットの正の整数aは最大で2^n-1である。a^2は(2^n-1)^2より小さく，2^(2n)未満なので，多くとも2nビットで表せる。",
+    "explanation": "nビットの正の整数aが取り得る最大値は2ⁿ－1である。したがってbの最大値は（2ⁿ－1）²となる。n≧2では，2⁽²ⁿ⁻¹⁾≦（2ⁿ－1）²＜2²ⁿが成り立つため，この値を2進数で表すには2nビットが必要である。よって，必要となるビット数の最大値は2nビットである。",
     "tags": [
       "2進数",
       "bit",
@@ -27566,7 +27654,7 @@
   },
   {
     "id": "center_style_ap_curated_119",
-    "stem": "100Mビット/秒のLANを使用し，1件1,000バイトのデータを1,000件連続して送る。LANの伝送効率が50%のとき，伝送に必要な時間は何秒か。",
+    "stem": "100Mビット/秒のLANを使用し，1件1,000バイトのデータを1,000件連続して送る。LANの伝送効率が50%のとき，伝送に必要な時間は何秒か。 ただし、1Mビット＝1,000,000ビットとする。",
     "choices": [
       {
         "label": "0",
@@ -27672,14 +27760,14 @@
   },
   {
     "id": "center_style_ip_curated_204",
-    "stem": "あるPCで見つかったマルウェアと同じものが，他のPCにも存在するかを調べたい。最も適切な調査方法はどれか。",
+    "stem": "あるPCで見つかったマルウェアと同一内容のファイルが，他のPCにも存在するかを調べたい。最も適切な調査方法はどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "見つかったマルウェアと同じハッシュ値をもつファイルを探す。",
+        "text": "見つかったマルウェアのSHA-256などの暗号学的ハッシュ値を求め、同じ値をもつファイルを探す。",
         "choice_id": "center_style_ip_curated_204__choice_0",
         "is_correct": true,
-        "explanation": "同じファイルかどうかを調べるには，内容から計算されるハッシュ値を比較するのが有効である。"
+        "explanation": "暗号学的ハッシュ値はファイル内容の比較に利用できる。SHA-256などで同じ値をもつファイルを探すと、同一内容のファイルを効率よく絞り込める。"
       },
       {
         "label": "1",
@@ -27704,11 +27792,11 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "同じファイルかどうかを調べるには，内容から計算されるハッシュ値を比較するのが有効である。",
+    "explanation": "暗号学的ハッシュ値はファイル内容の比較に利用できる。SHA-256などで同じ値をもつファイルを探すと、同一内容のファイルを効率よく絞り込める。",
     "tags": [
       "ハッシュ値",
       "マルウェア",
-      "改ざん"
+      "SHA-256"
     ],
     "primary_term_names": [
       "ハッシュ値",
@@ -28080,7 +28168,7 @@
     "choices": [
       {
         "label": "0",
-        "text": "登録済みメールアドレスに，推測困難なパスワード再設定用URLを送る。",
+        "text": "登録済みメールアドレスに、推測困難で有効期限が短いパスワード再設定用URLを送る。",
         "choice_id": "center_style_fe_curated_104__choice_0",
         "is_correct": true,
         "explanation": "現在のパスワードを送らず，登録済みの連絡先に推測困難で期限付きの再設定用URLを送るのが適切である。"
@@ -28260,7 +28348,7 @@
         "text": "512通り",
         "choice_id": "center_style_ip_curated_212__choice_0",
         "is_correct": true,
-        "explanation": "3ビットでは1色あたり2^3=8段階を表せる。RGBの3色を組み合わせるので，8×8×8=512通りである。"
+        "explanation": "3ビットでは1色あたり2³＝8段階を表せる。RGBの3色を組み合わせるので，8×8×8=512通りである。"
       },
       {
         "label": "1",
@@ -28285,7 +28373,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "3ビットでは1色あたり2^3=8段階を表せる。RGBの3色を組み合わせるので，8×8×8=512通りである。",
+    "explanation": "3ビットでは1色あたり2³＝8段階を表せる。RGBの3色を組み合わせるので，8×8×8=512通りである。",
     "tags": [
       "RGB",
       "階調",
@@ -28597,7 +28685,7 @@
   },
   {
     "id": "center_style_fe_curated_110",
-    "stem": "800×600ピクセルの24ビットカラー画像を，1秒間に30フレーム送る。圧縮しないとき，1秒当たりのデータ量は約何Mビットか。",
+    "stem": "800×600ピクセルの24ビットカラー画像を，1秒間に30フレーム送る。圧縮しないとき，1秒当たりのデータ量は約何Mビットか。 ただし、1Mビット＝1,000,000ビットとする。",
     "choices": [
       {
         "label": "0",
@@ -28696,41 +28784,43 @@
   },
   {
     "id": "center_style_fe_curated_112",
-    "stem": "D-A変換器で，ディジタル値0の出力が0V，ディジタル値128の出力が2.5Vである。1ビット分の変化に相当する出力電圧はどれか。",
+    "stem": "9ビットのD-A変換器で、入力値が1増えると出力電圧が5mV増える。入力値0の出力を0mVとすると、2進数110000000を入力したときの出力電圧は何Vか。",
     "choices": [
       {
         "label": "0",
-        "text": "2.5/128 V",
+        "text": "0.96V",
         "choice_id": "center_style_fe_curated_112__choice_0",
-        "is_correct": true,
-        "explanation": "ディジタル値が0から128まで増えたときに出力が2.5V増えているので，1段階当たりの変化は2.5/128 Vである。"
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "1",
-        "text": "2.5/255 V",
+        "text": "1.28V",
         "choice_id": "center_style_fe_curated_112__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "2",
-        "text": "2.5/256 V",
+        "text": "1.92V",
         "choice_id": "center_style_fe_curated_112__choice_2",
-        "is_correct": false
+        "is_correct": true,
+        "explanation": "2進数110000000は、2⁸＋2⁷＝256＋128＝384である。入力値1当たり5mVなので、384×5＝1,920mV＝1.92Vとなる。"
       },
       {
         "label": "3",
-        "text": "2.5/512 V",
+        "text": "2.56V",
         "choice_id": "center_style_fe_curated_112__choice_3",
         "is_correct": false,
-        "explanation": "さらに2倍細かく見積もっている。"
+        "explanation": ""
       }
     ],
-    "correct_choice": "0",
-    "explanation": "ディジタル値が0から128まで増えたときに出力が2.5V増えているので，1段階当たりの変化は2.5/128 Vである。",
+    "correct_choice": "2",
+    "explanation": "2進数110000000は、2⁸＋2⁷＝256＋128＝384である。入力値1当たり5mVなので、384×5＝1,920mV＝1.92Vとなる。",
     "tags": [
       "D-A変換",
-      "ディジタルデータ",
-      "bit"
+      "2進数",
+      "電圧"
     ],
     "primary_term_names": [
       "D-A変換",
@@ -28775,7 +28865,7 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_fe_curated_112__choice_0",
+    "answer_choice_id": "center_style_fe_curated_112__choice_2",
     "field_ids": [
       "digital"
     ]
@@ -29924,10 +30014,10 @@
     "correct_choice": "0",
     "explanation": "XORはAとBが異なるときに真，同じときに偽になる。その結果を反転すると，AとBが同じときに真になる等価演算になる。",
     "tags": [
-      "EOR",
       "XOR",
-      "論理演算",
-      "NOT"
+      "XNOR",
+      "等価演算",
+      "論理演算"
     ],
     "primary_term_names": [
       "EOR",
@@ -30132,7 +30222,7 @@
         "text": "入力者とは別の人が，入力されたデータが正しいか確認する。",
         "choice_id": "center_style_ip_curated_219__choice_0",
         "is_correct": true,
-        "explanation": "完全性は，情報が正確で改ざんや誤りがない状態を保つ性質である。入力内容を別の人が確認すると誤りに気付きやすくなるので。"
+        "explanation": "完全性は，情報が正確で改ざんや誤りがない状態を保つ性質である。入力内容を別の人が確認すると誤りに気付きやすくなる。"
       },
       {
         "label": "1",
@@ -30155,7 +30245,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "完全性は，情報が正確で改ざんや誤りがない状態を保つ性質である。入力内容を別の人が確認すると誤りに気付きやすくなるので。",
+    "explanation": "完全性は，情報が正確で改ざんや誤りがない状態を保つ性質である。入力内容を別の人が確認すると誤りに気付きやすくなる。",
     "tags": [
       "情報セキュリティ",
       "完全性",
@@ -30369,43 +30459,44 @@
   },
   {
     "id": "center_style_ap_curated_134",
-    "stem": "Webページのアクセシビリティを高める例として最も適当なものはどれか。",
+    "stem": "音声を含む解説動画をWebページで公開する。聴覚に障害がある利用者にも内容を伝えやすくする方法として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "必ず入力してほしい項目を，色だけでなく「必須」という文字でも示す。",
+        "text": "話している内容や重要な効果音を表す字幕または文字起こしを用意する",
         "choice_id": "center_style_ap_curated_134__choice_0",
         "is_correct": true,
-        "explanation": "アクセシビリティは，年齢や身体的条件などにかかわらず情報を利用しやすくする考え方である。色だけに頼らず文字でも示す0は，色の区別が難しい人にも伝わりやすい。"
+        "explanation": "音声の内容を字幕や文字起こしでも示すと、音声を聞き取りにくい利用者も情報を得やすくなる。"
       },
       {
         "label": "1",
-        "text": "ページを開いた直後に，利用者の操作なしで大きな音を自動再生する。",
+        "text": "動画の音量を最大に固定し、利用者が変更できないようにする",
         "choice_id": "center_style_ap_curated_134__choice_1",
         "is_correct": false,
-        "explanation": "利用者を驚かせたり操作を妨げたりする。"
+        "explanation": "音量を大きくするだけでは音声を聞けない利用者に内容が伝わらず、音量を調整したい利用者の妨げにもなる。"
       },
       {
         "label": "2",
-        "text": "一画面に多くの情報を入れるため，文字をできるだけ小さくする。",
+        "text": "字幕を付けず、背景音楽だけを大きくする",
         "choice_id": "center_style_ap_curated_134__choice_2",
         "is_correct": false,
-        "explanation": "読みにくくなる。"
+        "explanation": "背景音楽を大きくしても発話内容は文字で伝わらず、かえって音声を聞き取りにくくすることがある。"
       },
       {
         "label": "3",
-        "text": "リンク先が分からない画像だけを置き，説明文は付けない。",
+        "text": "動画の説明を音声だけで追加し、文字情報は用意しない",
         "choice_id": "center_style_ap_curated_134__choice_3",
         "is_correct": false,
-        "explanation": "リンクの意味を理解しにくくする。"
+        "explanation": "音声だけの説明では、聴覚に障害がある利用者へ内容を伝える手段にならない。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "アクセシビリティは，年齢や身体的条件などにかかわらず情報を利用しやすくする考え方である。色だけに頼らず文字でも示す0は，色の区別が難しい人にも伝わりやすい。",
+    "explanation": "音声の内容を字幕や文字起こしでも示すと、音声を聞き取りにくい利用者も情報を得やすくなる。",
     "tags": [
       "アクセシビリティ",
-      "Webページ",
-      "情報デザイン"
+      "字幕",
+      "動画",
+      "Webページ"
     ],
     "primary_term_names": [
       "アクセシビリティ",
@@ -30532,7 +30623,7 @@
         "text": "保存データを暗号化しておく。",
         "choice_id": "center_style_fe_curated_122__choice_0",
         "is_correct": true,
-        "explanation": "暗号化しておくと，PCを手に入れた第三者が保存データをそのまま読みにくくなるので。"
+        "explanation": "暗号化しておくと，PCを手に入れた第三者が保存データをそのまま読みにくくなる。"
       },
       {
         "label": "1",
@@ -30557,7 +30648,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "暗号化しておくと，PCを手に入れた第三者が保存データをそのまま読みにくくなるので。",
+    "explanation": "暗号化しておくと，PCを手に入れた第三者が保存データをそのまま読みにくくなる。",
     "tags": [
       "暗号化",
       "機密性",
@@ -30804,7 +30895,7 @@
         "text": "5ビット",
         "choice_id": "center_style_ip_curated_224__choice_1",
         "is_correct": true,
-        "explanation": "nビットでは2^n種類を表せる。4ビットでは2^4=16種類で26種類に足りないが，5ビットでは2^5=32種類を表せるので。"
+        "explanation": "nビットでは2ⁿ種類を表せる。4ビットでは2⁴＝16種類で26種類に足りないが、5ビットでは2⁵＝32種類を表せる。したがって、最小で5ビット必要である。"
       },
       {
         "label": "2",
@@ -30820,7 +30911,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "nビットでは2^n種類を表せる。4ビットでは2^4=16種類で26種類に足りないが，5ビットでは2^5=32種類を表せるので。",
+    "explanation": "nビットでは2ⁿ種類を表せる。4ビットでは2⁴＝16種類で26種類に足りないが、5ビットでは2⁵＝32種類を表せる。したがって、最小で5ビット必要である。",
     "tags": [
       "bit",
       "2進数",
@@ -30883,7 +30974,7 @@
         "text": "dpi",
         "choice_id": "center_style_ip_curated_225__choice_0",
         "is_correct": true,
-        "explanation": "dpiは，1インチあたりの点の数を表し，スキャナやプリンタなどの解像度を表す単位として使われるので。"
+        "explanation": "dpiは1インチ当たりの点の数を表し、スキャナやプリンタなどの解像度を表す単位として使われる。"
       },
       {
         "label": "1",
@@ -30906,7 +30997,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "dpiは，1インチあたりの点の数を表し，スキャナやプリンタなどの解像度を表す単位として使われるので。",
+    "explanation": "dpiは1インチ当たりの点の数を表し、スキャナやプリンタなどの解像度を表す単位として使われる。",
     "tags": [
       "dpi",
       "解像度",
@@ -31112,41 +31203,43 @@
   },
   {
     "id": "center_style_ap_curated_136",
-    "stem": "D-A変換で，入力値が1増えるごとに出力電圧が10ミリV増える。入力値として16進数の82を与えると，出力電圧は何ミリVか。データに0を与えたときの出力は0ミリVとする。",
+    "stem": "D-A変換器で、入力値0のとき出力電圧は0.5Vであり、入力値が1増えるごとに0.02V増える。2進数1010を入力したときの出力電圧は何Vか。",
     "choices": [
       {
         "label": "0",
-        "text": "820",
+        "text": "0.2V",
         "choice_id": "center_style_ap_curated_136__choice_0",
         "is_correct": false,
-        "explanation": "16進数82を82のまま扱った場合。"
+        "explanation": ""
       },
       {
         "label": "1",
-        "text": "1,024",
+        "text": "0.5V",
         "choice_id": "center_style_ap_curated_136__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       },
       {
         "label": "2",
-        "text": "1,300",
+        "text": "0.7V",
         "choice_id": "center_style_ap_curated_136__choice_2",
         "is_correct": true,
-        "explanation": "16進数82は，10進数で8*16+2=130である。入力値1あたり10ミリVなので，130*10=1,300ミリVとなり。"
+        "explanation": "2進数1010は10進数で10である。入力値0のとき0.5Vで、1段階当たり0.02V増えるので、出力電圧は0.5＋10×0.02＝0.7Vとなる。"
       },
       {
         "label": "3",
-        "text": "1,312",
+        "text": "1.0V",
         "choice_id": "center_style_ap_curated_136__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": ""
       }
     ],
     "correct_choice": "2",
-    "explanation": "16進数82は，10進数で8*16+2=130である。入力値1あたり10ミリVなので，130*10=1,300ミリVとなり。",
+    "explanation": "2進数1010は10進数で10である。入力値0のとき0.5Vで、1段階当たり0.02V増えるので、出力電圧は0.5＋10×0.02＝0.7Vとなる。",
     "tags": [
       "D-A変換",
-      "16進数",
-      "bit"
+      "2進数",
+      "電圧"
     ],
     "primary_term_names": [
       "D-A変換",
@@ -31214,10 +31307,10 @@
       },
       {
         "label": "2",
-        "text": "社員コードだけで構成され，他の情報と容易に照合できない一覧",
+        "text": "年代別の人数だけを示し、個人を識別できる情報を含まない集計表",
         "choice_id": "center_style_ip_curated_228__choice_2",
         "is_correct": true,
-        "explanation": "個人情報は，特定の個人を識別できる情報である。社員コードだけで，他の情報と容易に照合できない一覧は，それだけでは個人を識別しにくいので2が最も適当である。"
+        "explanation": "個人を識別できる情報を含まず、十分に集計された年代別人数だけの表は、通常は個人情報に当たらない。"
       },
       {
         "label": "3",
@@ -31227,7 +31320,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "個人情報は，特定の個人を識別できる情報である。社員コードだけで，他の情報と容易に照合できない一覧は，それだけでは個人を識別しにくいので2が最も適当である。",
+    "explanation": "個人情報は、氏名などにより特定の個人を識別できる情報や、他の情報と容易に照合して個人を識別できる情報である。個人を識別できる情報を含まない集計表が、最も適当である。",
     "tags": [
       "個人情報",
       "情報社会"
@@ -31355,7 +31448,7 @@
         "text": "他人のユーザIDとパスワードを無断で使い，他人の電子メールを読む。",
         "choice_id": "center_style_ip_curated_230__choice_1",
         "is_correct": true,
-        "explanation": "不正アクセスは，アクセス制御を越えて，本来許されていない利用をする行為である。他人のユーザIDとパスワードを無断で使って電子メールを読む。"
+        "explanation": "不正アクセスは，アクセス制御を越えて，本来許されていない利用をする行為である。他人のユーザIDとパスワードを無断で使って電子メールを読む行為が該当する。"
       },
       {
         "label": "2",
@@ -31371,7 +31464,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "不正アクセスは，アクセス制御を越えて，本来許されていない利用をする行為である。他人のユーザIDとパスワードを無断で使って電子メールを読む。",
+    "explanation": "不正アクセスは，アクセス制御を越えて，本来許されていない利用をする行為である。他人のユーザIDとパスワードを無断で使って電子メールを読む行為が該当する。",
     "tags": [
       "不正アクセス",
       "ユーザID",
@@ -31444,7 +31537,7 @@
         "text": "接続先の確認と通信内容の暗号化によって，通信の安全性を高める。",
         "choice_id": "center_style_ip_curated_231__choice_0",
         "is_correct": true,
-        "explanation": "HTTPSは，Web通信で接続先の確認や通信内容の暗号化により安全性を高めるために使われるので。"
+        "explanation": "HTTPSは，Web通信で接続先の確認や通信内容の暗号化により安全性を高めるために使われる。"
       },
       {
         "label": "1",
@@ -31467,7 +31560,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "HTTPSは，Web通信で接続先の確認や通信内容の暗号化により安全性を高めるために使われるので。",
+    "explanation": "HTTPSは，Web通信で接続先の確認や通信内容の暗号化により安全性を高めるために使われる。",
     "tags": [
       "HTTPS",
       "暗号化",
@@ -31626,7 +31719,7 @@
         "text": "緊急の連絡を装って電話し，パスワードや機密情報を聞き出そうとする。",
         "choice_id": "center_style_ap_curated_137__choice_0",
         "is_correct": true,
-        "explanation": "ソーシャルエンジニアリングは，人の心理や行動のすきを利用して情報を得ようとする手口である。緊急を装って電話でパスワードなどを聞き出す。"
+        "explanation": "ソーシャルエンジニアリングは，人の心理や行動のすきを利用して情報を得ようとする手口である。緊急を装って電話でパスワードなどを聞き出そうとする行為が該当する。"
       },
       {
         "label": "1",
@@ -31649,7 +31742,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "ソーシャルエンジニアリングは，人の心理や行動のすきを利用して情報を得ようとする手口である。緊急を装って電話でパスワードなどを聞き出す。",
+    "explanation": "ソーシャルエンジニアリングは，人の心理や行動のすきを利用して情報を得ようとする手口である。緊急を装って電話でパスワードなどを聞き出そうとする行為が該当する。",
     "tags": [
       "ソーシャルエンジニアリング",
       "パスワード",
@@ -32079,7 +32172,7 @@
     "tags": [
       "個人情報",
       "メールアドレス",
-      "電子メール"
+      "個人情報保護法"
     ],
     "primary_term_names": [
       "個人情報",
@@ -32126,7 +32219,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_sg_curated_046__choice_0",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -32903,10 +32996,10 @@
     "choices": [
       {
         "label": "0",
-        "text": "M^n",
+        "text": "Mⁿ",
         "choice_id": "center_style_curated_063_004__choice_0",
         "is_correct": true,
-        "explanation": "各文字位置でM通りを選べ，同じ文字を繰り返し使えるので，n文字ではMをn回掛けて M^n 通りになる。"
+        "explanation": "各文字位置でM通りを選べ、同じ文字を繰り返し使えるので、n文字ではMをn回掛けてMⁿ通りになる。"
       },
       {
         "label": "1",
@@ -32931,7 +33024,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "各文字位置でM通りを選べ，同じ文字を繰り返し使えるので，n文字ではMをn回掛けて M^n 通りになる。",
+    "explanation": "各文字位置でM通りを選べ、同じ文字を繰り返し使えるので、n文字ではMをn回掛けてMⁿ通りになる。",
     "tags": [
       "パスワード",
       "場合の数"
@@ -33236,7 +33329,7 @@
     "explanation": "共通鍵暗号方式では，暗号化と復号に同じ鍵を使うため，相手ごとに秘密の鍵を安全に共有・管理する必要がある。",
     "tags": [
       "共通鍵方式",
-      "公開かぎ暗号方式",
+      "公開鍵暗号方式",
       "秘密鍵"
     ],
     "primary_term_names": [
@@ -33378,10 +33471,10 @@
       },
       {
         "label": "1",
-        "text": "文書が改ざんされていないことと，署名者の鍵で署名されたこと",
+        "text": "文書が改ざんされていないことと、対応する秘密鍵で署名されたこと",
         "choice_id": "center_style_curated_063_010__choice_1",
         "is_correct": true,
-        "explanation": "ディジタル署名を検証すると，文書が改ざんされていないことや，対応する署名者の鍵で署名されたことを確認できる。"
+        "explanation": "ディジタル署名を検証すると、文書が改ざんされていないことや、検証に使った公開鍵に対応する秘密鍵で署名されたことを確認できる。公開鍵の持ち主は電子証明書などで確認する。"
       },
       {
         "label": "2",
@@ -33399,7 +33492,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "ディジタル署名を検証すると，文書が改ざんされていないことや，対応する署名者の鍵で署名されたことを確認できる。",
+    "explanation": "ディジタル署名を検証すると、文書が改ざんされていないことや、検証に使った公開鍵に対応する秘密鍵で署名されたことを確認できる。公開鍵の持ち主は電子証明書などで確認する。",
     "tags": [
       "ディジタル署名",
       "改ざん",
@@ -33664,7 +33757,7 @@
     "correct_choice": "1",
     "explanation": "公開鍵暗号方式では，公開鍵は公開できるが，対応する秘密鍵は本人だけが持つ。暗号化の方法そのものは公開されていても，秘密鍵を知らなければ復号しにくい。",
     "tags": [
-      "公開かぎ暗号方式",
+      "公開鍵暗号方式",
       "公開鍵",
       "秘密鍵"
     ],
@@ -33752,7 +33845,7 @@
     "correct_choice": "2",
     "explanation": "Yさんだけが読めるようにするには，Yさんの公開鍵で暗号化する。対応するYさんの秘密鍵を持つYさんだけが復号できる。",
     "tags": [
-      "公開かぎ暗号方式",
+      "公開鍵暗号方式",
       "公開鍵",
       "秘密鍵",
       "電子メール"
@@ -33895,44 +33988,44 @@
   },
   {
     "id": "center_style_curated_064_002",
-    "stem": "機密情報が入った記憶装置を廃棄する。保存されていたデータを復元されにくくする処理として，最も適当なものはどれか。",
+    "stem": "機密情報を保存した記憶装置の廃棄を外部業者へ委託する。情報漏えいを防ぎ、処理を後から確認できるようにする対応として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "機密ファイルを別の形式で圧縮する。",
+        "text": "業者の実績だけを確認し、消去方法や記録については取り決めない",
         "choice_id": "center_style_curated_064_002__choice_0",
         "is_correct": false,
-        "explanation": "展開すれば元に戻せる。"
+        "explanation": "実績の確認だけでなく、消去方法、責任分担、作業記録などを事前に取り決める必要がある。"
       },
       {
         "label": "1",
-        "text": "起動に使う一部の領域だけを消去する。",
+        "text": "記憶装置を識別する番号を記録せず、通常の荷物として発送する",
         "choice_id": "center_style_curated_064_002__choice_1",
         "is_correct": false,
-        "explanation": "一部だけの消去なのでデータ本体が残る可能性がある。"
+        "explanation": "対象を識別せず通常の荷物として扱うと、紛失や取違いが起きても追跡しにくい。"
       },
       {
         "label": "2",
-        "text": "記憶装置全体を別の値で上書きする。",
+        "text": "消去方法と責任分担を契約で定め、対象を記録して引き渡し、作業完了の証明を受け取る",
         "choice_id": "center_style_curated_064_002__choice_2",
         "is_correct": true,
-        "explanation": "記憶装置を廃棄するときは，保存領域全体を上書きするなどして元データの痕跡を残しにくくすることが重要である。"
+        "explanation": "消去方法や責任分担を定め、対象の識別情報と受渡しを記録し、完了証明を確認すると、処理の適切性を追跡しやすい。"
       },
       {
         "label": "3",
-        "text": "機密ファイルのファイル名だけを変更する。",
+        "text": "廃棄を委託した時点で自社の責任はなくなると考え、結果を確認しない",
         "choice_id": "center_style_curated_064_002__choice_3",
         "is_correct": false,
-        "explanation": "名前を変えるだけで内容は残る。"
+        "explanation": "外部委託後も委託元には適切な管理が求められるため、作業結果を確認する必要がある。"
       }
     ],
     "correct_choice": "2",
-    "explanation": "記憶装置を廃棄するときは，保存領域全体を上書きするなどして元データの痕跡を残しにくくすることが重要である。",
+    "explanation": "消去方法や責任分担を定め、対象の識別情報と受渡しを記録し、完了証明を確認すると、処理の適切性を追跡しやすい。",
     "tags": [
-      "情報セキュリティ",
-      "ファイル",
-      "データ",
-      "記憶装置"
+      "情報漏えい",
+      "記憶装置",
+      "外部委託",
+      "データ消去"
     ],
     "primary_term_names": [
       "情報セキュリティ",
@@ -33984,49 +34077,49 @@
   },
   {
     "id": "center_style_curated_064_003",
-    "stem": "2分探索でデータ列から目的の値を探す。探索を始める前のデータ列について必要な条件として，最も適当なものはどれか。",
+    "stem": "昇順に並んだ1,000個の異なるデータから、2分探索で値を探す。1回の比較ごとに探索範囲をおよそ半分にするとき、値があるかどうかを確定するまでの比較回数は、最大でおよそ何回か。",
     "choices": [
       {
         "label": "0",
-        "text": "値の大小順に並んでいる。",
+        "text": "10回",
         "choice_id": "center_style_curated_064_003__choice_0",
         "is_correct": true,
-        "explanation": "2分探索は，中央の値と目的の値を比べて探索範囲を半分ずつ狭める方法なので，データ列が大小順に並んでいる必要がある。"
+        "explanation": "2¹⁰＝1,024なので、1,000個の探索範囲も10回程度の比較で1個以下に絞り込める。先頭から順に調べる線形探索より比較回数を大幅に減らせる。"
       },
       {
         "label": "1",
-        "text": "同じ値が必ず二つずつ含まれている。",
+        "text": "100回",
         "choice_id": "center_style_curated_064_003__choice_1",
         "is_correct": false,
-        "explanation": "2分探索の条件ではない。"
+        "explanation": ""
       },
       {
         "label": "2",
-        "text": "データ数が必ず偶数である。",
+        "text": "500回",
         "choice_id": "center_style_curated_064_003__choice_2",
         "is_correct": false,
-        "explanation": "データ数が奇数でも使える。"
+        "explanation": ""
       },
       {
         "label": "3",
-        "text": "データが入力された順のまま保存されている。",
+        "text": "1,000回",
         "choice_id": "center_style_curated_064_003__choice_3",
         "is_correct": false,
-        "explanation": "入力順のままでは大小比較で範囲を絞れない。"
+        "explanation": ""
       }
     ],
     "correct_choice": "0",
-    "explanation": "2分探索は，中央の値と目的の値を比べて探索範囲を半分ずつ狭める方法なので，データ列が大小順に並んでいる必要がある。",
+    "explanation": "2¹⁰＝1,024なので、1,000個の探索範囲も10回程度の比較で1個以下に絞り込める。先頭から順に調べる線形探索より比較回数を大幅に減らせる。",
     "tags": [
-      "Algorithm",
       "2分探索",
+      "計算量",
       "探索"
     ],
     "primary_term_names": [
       "Algorithm",
       "2分探索"
     ],
-    "difficulty": "basic",
+    "difficulty": "calculation_basic",
     "source_question_ids": [
       "fe_h26_autumn_morning_q008"
     ],
@@ -34575,44 +34668,43 @@
   },
   {
     "id": "center_style_curated_064_010",
-    "stem": "AさんがBさんの公開鍵で暗号化した電子メールを，BさんとCさんに送った。BさんとCさんの秘密鍵はそれぞれ本人だけが持っている。この電子メールを復号できる人として最も適当なものはどれか。",
+    "stem": "Aさんが、同じメッセージ本体をBさんとCさんの双方だけに読めるよう、ハイブリッド暗号方式で送る。メッセージ本体は一つの共通鍵で暗号化する。この共通鍵の送り方として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "Aさんの公開鍵を持つ人",
+        "text": "共通鍵を暗号化せず、BさんとCさんへ同じメールで送る",
         "choice_id": "center_style_curated_064_010__choice_0",
         "is_correct": false,
-        "explanation": "Aさんの鍵なので対応しない。"
+        "explanation": "共通鍵を平文で送ると、途中で取得した第三者もメッセージを復号できる。"
       },
       {
         "label": "1",
-        "text": "Bさんの秘密鍵を持つBさん",
+        "text": "共通鍵をBさんの公開鍵で暗号化したものと、Cさんの公開鍵で暗号化したものをそれぞれ送る",
         "choice_id": "center_style_curated_064_010__choice_1",
         "is_correct": true,
-        "explanation": "公開鍵暗号方式では，Bさんの公開鍵で暗号化したデータは，対応するBさんの秘密鍵で復号する。"
+        "explanation": "同じ共通鍵を各受信者の公開鍵で個別に暗号化すれば、BさんはBさんの秘密鍵で、CさんはCさんの秘密鍵で共通鍵を復号できる。"
       },
       {
         "label": "2",
-        "text": "Bさんの公開鍵を持つBさんとCさん",
+        "text": "共通鍵をAさんの公開鍵だけで暗号化して二人へ送る",
         "choice_id": "center_style_curated_064_010__choice_2",
         "is_correct": false,
-        "explanation": "公開鍵では復号しない。"
+        "explanation": "Aさんの公開鍵で暗号化した共通鍵は、BさんやCさんの秘密鍵では復号できない。"
       },
       {
         "label": "3",
-        "text": "Cさんの秘密鍵を持つCさん",
+        "text": "共通鍵をBさんの公開鍵だけで暗号化し、BさんとCさんへ送る",
         "choice_id": "center_style_curated_064_010__choice_3",
         "is_correct": false,
-        "explanation": "Cさんの秘密鍵なのでBさんの公開鍵で暗号化したデータには対応しない。"
+        "explanation": "Bさんの公開鍵で暗号化した共通鍵はBさんの秘密鍵でしか復号できず、Cさんはメッセージを読めない。"
       }
     ],
     "correct_choice": "1",
-    "explanation": "公開鍵暗号方式では，Bさんの公開鍵で暗号化したデータは，対応するBさんの秘密鍵で復号する。",
+    "explanation": "同じ共通鍵を各受信者の公開鍵で個別に暗号化すれば、BさんはBさんの秘密鍵で、CさんはCさんの秘密鍵で共通鍵を復号できる。",
     "tags": [
-      "公開かぎ暗号方式",
-      "公開鍵",
-      "秘密鍵",
-      "E-mail"
+      "ハイブリッド暗号方式",
+      "共通鍵",
+      "公開鍵暗号方式"
     ],
     "primary_term_names": [
       "公開かぎ暗号方式",
@@ -35361,44 +35453,43 @@
   },
   {
     "id": "center_style_curated_064_019",
-    "stem": "オープンソースソフトウェアの説明として，最も適当なものはどれか。",
+    "stem": "システムの一部に障害が発生したとき、処理能力や一部の機能を制限しながら、正常な部分でサービスを継続する考え方として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "一定期間だけ無料で使え，継続利用には必ず料金が必要なソフトウェア",
+        "text": "フェイルセーフ",
         "choice_id": "center_style_curated_064_019__choice_0",
         "is_correct": false,
-        "explanation": "試用版などの説明である。"
+        "explanation": "フェイルセーフは、故障時にシステムを安全な状態へ移す考え方であり、性能を落として処理を継続すること自体を表す用語ではない。"
       },
       {
         "label": "1",
-        "text": "公開されているソースコードを，決められた条件の範囲で利用・改良できるソフトウェア",
+        "text": "フェイルソフト",
         "choice_id": "center_style_curated_064_019__choice_1",
         "is_correct": true,
-        "explanation": "オープンソースソフトウェアは，ソースコードが公開され，利用や改良，再配布などがライセンスの条件に従って認められるソフトウェアである。"
+        "explanation": "フェイルソフトは、障害時に故障部分を切り離すなどし、機能や性能の低下を許容しながら可能な範囲で処理を継続する考え方である。"
       },
       {
         "label": "2",
-        "text": "著作権が必ず放棄されているソフトウェア",
+        "text": "ファイアウォール",
         "choice_id": "center_style_curated_064_019__choice_2",
         "is_correct": false,
-        "explanation": "著作権が放棄されるとは限らない。"
+        "explanation": "ファイアウォールは通信を制御する仕組みであり、障害時の縮退運転を表す考え方ではない。"
       },
       {
         "label": "3",
-        "text": "有料のサポートを受けることが必ず禁止されているソフトウェア",
+        "text": "入力検証",
         "choice_id": "center_style_curated_064_019__choice_3",
         "is_correct": false,
-        "explanation": "有料サポートが禁止されるとは限らない。"
+        "explanation": "入力検証は不正または不適切な入力を確認する処理であり、障害時のサービス継続方式ではない。"
       }
     ],
     "correct_choice": "1",
-    "explanation": "オープンソースソフトウェアは，ソースコードが公開され，利用や改良，再配布などがライセンスの条件に従って認められるソフトウェアである。",
+    "explanation": "フェイルソフトは、障害時に故障部分を切り離すなどし、機能や性能の低下を許容しながら可能な範囲で処理を継続する考え方である。",
     "tags": [
-      "オープンソフトウェア",
-      "ソース",
-      "著作権",
-      "ソフトウェア"
+      "フェイルソフト",
+      "耐障害性",
+      "可用性"
     ],
     "primary_term_names": [
       "オープンソフトウェア",
@@ -35644,7 +35735,7 @@
     "correct_choice": "1",
     "explanation": "DoS攻撃は，大量の要求を送るなどしてサービスを利用しにくくし，可用性を損なう攻撃である。",
     "tags": [
-      "DDoS攻撃",
+      "DoS攻撃",
       "可用性",
       "サーバ",
       "データ"
@@ -36314,7 +36405,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_065_005__choice_3",
     "field_ids": [
-      "society_security"
+      "design"
     ]
   },
   {
@@ -37241,9 +37332,8 @@
     "explanation": "注文連絡と配達のためなら，氏名，配送先，連絡先は必要になり得るが，生年月日や性別を必須にする必要性は低い。",
     "tags": [
       "個人情報",
-      "E-mail",
-      "メールアドレス",
-      "データ"
+      "利用目的",
+      "データ最小化"
     ],
     "primary_term_names": [
       "個人情報",
@@ -37299,7 +37389,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_065_016__choice_1",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -37948,7 +38038,7 @@
     "correct_choice": "2",
     "explanation": "DoS攻撃は，大量の通信や要求を送るなどしてサーバやネットワークに負荷をかけ，サービスを利用しにくくする攻撃である。",
     "tags": [
-      "DDoS攻撃",
+      "DoS攻撃",
       "可用性",
       "ネットワーク",
       "パスワード"
@@ -38630,37 +38720,39 @@
   },
   {
     "id": "center_style_curated_066_011",
-    "stem": "著作権法で保護される対象として，最も適当なものはどれか。",
+    "stem": "写真家Aが撮影し，Webサイトで公開した写真を，Bが許可なく自分の広告へ転載した。原則として，この転載に最も直接関係する権利はどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "形や色が新しい机のデザイン",
+        "text": "特許権",
         "choice_id": "center_style_curated_066_011__choice_0",
         "is_correct": false,
-        "explanation": "意匠権。"
+        "explanation": "特許権は，自然法則を利用した技術的思想の創作である発明を保護する権利であり，写真の表現を保護する権利ではない。"
       },
       {
         "label": "1",
-        "text": "自然法則を利用した技術的に新しい仕組み",
+        "text": "意匠権",
         "choice_id": "center_style_curated_066_011__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "意匠権は，物品などの形状・模様・色彩等によるデザインを保護する権利であり，写真の転載に最も直接関係する権利ではない。"
       },
       {
         "label": "2",
-        "text": "新しく発売した商品の名称",
+        "text": "商標権",
         "choice_id": "center_style_curated_066_011__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "商標権は，商品やサービスを他と区別するための文字・図形などの標識を保護する権利である。"
       },
       {
         "label": "3",
-        "text": "風景を撮影した写真",
+        "text": "著作権",
         "choice_id": "center_style_curated_066_011__choice_3",
         "is_correct": true,
-        "explanation": "写真は，思想や感情を創作的に表現した著作物として著作権法で保護される対象になり得る。"
+        "explanation": "創作性のある写真は著作物として保護され，広告への無断転載は原則として著作権の侵害となり得る。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "写真は，思想や感情を創作的に表現した著作物として著作権法で保護される対象になり得る。",
+    "explanation": "撮影者の創作性が表れた写真は，著作権法上の著作物として保護される。著作権者の許諾なく写真を広告へ転載する行為は，原則として複製権や公衆送信権などの侵害となり得る。したがって，最も直接関係するのは著作権である。",
     "tags": [
       "著作権",
       "著作権法",
@@ -39154,39 +39246,39 @@
   },
   {
     "id": "center_style_curated_066_017",
-    "stem": "通信プロトコルの説明として，最も適当なものはどれか。",
+    "stem": "異なるメーカーのセンサと制御装置を接続したところ，送るデータの形式や応答の順序が一致せず通信できなかった。相互に通信できるようにする対応として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "アナログ通信では通信プロトコルを使えない。",
+        "text": "両方の機器が扱う信号をアナログ信号に変更する。",
         "choice_id": "center_style_curated_066_017__choice_0",
         "is_correct": false,
-        "explanation": "アナログ通信にも手順の取り決めがあり得る。"
+        "explanation": "信号をアナログにするだけでは，データ形式や応答順序の不一致は解消されない。"
       },
       {
         "label": "1",
-        "text": "国際機関が決めたものだけが通信プロトコルである。",
+        "text": "同じメーカーの機器へ交換し，通信仕様は確認しない。",
         "choice_id": "center_style_curated_066_017__choice_1",
         "is_correct": false,
-        "explanation": "独自に定められたものもある。"
+        "explanation": "同じメーカーでも，対応する通信プロトコルが異なれば通信できるとは限らない。"
       },
       {
         "label": "2",
-        "text": "正常時の動作だけを決め，異常時の扱いは決めない。",
+        "text": "通信速度だけを高くし，データ形式や応答順序は変更しない。",
         "choice_id": "center_style_curated_066_017__choice_2",
         "is_correct": false,
-        "explanation": "異常時の扱いを定める場合もある。"
+        "explanation": "通信速度を高くしても，通信手順やデータ形式が一致していなければ通信できない。"
       },
       {
         "label": "3",
-        "text": "異なる機器同士でも，同じ通信プロトコルを使えば通信しやすくなる。",
+        "text": "両方の機器を，同じ通信プロトコルの仕様に従うよう設定する。",
         "choice_id": "center_style_curated_066_017__choice_3",
         "is_correct": true,
-        "explanation": "通信プロトコルは通信の手順や形式の取り決めであり，異なる機器でも同じプロトコルに従えば通信しやすくなる。"
+        "explanation": "両方の機器が同じ通信プロトコルに従えば，データ形式や送受信の手順を共通に解釈できる。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "通信プロトコルは通信の手順や形式の取り決めであり，異なる機器でも同じプロトコルに従えば通信しやすくなる。",
+    "explanation": "通信プロトコルは，通信時のデータ形式，送受信の順序，エラー時の処理などに関する取り決めである。メーカーが異なる機器同士であっても，同じ通信プロトコルの仕様に従えば，相互に通信できる。",
     "tags": [
       "通信プロトコル",
       "プロトコル",
@@ -39654,48 +39746,50 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_067_003__choice_0",
     "field_ids": [
-      "society_security"
+      "design"
     ]
   },
   {
     "id": "center_style_curated_067_004",
-    "stem": "情報セキュリティの三要素のうち，完全性が損なわれた例として最も適当なものはどれか。",
+    "stem": "公開したファイルが配布後に改ざんされていないことを，受信者が確認できるようにする措置として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "暗号化して送信したメールが第三者に盗み見られた。",
+        "text": "ファイルを可逆圧縮してから公開する。",
         "choice_id": "center_style_curated_067_004__choice_0",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "可逆圧縮はデータ量を減らす処理であり，配布後の改ざんを検出する仕組みではない。"
       },
       {
         "label": "1",
-        "text": "入力ミスによって名簿のデータに矛盾が生じた。",
+        "text": "公開者がファイルにディジタル署名を付ける。",
         "choice_id": "center_style_curated_067_004__choice_1",
         "is_correct": true,
-        "explanation": "完全性は，情報が正確で欠けたり改ざんされたりしていない性質である。入力ミスでデータに矛盾が生じると完全性が損なわれる。"
+        "explanation": "受信者はディジタル署名を検証することで，署名後にファイルが変更されていないことと，署名者を確認できる。"
       },
       {
         "label": "2",
-        "text": "Webサイトが障害で一時的に利用できなかった。",
+        "text": "同じサーバ内にファイルのバックアップを保存する。",
         "choice_id": "center_style_curated_067_004__choice_2",
         "is_correct": false,
-        "explanation": "必要なときに使えないので可用性に関係する。"
+        "explanation": "バックアップは消失や破損からの復旧に役立つが，受信したファイルが改ざんされていないことの確認には使えない。"
       },
       {
         "label": "3",
-        "text": "顧客の個人情報が外部に漏えいした。",
+        "text": "受信者の公開鍵でファイルを暗号化する。",
         "choice_id": "center_style_curated_067_004__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "暗号化は主に第三者による内容の閲覧を防ぐ機密性の対策であり，それだけでは公開者が作成したファイルかどうかを確認できない。"
       }
     ],
     "correct_choice": "1",
-    "explanation": "完全性は，情報が正確で欠けたり改ざんされたりしていない性質である。入力ミスでデータに矛盾が生じると完全性が損なわれる。",
+    "explanation": "ディジタル署名では，ファイルから求めたハッシュ値などを署名者の秘密鍵で処理する。受信者が対応する公開鍵で署名を検証すると，署名後にファイルが変更されていないかを確認でき，情報の完全性の確認に役立つ。",
     "tags": [
       "情報セキュリティ",
       "完全性",
       "機密性",
       "可用性",
-      "個人情報"
+      "ディジタル署名"
     ],
     "primary_term_names": [
       "情報セキュリティ",
@@ -41034,39 +41128,39 @@
   },
   {
     "id": "center_style_curated_067_019",
-    "stem": "ブレインストーミングの進め方として，最も適当なものはどれか。",
+    "stem": "部活動の企画案をブレインストーミングで集めた後，実行する案を決める。発想を広げる段階と評価する段階の進め方として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "自由な案を避け，実現できると分かっている案だけを出す。",
+        "text": "案が出るたびに実現可能性を評価し，低い案は直ちに発言者へ撤回させる。",
         "choice_id": "center_style_curated_067_019__choice_0",
         "is_correct": false,
-        "explanation": "自由な発想を狭める。"
+        "explanation": "発想中に案を評価・批判すると発言が抑えられ，案を広げにくくなる。"
       },
       {
         "label": "1",
-        "text": "他の人の案に便乗して新しい案を出してもよい。",
+        "text": "発想中は批判せずに多くの案を集め，発想を終えた後に案を整理して評価する。",
         "choice_id": "center_style_curated_067_019__choice_1",
         "is_correct": true,
-        "explanation": "ブレインストーミングでは，他の人の案に便乗して発想を広げることも歓迎される。"
+        "explanation": "案を出す段階と評価する段階を分けることで，自由な発想を促しつつ，集めた案を基準に沿って検討できる。"
       },
       {
         "label": "2",
-        "text": "案が出るたびに，その場で良し悪しを厳しく判定する。",
+        "text": "最初に出た案を基準案とし，それ以後は基準案に似た意見だけを記録する。",
         "choice_id": "center_style_curated_067_019__choice_2",
         "is_correct": false,
-        "explanation": "批判を控えるという進め方に反する。"
+        "explanation": "似た意見だけに限定すると，異なる視点からの発想を広げられない。"
       },
       {
         "label": "3",
-        "text": "案の数よりも，最初から完成度の高さだけを重視する。",
+        "text": "案を一つ出すたびに多数決を行い，過半数を得た時点で発想を終了する。",
         "choice_id": "center_style_curated_067_019__choice_3",
         "is_correct": false,
-        "explanation": "まず多くの案を出すという考え方に反する。"
+        "explanation": "発想の途中で選別を始めると，十分な数の案を集める前に検討範囲が狭まる。"
       }
     ],
     "correct_choice": "1",
-    "explanation": "ブレインストーミングでは，他の人の案に便乗して発想を広げることも歓迎される。",
+    "explanation": "ブレインストーミングでは，批判を控える，質より量を重視する，自由な発想を歓迎する，他人の案への便乗を歓迎する，という原則で案を出す。案の評価は発想を終えた後に行い，目的や制約に照らして整理・選択する。",
     "tags": [
       "ブレインストーミング",
       "問題の解決"
@@ -41107,7 +41201,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_067_019__choice_1",
     "field_ids": [
-      "society_security"
+      "design"
     ]
   },
   {
@@ -41312,45 +41406,44 @@
   },
   {
     "id": "center_style_curated_068_002",
-    "stem": "ランサムウェアの説明として，最も適当なものはどれか。",
+    "stem": "共有フォルダ内のファイルが開けなくなり，復元と引換えに暗号資産を支払うよう求める画面が表示された。この被害を引き起こした可能性が最も高いマルウェアはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "ファイルを暗号化して使えなくし，元に戻す対価を要求するマルウェア",
+        "text": "ランサムウェア",
         "choice_id": "center_style_curated_068_002__choice_0",
         "is_correct": true,
-        "explanation": "ランサムウェアは，ファイルなどを暗号化して使えなくし，復元と引換えに金銭などを要求するマルウェアである。"
+        "explanation": "ランサムウェアは，ファイルを暗号化するなどして利用できなくし，復旧と引換えに金銭や暗号資産を要求するマルウェアである。"
       },
       {
         "label": "1",
-        "text": "利用者の入力を補助するために文字を大きく表示するソフトウェア",
+        "text": "スパイウェア",
         "choice_id": "center_style_curated_068_002__choice_1",
         "is_correct": false,
-        "explanation": "表示支援の説明である。"
+        "explanation": "スパイウェアは，利用者の操作履歴や入力情報などを本人の意図に反して収集し，外部へ送信するマルウェアである。身代金を要求するものとは限らない。"
       },
       {
         "label": "2",
-        "text": "画像ファイルのサイズを小さくするための圧縮方式",
+        "text": "ワーム",
         "choice_id": "center_style_curated_068_002__choice_2",
         "is_correct": false,
-        "explanation": "圧縮の説明である。"
+        "explanation": "ワームは，ネットワークなどを介して自己増殖し，他のコンピュータへ広がる性質をもつマルウェアである。"
       },
       {
         "label": "3",
-        "text": "Webページの見た目をそろえるための記述",
+        "text": "トロイの木馬",
         "choice_id": "center_style_curated_068_002__choice_3",
         "is_correct": false,
-        "explanation": "CSSに関係する説明である。"
+        "explanation": "トロイの木馬は，有用なソフトウェアなどを装って利用者に実行させ，不正な処理を行うマルウェアである。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "ランサムウェアは，ファイルなどを暗号化して使えなくし，復元と引換えに金銭などを要求するマルウェアである。",
+    "explanation": "ファイルを暗号化するなどして利用できなくし，復旧と引換えに金銭や暗号資産を要求するマルウェアをランサムウェアという。被害時には要求に応じることを前提にせず，端末をネットワークから隔離して組織の担当部署へ連絡し，安全なバックアップなどからの復旧を検討する。",
     "tags": [
       "ランサムウェア",
       "マルウェア",
       "暗号化",
-      "ファイル",
-      "CSS"
+      "ファイル"
     ],
     "primary_term_names": [
       "ランサムウェア",
@@ -41402,41 +41495,43 @@
   },
   {
     "id": "center_style_curated_068_003",
-    "stem": "AIの活用例として，最も適当なものはどれか。",
+    "stem": "AIを活用している例として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "周囲の状況を判断して，自動車の加速や停止を自動で行う。",
+        "text": "大量の道路画像を学習したモデルが，車載カメラの画像から道路標識を分類する。",
         "choice_id": "center_style_curated_068_003__choice_0",
         "is_correct": true,
-        "explanation": "AIは，コンピュータに判断や分類，予測などを行わせる技術であり，自動運転のように周囲の状況を判断して制御する例が当てはまる。"
+        "explanation": "学習データから得たモデルを用いて未知の画像を分類する処理は，機械学習によるAI活用の例である。"
       },
       {
         "label": "1",
-        "text": "机の上の紙を手作業で分類して保管する。",
+        "text": "あらかじめ指定した時刻になると，タイマーが照明を点灯する。",
         "choice_id": "center_style_curated_068_003__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "指定時刻に従う固定的なタイマー制御であり，データから分類や予測の規則を学習する処理ではない。"
       },
       {
         "label": "2",
-        "text": "電源を切ったPCをネットワークから外して置く。",
+        "text": "表計算ソフトが，入力された数値を設定済みの式で合計する。",
         "choice_id": "center_style_curated_068_003__choice_2",
         "is_correct": false,
-        "explanation": "ネットワークから外すだけでAIの活用ではない。"
+        "explanation": "あらかじめ定めた計算式を実行する処理であり，この説明だけではAIの活用とはいえない。"
       },
       {
         "label": "3",
-        "text": "同じ文章を紙に何度も手書きする。",
+        "text": "温度が設定値を超えると，センサと制御回路が換気扇を動かす。",
         "choice_id": "center_style_curated_068_003__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "設定値との比較による単純な制御であり，この説明だけではAIの活用とはいえない。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "AIは，コンピュータに判断や分類，予測などを行わせる技術であり，自動運転のように周囲の状況を判断して制御する例が当てはまる。",
+    "explanation": "AIは，分類・予測・生成など，人間の知的活動の一部をコンピュータで実現する技術の総称である。大量の道路画像から特徴を学習したモデルで未知の画像を分類する処理は，機械学習を用いたAIの代表例である。",
     "tags": [
       "AI",
-      "コンピュータ",
-      "ネットワーク"
+      "機械学習",
+      "画像認識"
     ],
     "primary_term_names": [
       "AI",
@@ -41474,40 +41569,40 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_068_003__choice_0",
     "field_ids": [
-      "network"
+      "data_db"
     ]
   },
   {
     "id": "center_style_curated_068_005",
-    "stem": "デバイスドライバの説明として，最も適当なものはどれか。",
+    "stem": "新しいプリンタをPCへ接続したが，OSが機器を認識できず印刷できない。プリンタの機種に対応したものを導入する必要があるソフトウェアはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "コンピュータに接続した周辺機器を使えるようにするプログラム",
+        "text": "デバイスドライバ",
         "choice_id": "center_style_curated_068_005__choice_0",
         "is_correct": true,
         "explanation": "デバイスドライバは，プリンタなどの周辺機器をOSやアプリから利用できるようにするプログラムである。"
       },
       {
         "label": "1",
-        "text": "Webページの文章の意味を説明するための辞書",
+        "text": "コンパイラ",
         "choice_id": "center_style_curated_068_005__choice_1",
         "is_correct": false,
-        "explanation": "辞書の説明である。"
+        "explanation": "コンパイラは，プログラミング言語で書かれたソースコードを機械語などへ翻訳するソフトウェアである。"
       },
       {
         "label": "2",
-        "text": "利用者のパスワードを決めるための会議方法",
+        "text": "データベース管理システム",
         "choice_id": "center_style_curated_068_005__choice_2",
         "is_correct": false,
-        "explanation": "認証や会議方法の話であり，周辺機器の制御ではない。"
+        "explanation": "データベース管理システムは，データベースの定義・検索・更新・制御などを行うソフトウェアである。"
       },
       {
         "label": "3",
-        "text": "画像の解像度を必ず上げるための装置",
+        "text": "Webサーバソフトウェア",
         "choice_id": "center_style_curated_068_005__choice_3",
         "is_correct": false,
-        "explanation": "解像度を上げる装置ではない。"
+        "explanation": "Webサーバソフトウェアは，HTTPなどを用いてWebページやデータを提供するソフトウェアである。"
       }
     ],
     "correct_choice": "0",
@@ -41564,7 +41659,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_068_005__choice_0",
     "field_ids": [
-      "algorithm"
+      "digital"
     ]
   },
   {
@@ -41747,44 +41842,44 @@
   },
   {
     "id": "center_style_curated_068_008",
-    "stem": "DNSの役割として，最も適当なものはどれか。",
+    "stem": "Webブラウザにドメイン名を含むURLを入力すると，対応するWebサーバのIPアドレスが調べられた。この名前解決を行う仕組みはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "ドメイン名とIPアドレスを対応付ける。",
+        "text": "DNS",
         "choice_id": "center_style_curated_068_008__choice_0",
         "is_correct": true,
-        "explanation": "DNSは，Webサイトなどのドメイン名とIPアドレスを対応付ける仕組みである。"
+        "explanation": "DNSは，ドメイン名やホスト名とIPアドレスを対応付け，名前から通信先を調べる名前解決を行う仕組みである。"
       },
       {
         "label": "1",
-        "text": "画像の色数を増やす。",
+        "text": "DHCP",
         "choice_id": "center_style_curated_068_008__choice_1",
         "is_correct": false,
-        "explanation": "画像表現の話である。"
+        "explanation": "DHCPは，ネットワークへ接続する機器にIPアドレスやデフォルトゲートウェイなどの設定情報を自動的に割り当てる仕組みである。"
       },
       {
         "label": "2",
-        "text": "メールの本文を自動で短くする。",
+        "text": "NAT",
         "choice_id": "center_style_curated_068_008__choice_2",
         "is_correct": false,
-        "explanation": "電子メール本文の編集でありDNSではない。"
+        "explanation": "NATは，プライベートIPアドレスとグローバルIPアドレスを変換する仕組みであり，ドメイン名の名前解決は行わない。"
       },
       {
         "label": "3",
-        "text": "キーボードのキーの大きさを変える。",
+        "text": "NTP",
         "choice_id": "center_style_curated_068_008__choice_3",
         "is_correct": false,
-        "explanation": "入力装置の形状の話である。"
+        "explanation": "NTPは，ネットワークに接続された機器の時刻を同期するためのプロトコルである。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "DNSは，Webサイトなどのドメイン名とIPアドレスを対応付ける仕組みである。",
+    "explanation": "DNSは，ドメイン名やホスト名とIPアドレスを対応付ける仕組みである。利用者がURLにドメイン名を入力すると，DNSによる名前解決で通信先のIPアドレスが調べられ，Webサーバへ接続できる。",
     "tags": [
       "DNS",
       "ドメイン名",
       "IPアドレス",
-      "Webページ"
+      "名前解決"
     ],
     "primary_term_names": [
       "DNS",
@@ -41836,39 +41931,39 @@
   },
   {
     "id": "center_style_curated_068_009",
-    "stem": "受信した電子メールの添付ファイルを開いた後，PCの挙動がおかしくなった。疑われるものとして，最も適当なものはどれか。",
+    "stem": "送信元を確認できない電子メールの添付ファイルを開いた直後，未知のプログラムが動作し，PCから大量のメールが送信され始めた。最も疑われる原因はどれか。",
     "choices": [
       {
         "label": "0",
         "text": "添付ファイルを通じてマルウェアが実行された。",
         "choice_id": "center_style_curated_068_009__choice_0",
         "is_correct": true,
-        "explanation": "不審な添付ファイルを開くと，マルウェアやウィルスが実行され，PCの挙動に異常が出ることがある。"
+        "explanation": "不審な添付ファイルに含まれていたマルウェアが実行され，PCを不正に操作している可能性が高い。"
       },
       {
         "label": "1",
-        "text": "画面の解像度が自動で高くなった。",
+        "text": "メールサーバが定期保守を開始した。",
         "choice_id": "center_style_curated_068_009__choice_1",
         "is_correct": false,
-        "explanation": "画面表示の話である。"
+        "explanation": "メールサーバの保守だけで，PC上の未知のプログラムが動作して大量のメールを送信するとは考えにくい。"
       },
       {
         "label": "2",
-        "text": "メールアドレスの文字数が増えた。",
+        "text": "ディスプレイのデバイスドライバが更新された。",
         "choice_id": "center_style_curated_068_009__choice_2",
         "is_correct": false,
-        "explanation": "メールアドレスの形式とは関係がない。"
+        "explanation": "ディスプレイのデバイスドライバは画面表示を制御するものであり，大量のメール送信を引き起こすものではない。"
       },
       {
         "label": "3",
-        "text": "キーボードの色が変わった。",
+        "text": "添付ファイルが可逆圧縮されていた。",
         "choice_id": "center_style_curated_068_009__choice_3",
         "is_correct": false,
-        "explanation": "セキュリティ上の攻撃の説明ではない。"
+        "explanation": "圧縮形式であること自体は，未知のプログラムの実行や大量のメール送信の原因ではない。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "不審な添付ファイルを開くと，マルウェアやウィルスが実行され，PCの挙動に異常が出ることがある。",
+    "explanation": "添付ファイルを開いた直後に未知のプログラムが動作し，大量のメールが送信されたことから，添付ファイルを通じてマルウェアが実行された可能性が高い。異常に気付いた場合は，組織の手順に従ってネットワークから隔離し，管理者へ報告する。",
     "tags": [
       "E-mail",
       "添付ファイル",
@@ -41930,7 +42025,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_068_009__choice_0",
     "field_ids": [
-      "digital"
+      "society_security"
     ]
   },
   {
@@ -42114,39 +42209,39 @@
   },
   {
     "id": "center_style_curated_068_012",
-    "stem": "クラウドコンピューティングの説明として，最も適当なものはどれか。",
+    "stem": "アクセス数が時期によって大きく変動するWebサービスで，最大時の負荷に合わせたサーバを年間を通して保有することを避けたい。クラウドコンピューティングの利用方法として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "ソフトウェアやハードウェアなどの資源を，ネットワーク経由で必要に応じて利用すること",
+        "text": "需要に応じてサーバ資源を増減し，利用量に応じた構成で運用する。",
         "choice_id": "center_style_curated_068_012__choice_0",
         "is_correct": true,
-        "explanation": "クラウドコンピューティングは，ネットワーク経由で外部のコンピュータ資源やサービスを必要に応じて利用する形態である。"
+        "explanation": "クラウドでは，必要に応じてコンピュータ資源を増減できるため，負荷の変動に合わせて構成を調整できる。"
       },
       {
         "label": "1",
-        "text": "すべてのデータを紙だけで保管すること",
+        "text": "ネットワークから切り離し，アクセス要求を紙に印刷して処理する。",
         "choice_id": "center_style_curated_068_012__choice_1",
         "is_correct": false,
-        "explanation": "紙での保管である。"
+        "explanation": "ネットワーク経由でサービスを提供できず，アクセス数の変動に応じた資源調整にもならない。"
       },
       {
         "label": "2",
-        "text": "PCをネットワークから完全に切り離して利用すること",
+        "text": "最小時の負荷に合わせてサーバ資源を固定し，稼働状況は監視しない。",
         "choice_id": "center_style_curated_068_012__choice_2",
         "is_correct": false,
-        "explanation": "ネットワーク経由で利用する点に反する。"
+        "explanation": "負荷が増えたときに処理能力が不足する可能性があり，クラウドの伸縮性を活用できていない。"
       },
       {
         "label": "3",
-        "text": "同じ文字を手書きで何度も写すこと",
+        "text": "管理を簡単にするため，全運用担当者が一つの管理者アカウントを共有する。",
         "choice_id": "center_style_curated_068_012__choice_3",
         "is_correct": false,
-        "explanation": "情報システムの利用形態ではない。"
+        "explanation": "管理者アカウントの共有は，操作した人物を特定しにくくし，セキュリティ上不適切である。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "クラウドコンピューティングは，ネットワーク経由で外部のコンピュータ資源やサービスを必要に応じて利用する形態である。",
+    "explanation": "クラウドコンピューティングでは，ネットワーク経由でコンピュータ資源を必要に応じて利用できる。需要に応じて資源を増減する伸縮性を活用すれば，最大負荷に合わせた設備を常時保有せずに，負荷の変動へ対応しやすくなる。",
     "tags": [
       "クラウドコンピューティング",
       "クラウドサービス",
@@ -43222,10 +43317,10 @@
     "choices": [
       {
         "label": "0",
-        "text": "認証局が電子証明書の正当性を保証する。",
+        "text": "認証局が所有者情報と公開鍵の対応を確認し，電子証明書にディジタル署名する。",
         "choice_id": "center_style_curated_069_007__choice_0",
         "is_correct": true,
-        "explanation": "電子証明書は，認証局など信頼できる第三者によって正当性が確認される。"
+        "explanation": "認証局は，証明書の申請者を所定の方法で確認し，所有者情報と公開鍵を結び付けた電子証明書にディジタル署名する。利用者は認証局の公開鍵で署名を検証できる。"
       },
       {
         "label": "1",
@@ -43250,7 +43345,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "電子証明書は，認証局など信頼できる第三者によって正当性が確認される。",
+    "explanation": "電子証明書は，公開鍵とその所有者の情報を結び付けるデータである。認証局が所定の確認を行って証明書にディジタル署名し，利用者は認証局の公開鍵で署名を検証する。これにより，証明書が信頼する認証局から発行され，発行後に改ざんされていないことを確認できる。",
     "tags": [
       "電子証明書",
       "認証局",
@@ -43675,39 +43770,39 @@
   },
   {
     "id": "center_style_curated_069_012",
-    "stem": "フェイルセーフの説明として，最も適当なものはどれか。",
+    "stem": "鉄道信号の制御装置で異常を検知したとき，信号を停止現示にして列車を止める設計に用いられている考え方はどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "故障や誤りが起きても，危険な状態になりにくいようにする設計",
+        "text": "フェイルセーフ",
         "choice_id": "center_style_curated_069_012__choice_0",
         "is_correct": true,
-        "explanation": "フェイルセーフは，故障や異常が起きたときでも安全な状態に移るようにする考え方である。"
+        "explanation": "フェイルセーフは，装置の故障や異常が起きたとき，停止などの安全側の状態へ移す設計思想である。"
       },
       {
         "label": "1",
-        "text": "人が誤った操作をできないようにする設計",
+        "text": "フールプルーフ",
         "choice_id": "center_style_curated_069_012__choice_1",
         "is_correct": false,
-        "explanation": "フールプルーフの説明である。"
+        "explanation": "フールプルーフは，利用者が誤った操作をしようとしても，事故や故障につながらないようにする設計思想である。設問は装置の異常時の動作を問うている。"
       },
       {
         "label": "2",
-        "text": "見た目を必ず派手にする設計",
+        "text": "フェイルソフト",
         "choice_id": "center_style_curated_069_012__choice_2",
         "is_correct": false,
-        "explanation": "見た目の話である。"
+        "explanation": "フェイルソフトは，障害が起きたときに機能や性能を縮小しながら，処理の継続を図る考え方である。"
       },
       {
         "label": "3",
-        "text": "保存するデータを必ず削除する設計",
+        "text": "フォールトトレランス",
         "choice_id": "center_style_curated_069_012__choice_3",
         "is_correct": false,
-        "explanation": "安全設計一般の説明として不適切である。"
+        "explanation": "フォールトトレランスは，構成要素の一部が故障しても，冗長化などによってシステム全体の機能を維持する考え方である。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "フェイルセーフは，故障や異常が起きたときでも安全な状態に移るようにする考え方である。",
+    "explanation": "フェイルセーフは，装置の故障や異常が起きたとき，停止などの安全側の状態へ移す設計思想である。信号を停止現示にして列車を止める動作は，運行の継続よりも安全の確保を優先しているため，フェイルセーフに当たる。",
     "tags": [
       "フェイルセーフ",
       "フールプルーフ",
@@ -43799,7 +43894,7 @@
       "ディジタルディバイド",
       "情報システム",
       "ディジタル",
-      "Webページ"
+      "情報格差"
     ],
     "primary_term_names": [
       "ディジタルディバイド",
@@ -43837,7 +43932,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_069_013__choice_0",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -44127,7 +44222,7 @@
     "choices": [
       {
         "label": "0",
-        "text": "n+1",
+        "text": "n＋1",
         "choice_id": "center_style_curated_071_001__choice_0",
         "is_correct": false,
         "explanation": "1人1個の鍵に1個を足した数で，公開鍵と秘密鍵の組を数えていない。"
@@ -44141,14 +44236,14 @@
       },
       {
         "label": "2",
-        "text": "n(n-1)/2",
+        "text": "n(n－1)÷2",
         "choice_id": "center_style_curated_071_001__choice_2",
         "is_correct": false,
         "explanation": "2人の組合せの数であり，鍵数ではない。"
       },
       {
         "label": "3",
-        "text": "log2 n",
+        "text": "log₂n",
         "choice_id": "center_style_curated_071_001__choice_3",
         "is_correct": false,
         "explanation": "半分に絞る回数のような量であり，鍵数ではない。"
@@ -44936,7 +45031,7 @@
   },
   {
     "id": "center_style_curated_072_001",
-    "stem": "音声を1秒間に11000回サンプリングし，1回の値を8ビットで記録する。512×10^6バイトの記憶媒体に記録できる音声は最大でおよそ何分か。",
+    "stem": "音声を1秒間に11,000回サンプリングし，1回の値を8ビットで記録する。512×10⁶バイトの記憶媒体に記録できる音声は最大でおよそ何分か。",
     "choices": [
       {
         "label": "0",
@@ -44952,10 +45047,10 @@
       },
       {
         "label": "2",
-        "text": "775分",
+        "text": "776分",
         "choice_id": "center_style_curated_072_001__choice_2",
         "is_correct": true,
-        "explanation": "1秒のデータ量は11000×8ビット=11000バイトである。512×10^6÷11000÷60は約775分なので，最も近いのは775分である。"
+        "explanation": "1秒のデータ量は11,000×8＝88,000ビット＝11,000バイトである。512×10⁶÷11,000÷60≒775.8分なので，およそ776分である。"
       },
       {
         "label": "3",
@@ -44966,7 +45061,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "1秒のデータ量は11000×8ビット=11000バイトである。512×10^6÷11000÷60は約775分なので，最も近いのは775分である。",
+    "explanation": "1秒のデータ量は11,000×8＝88,000ビット＝11,000バイトである。記録できる時間は，512×10⁶÷11,000÷60≒775.8分なので，およそ776分である。",
     "tags": [
       "サンプリング",
       "標本化",
@@ -45133,36 +45228,36 @@
   },
   {
     "id": "center_style_curated_072_003",
-    "stem": "10Mバイトのデータを100,000ビット/秒の回線で転送する。伝送効率が50%で，1Mバイト=10^6バイトとすると，転送時間は何秒か。",
+    "stem": "18Mバイトのデータを2Mビット/秒の回線で転送する。伝送効率が75%で，1Mビット＝10⁶ビット，1Mバイト＝10⁶バイトとすると，転送時間は何秒か。",
     "choices": [
       {
         "label": "0",
-        "text": "200秒",
+        "text": "24秒",
         "choice_id": "center_style_curated_072_003__choice_0",
         "is_correct": false
       },
       {
         "label": "1",
-        "text": "400秒",
+        "text": "48秒",
         "choice_id": "center_style_curated_072_003__choice_1",
         "is_correct": false
       },
       {
         "label": "2",
-        "text": "800秒",
+        "text": "72秒",
         "choice_id": "center_style_curated_072_003__choice_2",
         "is_correct": false
       },
       {
         "label": "3",
-        "text": "1600秒",
+        "text": "96秒",
         "choice_id": "center_style_curated_072_003__choice_3",
         "is_correct": true,
-        "explanation": "10Mバイトは10×10^6×8=80,000,000ビットである。実際に使える速さは100,000×0.5=50,000ビット/秒なので，80,000,000÷50,000=1600秒である。"
+        "explanation": "データ量は18×10⁶×8＝144×10⁶ビットである。実効速度は2×10⁶×0.75＝1.5×10⁶ビット/秒なので，転送時間は144×10⁶÷(1.5×10⁶)＝96秒である。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "10Mバイトは10×10^6×8=80,000,000ビットである。実際に使える速さは100,000×0.5=50,000ビット/秒なので，80,000,000÷50,000=1600秒である。",
+    "explanation": "データ量は18×10⁶×8＝144×10⁶ビットである。実効速度は2×10⁶×0.75＝1.5×10⁶ビット/秒なので，転送時間は144×10⁶÷(1.5×10⁶)＝96秒である。",
     "tags": [
       "データ量",
       "B",
@@ -45315,7 +45410,7 @@
   },
   {
     "id": "center_style_curated_072_006",
-    "stem": "2000バイトのデータを2件ずつまとめ，400バイトの見出し情報を付けて送る。データは1時間に100000件発生し，回線速度は1Mビット/秒である。回線利用率はおよそ何%か。",
+    "stem": "2,000バイトのデータを2件ずつまとめ，400バイトの見出し情報を付けて送る。データは1時間に100,000件発生し，回線速度は1Mビット/秒である。1Mビット＝10⁶ビットとして，回線利用率はおよそ何%か。",
     "choices": [
       {
         "label": "0",
@@ -45345,7 +45440,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "2件ごとに送る量は2000×2+400=4400バイトである。1時間に50000回送るので，1時間の送信量は4400×8×50000ビット。1秒当たりでは約489000ビットとなり，1Mビット/秒に対して約49%である。",
+    "explanation": "2件ごとに送る量は2,000×2＋400＝4,400バイトである。1時間に50,000回送るので，1時間の送信量は4,400×8×50,000ビットである。1秒当たりでは約488,889ビットとなり，10⁶ビット/秒に対する利用率は約48.9%なので，およそ49%である。",
     "tags": [
       "データ量",
       "B",
@@ -45412,7 +45507,7 @@
   },
   {
     "id": "center_style_curated_072_007",
-    "stem": "1.5Mビット/秒の回線で12Mバイトのデータを転送する。伝送効率が50%で，1Mバイト=10^6バイトとすると，必要な時間は何秒か。",
+    "stem": "1.5Mビット/秒の回線で12Mバイトのデータを転送する。伝送効率が50%で，1Mビット＝10⁶ビット，1Mバイト＝10⁶バイトとすると，必要な時間は何秒か。",
     "choices": [
       {
         "label": "0",
@@ -45437,11 +45532,11 @@
         "text": "128秒",
         "choice_id": "center_style_curated_072_007__choice_3",
         "is_correct": true,
-        "explanation": "12Mバイトは12×10^6×8=96,000,000ビットである。実際に使える速さは1.5M×0.5=750,000ビット/秒なので，96,000,000÷750,000=128秒である。"
+        "explanation": "12Mバイトは12×10⁶×8＝96,000,000ビットである。実効速度は1.5×10⁶×0.5＝750,000ビット/秒なので，96,000,000÷750,000＝128秒である。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "12Mバイトは12×10^6×8=96,000,000ビットである。実際に使える速さは1.5M×0.5=750,000ビット/秒なので，96,000,000÷750,000=128秒である。",
+    "explanation": "12Mバイトは12×10⁶×8＝96,000,000ビットである。実際に使える速さは1.5×10⁶×0.5＝750,000ビット/秒なので，96,000,000÷750,000＝128秒である。",
     "tags": [
       "データ量",
       "B",
@@ -45508,7 +45603,7 @@
   },
   {
     "id": "center_style_curated_072_008",
-    "stem": "64kビット/秒の回線で10^6バイトのファイルを送る。伝送効率が80%のとき，伝送におよそ何秒かかるか。",
+    "stem": "64kビット/秒の回線で10⁶バイトのファイルを送る。伝送効率が80%で，1kビット＝10³ビットとすると，伝送におよそ何秒かかるか。",
     "choices": [
       {
         "label": "0",
@@ -45534,11 +45629,11 @@
         "text": "156秒",
         "choice_id": "center_style_curated_072_008__choice_3",
         "is_correct": true,
-        "explanation": "10^6バイトは8×10^6ビットである。実際に使える速さは64000×0.8=51200ビット/秒なので，8×10^6÷51200は約156秒である。"
+        "explanation": "10⁶バイトは8×10⁶ビットである。実効速度は64×10³×0.8＝51,200ビット/秒なので，8×10⁶÷51,200＝156.25秒となり，およそ156秒である。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "10^6バイトは8×10^6ビットである。実際に使える速さは64000×0.8=51200ビット/秒なので，8×10^6÷51200は約156秒である。",
+    "explanation": "10⁶バイトは8×10⁶ビットである。実際に使える速さは64×10³×0.8＝51,200ビット/秒なので，8×10⁶÷51,200＝156.25秒となり，およそ156秒である。",
     "tags": [
       "データ量",
       "B",
@@ -45605,7 +45700,7 @@
   },
   {
     "id": "center_style_curated_072_009",
-    "stem": "A-B間の回線の稼働率は0.9である。別経路としてA-C，C-Bの2本の回線を追加し，それぞれの稼働率も0.9である。AとBがつながる稼働率はどれか。",
+    "stem": "A-B間の回線の稼働率は0.9である。別経路としてA-C，C-Bの2本の回線を追加し，それぞれの稼働率も0.9である。各回線の故障は互いに独立であるとき，AとBがつながる稼働率はどれか。",
     "choices": [
       {
         "label": "0",
@@ -45637,7 +45732,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "別経路A-C-Bが使える確率は0.9×0.9=0.81である。直接経路も別経路も使えない確率は(1-0.9)×(1-0.81)=0.019なので，少なくとも一方が使える確率は1-0.019=0.981である。",
+    "explanation": "別経路A-C-Bが使える確率は0.9×0.9＝0.81である。直接経路と別経路がともに使えない確率は，故障が互いに独立なので，(1－0.9)×(1－0.81)＝0.019となる。したがって，少なくとも一方が使える確率は1－0.019＝0.981である。",
     "tags": [
       "可用性",
       "信頼性",
@@ -45693,7 +45788,7 @@
   },
   {
     "id": "center_style_curated_072_010",
-    "stem": "A-B間の回線の稼働率は0.9，A-C間の回線の稼働率は0.8である。C-B間に稼働率pの予備回線を追加し，全体の稼働率を0.95以上にしたい。pは最低いくら必要か。",
+    "stem": "A-B間の回線の稼働率は0.9，A-C間の回線の稼働率は0.8である。C-B間に稼働率pの予備回線を追加し，全体の稼働率を0.95以上にしたい。各回線の故障は互いに独立であるとき，pは最低いくら必要か。",
     "choices": [
       {
         "label": "0",
@@ -45722,7 +45817,7 @@
       }
     ],
     "correct_choice": "3",
-    "explanation": "予備経路A-C-Bが使える確率は0.8pである。全体の稼働率は，直接回線が使える0.9に，直接回線が使えない0.1のとき予備経路が使える分0.1×0.8pを足して，0.9+0.08pとなる。0.9+0.08p≧0.95より，p≧0.625である。",
+    "explanation": "予備経路A-C-Bが使える確率は0.8pである。直接回線と各予備回線の故障が互いに独立なので，全体の稼働率は，直接回線が使える0.9に，直接回線が使えない0.1のとき予備経路が使える確率を加えた0.9＋0.1×0.8p＝0.9＋0.08pとなる。0.9＋0.08p≧0.95より，p≧0.625である。",
     "tags": [
       "可用性",
       "信頼性",
@@ -49074,7 +49169,7 @@
   },
   {
     "id": "center_style_curated_074_003",
-    "stem": "5Mバイトのファイルを，通信速度100Mビット/秒の回線でダウンロードする。実効通信速度が通信速度の20%のとき，およそ何秒かかるか。1Mバイト=10^6バイトとする。",
+    "stem": "5Mバイトのファイルを，通信速度100Mビット/秒の回線でダウンロードする。実効通信速度が通信速度の20%のとき，およそ何秒かかるか。1Mビット＝10⁶ビット，1Mバイト＝10⁶バイトとする。",
     "choices": [
       {
         "label": "0",
@@ -49088,7 +49183,7 @@
         "text": "2秒",
         "choice_id": "center_style_curated_074_003__choice_1",
         "is_correct": true,
-        "explanation": "5Mバイトは5×10^6×8=40,000,000ビットである。実効通信速度は100M×0.2=20Mビット/秒なので，40M÷20M=2秒である。"
+        "explanation": "5Mバイトは5×10⁶×8＝40×10⁶ビットである。実効通信速度は100×10⁶×0.2＝20×10⁶ビット/秒なので，40×10⁶÷(20×10⁶)＝2秒である。"
       },
       {
         "label": "2",
@@ -49104,7 +49199,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "5Mバイトは5×10^6×8=40,000,000ビットである。実効通信速度は100M×0.2=20Mビット/秒なので，40M÷20M=2秒である。",
+    "explanation": "5Mバイトは5×10⁶×8＝40×10⁶ビットである。実効通信速度は100×10⁶×0.2＝20×10⁶ビット/秒なので，40×10⁶÷(20×10⁶)＝2秒である。",
     "tags": [
       "データ量",
       "B",
@@ -49633,36 +49728,36 @@
   },
   {
     "id": "center_style_curated_074_009",
-    "stem": "パスワードに関する行為のうち，不正アクセスにつながる行為として最も適当なものはどれか。",
+    "stem": "退職者のアカウントを第三者に悪用されることを防ぐための運用として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "業務代行のため，自分の社内データベース用IDとパスワードを同僚に伝える",
+        "text": "過去の業務を確認できるよう，退職後もアカウントとパスワードをそのまま有効にしておく。",
         "choice_id": "center_style_curated_074_009__choice_0",
         "is_correct": false
       },
       {
         "label": "1",
-        "text": "自分のパスワードのメモを自分のPCに貼る",
+        "text": "退職者のアカウントを部署の共用アカウントへ変更し，従来のパスワードを全員へ知らせる。",
         "choice_id": "center_style_curated_074_009__choice_1",
         "is_correct": false
       },
       {
         "label": "2",
-        "text": "文書を見る権利がない人に，その文書の閲覧用パスワードを教える",
+        "text": "アカウントの表示名だけを変更し，ログインに使う認証情報は変更しない。",
         "choice_id": "center_style_curated_074_009__choice_2",
         "is_correct": false
       },
       {
         "label": "3",
-        "text": "他人のショッピングサイト用IDとパスワードを，本人に無断で第三者に伝える",
+        "text": "退職時にアカウントを速やかに無効化し，必要な業務データは権限を確認した上で引き継ぐ。",
         "choice_id": "center_style_curated_074_009__choice_3",
         "is_correct": true,
-        "explanation": "他人のIDとパスワードを本人に無断で第三者に伝えることは，なりすましや不正アクセスにつながる行為である。"
+        "explanation": "退職者が利用していた認証情報を使えない状態にすれば，退職後の本人や認証情報を入手した第三者によるログインを防ぎやすくなる。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "他人のIDとパスワードを本人に無断で第三者に伝えることは，なりすましや不正アクセスにつながる行為である。",
+    "explanation": "退職や異動によって利用資格がなくなったアカウントは，速やかに無効化または削除する。業務上必要なデータは，管理者が権限と目的を確認した上で適切な担当者へ引き継ぐ。アカウントを残したり共用したりすると，不正アクセスや操作主体を追跡できない事態につながる。",
     "tags": [
       "不正アクセス",
       "パスワード",
@@ -49990,7 +50085,7 @@
   },
   {
     "id": "center_style_curated_074_013",
-    "stem": "ブレインストーミングの進め方として最も適当なものはどれか。",
+    "stem": "部活動の新しい行事について，方針を決める前に部員から多様な案を集めたい。ブレインストーミングの進行として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
@@ -50020,7 +50115,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "ブレインストーミングでは，自由に多くのアイディアを出し，他の人の案に便乗することも認め，批判や評価は後に回す。",
+    "explanation": "ブレインストーミングでは，案を出す段階で批判や評価をせず，自由な発想と量を重視する。他の人の案を組み合わせたり，そこから発展させたりする便乗も認めることで，多様な案を集めやすくなる。案の実現可能性を検討して絞り込む作業は，発想を十分に広げた後に行う。",
     "tags": [
       "ブレインストーミング",
       "問題解決"
@@ -50061,7 +50156,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_074_013__choice_1",
     "field_ids": [
-      "society_security"
+      "design"
     ]
   },
   {
@@ -50754,7 +50849,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "フールプルーフは，人が誤った操作をしても重大な問題になりにくいようにする設計である。入力値を確認し，誤りがあれば再入力を促す0未満や文字の例はフールプルーフに当たる。",
+    "explanation": "フールプルーフは，利用者が誤った操作をしようとしても，誤動作や事故につながりにくくする設計である。人数欄に0未満の数や文字が入力された場合に処理を進めず，再入力を促す仕組みはフールプルーフに当たる。",
     "tags": [
       "フールプルーフ",
       "フェイルセーフ",
@@ -50829,11 +50924,11 @@
         "text": "ネットワークに接続せず，単独のコンピュータで文書を作成する。",
         "choice_id": "center_style_curated_077_001__choice_3",
         "is_correct": true,
-        "explanation": "IoTは，モノをインターネットなどのネットワークにつなぎ，状態の取得や制御に役立てる考え方である。0，1，。"
+        "explanation": "ネットワークに接続しない単独のコンピュータで文書を作成するだけでは，モノの状態をネットワーク経由で収集したり制御したりしていないため，IoTの活用例には当たらない。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "IoTは，モノをインターネットなどのネットワークにつなぎ，状態の取得や制御に役立てる考え方である。0，1，。",
+    "explanation": "IoTは，さまざまなモノをインターネットなどのネットワークへ接続し，状態の収集や遠隔制御に役立てる考え方である。工場設備の監視，位置情報を用いた交通情報の配信，電力使用量の自動送信はいずれもIoTの例である。ネットワークに接続しない単独のコンピュータで文書を作成するだけの例は，IoTには当たらない。",
     "tags": [
       "IoT",
       "センサ",
@@ -51351,7 +51446,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_077_006__choice_1",
     "field_ids": [
-      "society_security"
+      "data_db"
     ]
   },
   {
@@ -51666,10 +51761,10 @@
     "choices": [
       {
         "label": "0",
-        "text": "機械の動作中に人が近づいたことをセンサが検知したら，機械を停止する。",
+        "text": "電子レンジは扉が開いた状態では加熱を開始できず，加熱中に扉を開けると停止する。",
         "choice_id": "center_style_curated_079_003__choice_0",
         "is_correct": true,
-        "explanation": "フールプルーフは，人が誤った操作をしても重大な事故につながりにくくする設計である。人が危険な範囲に入ったらセンサで検知して機械を止める。"
+        "explanation": "扉が開いたまま加熱するという危険な操作を受け付けないインターロックは，人が誤操作しても事故につながりにくくするフールプルーフの例である。"
       },
       {
         "label": "1",
@@ -51692,7 +51787,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "フールプルーフは，人が誤った操作をしても重大な事故につながりにくくする設計である。人が危険な範囲に入ったらセンサで検知して機械を止める。",
+    "explanation": "フールプルーフは，利用者が誤った操作をしようとしても，機器が受け付けないなどの仕組みによって事故や障害を防ぐ設計である。電子レンジの扉が開いている間は加熱できない仕組みは，危険な操作そのものを成立させない典型例である。",
     "tags": [
       "フールプルーフ",
       "センサ",
@@ -52037,39 +52132,39 @@
   },
   {
     "id": "center_style_curated_080_001",
-    "stem": "2進数1011を3倍した値として，最も適当なものはどれか。",
+    "stem": "2進数1011₂を3倍した値として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "10110",
+        "text": "10110₂",
         "choice_id": "center_style_curated_080_001__choice_0",
         "is_correct": false,
         "explanation": "2倍しただけの値である。"
       },
       {
         "label": "1",
-        "text": "100001",
+        "text": "100001₂",
         "choice_id": "center_style_curated_080_001__choice_1",
         "is_correct": true,
         "explanation": "2進数1011は10進数で11なので，3倍すると33である。33は32+1なので2進数では100001になる。別の見方では，3倍は2倍した10110に元の1011を足すことでも求められる。"
       },
       {
         "label": "2",
-        "text": "1111",
+        "text": "1111₂",
         "choice_id": "center_style_curated_080_001__choice_2",
         "is_correct": false,
         "explanation": "1111は10進数で15を表し，3倍した33ではない。"
       },
       {
         "label": "3",
-        "text": "11011",
+        "text": "11011₂",
         "choice_id": "center_style_curated_080_001__choice_3",
         "is_correct": false,
         "explanation": "11011は10進数で27を表し，3倍した33ではない。"
       }
     ],
     "correct_choice": "1",
-    "explanation": "2進数1011は10進数で11なので，3倍すると33である。33は32+1なので2進数では100001になる。別の見方では，3倍は2倍した10110に元の1011を足すことでも求められる。",
+    "explanation": "1011₂は10進数で11なので，3倍すると33である。33＝32＋1なので，2進数では100001₂になる。別の見方では，3倍は2倍した10110₂に元の1011₂を足すことでも求められる。",
     "tags": [
       "2進数",
       "数値の扱い"
@@ -52504,33 +52599,33 @@
     "choices": [
       {
         "label": "0",
-        "text": "0.01",
+        "text": "0.01₁₆",
         "choice_id": "center_style_curated_080_006__choice_0",
         "is_correct": false,
         "explanation": "1/256。"
       },
       {
         "label": "1",
-        "text": "0.02",
+        "text": "0.02₁₆",
         "choice_id": "center_style_curated_080_006__choice_1",
         "is_correct": false
       },
       {
         "label": "2",
-        "text": "0.05",
+        "text": "0.05₁₆",
         "choice_id": "center_style_curated_080_006__choice_2",
         "is_correct": false
       },
       {
         "label": "3",
-        "text": "0.08",
+        "text": "0.08₁₆",
         "choice_id": "center_style_curated_080_006__choice_3",
         "is_correct": true,
         "explanation": "16進小数の第1位は1/16，第2位は1/256を表す。0.08(16進数)は8/256=1/32なので，10進数の1/32に等しい。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "16進小数の第1位は1/16，第2位は1/256を表す。0.08(16進数)は8/256=1/32なので，10進数の1/32に等しい。",
+    "explanation": "16進小数の第1位は1/16，第2位は1/256を表す。0.08₁₆は8/256＝1/32なので，10進数の1/32に等しい。",
     "tags": [
       "16進数",
       "数値の扱い"
@@ -52637,33 +52732,33 @@
     "choices": [
       {
         "label": "0",
-        "text": "0.001011",
+        "text": "0.001011₂",
         "choice_id": "center_style_curated_081_001__choice_0",
         "is_correct": false
       },
       {
         "label": "1",
-        "text": "0.001101",
+        "text": "0.001101₂",
         "choice_id": "center_style_curated_081_001__choice_1",
         "is_correct": false
       },
       {
         "label": "2",
-        "text": "0.00111",
+        "text": "0.00111₂",
         "choice_id": "center_style_curated_081_001__choice_2",
         "is_correct": true,
         "explanation": "7÷32は7/32である。2進小数では1/32は0.00001なので，7/32は4/32+2/32+1/32=0.00100+0.00010+0.00001=0.00111になる。"
       },
       {
         "label": "3",
-        "text": "0.0111",
+        "text": "0.0111₂",
         "choice_id": "center_style_curated_081_001__choice_3",
         "is_correct": false,
         "explanation": "7/16を表し，7/32の2倍である。"
       }
     ],
     "correct_choice": "2",
-    "explanation": "7÷32は7/32である。2進小数では1/32は0.00001なので，7/32は4/32+2/32+1/32=0.00100+0.00010+0.00001=0.00111になる。",
+    "explanation": "7÷32は7/32である。2進小数では1/32は0.00001₂なので，7/32は4/32＋2/32＋1/32＝0.00100₂＋0.00010₂＋0.00001₂＝0.00111₂になる。",
     "tags": [
       "2進数",
       "数値の扱い"
@@ -52812,7 +52907,7 @@
         "text": "パスワードと指紋を使う。",
         "choice_id": "center_style_curated_081_003__choice_1",
         "is_correct": true,
-        "explanation": "認証では，知っている情報，持っている物，身体的な特徴など，異なる種類の要素を組み合わせると安全性を高めやすい。パスワードは知っている情報，指紋は身体的な特徴なので。"
+        "explanation": "パスワードは知識要素，指紋は生体要素であり，異なる種類の認証要素を組み合わせている。"
       },
       {
         "label": "2",
@@ -52830,7 +52925,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "認証では，知っている情報，持っている物，身体的な特徴など，異なる種類の要素を組み合わせると安全性を高めやすい。パスワードは知っている情報，指紋は身体的な特徴なので。",
+    "explanation": "多要素認証は，知識・所有物・生体情報など，異なる種類の認証要素を組み合わせる方式である。パスワードは知識要素，指紋は生体要素なので，この組合せは多要素認証に当たる。指紋を二つ使う場合やパスワードを二つ使う場合は，同じ種類の要素を増やしているだけである。",
     "tags": [
       "認証",
       "パスワード",
@@ -53050,7 +53145,7 @@
   },
   {
     "id": "center_style_curated_082_001",
-    "stem": "16進数の小数 0.248 を10進数の分数で表したものとして，最も適当なものはどれか。",
+    "stem": "16進数の小数0.248₁₆を10進数の分数で表したものとして，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
@@ -53079,7 +53174,7 @@
       }
     ],
     "correct_choice": "3",
-    "explanation": "16進数の小数第1位は16分の1，第2位は256分の1，第3位は4096分の1を表す。0.248(16) は 2/16 + 4/256 + 8/4096 = 64/512 + 8/512 + 1/512 = 73/512 である。",
+    "explanation": "16進小数の第1位は1/16，第2位は1/256，第3位は1/4,096を表す。0.248₁₆＝2/16＋4/256＋8/4,096＝64/512＋8/512＋1/512＝73/512である。",
     "tags": [
       "16進数",
       "10進数",
@@ -53686,39 +53781,39 @@
   },
   {
     "id": "center_style_curated_082_009",
-    "stem": "HTMLの説明として，最も適当なものはどれか。",
+    "stem": "Webページの構造・見た目・動作を役割ごとに分けて作成する。HTMLが主に担当する内容として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "Webページの構造や内容を，タグを使って表すための言語である。",
+        "text": "見出し，段落，リンクなど，ページの内容と文書構造を記述する。",
         "choice_id": "center_style_curated_082_009__choice_0",
         "is_correct": true,
-        "explanation": "HTMLは，Webページの見出し，段落，リンクなどの構造や内容をタグで表すための言語である。"
+        "explanation": "HTMLは，Webページの内容と文書構造をタグなどで記述する言語である。"
       },
       {
         "label": "1",
-        "text": "ファイルを安全に転送するための通信手順そのものである。",
+        "text": "文字色，余白，配置など，ページの見た目をまとめて指定する。",
         "choice_id": "center_style_curated_082_009__choice_1",
         "is_correct": false,
-        "explanation": "通信手順の説明である。"
+        "explanation": "文字色や配置などの見た目は，主にCSSが担当する。"
       },
       {
         "label": "2",
-        "text": "データベースから必要な行を取り出すための命令だけを表す言語である。",
+        "text": "クリックに応じた表示の変更など，ページの対話的な動作を実装する。",
         "choice_id": "center_style_curated_082_009__choice_2",
         "is_correct": false,
-        "explanation": "データベースを操作する言語の説明に近い。"
+        "explanation": "クリックに応じた処理などの対話的な動作は，主にJavaScriptが担当する。"
       },
       {
         "label": "3",
-        "text": "画像データを圧縮して，画素数を必ず少なくする方式である。",
+        "text": "ブラウザとWebサーバの間の通信内容を暗号化する。",
         "choice_id": "center_style_curated_082_009__choice_3",
         "is_correct": false,
-        "explanation": "画像圧縮の説明であり，HTMLではない。"
+        "explanation": "通信内容の暗号化は，HTTPSで用いられるTLSが担当する。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "HTMLは，Webページの見出し，段落，リンクなどの構造や内容をタグで表すための言語である。",
+    "explanation": "HTMLは，見出し・段落・リンク・画像など，Webページの内容と文書構造を記述する。見た目の指定には主にCSS，対話的な動作の実装には主にJavaScript，通信の暗号化にはHTTPSで用いられるTLSが関係する。",
     "tags": [
       "HTML",
       "Webページ",
@@ -54451,10 +54546,10 @@
     "choices": [
       {
         "label": "0",
-        "text": "主キー，フィールド",
+        "text": "主キー，外部キー",
         "choice_id": "center_style_curated_083_009__choice_0",
         "is_correct": true,
-        "explanation": "行を一意に識別する項目は主キーである。また，表どうしは共通するフィールドなどを手掛かりに関連付ける。"
+        "explanation": "主キーは表の行を一意に識別し，外部キーは他の表の主キーなどを参照して表どうしを関連付ける。"
       },
       {
         "label": "1",
@@ -54479,18 +54574,18 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "行を一意に識別する項目は主キーである。また，表どうしは共通するフィールドなどを手掛かりに関連付ける。",
+    "explanation": "主キーは，表の各行を一意に識別する列または列の組である。外部キーは，他の表の主キーなどを参照する列または列の組であり，表どうしを関連付けるために使う。したがって，組合せは「主キー，外部キー」である。",
     "tags": [
       "データベース",
       "RDB",
       "主キー",
-      "フィールド",
+      "外部キー",
       "レコード"
     ],
     "primary_term_names": [
       "データベース",
       "主キー",
-      "フィールド"
+      "外部キー"
     ],
     "difficulty": "basic",
     "source_question_ids": [
@@ -54502,7 +54597,7 @@
     "primary_term_ids": [
       "T0593",
       "T0603",
-      "T0456"
+      "T0696"
     ],
     "primary_terms": [
       {
@@ -54520,11 +54615,11 @@
         "matched_variant": "manual:主キー"
       },
       {
-        "term_id": "T0456",
-        "term": "フィールド",
-        "category": "レコード",
-        "code": "３イ;４イ;４イ;３イ",
-        "matched_variant": "manual:フィールド"
+        "term_id": "T0696",
+        "term": "外部キー",
+        "category": "リレーショナルデータベース",
+        "code": "４イ",
+        "matched_variant": "manual:外部キー"
       }
     ],
     "adoption_status": "completed",
@@ -55674,7 +55769,7 @@
       "共通鍵方式",
       "鍵"
     ],
-    "difficulty": "basic",
+    "difficulty": "calculation_basic",
     "source_question_ids": [
       "ip_2010h22_spring_all_q069"
     ],
@@ -55889,7 +55984,7 @@
   },
   {
     "id": "center_style_curated_084_003",
-    "stem": "顧客アンケートで，各項目の評価平均と総合評価との相関係数を調べた。改善を優先する項目として，最も適当なものはどれか。",
+    "stem": "顧客アンケートで，各項目の評価平均と総合評価との相関係数を調べた。相関係数はいずれも0以上である。改善候補として優先的に検討する項目はどれか。",
     "choices": [
       {
         "label": "0",
@@ -55921,7 +56016,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "満足度を上げるには，現在の評価が低く，しかも総合評価との関連が強い項目を改善するのが効果的と考えられる。",
+    "explanation": "評価平均が低い項目は，現状の満足度に課題がある。さらに総合評価との正の相関が大きければ，その項目は総合評価との関連も強い。相関だけで因果関係は断定できないが，追加調査や改善施策の候補として優先的に検討する根拠にはなる。",
     "tags": [
       "相関係数",
       "相関関係",
@@ -56221,7 +56316,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_084_006__choice_1",
     "field_ids": [
-      "digital"
+      "algorithm"
     ]
   },
   {
@@ -56497,7 +56592,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_084_009__choice_1",
     "field_ids": [
-      "design"
+      "digital"
     ]
   },
   {
@@ -56610,39 +56705,39 @@
   },
   {
     "id": "center_style_curated_084_011",
-    "stem": "ランサムウェアの説明として，最も適当なものはどれか。",
+    "stem": "ランサムウェアに感染した端末から，バックアップまで暗号化される事態を避けるための運用として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "ファイルを暗号化するなどして使えなくし，回復のための金銭を要求するマルウェア",
+        "text": "バックアップ取得後は通常のネットワークから切り離すか変更不能な状態で保管し，定期的に復元を試す。",
         "choice_id": "center_style_curated_084_011__choice_0",
         "is_correct": true,
-        "explanation": "ランサムウェアは，ファイルやシステムを使えなくし，復旧と引換えに金銭を要求するマルウェアである。"
+        "explanation": "感染端末から書き換えられないバックアップを確保し，復元できることも確認しておけば，ランサムウェア被害から復旧しやすい。"
       },
       {
         "label": "1",
-        "text": "画面上に広告だけを表示し，金銭を要求しないソフトウェア",
+        "text": "バックアップ先を常時接続し，全ての利用者に書込み権限を与える。",
         "choice_id": "center_style_curated_084_011__choice_1",
         "is_correct": false,
-        "explanation": "広告表示ソフトの説明に近い。"
+        "explanation": "常時接続され，感染端末から書き込めるバックアップは，元データと同時に暗号化されるおそれがある。"
       },
       {
         "label": "2",
-        "text": "利用者がキーボードで入力した内容を記録する入力装置",
+        "text": "元のデータとバックアップを，同じ端末の同じ記憶装置だけに保存する。",
         "choice_id": "center_style_curated_084_011__choice_2",
         "is_correct": false,
-        "explanation": "入力内容の記録に関する説明で，ランサムウェアではない。"
+        "explanation": "同じ端末の同じ記憶装置だけでは，端末の感染や記憶装置の故障によって元データとバックアップを同時に失うおそれがある。"
       },
       {
         "label": "3",
-        "text": "紙の文書を読み取り，画像ファイルに変換する装置",
+        "text": "感染を確認したらバックアップを削除し，復号の対価を直ちに支払う。",
         "choice_id": "center_style_curated_084_011__choice_3",
         "is_correct": false,
-        "explanation": "スキャナの説明である。"
+        "explanation": "復旧手段であるバックアップを先に削除すべきではない。対価を支払っても復号される保証はなく，組織の手順に従って隔離・報告・復旧を行う。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "ランサムウェアは，ファイルやシステムを使えなくし，復旧と引換えに金銭を要求するマルウェアである。",
+    "explanation": "ランサムウェアは，接続中で書込み可能な共有フォルダやバックアップも暗号化することがある。バックアップ取得後に通常のネットワークから切り離す，変更不能なストレージへ保存する，世代を分けて保持するなどして，感染端末から書き換えられないコピーを確保する。さらに復元テストを行い，実際に利用できることを確認する。",
     "tags": [
       "ランサムウェア",
       "マルウェア",
@@ -56887,36 +56982,36 @@
   },
   {
     "id": "center_style_curated_084_014",
-    "stem": "二つの正の8ビット2進数 01111010 と 01001011 を加算して得られる2進数として，最も適当なものはどれか。",
+    "stem": "二つの正の8ビット2進数01111010₂と01001011₂を加算して得られる2進数として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "01100101",
+        "text": "01100101₂",
         "choice_id": "center_style_curated_084_014__choice_0",
         "is_correct": false
       },
       {
         "label": "1",
-        "text": "01111111",
+        "text": "01111111₂",
         "choice_id": "center_style_curated_084_014__choice_1",
         "is_correct": false
       },
       {
         "label": "2",
-        "text": "10000100",
+        "text": "10000100₂",
         "choice_id": "center_style_curated_084_014__choice_2",
         "is_correct": false
       },
       {
         "label": "3",
-        "text": "11000101",
+        "text": "11000101₂",
         "choice_id": "center_style_curated_084_014__choice_3",
         "is_correct": true,
         "explanation": "01111010 は10進数で122，01001011 は75である。122+75=197であり，197を8ビット2進数で表すと11000101になる。"
       }
     ],
     "correct_choice": "3",
-    "explanation": "01111010 は10進数で122，01001011 は75である。122+75=197であり，197を8ビット2進数で表すと11000101になる。",
+    "explanation": "01111010₂は10進数で122，01001011₂は75である。122＋75＝197であり，197を8ビット2進数で表すと11000101₂になる。",
     "tags": [
       "2進数",
       "10進数",
@@ -56928,7 +57023,7 @@
       "10進法",
       "bit"
     ],
-    "difficulty": "basic",
+    "difficulty": "calculation_basic",
     "source_question_ids": [
       "ip_2017h29_spring_all_q072"
     ],
@@ -57248,39 +57343,39 @@
   },
   {
     "id": "center_style_curated_084_018",
-    "stem": "デバイスドライバの説明として，最も適当なものはどれか。",
+    "stem": "アプリケーションからの印刷要求を，OSを通じてプリンタ固有の制御命令へ変換するソフトウェアの役割として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "PCに接続された周辺機器を制御・操作するためのソフトウェア",
+        "text": "デバイスドライバが，OSと周辺機器の間を仲介する。",
         "choice_id": "center_style_curated_084_018__choice_0",
         "is_correct": true,
-        "explanation": "デバイスドライバは，プリンタやキーボードなどの周辺機器をOSやアプリケーションから利用できるように制御するソフトウェアである。"
+        "explanation": "デバイスドライバは，OSからの要求を周辺機器固有の命令へ変換するなどして，OSと機器の間を仲介する。"
       },
       {
         "label": "1",
-        "text": "複数のファイルを一つにまとめたり，元に戻したりするソフトウェア",
+        "text": "コンパイラが，印刷要求を機械語の実行ファイルへ翻訳する。",
         "choice_id": "center_style_curated_084_018__choice_1",
         "is_correct": false,
-        "explanation": "圧縮・展開ソフトの説明に近い。"
+        "explanation": "コンパイラはソースコードを機械語などへ翻訳するソフトウェアであり，周辺機器を制御する役割ではない。"
       },
       {
         "label": "2",
-        "text": "Webブラウザで動画を表示するためのWebページそのもの",
+        "text": "データベース管理システムが，印刷要求を表の行として保存する。",
         "choice_id": "center_style_curated_084_018__choice_2",
         "is_correct": false,
-        "explanation": "Webページの説明である。"
+        "explanation": "データベース管理システムはデータベースの定義・検索・更新などを行うものであり，プリンタ固有の制御命令へ変換するものではない。"
       },
       {
         "label": "3",
-        "text": "電源を入れる前に紙の文書を印刷するための装置",
+        "text": "Webサーバが，印刷要求をHTTPの応答として公開する。",
         "choice_id": "center_style_curated_084_018__choice_3",
         "is_correct": false,
-        "explanation": "装置とソフトウェアを混同している。"
+        "explanation": "WebサーバはHTTPなどの要求に応じてWebコンテンツやデータを返すソフトウェアであり，プリンタ制御を仲介するものではない。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "デバイスドライバは，プリンタやキーボードなどの周辺機器をOSやアプリケーションから利用できるように制御するソフトウェアである。",
+    "explanation": "デバイスドライバは，OSと周辺機器の間を仲介するソフトウェアである。OSから受け取った共通的な入出力要求を機器固有の制御命令へ変換し，プリンタやスキャナなどを利用できるようにする。機器の種類やOSに対応したドライバが必要になる。",
     "tags": [
       "デバイスドライバ",
       "ソフトウェア",
@@ -58316,7 +58411,7 @@
   },
   {
     "id": "center_style_curated_085_010",
-    "stem": "2台のWebサーバの稼働率がそれぞれ0.8で，少なくとも1台が動けばよい。さらに，稼働率0.9のデータベースサーバが動いていれば，システム全体が稼働する。このシステムの稼働率として，最も適当なものはどれか。",
+    "stem": "2台のWebサーバの稼働率がそれぞれ0.8で，少なくとも1台が動けばよい。さらに，稼働率0.9のデータベースサーバが動いていれば，システム全体が稼働する。各サーバの故障は互いに独立であるとき，システム全体の稼働率を小数第3位で四捨五入した値はどれか。",
     "choices": [
       {
         "label": "0",
@@ -58337,7 +58432,7 @@
         "text": "0.86",
         "choice_id": "center_style_curated_085_010__choice_2",
         "is_correct": true,
-        "explanation": "Webサーバ2台が両方とも停止する確率は0.2×0.2=0.04なので，少なくとも1台が動く確率は1-0.04=0.96である。さらにデータベースサーバが動く必要があるので，0.96×0.9=0.864となり，小数第3位を四捨五入すると0.86である。"
+        "explanation": "Webサーバが少なくとも1台動く確率は1－0.2×0.2＝0.96である。データベースサーバも動く確率は0.96×0.9＝0.864であり，小数第3位を四捨五入すると0.86になる。"
       },
       {
         "label": "3",
@@ -58348,7 +58443,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "Webサーバ2台が両方とも停止する確率は0.2×0.2=0.04なので，少なくとも1台が動く確率は1-0.04=0.96である。さらにデータベースサーバが動く必要があるので，0.96×0.9=0.864となり，小数第3位を四捨五入すると0.86である。",
+    "explanation": "Webサーバ2台の故障は互いに独立なので，両方とも停止する確率は0.2×0.2＝0.04である。少なくとも1台が動く確率は1－0.04＝0.96となる。さらに，独立したデータベースサーバが動く必要があるので，0.96×0.9＝0.864である。小数第3位の4を四捨五入すると0.86になる。",
     "tags": [
       "可用性",
       "Webサーバ",
@@ -58360,7 +58455,7 @@
       "Webサーバ",
       "データベース"
     ],
-    "difficulty": "basic",
+    "difficulty": "calculation_basic",
     "source_question_ids": [
       "ip_2024r06_annual_all_q067"
     ],
@@ -58400,7 +58495,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "center_style_curated_085_010__choice_2",
     "field_ids": [
-      "data_db"
+      "society_security"
     ]
   },
   {
@@ -58883,7 +58978,7 @@
       "くりかえし構造",
       "Algorithm"
     ],
-    "difficulty": "basic",
+    "difficulty": "calculation_basic",
     "source_question_ids": [
       "ip_2026r08_annual_all_q088"
     ],
@@ -59160,7 +59255,7 @@
       "2進数",
       "ファイル"
     ],
-    "difficulty": "basic",
+    "difficulty": "calculation_basic",
     "source_question_ids": [
       "sg_2019h31_spring_am_q011"
     ],
@@ -61467,7 +61562,7 @@
       }
     ],
     "correct_choice": "3",
-    "explanation": "時間方向の測定回数と振幅方向の段階数が増え、元の波形に近い表現が可能になる。\n\n標本化周期とは標本化（サンプリング）をする時間間隔のことである。\n標本化周期が大きいと1秒間に標本化される回数（標本化周波数）が小さくなり、もとの波形を正しく再現できず、デジタルデータに歪みが生じることがある（エイリアシング）。\n一般に、元のアナログ波形に含まれる最大の周波数の2倍以上（最短の周期の半分以下）で標本化することで正確な再現が可能となる（標本化定理）。\n量子化ビット数は、量子化する段階の数であり、これが大きいとより細かくデジタル化され、元のアナログ波形に近づく。",
+    "explanation": "標本化周波数を高くすると時間方向に細かく測定でき、量子化ビット数を大きくすると振幅方向の段階を細かくできる。そのため、どちらも大きくする設定が、一般に元の波形をより細かく表現できる。なお標本化定理では、帯域制限された信号を理想的に復元するには、信号に含まれる最高周波数の2倍を超える標本化周波数が必要とされる。実際のディジタル化では量子化誤差なども生じるため、標本化周波数だけで完全な再現が保証されるわけではない。",
     "tags": [
       "デジタル",
       "標本化",
@@ -61788,7 +61883,7 @@
       }
     ],
     "correct_choice": "3",
-    "explanation": "可逆か非可逆かは、展開時に元データを完全復元できるかで区別する。\n\n可逆圧縮はデータを完全に元の状態に復元できる圧縮手法である。\nそのため、情報の損失が一切なく、圧縮・解凍を繰り返してもデータの品質は変化しない。\n可逆圧縮は符号化を用いることで実現する。\nMP3は人間の聴覚には届きにくい部分を削除してデータ量を少なくする非可逆圧縮を行っている。\n音質をできるだけ保ったまま、高い圧縮率を実現しており、データ量は約1/10程度になる。\n削除される音は聴覚心理モデルにもとづき判断される。\n動画ファイルには映像と音声のデータが入っており、それぞれの圧縮方式や同期をとるための情報が格納されている。\n動画ファイルはさまざまなデータを格納できる入れ物という意味で「コンテナ形式」とも呼ばれる。\n例えば、Windows標準の動画形式であるAVIでは、映像の圧縮方法としてMPEG-4、音声の圧縮方法としてMP3を使用されることが多い。",
+    "explanation": "可逆圧縮は、展開したときに元のデータを完全に復元できる圧縮方式である。文書やプログラムなど、1ビットでも失うと内容が変わり得るデータに適している。これに対して非可逆圧縮は、知覚しにくい情報などを取り除いてデータ量を減らすため、元のデータを完全には復元できない。MP3は代表的な非可逆音声圧縮方式であり、可逆圧縮ではない。",
     "tags": [
       "デジタル",
       "可逆圧縮",
@@ -62527,7 +62622,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "WANはWide Area Networkの略で、広い地域に分散したネットワークを接続する。\n\nイーサネットはLAN（Local Area Network）上の機器を相互に有線で接続するための規格である。\nLANの通信規格で最も普及しているのはイーサネットであり、LANといえばイーサネットと考えて差し支えない。\nイーサネットは同じネットワーク内にあるLANケーブルで接続されたLANポートからLANポートへとデータを転送する仕組みである。\nLANポートにはそれぞれMACアドレスという番号付けがされており、イーサネットではこのMACアドレスで通信先を特定している。\n無線通信を用いてLAN上の機器を相互接続する規格はIEEE802.11である。",
+    "explanation": "WAN（Wide Area Network）は、地理的に離れたLANや拠点を結ぶ広域ネットワークである。例えば、本社と支社のLANを通信事業者の回線やVPNなどで接続する構成が当てはまる。家庭や一つの建物など、比較的限られた範囲を結ぶLANとは、対象とする地理的範囲が異なる。",
     "tags": [
       "ネットワーク",
       "WAN"
@@ -62596,7 +62691,7 @@
       }
     ],
     "correct_choice": "1",
-    "explanation": "Ethernetは有線LANで広く用いられる通信技術・規格の一つである。\n\n無線LANが商品化された当初、同一メーカーであっても製品間での相互接続が保証されているわけではなく、ユーザが購入した無線LAN製品が使用できないという問題が発生していた。\nそこで、無線LAN製品の普及促進を図る業界団体Wi-Fi Allianceは、無線LANの国際標準規格であるIEEE 802.11 規格を使用し、相互に接続できることが確認し、認証を行った。\n認証に合格した製品はWi-Fiロゴの使用が許可される。\nつまり、IEEE 802.11 とは無線LANの接続規格のことであり、Wi-FiとはWi-Fi Allianceという団体による相互通信への認証名という違いがある。",
+    "explanation": "Ethernetは、主に有線LANで広く用いられる通信規格群であり、IEEE 802.3として標準化されている。LAN内ではMACアドレスを用いてフレームを届ける。IEEE 802.11系の無線LAN規格や、その相互接続性に関するWi‑Fiブランドとは区別する。",
     "tags": [
       "ネットワーク",
       "Ethernet"
@@ -62665,7 +62760,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "Wi-Fiは無線LANの通信に関するブランドであり、Bluetoothとは別の規格・用途を持つ。\n\nLAN(Local Area Network)は家庭やビルなどの比較的狭い範囲で、コンピュータ・サーバやプリンタなどの機器をつなぐネットワークである。\n複数の支社を持つ会社などで、支社のLAN同士をつなぐときにWAN(Wide Area Network)が使用される。\nこれにより、企業は地理的に離れた部門やオフィス間で通信やリソースの共有が行える。\n離れた場所にあるLAN同士をつなぐためには、専用の通信回線を敷設する方法やインターネット上でデータを安全に通信するシステム(VPN：Virtual Private Network)を構築する方法などがある。\n遠く離れた場所をつなぐネットワークと言う意味でWANを捉えた場合、インターネットもWANのひとつと見ることができるが、管理者・利用者という観点で見る違いがある。",
+    "explanation": "Wi‑Fiは、Wi‑Fi AllianceがIEEE 802.11系の無線LAN規格に基づく製品の相互接続性などを認証するブランドである。日常的には無線LANの呼称として広く使われるが、有線LANで用いられるEthernetや、近距離無線通信のBluetoothとは別の技術・用途である。",
     "tags": [
       "ネットワーク",
       "Wi-Fi"
@@ -63089,7 +63184,7 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "IPv6はアドレス不足への対応を主要な目的の一つとし、IPv4の32ビットより大きな空間を持つ。\n\nプライベートアドレスはIPv4 のグローバルアドレスの枯渇対策として導入された。\nIPアドレス（グローバルアドレス）はインターネット上の住所のようなものであり、インターネット上で重複なく割り当てる必要がある。\nIPv4は32ビット（2進数32桁）の数であるため、IPアドレスの総数は2³²＝約43億個しかなく、現代の端末数を大幅に下回っている。\nしかし、すべての端末がインターネットから直接アクセスできる必要はない。\nWebを閲覧する場合、ユーザからウェブサーバに閲覧のための要求を送り、ウェブサーバからユーザへデータを返送する。",
+    "explanation": "IPv6は128ビットのIPアドレスを用い、32ビットのIPv4よりはるかに広いアドレス空間を持つ。IPv4アドレスの不足へ対応することが導入目的の一つである。無線LAN専用ではなく、有線・無線を問わずIPネットワークで利用できる。",
     "tags": [
       "ネットワーク",
       "IPv6",
@@ -63238,7 +63333,7 @@
       }
     ],
     "correct_choice": "2",
-    "explanation": "TCPは到達確認や再送などを行い、データを確実に届けることを支援する。\n\nTCP(Transmission Control Protocol)は、データの転送の信頼性を向上させるためのプロトコルである。\nTCP/IPではトランスポート層にあたる。\nただし、データを受け渡しするたびに確認を行うため、処理に時間がかかるという問題がある。\nトランスポート層の主要な別のプロトコルであるUDP(User Datagram Protocol)はこれらの確認プロセスを省略する。\nつまり、UDPはアプリケーション（ポート番号）の指定とデータの分割を行うが、整列やエラー時の再送は行わない。",
+    "explanation": "TCP（Transmission Control Protocol）はトランスポート層のプロトコルであり、確認応答、再送制御、順序制御、フロー制御などによって信頼性のあるバイトストリームをアプリケーションへ提供する。UDPは確認応答や再送、順序制御を標準では行わず、TCPより簡素なデータグラム通信を提供する。",
     "tags": [
       "ネットワーク",
       "TCP"
@@ -64008,7 +64103,7 @@
     "correct_choice": "0",
     "explanation": "リレーショナルデータベースは行と列からなる表でデータを管理し、関係を扱う。\n\nデータベースとは大量のデータを共有性や再利用性を意図して組織的に管理するためのシステム、またはそのシステムで管理されているデータの集まりを指す。\nデータベース登場当時の代表的なモデルは階層型とネットワーク型であった。\nしかし、現在のデータベースの主流はリレーショナル型のデータベース（リレーショナルデータベース）である。\nリレーショナルデータベースでは、データを内容ごとに分類したテーブル（表）に格納し、表同士を関連付けること（リレーションシップ）でデータを統合的に扱うことができる。\n音声や画像といったマルチデータは表を用いて表現することが難しい。",
     "tags": [
-      "ネットワーク",
+      "データベース",
       "relational database",
       "DBMS"
     ],
@@ -64048,7 +64143,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0061__choice_0",
     "field_ids": [
-      "network"
+      "data_db"
     ]
   },
   {
@@ -64087,7 +64182,7 @@
     "correct_choice": "1",
     "explanation": "SQLはリレーショナルデータベースを操作するための標準的な言語である。\n\nSQL(Structured Query Language)はリレーショナルデータベースを構築・操作するための標準的な言語である。\nSQLはユーザやアプリケーションからの要求をリレーショナルデータベース管理システムに伝える。\nリレーショナルデータベース管理システムはSQLによって出された指示をデータベースに問い合わせ、その結果を受け取り、ユーザに表示する。\n現代では、マイクロソフト社のACCESSやクラリス社のFileMakerのように、リレーショナルデータベース管理システムに対する指示を画面操作によって行うことができるデータベースソフトが登場している。\nこれらのツールを使えば、SQLを知らないユーザであってもリレーショナルデータベース管理システムを扱うことができる。",
     "tags": [
-      "ネットワーク",
+      "データベース",
       "SQL"
     ],
     "primary_term_names": [
@@ -64117,7 +64212,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0062__choice_1",
     "field_ids": [
-      "network"
+      "data_db"
     ]
   },
   {
@@ -64156,9 +64251,8 @@
     "correct_choice": "2",
     "explanation": "主キーは各行を一意に識別でき、NULLにならず、安定している属性が望ましい。\n\nデータベースにおいて、主キーとはそのテーブル（表）のレコード（行）を特定するための属性（列）のことである。\n複数の列をまとめてひとつの主キーとすることもできる。\n主キーは空欄（NULL）を取ることはできず、列内で同じ値があってはならない。\nまた、主キーは原則として変更されることのない値である。\n名前は、同姓同名の人物が登録されると重複が起こりうるうえ、結婚などの理由により変更される可能性、打ち間違いや表記の揺れ（斉藤と齋藤など）の問題があるため、主キーとしては適切でない。",
     "tags": [
-      "ネットワーク",
-      "主キー",
       "データベース",
+      "主キー",
       "レコード"
     ],
     "primary_term_names": [
@@ -64245,7 +64339,7 @@
     "correct_choice": "3",
     "explanation": "一人の生徒は複数授業を受け、同じ授業は複数生徒が受けるため、二つの組合せで一意にする。\n\nデータベースにおいて、主キーとはそのテーブル内のレコード（行）を特定するための一つまたは複数の属性（列）のことである。\n定期考査の点数を保管するデータベースでは、一人の学生が複数の授業で試験を受けているため、学籍番号だけでレコードを特定することはできない。\nそのため、学籍番号のみでは主キーとはならない。\nまた、ひとつの授業を複数の学生が受講しているため、授業IDのみでもレコードを特定することはできない。\nつまり、授業IDも主キーにはならない。",
     "tags": [
-      "ネットワーク",
+      "データベース",
       "複合主キー",
       "主キー",
       "リレーショナルデータベース"
@@ -64286,7 +64380,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0064__choice_3",
     "field_ids": [
-      "network"
+      "data_db"
     ]
   },
   {
@@ -64325,9 +64419,8 @@
     "correct_choice": "0",
     "explanation": "事実ごとに表を分けると、顧問名の重複保存や複数部活を一行へ詰め込む問題を減らせる。\n\nデータベースにおける正規化とは、情報を無駄なく、効率よく保存するためのテーブル（表）の整理のことである。\n正規化を順に行っていく。\nまず、ひとつのレコード（行）には一つの情報だけを入れる。\nこの表では、「山田　次郎」が「将棋部」と「卓球部」に所属しているという情報がひとつのレコードに入っている。\nこれを2つのレコードにわけて、1レコード1情報にする。",
     "tags": [
-      "ネットワーク",
-      "正規化",
       "データベース",
+      "正規化",
       "外部キー"
     ],
     "primary_term_names": [
@@ -64375,7 +64468,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0065__choice_0",
     "field_ids": [
-      "network"
+      "data_db"
     ]
   },
   {
@@ -64414,11 +64507,10 @@
     "correct_choice": "1",
     "explanation": "ノートP1は100+30=130個なので、120円×130個=15,600円である。\n\n仕入表と商品表を商品コードのフィールド（列）に基づいて1つのテーブル（表）にまとめる。\n共有する列を使って表を1つにまとめることを結合という。\n表を見やすくするために、商品名と発注個数、単価の列のみを表示する。\nリレーショナル・データベースにおける関連付け（リレーションシップ）は必ずしも1対1である必要はない。\n主な関連付けのタイプは以下のようになる。\n1対1：1つのレコードが別のテーブルの特定の1つのレコードだけに関連付けられる場合。",
     "tags": [
-      "ネットワーク",
+      "データベース",
       "relation",
       "join",
-      "集計",
-      "データベース"
+      "集計"
     ],
     "primary_term_names": [
       "データベース"
@@ -64448,7 +64540,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0066__choice_1",
     "field_ids": [
-      "network"
+      "data_db"
     ]
   },
   {
@@ -64487,8 +64579,8 @@
     "correct_choice": "2",
     "explanation": "フールプルーフは利用者が誤操作しても危険な動作にならないようにする設計である。\n\nフールプルーフとは、機器やシステムを利用する際、ユーザが操作を間違えたとしても、危険な状況にならない仕組み、もしくは、そもそも間違った使い方ができない設計のことである。\n電子レンジはドアを開けた状態で使用すると危険であるため、ドアが開いているときにはスタートボタンを押しても加熱が始まらない。\nこれがフールプルーフの考え方である。\n他にも、乾電池のプラス極とマイナス極を逆にすると入らない、全自動洗濯機の蓋が開いた状態では運転を開始しない、アクセルとブレーキの踏み間違いを検出して加速しない仕組みなどがある。\nコンピュータの世界でも、ソフトウェアが間違った操作をされても意図しない動作をしないようにしたり、入力できる型を指定することで不正なデータが入らないようにするなど、フールプルーフの考え方が使われている。",
     "tags": [
-      "ネットワーク",
-      "フールプルーフ"
+      "フールプルーフ",
+      "信頼性"
     ],
     "primary_term_names": [
       "フールプルーフ"
@@ -64517,7 +64609,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0067__choice_2",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -64556,7 +64648,6 @@
     "correct_choice": "3",
     "explanation": "CIAは、許可された者だけが扱える機密性、正確さを保つ完全性、必要時に利用できる可用性からなる。\n\n情報セキュリティの3要素とは、機密性、完全性、可用性のことである。\n機密性とは、許可された者だけが情報にアクセスできるように制限がかけられている状態のことである。\nID・パスワードによる認証だけでなく、データの閲覧や編集を制限するなどといったアクセス権限を制御することも機密性の向上につながる。\n完全性とは、保有している情報が改ざん・破損しておらず、正確な状態であることである。\nデジタル署名やエラーチェックなどにより完全性を維持することができる。",
     "tags": [
-      "ネットワーク",
       "情報セキュリティ",
       "機密性",
       "完全性",
@@ -64653,9 +64744,9 @@
       }
     ],
     "correct_choice": "0",
-    "explanation": "先頭12桁の加重和は82である。82にCを加えて10の倍数にするには、Cは8となる。\n\nパリティビットとは、データの転送や保存をする際に、誤りを検出するために追加されるビットのことである。\n偶数パリティでは、データビットの中にある「1」の個数が偶数になるようにパリティビットを追加する。\nデータの転送や保存をするときに、誤りが発生し、あるビットで0と1が反転してしまったとする。\n以上より、このISBNにおけるチェックディジットは8である。\nなお、ISBN(International Standard Book Number：国際標準図書番号)は書籍などの出版物の識別用コードである。\n形式は978-4-A-B-Cであり、978-4は日本を表す。",
+    "explanation": "指定された方法で左から重み1、3を交互に掛けると、9×1＋7×3＋8×1＋4×3＋1×1＋0×3＋1×1＋0×3＋9×1＋2×3＋0×1＋5×3＝82となる。82＋Cを10の倍数にするにはC＝8である。チェックディジットは、識別番号の各桁から規則に従って求め、入力や読取りの誤りを検出するために付加する数字である。",
     "tags": [
-      "ネットワーク",
+      "デジタル",
       "チェックディジット",
       "ISBN",
       "誤り検出"
@@ -64688,7 +64779,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0069__choice_0",
     "field_ids": [
-      "network"
+      "digital"
     ]
   },
   {
@@ -64727,7 +64818,6 @@
     "correct_choice": "1",
     "explanation": "鍵配送には公開鍵暗号、本文の高速な暗号化には共通鍵暗号を使い、両者の利点を組み合わせる。\n\n共通鍵暗号方式は暗号化と復号で同じ鍵を使う暗号化の方式である。\nこの鍵を第三者に盗まれると暗号が解読され、秘密にしていた通信内容が知られてしまう。\nそのため、共通鍵暗号方式では、送信者と受信者の間で鍵を安全に共有する必要がある。\n公開鍵暗号方式は、暗号化と復号で異なる鍵を使用する暗号化の方式である。\n暗号化のための鍵を誰でも利用できるように公開するため公開鍵と呼ばれる。\n復号のための鍵は受信者のみが知っている鍵であり、秘密にされるため秘密鍵という。\n共通鍵暗号方式は暗号化と復号で同じ鍵を使う方式の暗号化である。\n暗号化・復号を高速に処理できるため、大量のデータを暗号化し、リアルタイムに通信することに適している。\n一方で、送信者・受信者以外の第三者に鍵を知られてはならないため、鍵の配付・管理が難しいという欠点がある。\nハイブリッド暗号方式は、公開鍵暗号方式と共通鍵方式を組み合わせた暗号方式である。\n具体的には公開鍵暗号を使って共通鍵（セッション鍵）を安全に送付し、その後の通信は共通鍵（セッション鍵）を使って行われる。\n以下、送信者アリスと受信者ボブのハイブリッド暗号方式での通信の一例である。\nHTTPSでは公開鍵暗号方式を使って共通鍵暗号方式の鍵を配送するハイブリッド暗号方式や、公開された値から送信側・受信側それぞれで共通の鍵を生成するDiffie-Hellman鍵交換（特に、楕円曲線Diffie-Hellman）を使うことで、安全に共通鍵を交換し、その後の通信は共通鍵暗号方式を使った効率的な通信を実現している。",
     "tags": [
-      "ネットワーク",
       "共通鍵方式",
       "公開かぎ暗号方式",
       "暗号化",
@@ -64791,7 +64881,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0070__choice_1",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -64830,7 +64920,6 @@
     "correct_choice": "2",
     "explanation": "ブラウザは証明書チェーンや有効期限、接続先名などを検証して、相手の公開鍵を確認する。\n\n公開鍵認証局（電子認証局、単に認証局ともいう）は、公開鍵証明書を発行する機関である。\n公開鍵証明書は公開鍵と持ち主の対応を保証するものであり、その持ち主が公開鍵に対する秘密鍵を持っていることを第三者に向けて証明している。\nこの仕組みを含むシステム全体を公開鍵基盤(PKI : Public Key Infrastructure)という。\n電子認証局（公開鍵認証局、単に認証局ともいう）は、公開鍵証明書を発行する機関である。\n認証局の主要な役割は以下の通りである。\n身元の検証：認証局に証明書の発行を依頼する人物の身元を確認する。",
     "tags": [
-      "ネットワーク",
       "certificate authority",
       "digital certificate",
       "public key",
@@ -64864,7 +64953,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0071__choice_2",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -64901,9 +64990,8 @@
       }
     ],
     "correct_choice": "3",
-    "explanation": "署名は署名者の秘密鍵で作成し、対応する公開鍵で検証する。\n\n電子透かし（デジタルウォーターマーク）は、画像や動画、音声などのデジタルコンテンツに情報を埋め込む技術のひとつである。\n電子透かしには知覚可能型と知覚困難型がある。\n知覚可能型は画像に「SAMPLE」という文字が表示されているなど、人が見てわかる透かし情報を入れることである。\nデジタル署名とは、メッセージ（電子文書や公開鍵など）が署名者（送信者）のものであり（真正性）、改ざんがされていない（完全性）ことを保証するための技術である。\nまた、これにより、署名者が後になってメッセージを否定することを防ぐ（否認防止）。\n署名者（デジタル署名をした人・送信者）と検証者（デジタル署名を受け取った人・受信者）の間でのデジタル署名のひとつのモデルを示すと以下のようになる。",
+    "explanation": "ディジタル署名は署名者の秘密鍵で作成し、その秘密鍵に対応する公開鍵で検証する。検証に成功すれば、署名後にデータが改ざんされていないことを確認できる。さらに、使用した公開鍵と署名者本人の対応を信頼するには、電子証明書などで公開鍵の所有者を確認する必要がある。受信者の秘密鍵は、署名の検証には用いない。",
     "tags": [
-      "ネットワーク",
       "ディジタル署名",
       "秘密鍵",
       "公開鍵"
@@ -64954,7 +65042,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0072__choice_3",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -64993,7 +65081,7 @@
     "correct_choice": "0",
     "explanation": "ブロックチェーンは取引などの記録を共有・検証し、改ざんを困難にする仕組みとして利用される。\n\nブロックチェーンとは、ある程度の大きさの情報の塊（ブロック）を数珠つなぎ（チェーン）にして保存するデータ構造のことである。\nブロックチェーンの特徴は、この数珠つなぎとなった一連のデータを多数のコンピュータで同時に管理・保管することである。\nこれにより、ブロックチェーンは分散型台帳システムとも言われている。\nデータを持っているそれぞれのコンピュータ（ノード）が互いに確かめ合うことで、データの正しさを保証している。\nこのとき、ノード同士は対等な関係で通信を行う。",
     "tags": [
-      "ネットワーク",
+      "情報社会",
       "ブロックチェーン"
     ],
     "primary_term_names": [
@@ -65023,7 +65111,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0073__choice_0",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -65062,7 +65150,7 @@
     "correct_choice": "1",
     "explanation": "Society 5.0はAIやIoTなどを活用し、社会課題の解決と経済発展の両立を目指す。\n\n日本政府はSociety5.0を「サイバー空間とフィジカル空間を高度に融合させたシステムにより、経済発展と社会的課題の解決を両立する、人間中心の社会」と定義している。\n具体的には、IoT(Internet of Things)によりあらゆるモノがインターネットを通して繋がり、人工知能(AI:Artificial Intelligence)によって解析され、必要な情報が必要なときに必要な人に届けられるようになる。\n例えば、健康状態をモニタリングし、データをAIが分析、健康に関するアドバイスを行うといったことが考えられる。\nこの構想により、これまで不十分であった情報の共有・連携、地域や能力による格差、年齢や障害による行動の制限などが解消される。\nこれらの変化は単なる技術の進展や経済的な利益の追求をするものでなく、AI・ロボットにより支配された社会でもない。",
     "tags": [
-      "ネットワーク",
+      "情報社会",
       "Society 5.0"
     ],
     "primary_term_names": [
@@ -65092,7 +65180,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "original_knowledge_0074__choice_1",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -65529,7 +65617,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "simple_original_009__choice_0",
     "field_ids": [
-      "society_security"
+      "design"
     ]
   },
   {
@@ -65843,7 +65931,7 @@
     "explanation": "フィルタリングは、設定した基準により不適切・有害なWebサイトなどへのアクセスを制限する機能である。\n\nフィルタリングは、利用者や端末の条件に応じて特定のサイトへのアクセスを制限する。通信全体を境界で制御するファイアウォールとは目的と適用範囲が異なる。",
     "tags": [
       "情報社会",
-      "ホワイトリスト方式",
+      "フィルタリング",
       "情報セキュリティ",
       "メディアリテラシー"
     ],
@@ -71339,7 +71427,7 @@
     "evaluation_reasons": [],
     "answer_choice_id": "simple_original_146__choice_0",
     "field_ids": [
-      "network"
+      "society_security"
     ]
   },
   {
@@ -73015,6 +73103,7 @@
     "correct_choice": "0",
     "explanation": "プライバシーマークは、個人情報について適切な保護措置を講じる体制を整え、その仕組みを運用していると評価された事業者に、マークの使用を認める制度である。\n\nマークは、事故が絶対に起こらないことを保証するものではない。事業者が個人情報保護マネジメントシステムを構築し、継続的に運用・改善する体制を備えていることを示す。",
     "tags": [
+      "プライバシーマーク",
       "個人情報",
       "個人情報保護",
       "情報社会"
@@ -74025,8 +74114,9 @@
     "explanation": "発信者を特定するには、SNS事業者やプロバイダなどに対する発信者情報開示請求を用いる。投稿者の氏名・住所等につながる情報の開示には、権利侵害が明らかであることや開示を受ける正当な理由など、法律上の要件がある。サービス運営者と接続に使われたプロバイダが異なるなど、複数の主体が関係する場合もある。\n\n投稿を見られないようにする目的では、送信防止措置依頼（削除依頼）を行う。いずれも情報流通プラットフォーム対処法に関係する手続だが、依頼や請求をすれば自動的に削除・開示されるわけではない。発信者の特定と投稿の削除は目的が異なるため、必要に応じて別々に対応し、URL、日時、画面などの証拠も早めに保存する。",
     "tags": [
       "SNS",
-      "個人情報",
-      "情報社会"
+      "情報流通プラットフォーム対処法",
+      "発信者情報開示請求",
+      "送信防止措置"
     ],
     "source_question_ids": [
       "simple_question_data_2_csv_020"
