@@ -42,7 +42,7 @@ python scripts/classify_questions.py --apply
 
 ## アプリ保護
 
-`docs/reports/app-core-baseline-sha256.json` と `app/index.html`、`app/app.js`、`app/startup.js`、`app/styles.css`、`app/issue-report.js`、`app/issue-report.css` を比較し、意図しないアプリ変更を検知する。基準値は今回の作業開始時点でGit差分がないコミット済み状態から更新した。サイト案内とプライバシーポリシーはポータルへ統合し、アプリのフッターはポータルのトップ・案内・プライバシーへ直接リンクする。
+`docs/reports/app-core-baseline-sha256.json` と `app/index.html`、`app/app.js`、`app/startup.js`、`app/styles.css`、`app/issue-report.js`、`app/issue-report.css`、`app/learning-record.js` を比較し、意図しないアプリ変更を検知する。基準値は意図したアプリ変更を検証した時点で更新する。サイト案内とプライバシーポリシーはポータルへ統合し、アプリのフッターはポータルのトップ・案内・プライバシーへ直接リンクする。
 
 ## ポータルへのリンク
 

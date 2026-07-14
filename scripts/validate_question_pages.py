@@ -25,6 +25,7 @@ PROTECTED_APP_FILES = (
     "app/styles.css",
     "app/issue-report.js",
     "app/issue-report.css",
+    "app/learning-record.js",
 )
 
 

@@ -3,6 +3,7 @@ const statusBar = document.querySelector("#statusBar");
 const questionView = document.querySelector("#questionView");
 const summaryView = document.querySelector("#summaryView");
 const startButton = document.querySelector("#startButton");
+const startRecordButton = document.querySelector("#startRecordButton");
 const clearFiltersButton = document.querySelector("#clearFiltersButton");
 const fieldFilters = document.querySelector("#fieldFilters");
 const questionCount = document.querySelector("#questionCount");
@@ -12,10 +13,15 @@ const decreaseSetSizeButton = document.querySelector("#decreaseSetSizeButton");
 const progressText = document.querySelector("#progressText");
 const progressFill = document.querySelector("#progressFill");
 const setStatus = document.querySelector("#setStatus");
+const advancedSettings = document.querySelector("#advancedSettings");
+const advancedSettingsLabel = document.querySelector("#advancedSettingsLabel");
+const answerMode = document.querySelector("#answerMode");
 const calcMode = document.querySelector("#calcMode");
 const questionStem = document.querySelector("#questionStem");
 const choices = document.querySelector("#choices");
 const questionSource = document.querySelector("#questionSource");
+const interruptButton = document.querySelector("#interruptButton");
+const questionCheckButton = document.querySelector("#questionCheckButton");
 const nextButton = document.querySelector("#nextButton");
 const resultPanel = document.querySelector("#resultPanel");
 const resultMark = document.querySelector("#resultMark");
@@ -24,17 +30,41 @@ const resultText = document.querySelector("#resultText");
 const explanation = document.querySelector("#explanation");
 const summaryTitle = document.querySelector("#summaryTitle");
 const summaryRate = document.querySelector("#summaryRate");
+const summaryLifetimeText = document.querySelector("#summaryLifetimeText");
+const summaryLifetimeRate = document.querySelector("#summaryLifetimeRate");
 const summaryList = document.querySelector("#summaryList");
+const summaryRecordButton = document.querySelector("#summaryRecordButton");
 const retryButton = document.querySelector("#retryButton");
 const finishButton = document.querySelector("#finishButton");
+const recordView = document.querySelector("#recordView");
+const recordBackButton = document.querySelector("#recordBackButton");
+const recordBottomBackButton = document.querySelector("#recordBottomBackButton");
+const streakMessage = document.querySelector("#streakMessage");
+const recordMetrics = document.querySelector("#recordMetrics");
+const fieldStats = document.querySelector("#fieldStats");
+const wrongQuestionsButton = document.querySelector("#wrongQuestionsButton");
+const wrongView = document.querySelector("#wrongView");
+const wrongBackButton = document.querySelector("#wrongBackButton");
+const wrongQuestionCount = document.querySelector("#wrongQuestionCount");
+const wrongQuestionList = document.querySelector("#wrongQuestionList");
+const checkedQuestionsButton = document.querySelector("#checkedQuestionsButton");
+const clearRecordButton = document.querySelector("#clearRecordButton");
+const checkedView = document.querySelector("#checkedView");
+const checkedBackButton = document.querySelector("#checkedBackButton");
+const checkedQuestionCount = document.querySelector("#checkedQuestionCount");
+const checkedQuestionList = document.querySelector("#checkedQuestionList");
+const clearRecordDialog = document.querySelector("#clearRecordDialog");
+const confirmClearRecordButton = document.querySelector("#confirmClearRecordButton");
+const interruptDialog = document.querySelector("#interruptDialog");
+const confirmInterruptButton = document.querySelector("#confirmInterruptButton");
 
-const STORAGE_KEY = "info1QuizStats:v4";
 const DEFAULT_SET_SIZE = 5;
 const MIN_SET_SIZE = 1;
 const MAX_SET_SIZE = 50;
 const SUPABASE_URL = "https://yygezzpowsvpzarqdtls.supabase.co";
 // Supabase publishable keys are designed for browser clients. Never use a secret or service_role key here.
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rQmX7MCx_8W3nz-xWXQBpA_CHzdRQSk";
+const learningRecord = window.Info1LearningRecord;
 
 const TEXT = {
   loadError: "問題データを読み込めません",
@@ -199,7 +229,6 @@ const state = {
   sessionChoiceStats: {},
   currentIndex: 0,
   selectedChoiceId: null,
-  history: loadHistory(),
   setSize: DEFAULT_SET_SIZE,
   questionDataStatus: "loading",
   apiAvailable: false,
@@ -209,7 +238,6 @@ const state = {
   pastStatsPromise: Promise.resolve(),
   pastStatsLoading: false,
   pastStatsLoaded: false,
-  sessionHistoryRecorded: false,
   responseSubmission: null,
   pendingResponseSubmissions: [],
   outOfScopeSubmission: null,
@@ -217,11 +245,19 @@ const state = {
   cumulativeTotal: 0,
   cumulativeCorrect: 0,
   sessionSummaryRecorded: false,
+  recordReturnView: "start",
+  recordPracticeMode: false,
+  recordReviewMode: false,
+  recordListReturnView: "wrong",
+  recordListSnapshot: null,
 };
 
 init();
 
 function init() {
+  if (!learningRecord) {
+    throw new Error("学習記録モジュールを読み込めませんでした。");
+  }
   renderFieldFilters();
   bindStartControls();
   showStart();
@@ -294,12 +330,59 @@ function bindStartControls() {
     updateStartControls();
   });
 
+  answerMode.addEventListener("change", () => {
+    updateStartControls();
+  });
+
+  advancedSettings.addEventListener("toggle", () => {
+    advancedSettingsLabel.textContent = advancedSettings.open ? "− 詳細な設定" : "＋ 詳細な設定";
+  });
+
   fieldFilters.addEventListener("change", () => {
     updateStartControls();
+  });
+
+  startRecordButton.addEventListener("click", () => openLearningRecord("start"));
+  summaryRecordButton.addEventListener("click", () => openLearningRecord("summary"));
+  recordBackButton.addEventListener("click", returnFromLearningRecord);
+  recordBottomBackButton.addEventListener("click", returnFromLearningRecord);
+  wrongQuestionsButton.addEventListener("click", showWrongQuestions);
+  wrongBackButton.addEventListener("click", showLearningRecord);
+  checkedQuestionsButton.addEventListener("click", showCheckedQuestions);
+  checkedBackButton.addEventListener("click", showLearningRecord);
+  clearRecordButton.addEventListener("click", openClearRecordDialog);
+  confirmClearRecordButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    learningRecord.clear();
+    clearRecordDialog.close();
+    updateStartControls();
+    renderLearningRecord();
+    renderSummaryLifetime();
+  });
+
+  questionCheckButton.addEventListener("click", () => {
+    const question = currentQuestion();
+    if (question) {
+      toggleQuestionCheck(question.id);
+    }
+  });
+  interruptButton.addEventListener("click", openInterruptDialog);
+  confirmInterruptButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    interruptDialog.close();
+    void interruptSession();
   });
 }
 
 nextButton.addEventListener("click", async () => {
+  if (state.recordReviewMode) {
+    finishRecordReview();
+    return;
+  }
+  if (state.recordPracticeMode) {
+    finishRecordPractice();
+    return;
+  }
   if (state.currentIndex >= state.sessionQuestions.length - 1) {
     await showSummary();
     return;
@@ -311,7 +394,9 @@ nextButton.addEventListener("click", async () => {
 
 retryButton.addEventListener("click", async () => {
   await completeSummaryExit();
-  startSession();
+  if (!startSession()) {
+    showStart();
+  }
 });
 
 finishButton.addEventListener("click", async () => {
@@ -341,6 +426,9 @@ function showStart() {
   statusBar.hidden = true;
   questionView.hidden = true;
   summaryView.hidden = true;
+  recordView.hidden = true;
+  wrongView.hidden = true;
+  checkedView.hidden = true;
   setStatus.textContent = TEXT.notStarted;
   progressFill.style.width = "0%";
   updateStartControls();
@@ -359,8 +447,10 @@ function resetSessionState() {
   state.pastStatsPromise = Promise.resolve();
   state.pastStatsLoading = false;
   state.pastStatsLoaded = false;
-  state.sessionHistoryRecorded = false;
   state.sessionSummaryRecorded = false;
+  state.recordPracticeMode = false;
+  state.recordReviewMode = false;
+  state.recordListSnapshot = null;
   state.responseSubmission = null;
   state.outOfScopeSubmission = null;
   retryButton.disabled = false;
@@ -373,9 +463,11 @@ function startSession() {
   const pool = getQuestionPool();
   if (!pool.length) {
     updateStartControls();
-    return;
+    return false;
   }
   state.sessionId += 1;
+  state.recordPracticeMode = false;
+  state.recordReviewMode = false;
   const sessionId = state.sessionId;
   updateSetSizeControls(pool.length);
   state.sessionQuestions = pickRandomSet(pool, Math.min(state.setSize, pool.length)).map(prepareSessionQuestion);
@@ -392,7 +484,6 @@ function startSession() {
   state.pastStatsPromise = Promise.resolve();
   state.pastStatsLoading = false;
   state.pastStatsLoaded = false;
-  state.sessionHistoryRecorded = false;
   state.sessionSummaryRecorded = false;
   state.responseSubmission = null;
   state.outOfScopeSubmission = null;
@@ -401,6 +492,9 @@ function startSession() {
   statusBar.hidden = false;
   questionView.hidden = false;
   summaryView.hidden = true;
+  recordView.hidden = true;
+  wrongView.hidden = true;
+  checkedView.hidden = true;
   setStatus.textContent = TEXT.running;
   retryButton.disabled = false;
   finishButton.disabled = false;
@@ -410,6 +504,7 @@ function startSession() {
   scrollToTop();
   loadPastChoiceStats(sessionId, state.sessionQuestions.map((question) => question.id));
   retryPendingSubmissions();
+  return true;
 }
 
 function renderFieldFilters() {
@@ -495,6 +590,9 @@ function getQuestionPool() {
   }
   return state.allQuestions.filter((question) => {
     if (!matchesCalcMode(question)) {
+      return false;
+    }
+    if (!matchesAnswerMode(question)) {
       return false;
     }
     if (selectedFields.length === FIELD_DEFINITIONS.length) {
@@ -601,12 +699,18 @@ function currentResponse() {
 function renderQuestion() {
   const question = currentQuestion();
   const total = state.sessionQuestions.length;
+  const isRecordListQuestion = state.recordPracticeMode || state.recordReviewMode;
 
   state.selectedChoiceId = null;
   resultPanel.hidden = true;
   nextButton.hidden = true;
   nextButton.disabled = false;
-  nextButton.textContent = state.currentIndex >= total - 1 ? TEXT.summary : TEXT.next;
+  interruptButton.hidden = isRecordListQuestion;
+  nextButton.textContent = isRecordListQuestion
+    ? "一覧に戻る"
+    : state.currentIndex >= total - 1
+      ? TEXT.summary
+      : TEXT.next;
 
   if (!question) {
     renderEmptyState();
@@ -614,9 +718,36 @@ function renderQuestion() {
   }
 
   questionStem.textContent = question.stem;
+  updateQuestionCheckButton(question.id);
   renderChoices(question);
   renderSourceNote(question);
   updateProgressView();
+  if (state.recordPracticeMode) {
+    nextButton.hidden = false;
+  }
+  if (state.recordReviewMode) {
+    renderRecordReview(question);
+  }
+}
+
+function renderRecordReview(question) {
+  const correctChoice = getCorrectChoice(question);
+  for (const button of choices.querySelectorAll(".choice-button")) {
+    button.disabled = true;
+    if (button.dataset.choiceId === correctChoice?.choice_id) {
+      button.classList.add("correct");
+    }
+  }
+
+  resultPanel.hidden = false;
+  resultMark.textContent = "✓";
+  resultMark.className = "result-mark right";
+  resultTitle.textContent = "正答と解説";
+  resultText.hidden = shouldShowChoiceReasonList(question);
+  resultText.textContent = resultText.hidden ? "" : `${TEXT.answer}: ${formatChoice(correctChoice)}`;
+  explanation.textContent = buildExplanation(question, null, correctChoice);
+  nextButton.hidden = false;
+  progressFill.style.width = "100%";
 }
 
 function renderEmptyState() {
@@ -669,6 +800,7 @@ function grade(question) {
   const isCorrect = Boolean(correctChoice && selectedChoice?.choice_id === correctChoice.choice_id);
   response.selectedChoiceId = state.selectedChoiceId;
   response.isCorrect = isCorrect;
+  learningRecord.recordAnswer(question.id, isCorrect);
   recordSessionChoiceStats(question, selectedChoice, isCorrect);
 
   for (const button of choices.querySelectorAll(".choice-button")) {
@@ -702,11 +834,29 @@ async function showSummary() {
   recordCumulativeResults();
   renderSummary();
   scrollToTop();
-  recordSessionHistory();
   const submission = createResponseSubmission();
   if (submission) {
     void submitResponseSubmission(submission);
   }
+}
+
+function getAnswerModeValue() {
+  return answerMode.querySelector("input[name='answerMode']:checked")?.value || "all";
+}
+
+function matchesAnswerMode(question) {
+  const record = learningRecord.getQuestion(question.id);
+  const mode = getAnswerModeValue();
+  if (mode === "unanswered" && record.attempts > 0) {
+    return false;
+  }
+  if (mode === "wrong" && record.lastCorrect !== false) {
+    return false;
+  }
+  if (mode === "exclude_mastered" && learningRecord.hasThreeCorrectInARow(question.id)) {
+    return false;
+  }
+  return true;
 }
 
 function recordCumulativeResults() {
@@ -725,6 +875,7 @@ function renderSummary() {
 
   summaryTitle.textContent = `${total}問中 ${correct}問正解`;
   summaryRate.textContent = `${rate}%`;
+  renderSummaryLifetime();
 
   summaryList.replaceChildren(
     ...state.sessionQuestions.map((question, index) => {
@@ -739,6 +890,7 @@ function renderSummary() {
           <span class="summary-status ${response.isCorrect ? "right" : "wrong"}">
             ${response.isCorrect ? TEXT.correct : TEXT.incorrect}
           </span>
+          ${renderQuestionCheckButton(question.id)}
           ${renderOutOfScopeReportAction(question)}
         </div>
         <div class="summary-body">
@@ -748,6 +900,9 @@ function renderSummary() {
           ${renderSummarySourceNote(question)}
         </div>
       `;
+      item.querySelector("[data-check-question]")?.addEventListener("click", () => {
+        toggleQuestionCheck(question.id);
+      });
       if (state.apiAvailable) {
         for (const button of item.querySelectorAll(".scope-report-button")) {
           button.addEventListener("click", () => toggleOutOfScopeReport(button.dataset.id));
@@ -767,6 +922,7 @@ function renderSummaryExplanation(question, selectedChoice, correctChoice) {
     <section class="result-panel summary-result-panel">
       ${answer}
       <p class="explanation">${escapeHtml(buildExplanation(question, selectedChoice, correctChoice))}</p>
+      ${renderQuestionLearningHistory(question.id)}
     </section>
   `;
 }
@@ -788,6 +944,362 @@ function renderSummarySourceNote(question) {
     return "";
   }
   return `<p class="summary-source">出典：${escapeHtml(sourceText)}</p>`;
+}
+
+function renderSummaryLifetime() {
+  const summary = learningRecord.summarize(state.allQuestions, FIELD_DEFINITIONS);
+  summaryLifetimeText.textContent = `${summary.attempts}問中 ${summary.correct}問正解`;
+  summaryLifetimeRate.textContent = `${summary.rate}%`;
+}
+
+function renderQuestionCheckButton(questionId) {
+  const checked = learningRecord.isChecked(questionId);
+  return `
+    <button class="check-question-button compact ${checked ? "checked" : ""}" type="button"
+      data-check-question="${escapeHtml(questionId)}" aria-pressed="${checked}">
+      ${checked ? "保存済み" : "保存"}
+    </button>
+  `;
+}
+
+function renderQuestionLearningHistory(questionId) {
+  const record = learningRecord.getQuestion(questionId);
+  if (!record.history) {
+    return "";
+  }
+  const recent = record.history.slice(-12);
+  const marks = [...recent]
+    .map((value) => `<span class="${value === "1" ? "right" : "wrong"}">${value === "1" ? "○" : "×"}</span>`)
+    .join("");
+  const omitted = record.history.length > recent.length ? `<span class="history-ellipsis">…</span>` : "";
+  return `
+    <div class="question-learning-history" aria-label="この問題の回答履歴">
+      <span>これまで ${record.correct}/${record.attempts}</span>
+      <span class="history-marks">${omitted}${marks}</span>
+    </div>
+  `;
+}
+
+function updateQuestionCheckButton(questionId) {
+  const checked = learningRecord.isChecked(questionId);
+  questionCheckButton.classList.toggle("checked", checked);
+  questionCheckButton.setAttribute("aria-pressed", String(checked));
+  questionCheckButton.textContent = checked ? "保存済み" : "保存";
+}
+
+function toggleQuestionCheck(questionId) {
+  const checked = learningRecord.toggleChecked(questionId);
+  for (const button of document.querySelectorAll(`[data-check-question="${cssEscape(questionId)}"]`)) {
+    button.classList.toggle("checked", checked);
+    button.setAttribute("aria-pressed", String(checked));
+    button.textContent = checked ? "保存済み" : "保存";
+  }
+  if (currentQuestion()?.id === questionId) {
+    updateQuestionCheckButton(questionId);
+  }
+  if (!recordView.hidden) {
+    renderLearningRecord();
+  }
+  if (!wrongView.hidden) {
+    renderWrongQuestions();
+  }
+  if (!checkedView.hidden) {
+    renderCheckedQuestions();
+  }
+}
+
+async function interruptSession() {
+  if (questionView.hidden || state.recordPracticeMode || state.recordReviewMode) {
+    return;
+  }
+
+  interruptButton.disabled = true;
+  const answeredEntries = state.sessionQuestions
+    .map((question, index) => ({ question, response: state.responses[index] }))
+    .filter(({ response }) => response && response.selectedChoiceId !== null);
+  state.sessionQuestions = answeredEntries.map(({ question }) => question);
+  state.responses = answeredEntries.map(({ response }) => response);
+  state.currentIndex = Math.max(0, state.sessionQuestions.length - 1);
+  state.selectedChoiceId = null;
+  await showSummary();
+  interruptButton.disabled = false;
+}
+
+function openLearningRecord(returnView) {
+  state.recordReturnView = returnView;
+  showLearningRecord();
+}
+
+function showLearningRecord() {
+  startView.hidden = true;
+  statusBar.hidden = true;
+  questionView.hidden = true;
+  summaryView.hidden = true;
+  wrongView.hidden = true;
+  checkedView.hidden = true;
+  recordView.hidden = false;
+  renderLearningRecord();
+  scrollToTop();
+}
+
+function returnFromLearningRecord() {
+  recordView.hidden = true;
+  wrongView.hidden = true;
+  checkedView.hidden = true;
+  if (state.recordListSnapshot) {
+    restoreRecordListSnapshot();
+  }
+  if (state.recordReturnView === "summary" && state.sessionSummaryRecorded) {
+    summaryView.hidden = false;
+    renderSummary();
+    scrollToTop();
+    return;
+  }
+  showStart();
+}
+
+function renderLearningRecord() {
+  const summary = learningRecord.summarize(state.allQuestions, FIELD_DEFINITIONS);
+  streakMessage.textContent = summary.streak > 0 ? `${summary.streak}日連続学習中` : "学習を始めると連続日数が記録されます";
+  recordMetrics.innerHTML = [
+    ["累計回答数", `${summary.attempts}回`],
+    ["累計正解数", `${summary.correct}回`],
+    ["累計正答率", `${summary.rate}%`],
+    ["解いた問題", `${summary.solved}/${summary.totalQuestions}`],
+  ]
+    .map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`)
+    .join("");
+
+  fieldStats.replaceChildren(
+    ...summary.fields.map((field) => {
+      const item = document.createElement("div");
+      item.className = "field-stat";
+      item.innerHTML = `
+        <div><strong>${escapeHtml(field.label)}</strong><span>${field.correct}/${field.attempts}・${field.rate}%</span></div>
+        <div class="field-stat-track" aria-hidden="true"><span style="width:${field.rate}%"></span></div>
+      `;
+      return item;
+    }),
+  );
+
+  wrongQuestionsButton.textContent = `間違えたままの問題（${summary.wrongQuestionIds.length}）`;
+  checkedQuestionsButton.textContent = `保存した問題（${summary.checkedQuestionIds.length}）`;
+}
+
+function showWrongQuestions() {
+  recordView.hidden = true;
+  checkedView.hidden = true;
+  wrongView.hidden = false;
+  renderWrongQuestions();
+  scrollToTop();
+}
+
+function renderWrongQuestions() {
+  const summary = learningRecord.summarize(state.allQuestions, FIELD_DEFINITIONS);
+  wrongQuestionCount.textContent = `${summary.wrongQuestionIds.length}問を復習できます`;
+  renderRecordQuestionList(
+    wrongQuestionList,
+    summary.wrongQuestionIds,
+    "間違えたままの問題はありません。",
+    "wrong",
+  );
+}
+
+function showCheckedQuestions() {
+  recordView.hidden = true;
+  wrongView.hidden = true;
+  checkedView.hidden = false;
+  renderCheckedQuestions();
+  scrollToTop();
+}
+
+function renderCheckedQuestions() {
+  const summary = learningRecord.summarize(state.allQuestions, FIELD_DEFINITIONS);
+  checkedQuestionCount.textContent = `${summary.checkedQuestionIds.length}問を保存中`;
+  renderRecordQuestionList(
+    checkedQuestionList,
+    summary.checkedQuestionIds,
+    "保存した問題はありません。",
+    "checked",
+  );
+}
+
+function renderRecordQuestionList(container, questionIds, emptyMessage, returnView) {
+  const questionById = new Map(state.allQuestions.map((question) => [String(question.id), question]));
+  if (!questionIds.length) {
+    container.innerHTML = `<p class="record-empty">${escapeHtml(emptyMessage)}</p>`;
+    return;
+  }
+  container.replaceChildren(
+    ...questionIds.map((questionId) => {
+      const question = questionById.get(questionId);
+      const record = learningRecord.getQuestion(questionId);
+      const item = document.createElement("article");
+      item.className = "record-question-item";
+      const lastLabel = record.lastCorrect === null ? "未回答" : record.lastCorrect ? "最後は正解" : "最後は不正解";
+      const rate = record.attempts ? Math.round((record.correct / record.attempts) * 100) : 0;
+      item.innerHTML = `
+        <button class="record-question-open" type="button">
+          <p>${escapeHtml(question?.stem || questionId)}</p>
+          <span>${record.correct}/${record.attempts}正解（${rate}%）・${lastLabel}${record.answeredAt ? `・${escapeHtml(formatAnswerDate(record.answeredAt))}` : ""}</span>
+        </button>
+        ${renderQuestionCheckButton(questionId)}
+      `;
+      item.addEventListener("click", (event) => {
+        if (event.target.closest("[data-check-question]")) {
+          return;
+        }
+        if (returnView === "wrong") {
+          startRecordPractice(questionId, returnView);
+        } else {
+          startRecordReview(questionId, returnView);
+        }
+      });
+      item.querySelector("[data-check-question]")?.addEventListener("click", () => {
+        toggleQuestionCheck(questionId);
+      });
+      return item;
+    }),
+  );
+}
+
+function startRecordPractice(questionId, returnView) {
+  startRecordListQuestion(questionId, returnView, "practice");
+}
+
+function startRecordReview(questionId, returnView) {
+  startRecordListQuestion(questionId, returnView, "review");
+}
+
+function startRecordListQuestion(questionId, returnView, mode) {
+  const question = state.allQuestions.find((item) => String(item.id) === String(questionId));
+  if (!question) {
+    return;
+  }
+  if (state.recordReturnView === "summary" && !state.recordListSnapshot) {
+    state.recordListSnapshot = captureRecordListSnapshot();
+  }
+
+  state.sessionId += 1;
+  const sessionId = state.sessionId;
+  state.recordPracticeMode = mode === "practice";
+  state.recordReviewMode = mode === "review";
+  state.recordListReturnView = returnView;
+  state.sessionQuestions = [prepareSessionQuestion(question)];
+  state.responses = [{ questionId: question.id, selectedChoiceId: null, isCorrect: null }];
+  state.outOfScopeReports = {};
+  state.pastChoiceStats = {};
+  state.sessionChoiceStats = {};
+  state.currentIndex = 0;
+  state.selectedChoiceId = null;
+  state.pastStatsPromise = Promise.resolve();
+  state.pastStatsLoading = false;
+  state.pastStatsLoaded = false;
+  state.sessionSummaryRecorded = false;
+  state.responseSubmission = null;
+  state.outOfScopeSubmission = null;
+
+  startView.hidden = true;
+  summaryView.hidden = true;
+  recordView.hidden = true;
+  wrongView.hidden = true;
+  checkedView.hidden = true;
+  statusBar.hidden = false;
+  questionView.hidden = false;
+  setStatus.textContent = state.recordPracticeMode ? "復習中" : "解説閲覧中";
+  renderQuestion();
+  scrollToTop();
+  if (state.recordPracticeMode) {
+    loadPastChoiceStats(sessionId, [question.id]);
+    retryPendingSubmissions();
+  }
+}
+
+function finishRecordPractice() {
+  const submission = createResponseSubmission();
+  if (submission) {
+    void submitResponseSubmission(submission);
+  }
+  state.recordPracticeMode = false;
+  returnToRecordQuestionList();
+  retryPendingSubmissions();
+}
+
+function finishRecordReview() {
+  state.recordReviewMode = false;
+  returnToRecordQuestionList();
+}
+
+function returnToRecordQuestionList() {
+  statusBar.hidden = true;
+  questionView.hidden = true;
+  if (state.recordListReturnView === "checked") {
+    showCheckedQuestions();
+  } else {
+    showWrongQuestions();
+  }
+}
+
+function captureRecordListSnapshot() {
+  return {
+    sessionQuestions: state.sessionQuestions,
+    responses: state.responses,
+    outOfScopeReports: state.outOfScopeReports,
+    pastChoiceStats: state.pastChoiceStats,
+    sessionChoiceStats: state.sessionChoiceStats,
+    currentIndex: state.currentIndex,
+    selectedChoiceId: state.selectedChoiceId,
+    pastStatsPromise: state.pastStatsPromise,
+    pastStatsLoading: state.pastStatsLoading,
+    pastStatsLoaded: state.pastStatsLoaded,
+    sessionSummaryRecorded: state.sessionSummaryRecorded,
+    responseSubmission: state.responseSubmission,
+    outOfScopeSubmission: state.outOfScopeSubmission,
+  };
+}
+
+function restoreRecordListSnapshot() {
+  const snapshot = state.recordListSnapshot;
+  const nextSessionId = state.sessionId + 1;
+  Object.assign(state, snapshot);
+  state.sessionId = nextSessionId;
+  state.recordPracticeMode = false;
+  state.recordReviewMode = false;
+  state.recordListSnapshot = null;
+}
+
+function openClearRecordDialog() {
+  if (typeof clearRecordDialog.showModal === "function") {
+    clearRecordDialog.showModal();
+    return;
+  }
+  if (window.confirm("これまでの学習記録をすべて削除します。この操作は元に戻せません。")) {
+    learningRecord.clear();
+    updateStartControls();
+    renderLearningRecord();
+    renderSummaryLifetime();
+  }
+}
+
+function openInterruptDialog() {
+  if (typeof interruptDialog.showModal === "function") {
+    interruptDialog.showModal();
+    return;
+  }
+  if (window.confirm("挑戦を中断しますか？")) {
+    void interruptSession();
+  }
+}
+
+function formatAnswerDate(timestamp) {
+  return new Intl.DateTimeFormat("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(timestamp));
 }
 
 function renderChoiceStats(question, selectedChoice, correctChoice) {
@@ -872,24 +1384,6 @@ function recordSessionChoiceStats(question, selectedChoice, isCorrect) {
   stats.correct += isCorrect ? 1 : 0;
   stats.choices[selectedChoice.choice_id] = Number(stats.choices[selectedChoice.choice_id] || 0) + 1;
   state.sessionChoiceStats[question.id] = stats;
-}
-
-function recordSessionHistory() {
-  if (state.sessionHistoryRecorded) {
-    return;
-  }
-  for (const [index, question] of state.sessionQuestions.entries()) {
-    const response = state.responses[index];
-    if (response.selectedChoiceId === null) {
-      continue;
-    }
-    const item = state.history[question.id] ?? { attempts: 0, correct: 0 };
-    item.attempts += 1;
-    item.correct += response.isCorrect ? 1 : 0;
-    state.history[question.id] = item;
-  }
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.history));
-  state.sessionHistoryRecorded = true;
 }
 
 function loadPastChoiceStats(sessionId, questionIds) {
@@ -1308,15 +1802,6 @@ function compareByDisplayLabel(a, b) {
     return left - right;
   }
   return String(a.displayLabel).localeCompare(String(b.displayLabel), "ja");
-}
-
-function loadHistory() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch {
-    return {};
-  }
 }
 
 function shuffleArray(items) {

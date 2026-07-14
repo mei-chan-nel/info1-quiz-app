@@ -51,25 +51,43 @@
               </div>
             </section>
 
-            <section class="control-section" aria-labelledby="calcHeading">
-              <h2 id="calcHeading">&#35336;&#31639;&#21839;&#38988;</h2>
-              <div class="segmented-control" id="calcMode" role="radiogroup" aria-label="&#35336;&#31639;&#21839;&#38988;">
-                <label>
-                  <input type="radio" name="calcMode" value="all" checked />
-                  <span>&#12377;&#12409;&#12390;</span>
-                </label>
-                <label>
-                  <input type="radio" name="calcMode" value="without" />
-                  <span>&#38500;&#12367;</span>
-                </label>
-                <label>
-                  <input type="radio" name="calcMode" value="only" />
-                  <span>&#35336;&#31639;&#12384;&#12369;</span>
-                </label>
-              </div>
-            </section>
+            <details class="advanced-settings" id="advancedSettings">
+              <summary><span id="advancedSettingsLabel">＋ 詳細な設定</span></summary>
+              <div class="advanced-settings-body">
+                <section class="control-section" aria-labelledby="answerModeHeading">
+                  <h2 id="answerModeHeading">回答状況</h2>
+                  <div class="segmented-control answer-mode-control" id="answerMode" role="radiogroup" aria-label="回答状況">
+                    <label><input type="radio" name="answerMode" value="all" checked /><span>すべての問題</span></label>
+                    <label><input type="radio" name="answerMode" value="unanswered" /><span>まだ答えていない問題のみ</span></label>
+                    <label><input type="radio" name="answerMode" value="wrong" /><span>間違えたままの問題のみ</span></label>
+                    <label><input type="radio" name="answerMode" value="exclude_mastered" /><span>3回連続正答の問題を除く</span></label>
+                  </div>
+                </section>
 
-            <button class="primary-button start-button" id="startButton" type="button" disabled>―読込中―</button>
+                <section class="control-section" aria-labelledby="calcHeading">
+                  <h2 id="calcHeading">&#35336;&#31639;&#21839;&#38988;</h2>
+                  <div class="segmented-control" id="calcMode" role="radiogroup" aria-label="&#35336;&#31639;&#21839;&#38988;">
+                    <label>
+                      <input type="radio" name="calcMode" value="all" checked />
+                      <span>&#12377;&#12409;&#12390;</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="calcMode" value="without" />
+                      <span>&#38500;&#12367;</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="calcMode" value="only" />
+                      <span>&#35336;&#31639;&#12384;&#12369;</span>
+                    </label>
+                  </div>
+                </section>
+                <button class="secondary-button advanced-record-button" id="startRecordButton" type="button">学習記録を見る</button>
+              </div>
+            </details>
+
+            <div class="start-actions">
+              <button class="primary-button start-button" id="startButton" type="button" disabled>―読込中―</button>
+            </div>
           </div>
         </div>
       </section>
@@ -87,6 +105,9 @@
       </section>
 
       <section class="question-panel" id="questionView" aria-live="polite" hidden>
+        <div class="question-toolbar">
+          <button class="check-question-button" id="questionCheckButton" type="button" aria-pressed="false">保存</button>
+        </div>
         <p class="stem" id="questionStem"></p>
         <div class="choices" id="choices"></div>
         <p class="question-source" id="questionSource"></p>
@@ -100,18 +121,31 @@
           <p class="explanation" id="explanation"></p>
         </section>
 
-        <div class="actions">
-          <button class="primary-button" id="nextButton" type="button">&#27425;&#12398;&#21839;&#38988;</button>
+        <div class="question-footer-actions">
+          <div class="actions">
+            <button class="primary-button" id="nextButton" type="button">&#27425;&#12398;&#21839;&#38988;</button>
+          </div>
+          <div class="interrupt-actions">
+            <button class="interrupt-button" id="interruptButton" type="button">挑戦を中断</button>
+          </div>
         </div>
       </section>
 
       <section class="summary-panel" id="summaryView" hidden>
-        <div class="summary-head">
-          <div>
-            <p class="question-index">&#32080;&#26524;</p>
-            <h1 id="summaryTitle">5&#21839;&#20013; 0&#21839;&#27491;&#35299;</h1>
+        <div class="summary-overview">
+          <div class="summary-head summary-score-row">
+            <div>
+              <p class="question-index">今回の成績</p>
+              <h1 id="summaryTitle">5&#21839;&#20013; 0&#21839;&#27491;&#35299;</h1>
+            </div>
+            <span class="summary-action-spacer" aria-hidden="true"></span>
+            <p class="summary-rate" id="summaryRate">0%</p>
           </div>
-          <p class="summary-rate" id="summaryRate">0%</p>
+          <div class="lifetime-summary summary-score-row" aria-label="これまでの成績">
+            <div><span>これまでの成績</span><strong id="summaryLifetimeText">0問中 0問正解</strong></div>
+            <button class="secondary-button lifetime-record-button" id="summaryRecordButton" type="button">学習記録</button>
+            <p id="summaryLifetimeRate">0%</p>
+          </div>
         </div>
 
         <div class="summary-list" id="summaryList"></div>
@@ -121,7 +155,69 @@
           <button class="secondary-button" id="finishButton" type="button">&#32066;&#20102;&#12377;&#12427;</button>
         </div>
       </section>
+
+      <section class="record-panel" id="recordView" hidden>
+        <div class="view-heading">
+          <div class="record-title-line">
+            <div><p class="eyebrow">LEARNING RECORD</p><h1>学習記録</h1></div>
+            <button class="danger-compact-button" id="clearRecordButton" type="button">学習記録をクリア</button>
+          </div>
+          <button class="secondary-button" id="recordBackButton" type="button">元のページに戻る</button>
+        </div>
+        <p class="streak-message" id="streakMessage">0日連続学習中</p>
+        <div class="record-metrics" id="recordMetrics"></div>
+        <section class="record-section" aria-labelledby="fieldStatsHeading">
+          <div class="record-section-head"><h2 id="fieldStatsHeading">分野別の正答率</h2></div>
+          <div class="field-stat-list" id="fieldStats"></div>
+        </section>
+        <div class="record-actions">
+          <button class="primary-button record-list-button" id="wrongQuestionsButton" type="button">間違えたままの問題</button>
+          <button class="primary-button record-list-button" id="checkedQuestionsButton" type="button">保存した問題</button>
+        </div>
+        <button class="secondary-button record-bottom-back" id="recordBottomBackButton" type="button">元のページに戻る</button>
+        <p class="record-privacy-note">この学習記録はこのブラウザ内に保存されます。個人を特定できる成績データとして外部へ送信されることはありません。</p>
+      </section>
+
+      <section class="record-panel" id="wrongView" hidden>
+        <div class="view-heading">
+          <div><p class="eyebrow">REVIEW QUESTIONS</p><h1>間違えたままの問題</h1></div>
+          <button class="secondary-button" id="wrongBackButton" type="button">学習記録に戻る</button>
+        </div>
+        <p class="record-lead" id="wrongQuestionCount">0問を復習できます</p>
+        <div class="record-question-list" id="wrongQuestionList"></div>
+      </section>
+
+      <section class="record-panel" id="checkedView" hidden>
+        <div class="view-heading">
+          <div><p class="eyebrow">SAVED QUESTIONS</p><h1>保存した問題</h1></div>
+          <button class="secondary-button" id="checkedBackButton" type="button">学習記録に戻る</button>
+        </div>
+        <p class="record-lead" id="checkedQuestionCount">0問を保存中</p>
+        <div class="record-question-list" id="checkedQuestionList"></div>
+      </section>
     </main>
+
+    <dialog class="clear-record-dialog" id="clearRecordDialog" aria-labelledby="clearRecordTitle">
+      <form method="dialog">
+        <h2 id="clearRecordTitle">学習記録をクリアしますか？</h2>
+        <p>これまでの学習記録と保存した問題をすべて削除します。この操作は元に戻せません。</p>
+        <div class="dialog-actions">
+          <button class="secondary-button" value="cancel">キャンセル</button>
+          <button class="danger-button" id="confirmClearRecordButton" value="confirm">すべて削除</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="clear-record-dialog" id="interruptDialog" aria-labelledby="interruptDialogTitle">
+      <form method="dialog">
+        <h2 id="interruptDialogTitle">挑戦を中断しますか？</h2>
+        <p>回答済みの問題だけで結果を表示します。</p>
+        <div class="dialog-actions">
+          <button class="secondary-button" value="cancel">挑戦を続ける</button>
+          <button class="danger-button" id="confirmInterruptButton" value="confirm">中断する</button>
+        </div>
+      </form>
+    </dialog>
 
     <!-- Reserved for a future advertising unit. -->
     <div class="ad-slot" aria-label="広告掲載予定" data-ad-slot="reserved"></div>
@@ -138,6 +234,7 @@
     </footer>
 
     <script src="./startup.js"></script>
+    <script src="./learning-record.js"></script>
     <script src="./app.js" type="module"></script>
     <script src="./issue-report.js" type="module"></script>
   </body>
