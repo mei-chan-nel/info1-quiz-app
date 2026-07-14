@@ -249,6 +249,8 @@ def main() -> int:
             errors.append("question-filter.js: URL-based multi-tag filter is missing")
         if "focusId" not in filter_script or "scrollIntoView" not in filter_script:
             errors.append("question-filter.js: source-question prioritization or result scrolling is missing")
+        if "filter-hit-count" not in filter_script:
+            errors.append("question-filter.js: visible filtered-result count is missing from the heading")
         if "if (question.tags.length > 0)" not in filter_script:
             errors.append("question-filter.js: empty result tag rows are not suppressed")
 

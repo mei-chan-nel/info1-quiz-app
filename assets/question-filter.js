@@ -135,7 +135,10 @@
       const originIndex = matches.findIndex((question) => question.id === focusId);
       if (originIndex > 0) matches.unshift(...matches.splice(originIndex, 1));
     }
-    heading.textContent = `「${selected.join("」「")}」の問題`;
+    heading.replaceChildren(
+      document.createTextNode(`「${selected.join("」「")}」の問題`),
+      element("span", "filter-hit-count", `${matches.length}問`),
+    );
     summary.textContent = `${selected.length}タグのOR検索で${matches.length}問が見つかりました。`;
     if (matches.length === 0) {
       results.append(element("p", "filter-message", "条件に合う問題はありません。タグを選び直してください。"));
