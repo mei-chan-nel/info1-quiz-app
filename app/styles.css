@@ -358,9 +358,18 @@ input {
   width: 100%;
 }
 
-.advanced-record-button {
+.secondary-button.advanced-record-button {
   width: 100%;
   justify-self: stretch;
+  border-color: rgba(15, 118, 110, 0.3);
+  background: #eaf7f3;
+  color: var(--accent-dark);
+}
+
+.secondary-button.advanced-record-button:hover,
+.secondary-button.advanced-record-button:focus-visible {
+  border-color: rgba(15, 118, 110, 0.48);
+  background: #dff3ed;
 }
 
 .field-filters {
@@ -502,14 +511,12 @@ input {
   margin-bottom: 10px;
 }
 
-.interrupt-actions {
+.question-secondary-actions {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
-.interrupt-actions:has(.interrupt-button[hidden]) {
-  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 18px;
 }
 
 .question-footer-actions {
@@ -519,6 +526,10 @@ input {
 
 .question-footer-actions .actions {
   margin-top: 0;
+}
+
+.question-footer-actions #nextButton {
+  min-width: 180px;
 }
 
 .interrupt-button {
@@ -531,6 +542,15 @@ input {
   font-size: 0.8rem;
   font-weight: 800;
   cursor: pointer;
+}
+
+.question-secondary-action {
+  width: 150px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .interrupt-button:hover,
@@ -583,7 +603,8 @@ input {
 }
 
 .summary-head.summary-score-row {
-  padding: 0 14px;
+  align-items: center;
+  padding: 0 15px;
 }
 
 .question-index {
@@ -623,11 +644,18 @@ h1 {
 }
 
 .lifetime-record-button {
+  width: 96px;
   min-height: 34px;
   padding: 0 11px;
   border-color: rgba(15, 118, 110, 0.3);
   color: var(--accent-dark);
   font-size: 0.82rem;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .lifetime-summary div {
@@ -1218,7 +1246,7 @@ h1 {
   color: #98a2b3;
   font-size: 0.72rem;
   line-height: 1.6;
-  text-align: right;
+  text-align: left;
 }
 
 .clear-record-dialog {

@@ -20,6 +20,7 @@ const calcMode = document.querySelector("#calcMode");
 const questionStem = document.querySelector("#questionStem");
 const choices = document.querySelector("#choices");
 const questionSource = document.querySelector("#questionSource");
+const chatgptQuestionButton = document.querySelector("#chatgptQuestionButton");
 const interruptButton = document.querySelector("#interruptButton");
 const questionCheckButton = document.querySelector("#questionCheckButton");
 const nextButton = document.querySelector("#nextButton");
@@ -33,6 +34,7 @@ const summaryRate = document.querySelector("#summaryRate");
 const summaryLifetimeText = document.querySelector("#summaryLifetimeText");
 const summaryLifetimeRate = document.querySelector("#summaryLifetimeRate");
 const summaryList = document.querySelector("#summaryList");
+const summaryShareButton = document.querySelector("#summaryShareButton");
 const summaryRecordButton = document.querySelector("#summaryRecordButton");
 const retryButton = document.querySelector("#retryButton");
 const finishButton = document.querySelector("#finishButton");
@@ -61,6 +63,9 @@ const confirmInterruptButton = document.querySelector("#confirmInterruptButton")
 const DEFAULT_SET_SIZE = 5;
 const MIN_SET_SIZE = 1;
 const MAX_SET_SIZE = 50;
+const CHATGPT_URL = "https://chatgpt.com/";
+const X_POST_INTENT_URL = "https://x.com/intent/tweet";
+const PUBLIC_APP_URL = "https://mei-chan-nel.github.io/info1-quiz-app/app/";
 const SUPABASE_URL = "https://yygezzpowsvpzarqdtls.supabase.co";
 // Supabase publishable keys are designed for browser clients. Never use a secret or service_role key here.
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rQmX7MCx_8W3nz-xWXQBpA_CHzdRQSk";
@@ -713,11 +718,13 @@ function renderQuestion() {
       : TEXT.next;
 
   if (!question) {
+    chatgptQuestionButton.href = CHATGPT_URL;
     renderEmptyState();
     return;
   }
 
   questionStem.textContent = question.stem;
+  chatgptQuestionButton.href = buildChatGPTQuestionUrl(question);
   updateQuestionCheckButton(question.id);
   renderChoices(question);
   renderSourceNote(question);
@@ -840,6 +847,14 @@ async function showSummary() {
   }
 }
 
+function buildChatGPTQuestionUrl(question) {
+  const choiceLines = question.choices
+    .map((choice, index) => `${index}．${choice.text}`)
+    .join("\n");
+  const prompt = `次の問題を解説してください。\n\n${question.stem}\n\n${choiceLines}`;
+  return `${CHATGPT_URL}?q=${encodeURIComponent(prompt)}`;
+}
+
 function getAnswerModeValue() {
   return answerMode.querySelector("input[name='answerMode']:checked")?.value || "all";
 }
@@ -875,6 +890,7 @@ function renderSummary() {
 
   summaryTitle.textContent = `${total}問中 ${correct}問正解`;
   summaryRate.textContent = `${rate}%`;
+  summaryShareButton.href = buildXShareUrl(total, correct, rate);
   renderSummaryLifetime();
 
   summaryList.replaceChildren(
@@ -1103,6 +1119,19 @@ function renderWrongQuestions() {
     "間違えたままの問題はありません。",
     "wrong",
   );
+}
+
+function buildXShareUrl(total, correct, rate) {
+  const postText = `共通テスト「情報Ⅰ」の問題に挑戦しました！
+
+今回の結果：${total}問中${correct}問正解
+正答率：${rate}％
+
+あなたも挑戦しませんか？
+
+${PUBLIC_APP_URL}
+#情報I #共通テスト #情報IStudyAtlas`;
+  return `${X_POST_INTENT_URL}?text=${encodeURIComponent(postText)}`;
 }
 
 function showCheckedQuestions() {
