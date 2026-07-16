@@ -20758,7 +20758,7 @@
   },
   {
     "id": "center_style_ip_curated_126",
-    "stem": "電子メールの送受信で，送信にSMTP，受信にIMAP4を使う場合の組合せとして，最も適当なものはどれか。",
+    "stem": "電子メールの送受信に用いられるプロトコルの組合せとして，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
@@ -33548,38 +33548,39 @@
   },
   {
     "id": "center_style_curated_063_011",
-    "stem": "8ビットの値で，00001000に対応するビットだけを1にし，他のビットは元のままにしたい。元の値に対して行う演算として最も適当なものはどれか。",
+    "stem": "8ビットの値で，もっとも左にあるビットを1にし，他のビットは元のままにしたい。元の値に対して行う演算として最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "00001000とのAND演算",
+        "text": "10000000とのOR演算",
         "choice_id": "center_style_curated_063_011__choice_0",
-        "is_correct": false,
-        "explanation": "他のビットを0にしてしまう。2もANDなので他のビットが消える。"
+        "is_correct": true,
+        "explanation": "OR演算で10000000と組み合わせると，もっとも左のビットは必ず1になり，他のビットは元のまま残る。"
       },
       {
         "label": "1",
-        "text": "00001000とのOR演算",
+        "text": "10000000とのAND演算",
         "choice_id": "center_style_curated_063_011__choice_1",
-        "is_correct": true,
-        "explanation": "OR演算では，1とORをとったビットは必ず1になり，0とORをとったビットは元の値のまま残る。したがって00001000とのOR演算が適切である。"
+        "is_correct": false,
+        "explanation": "AND演算で10000000と組み合わせると，他のビットが0になるため，元の値を保てない。"
       },
       {
         "label": "2",
-        "text": "01001000とのAND演算",
+        "text": "01111111とのOR演算",
         "choice_id": "center_style_curated_063_011__choice_2",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "OR演算で01111111と組み合わせても，もっとも左のビットを1にすることは保証できない。"
       },
       {
         "label": "3",
-        "text": "01001000とのOR演算",
+        "text": "01111111とのAND演算",
         "choice_id": "center_style_curated_063_011__choice_3",
         "is_correct": false,
-        "explanation": "01000000のビットまで1にしてしまう。"
+        "explanation": "AND演算で01111111と組み合わせると，もっとも左のビットが0になる。"
       }
     ],
-    "correct_choice": "1",
-    "explanation": "OR演算では，1とORをとったビットは必ず1になり，0とORをとったビットは元の値のまま残る。したがって00001000とのOR演算が適切である。",
+    "correct_choice": "0",
+    "explanation": "OR演算では，1とORをとったビットは必ず1になり，0とORをとったビットは元の値のまま残る。したがって，もっとも左のビットを1にするには10000000とのOR演算が適切である。",
     "tags": [
       "OR",
       "論理演算",
@@ -33628,7 +33629,7 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_curated_063_011__choice_1",
+    "answer_choice_id": "center_style_curated_063_011__choice_0",
     "field_ids": [
       "digital"
     ]
@@ -37394,37 +37395,39 @@
   },
   {
     "id": "center_style_curated_065_017",
-    "stem": "個人情報を本人の同意なしに他社へ渡す場合，原則として本人の同意が必要なものとして最も適当なものはどれか。",
+    "stem": "個人情報の取り扱いについて，原則として本人の同意が必要なものとして最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "親会社の新製品を案内するために，顧客情報を親会社へ渡す。",
+        "text": "親会社の新製品を案内するために，顧客の個人データを親会社へ提供する。",
         "choice_id": "center_style_curated_065_017__choice_0",
         "is_correct": true,
-        "explanation": "親会社の宣伝に使うため顧客情報を渡すことは，利用者本人の同意が必要になる第三者提供に当たりやすい。"
+        "explanation": "親会社は別法人であり，販促目的で顧客の個人データを提供することは委託には当たらないため，個人情報保護法第27条第1項により，原則として本人の同意が必要である。"
       },
       {
         "label": "1",
-        "text": "顧客リストの入力作業を委託するために，入力業者へ渡す。",
+        "text": "顧客リストの入力作業を委託するために，入力業者へ提供する。",
         "choice_id": "center_style_curated_065_017__choice_1",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "利用目的の達成に必要な範囲で個人データの取扱いを委託する場合は，個人情報保護法第27条第5項第1号により第三者提供には当たらず，本人の同意は不要である。"
       },
       {
         "label": "2",
-        "text": "身体に危害が及ぶおそれのある製品を回収するために，製造元へ渡す。",
+        "text": "本人の同意を得ることが困難な状況で，身体に危害が及ぶおそれのある製品を回収するために，製造元へ提供する。",
         "choice_id": "center_style_curated_065_017__choice_2",
         "is_correct": false,
-        "explanation": "生命や身体の保護が必要な場合の例である。"
+        "explanation": "生命，身体又は財産の保護に必要で，本人の同意を得ることが困難な場合は，個人情報保護法第27条第1項第2号の例外に該当し，本人の同意は不要である。"
       },
       {
         "label": "3",
-        "text": "請求書の配送を委託するために，配送業者へ渡す。",
+        "text": "請求書の配送を委託するために，配送業者へ提供する。",
         "choice_id": "center_style_curated_065_017__choice_3",
-        "is_correct": false
+        "is_correct": false,
+        "explanation": "請求書の配送に必要な範囲で個人データの取扱いを委託する場合は，個人情報保護法第27条第5項第1号により第三者提供には当たらず，本人の同意は不要である。"
       }
     ],
     "correct_choice": "0",
-    "explanation": "親会社の宣伝に使うため顧客情報を渡すことは，利用者本人の同意が必要になる第三者提供に当たりやすい。",
+    "explanation": "個人データを第三者に提供する場合は，個人情報保護法第27条第1項により，原則としてあらかじめ本人の同意が必要である。親会社への販促目的の提供は委託等の例外に当たらないため，選択肢0が該当する。",
     "tags": [
       "個人情報",
       "個人情報の保護に関する法律",
@@ -50339,39 +50342,39 @@
   },
   {
     "id": "center_style_curated_075_002",
-    "stem": "データベースの表で，各行を一意に識別するために使う列または列の組の説明として，最も適当なものはどれか。",
+    "stem": "データベースの表における主キーの役割として，最も適当なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "値を空欄にできない列であれば，必ず行を一意に識別できる",
+        "text": "表の各行を一意に識別する。",
         "choice_id": "center_style_curated_075_002__choice_0",
-        "is_correct": false,
-        "explanation": "空欄でないだけでは同じ値が重複する可能性がある。"
+        "is_correct": true,
+        "explanation": "主キーは，表の各行を一意に識別するための列または列の組である。"
       },
       {
         "label": "1",
         "text": "検索を速くするために，データの格納位置を記録する",
         "choice_id": "center_style_curated_075_002__choice_1",
         "is_correct": false,
-        "explanation": "索引の説明である。"
+        "explanation": "検索を速くするための索引は，主キーの役割そのものではない。"
       },
       {
         "label": "2",
         "text": "異なる表の列と必ず関連付けられている",
         "choice_id": "center_style_curated_075_002__choice_2",
         "is_correct": false,
-        "explanation": "外部キーの説明に近い。"
+        "explanation": "異なる表の列との関連付けに用いるのは，主に外部キーの役割である。"
       },
       {
         "label": "3",
-        "text": "表の行を一意に識別できる",
+        "text": "値を空欄にできない列であれば，必ず行を一意に識別する。",
         "choice_id": "center_style_curated_075_002__choice_3",
-        "is_correct": true,
-        "explanation": "主キーなど，行を識別するための列や列の組は，表の中で各行を一意に区別できる必要がある。"
+        "is_correct": false,
+        "explanation": "空欄を禁止するだけでは，異なる行に同じ値が入ることを防げないため，一意識別は保証されない。"
       }
     ],
-    "correct_choice": "3",
-    "explanation": "主キーなど，行を識別するための列や列の組は，表の中で各行を一意に区別できる必要がある。",
+    "correct_choice": "0",
+    "explanation": "主キーは，表の各行を一意に識別するための列または列の組である。主キーの値は重複せず，空欄にもできない。",
     "tags": [
       "主キー",
       "レコード",
@@ -50431,7 +50434,7 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "center_style_curated_075_002__choice_3",
+    "answer_choice_id": "center_style_curated_075_002__choice_0",
     "field_ids": [
       "data_db"
     ]
