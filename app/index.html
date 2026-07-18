@@ -4,13 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>&#24773;&#22577;&#8544;&#30693;&#35672;&#21839;&#38988;</title>
+    <link rel="stylesheet" href="https://mei-chan-nel.github.io/assets/site.css" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./issue-report.css" />
     <link rel="icon" href="https://mei-chan-nel.github.io/assets/favicon.svg" type="image/svg+xml" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6257644709224446" crossorigin="anonymous"></script>
   </head>
   <body>
-    <main class="app-shell">
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+
+    <main class="app-shell" id="main-content">
       <section class="start-panel" id="startView">
         <div class="start-layout">
           <div class="start-copy">
@@ -161,7 +164,6 @@
         <div class="view-heading">
           <div class="record-title-line">
             <div><p class="eyebrow">LEARNING RECORD</p><h1>学習記録</h1></div>
-            <button class="danger-compact-button" id="clearRecordButton" type="button">学習記録をクリア</button>
           </div>
           <button class="secondary-button" id="recordBackButton" type="button">元のページに戻る</button>
         </div>
@@ -175,7 +177,10 @@
           <button class="primary-button record-list-button" id="wrongQuestionsButton" type="button">間違えたままの問題</button>
           <button class="primary-button record-list-button" id="checkedQuestionsButton" type="button">保存した問題</button>
         </div>
-        <button class="secondary-button record-bottom-back" id="recordBottomBackButton" type="button">元のページに戻る</button>
+        <div class="record-bottom-actions">
+          <button class="danger-compact-button" id="clearRecordButton" type="button">学習記録をクリア</button>
+          <button class="secondary-button record-bottom-back" id="recordBottomBackButton" type="button">元のページに戻る</button>
+        </div>
         <p class="record-privacy-note">この学習記録はこのブラウザ内に保存されます。個人を特定できる成績データとして外部へ送信されることはありません。</p>
       </section>
 
@@ -224,14 +229,25 @@
     <div class="ad-slot" aria-label="広告掲載予定" data-ad-slot="reserved"></div>
 
     <footer class="site-footer">
-      <div class="footer-inner">
-        <p class="footer-title">共通テスト「情報Ⅰ」知識問題トレーニング</p>
-        <nav class="footer-nav" aria-label="サイト情報">
+      <div class="footer-grid">
+        <div>
+          <p class="footer-brand">情報Ⅰ Study Atlas</p>
+          <p class="footer-copy">知識を、ひろげ、つなげる</p>
+        </div>
+        <nav aria-label="フッターナビゲーション">
           <a href="https://mei-chan-nel.github.io/">トップページ</a>
+          <a href="./">学習アプリ</a>
+          <a href="../questions/index.html">問題一覧</a>
+          <a href="https://mei-chan-nel.github.io/archive/index.html">動画問題</a>
+          <a href="https://mei-chan-nel.github.io/LectureNote/index.html">講義ノート</a>
+          <a href="https://mei-chan-nel.github.io/study-guide.html">勉強法</a>
+          <a href="https://mei-chan-nel.github.io/books/index.html">書籍案内</a>
           <a href="https://mei-chan-nel.github.io/about.html">このサイトについて</a>
           <a href="https://mei-chan-nel.github.io/privacy.html">プライバシーポリシー</a>
+          <a href="https://mei-chan-nel.github.io/sitemap.html">サイトマップ</a>
         </nav>
       </div>
+      <p class="copyright"><small>&copy; 2026 めいちゃんねる</small></p>
     </footer>
 
     <script src="./startup.js"></script>

@@ -438,6 +438,7 @@ function showStart() {
   progressFill.style.width = "0%";
   updateStartControls();
   progressText.textContent = `0/${state.setSize}`;
+  scrollToTop();
 }
 
 function resetSessionState() {
