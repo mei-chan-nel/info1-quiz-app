@@ -1,6 +1,6 @@
 # 問題一覧の生成・所有範囲
 
-更新日: 2026-07-14
+更新日: 2026-07-20
 
 ## このリポジトリが所有するもの
 
@@ -9,7 +9,7 @@
 - `questions/`: 読むための問題一覧
 - `docs/reports/question-library-build.json`: ポータルのサイトマップ生成に渡す公開ページ一覧
 
-ポータルトップ、サイト案内、全体プライバシーポリシー、利用者向け `sitemap.html`、共通CSS・favicon、`ads.txt`、`robots.txt`、`sitemap.xml` は、`mei-chan-nel.github.io` リポジトリが所有する。
+ポータルトップ、サイト案内、全体プライバシーポリシー、利用者向け `sitemap.html`、共通CSS・favicon・ヘッダー／フッター生成スクリプト、`ads.txt`、`robots.txt`、`sitemap.xml` は、`mei-chan-nel.github.io` リポジトリが所有する。
 
 ## 生成手順
 
@@ -42,8 +42,8 @@ python scripts/classify_questions.py --apply
 
 ## アプリ保護
 
-`docs/reports/app-core-baseline-sha256.json` と `app/index.html`、`app/app.js`、`app/startup.js`、`app/styles.css`、`app/issue-report.js`、`app/issue-report.css`、`app/learning-record.js` を比較し、意図しないアプリ変更を検知する。基準値は意図したアプリ変更を検証した時点で更新する。サイト案内とプライバシーポリシーはポータルへ統合し、アプリのフッターはポータルのトップ・案内・プライバシーへ直接リンクする。
+`docs/reports/app-core-baseline-sha256.json` と `app/index.html`、`app/app.js`、`app/startup.js`、`app/styles.css`、`app/issue-report.js`、`app/issue-report.css`、`app/learning-record.js` を比較し、意図しないアプリ変更を検知する。基準値は意図したアプリ変更を検証した時点で更新する。サイト案内とプライバシーポリシーはポータルへ統合し、アプリは出題・遷移・集計処理を変更せず、フッターだけをポータル共通のサイトシェルへ接続する。
 
 ## ポータルへのリンク
 
-問題一覧の「学習トップ」「動画問題」「問題集」「このサイトについて」「プライバシーポリシー」「サイトマップ」は `https://mei-chan-nel.github.io/` 側へリンクする。問題一覧と学習アプリの相互リンクは、このリポジトリ内の相対URLを使う。
+問題一覧のヘッダーとフッターは、全ページで `/assets/site-header.js` を読み込み、ポータルと同じリンク順・名称・ブランド表記を使用する。生成前のHTMLにも同じ構成を出力し、生成後の検証では共通スクリプトの欠落を検出する。

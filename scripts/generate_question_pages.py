@@ -168,11 +168,12 @@ def head(
 
 def header(prefix: str, current: str) -> str:
     nav_items = [
-        ("home", PORTAL_URL, "学習トップ"),
+        ("home", PORTAL_URL, "トップページ"),
+        ("app", f"{PORTAL_URL}info1-quiz-app/app/", "学習アプリ"),
+        ("questions", f"{PORTAL_URL}info1-quiz-app/questions/index.html", "問題一覧"),
+        ("archive", f"{PORTAL_URL}archive/index.html", "動画問題"),
+        ("lecture", f"{PORTAL_URL}LectureNote/index.html", "講義ノート"),
         ("study", f"{PORTAL_URL}study-guide.html", "勉強法"),
-        ("questions", f"{prefix}questions/index.html", "問題一覧"),
-        ("archive", f"{PORTAL_URL}archive/", "動画問題"),
-        ("app", f"{prefix}app/", "学習アプリ"),
         ("about", f"{PORTAL_URL}about.html", "このサイトについて"),
     ]
     links = []
@@ -185,7 +186,7 @@ def header(prefix: str, current: str) -> str:
       <div class="header-inner">
         <a class="brand" href="{PORTAL_URL}" aria-label="情報Ⅰ Study Atlas トップ">
           <span class="brand-mark" aria-hidden="true">I</span>
-          <span><strong>情報Ⅰ Study Atlas</strong><small>知識問題と解説</small></span>
+          <span><strong>情報Ⅰ Study Atlas</strong><small>知識を、ひろげ、つなげる</small></span>
         </a>
         <nav class="global-nav" aria-label="メインナビゲーション">{''.join(links)}</nav>
       </div>
@@ -196,16 +197,15 @@ def footer(prefix: str) -> str:
     return f"""
     <footer class="site-footer">
       <div class="footer-grid">
-        <div>
-          <p class="footer-brand">情報Ⅰ Study Atlas</p>
-          <p class="footer-copy">知識を、ひろげ、つなげる</p>
-        </div>
+        <a class="brand footer-brand" href="{PORTAL_URL}" aria-label="情報Ⅰ Study Atlas トップ"><span><strong>情報Ⅰ Study Atlas</strong><small>知識を、ひろげ、つなげる</small></span></a>
         <nav aria-label="フッターナビゲーション">
-          <a href="{prefix}questions/index.html">問題一覧</a>
-          <a href="{PORTAL_URL}study-guide.html">情報Ⅰの勉強法</a>
-          <a href="{PORTAL_URL}archive/">動画問題</a>
-          <a href="{PORTAL_URL}books/">問題集</a>
-          <a href="{prefix}app/">学習アプリ</a>
+          <a href="{PORTAL_URL}">トップページ</a>
+          <a href="{PORTAL_URL}info1-quiz-app/app/">学習アプリ</a>
+          <a href="{PORTAL_URL}info1-quiz-app/questions/index.html">問題一覧</a>
+          <a href="{PORTAL_URL}archive/index.html">動画問題</a>
+          <a href="{PORTAL_URL}LectureNote/index.html">講義ノート</a>
+          <a href="{PORTAL_URL}study-guide.html">勉強法</a>
+          <a href="{PORTAL_URL}books/index.html">書籍案内</a>
           <a href="{PORTAL_URL}about.html">このサイトについて</a>
           <a href="{PORTAL_URL}privacy.html">プライバシーポリシー</a>
           <a href="{PORTAL_URL}sitemap.html">サイトマップ</a>
@@ -213,6 +213,7 @@ def footer(prefix: str) -> str:
       </div>
       <p class="copyright"><small>&copy; 2026 めいちゃんねる</small></p>
     </footer>
+    <script src="/assets/site-header.js"></script>
   </body>
 </html>
 """

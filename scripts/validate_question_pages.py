@@ -17,6 +17,7 @@ REPORT_DIR = ROOT / "docs" / "reports"
 AD_SCRIPT_MARKER = "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
 SHARED_STYLESHEET = "https://mei-chan-nel.github.io/assets/site.css"
 SHARED_FAVICON = "https://mei-chan-nel.github.io/assets/favicon.svg"
+SHARED_SHELL_SCRIPT = "/assets/site-header.js"
 MIN_PUBLIC_TAG_QUESTIONS = 4
 PROTECTED_APP_FILES = (
     "app/index.html",
@@ -81,6 +82,10 @@ def protected_app_hashes() -> dict[str, str]:
 
 
 def local_target(source: Path, href: str) -> tuple[Path, str] | None:
+    if href == SHARED_SHELL_SCRIPT:
+        # This project is deployed below /info1-quiz-app/ on the same user
+        # site. The root-relative shared shell belongs to the portal repo.
+        return None
     split = urlsplit(href)
     if split.scheme or split.netloc or href.startswith(("mailto:", "tel:", "javascript:")):
         return None
@@ -142,6 +147,8 @@ def main() -> int:
             errors.append(f"{relative}: shared portal stylesheet is missing")
         if SHARED_FAVICON not in text:
             errors.append(f"{relative}: shared portal favicon is missing")
+        if SHARED_SHELL_SCRIPT not in text:
+            errors.append(f"{relative}: shared site header/footer script is missing")
         for marker in ('property="og:title"', 'property="og:description"', 'property="og:url"'):
             if marker not in text:
                 errors.append(f"{relative}: missing Open Graph metadata {marker}")
@@ -280,6 +287,10 @@ def main() -> int:
             errors.append(f"app/index.html: missing consolidated footer link {expected_link}")
     if SHARED_FAVICON not in app_index:
         errors.append("app/index.html: shared portal favicon is missing")
+    if SHARED_STYLESHEET not in app_index:
+        errors.append("app/index.html: shared portal stylesheet is missing")
+    if SHARED_SHELL_SCRIPT not in app_index:
+        errors.append("app/index.html: shared site footer script is missing")
     if 'href="./about.html"' in app_index or 'href="./privacy.html"' in app_index:
         errors.append("app/index.html: obsolete local information-page link remains")
 
@@ -338,7 +349,7 @@ def main() -> int:
             "AdSense included on every generated question-library page",
             "protected app core-file SHA-256 baseline",
             "consolidated app footer links and removal of old information pages",
-            "shared portal stylesheet and favicon references",
+            "shared portal stylesheet, favicon, and header/footer script references",
             "absence of portal-owned root files",
         ],
     }
