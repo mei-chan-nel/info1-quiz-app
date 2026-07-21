@@ -920,6 +920,7 @@ function renderSummary() {
             ${response.isCorrect ? TEXT.correct : TEXT.incorrect}
           </span>
           ${renderQuestionCheckButton(question.id)}
+          ${renderChatGPTExplanationAction(question)}
           ${renderOutOfScopeReportAction(question)}
         </div>
         <div class="summary-body">
@@ -973,6 +974,13 @@ function renderSummarySourceNote(question) {
     return "";
   }
   return `<p class="summary-source">出典：${escapeHtml(sourceText)}</p>`;
+}
+
+function renderChatGPTExplanationAction(question) {
+  const url = buildChatGPTQuestionUrl(question, "explanation");
+  return `
+    <a class="summary-chatgpt-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">ChatGPTの解説</a>
+  `;
 }
 
 function renderSummaryLifetime() {
