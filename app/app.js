@@ -1110,10 +1110,13 @@ function renderLearningRecord() {
   fieldStats.replaceChildren(
     ...summary.fields.map((field) => {
       const item = document.createElement("div");
-      item.className = "field-stat";
+      const isUnanswered = field.attempts === 0;
+      const statusText = isUnanswered ? "未回答" : `${field.correct}/${field.attempts}・${field.rate}%`;
+      const progressLabel = isUnanswered ? `${field.label}：未回答` : `${field.label}：正答率${field.rate}%`;
+      item.className = `field-stat${isUnanswered ? " is-unanswered" : ""}`;
       item.innerHTML = `
-        <div><strong>${escapeHtml(field.label)}</strong><span>${field.correct}/${field.attempts}・${field.rate}%</span></div>
-        <div class="field-stat-track" aria-hidden="true"><span style="width:${field.rate}%"></span></div>
+        <div><strong>${escapeHtml(field.label)}</strong><span>${statusText}</span></div>
+        <div class="field-stat-track" role="img" aria-label="${escapeHtml(progressLabel)}"><span style="width:${field.rate}%"></span></div>
       `;
       return item;
     }),

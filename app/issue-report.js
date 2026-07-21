@@ -12,6 +12,8 @@ const ISSUE_REPORT_REASONS = [
 const reportedQuestionIds = new Set();
 const questionCatalogPromise = loadQuestionCatalog();
 let activeReport = null;
+let activeReportTrigger = null;
+let selectedReason = "";
 let isSending = false;
 let currentQuestionSyncId = 0;
 
@@ -142,15 +144,19 @@ function createIssueReportDialog() {
         </div>
         <button class="issue-report-close" type="button" aria-label="閉じる">×</button>
       </div>
-      <p class="issue-report-note">選択した内容はすぐに送信されます。</p>
-      <div class="issue-report-reasons">
+      <p class="issue-report-note">理由を選択し、内容を確認してから「送信する」を押してください。</p>
+      <div class="issue-report-reasons" role="group" aria-label="報告理由">
         ${ISSUE_REPORT_REASONS.map(
           (reason) =>
-            `<button class="issue-report-reason" type="button" data-reason="${escapeAttribute(reason)}">${escapeHtml(reason)}</button>`,
+            `<button class="issue-report-reason" type="button" data-reason="${escapeAttribute(reason)}" aria-pressed="false">${escapeHtml(reason)}</button>`,
         ).join("")}
       </div>
+      <p class="issue-report-selection" data-selected-reason>理由はまだ選択されていません。</p>
       <p class="issue-report-status" aria-live="polite"></p>
-      <button class="issue-report-cancel" type="button">キャンセル</button>
+      <div class="issue-report-actions">
+        <button class="issue-report-cancel" type="button">キャンセル</button>
+        <button class="issue-report-submit" type="button" disabled>送信する</button>
+      </div>
     </div>
   `;
 
@@ -158,19 +164,22 @@ function createIssueReportDialog() {
 
   element.querySelector(".issue-report-close").addEventListener("click", closeIssueReportDialog);
   element.querySelector(".issue-report-cancel").addEventListener("click", closeIssueReportDialog);
+  element.querySelector(".issue-report-submit").addEventListener("click", () => {
+    void submitIssueReport();
+  });
 
   for (const button of element.querySelectorAll(".issue-report-reason")) {
     button.addEventListener("click", () => {
-      void submitIssueReport(button.dataset.reason);
+      selectIssueReportReason(button.dataset.reason);
     });
   }
 
   element.addEventListener("cancel", (event) => {
+    event.preventDefault();
     if (isSending) {
-      event.preventDefault();
       return;
     }
-    activeReport = null;
+    closeIssueReportDialog();
   });
 
   element.addEventListener("click", (event) => {
@@ -178,6 +187,7 @@ function createIssueReportDialog() {
       closeIssueReportDialog();
     }
   });
+  element.addEventListener("keydown", trapDialogFocus);
 
   return element;
 }
@@ -203,12 +213,14 @@ function updateReportButtons() {
       button.textContent = label;
     }
     button.dataset.issueReported = String(isReported);
-    button.disabled = isReported || isLoading;
+    button.disabled = isLoading;
+    button.setAttribute("aria-disabled", String(isReported || isLoading));
     button.classList.toggle("issue-reported", isReported);
   }
 }
 
 async function openIssueReportDialog(button) {
+  activeReportTrigger = button;
   button.dataset.issueLoading = "true";
   updateReportButtons();
 
@@ -219,9 +231,11 @@ async function openIssueReportDialog(button) {
     if (reportedQuestionIds.has(activeReport.questionId)) {
       activeReport = null;
       showToast("この問題は報告済みです。");
+      restoreReportButtonFocus();
       return;
     }
 
+    resetIssueReportForm();
     setDialogSendingState(false);
     dialog.querySelector(".issue-report-status").textContent = "";
 
@@ -237,6 +251,8 @@ async function openIssueReportDialog(button) {
   } catch (error) {
     console.error("報告対象の問題を取得できませんでした。", error);
     showToast("報告対象の問題を取得できませんでした。");
+    activeReport = null;
+    restoreReportButtonFocus();
   } finally {
     button.dataset.issueLoading = "false";
     updateReportButtons();
@@ -249,22 +265,51 @@ function closeIssueReportDialog() {
   }
 
   activeReport = null;
+  resetIssueReportForm();
   if (typeof dialog.close === "function") {
     dialog.close();
   } else {
     dialog.removeAttribute("open");
   }
+  restoreReportButtonFocus();
 }
 
-async function submitIssueReport(reason) {
-  if (!activeReport || isSending || !ISSUE_REPORT_REASONS.includes(reason)) {
+function selectIssueReportReason(reason) {
+  if (isSending || !ISSUE_REPORT_REASONS.includes(reason)) {
     return;
   }
 
-  const report = { ...activeReport, reason };
+  selectedReason = reason;
+  for (const button of dialog.querySelectorAll(".issue-report-reason")) {
+    const selected = button.dataset.reason === reason;
+    button.setAttribute("aria-pressed", String(selected));
+    button.classList.toggle("is-selected", selected);
+  }
+  dialog.querySelector("[data-selected-reason]").textContent = `選択中：${reason}`;
+  dialog.querySelector(".issue-report-status").textContent = "";
+  dialog.querySelector(".issue-report-submit").disabled = false;
+}
+
+function resetIssueReportForm() {
+  selectedReason = "";
+  for (const button of dialog.querySelectorAll(".issue-report-reason")) {
+    button.setAttribute("aria-pressed", "false");
+    button.classList.remove("is-selected");
+  }
+  dialog.querySelector("[data-selected-reason]").textContent = "理由はまだ選択されていません。";
+  dialog.querySelector(".issue-report-submit").disabled = true;
+}
+
+async function submitIssueReport() {
+  if (!activeReport || isSending || !ISSUE_REPORT_REASONS.includes(selectedReason)) {
+    return;
+  }
+
+  const report = { ...activeReport, reason: selectedReason };
   isSending = true;
   setDialogSendingState(true);
   dialog.querySelector(".issue-report-status").textContent = "送信しています…";
+  let sent = false;
 
   try {
     await fetch(ISSUE_REPORT_ENDPOINT, {
@@ -279,16 +324,8 @@ async function submitIssueReport(reason) {
     });
 
     reportedQuestionIds.add(report.questionId);
-    activeReport = null;
     updateReportButtons();
-
-    if (typeof dialog.close === "function") {
-      dialog.close();
-    } else {
-      dialog.removeAttribute("open");
-    }
-
-    showToast("報告を送信しました。ありがとうございます。");
+    sent = true;
   } catch (error) {
     console.error("不備報告を送信できませんでした。", error);
     dialog.querySelector(".issue-report-status").textContent =
@@ -296,6 +333,10 @@ async function submitIssueReport(reason) {
   } finally {
     isSending = false;
     setDialogSendingState(false);
+    if (sent) {
+      closeIssueReportDialog();
+      showToast("報告を送信しました。ありがとうございます。");
+    }
   }
 }
 
@@ -303,7 +344,43 @@ function setDialogSendingState(sending) {
   for (const button of dialog.querySelectorAll("button")) {
     button.disabled = sending;
   }
+  if (!sending) {
+    dialog.querySelector(".issue-report-submit").disabled = !selectedReason;
+  }
   dialog.classList.toggle("is-sending", sending);
+}
+
+function trapDialogFocus(event) {
+  if (event.key !== "Tab" || !dialog.open) {
+    return;
+  }
+
+  const focusable = Array.from(dialog.querySelectorAll("button:not([disabled])")).filter(
+    (button) => !button.hidden,
+  );
+  if (focusable.length === 0) {
+    event.preventDefault();
+    return;
+  }
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
+function restoreReportButtonFocus() {
+  const trigger = activeReportTrigger;
+  activeReportTrigger = null;
+  if (!trigger?.isConnected) {
+    return;
+  }
+  window.requestAnimationFrame(() => trigger.focus());
 }
 
 async function buildReportData(button) {
