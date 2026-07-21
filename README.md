@@ -4,7 +4,7 @@
 
 - 6分野・全1,000問の問題一覧
 - 正答、解説、出典、タグを掲載
-- 4問以上に付く244種類の公開タグ一覧と、複数タグのOR検索（低頻度タグは元データに保持したまま非表示）
+- 4問以上に付くタグとURL互換対象を合わせた242種類の公開タグ一覧、複数タグのOR検索
 - 1ページ最大10問の静的ページ
 - 分野・回答状況・問題数を選べる学習アプリ
 - ブラウザ内に保存する学習記録、連続学習日数、チェック問題一覧
@@ -52,6 +52,7 @@ python scripts/classify_questions.py --apply
 
 ```powershell
 python scripts/classify_questions.py --check
+python scripts/normalize_question_tags.py
 python scripts/generate_question_pages.py
 python scripts/validate_question_pages.py
 ```

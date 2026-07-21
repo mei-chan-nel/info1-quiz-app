@@ -1,5 +1,5 @@
 {
-  "generated_on": "2026-07-14",
+  "generated_on": "2026-07-22",
   "generator": "scripts/generate_question_pages.py",
   "question_source": "data/questions/completed_questions.json",
   "question_count": 1000,
@@ -12,10 +12,20 @@
     "algorithm": 99,
     "design": 63
   },
-  "raw_tag_count": 613,
-  "tag_count": 244,
+  "raw_tag_count": 608,
+  "tag_count": 242,
   "minimum_public_tag_questions": 4,
-  "hidden_low_frequency_tag_count": 369,
+  "forced_public_tags": [
+    "JavaScript"
+  ],
+  "tag_aliases": {
+    "ディジタル署名": "デジタル署名",
+    "公開かぎ暗号方式": "公開鍵暗号方式",
+    "ディジタル": "デジタル",
+    "firewall": "Firewall",
+    "Java Script": "JavaScript"
+  },
+  "hidden_low_frequency_tag_count": 366,
   "questions_without_public_tags": 10,
   "tag_filter_page": "questions/tags.html",
   "tag_filter_data": "questions/filter-data.json",

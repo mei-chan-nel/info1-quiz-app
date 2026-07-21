@@ -4,17 +4,28 @@
   const root = document.querySelector("[data-question-filter]");
   if (!root) return;
 
+  const PAGE_SIZE = 10;
   const parameter = root.dataset.filterParam || "tag";
-  const dataUrl = root.dataset.filterData;
   const results = root.querySelector("[data-filter-results]");
   const resultsSection = root.querySelector(".filter-results");
   const heading = root.querySelector("[data-filter-heading]");
   const summary = root.querySelector("[data-filter-summary]");
+  const message = root.querySelector("[data-filter-message]");
+  const controls = root.querySelector("[data-filter-controls]");
+  const loadMore = root.querySelector("[data-filter-load-more]");
+  const live = root.querySelector("[data-filter-live]");
   const search = root.querySelector("[data-facet-search]");
   const clear = root.querySelector("[data-facet-clear]");
-  let payload = null;
+  const aliases = readAliases();
+  const cards = Array.from(root.querySelectorAll("[data-filter-question]")).map((node, index) => ({
+    node,
+    index,
+    id: String(node.dataset.questionId || ""),
+    tags: readCardTags(node),
+  }));
   let selected = [];
   let focusId = null;
+  let visibleCount = PAGE_SIZE;
 
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -23,144 +34,168 @@
     return node;
   };
 
-  const readSelection = () => {
+  function readAliases() {
+    try {
+      const parsed = JSON.parse(root.dataset.tagAliases || "{}");
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch (error) {
+      console.warn("タグ表記の互換情報を読み込めませんでした。", error);
+      return {};
+    }
+  }
+
+  function readCardTags(node) {
+    try {
+      const parsed = JSON.parse(node.dataset.filterTags || "[]");
+      return Array.isArray(parsed) ? parsed.map(normalizeTag).filter(Boolean) : [];
+    } catch (error) {
+      console.warn("問題のタグ情報を読み込めませんでした。", error);
+      return [];
+    }
+  }
+
+  function normalizeTag(value) {
+    const tag = String(value || "").trim();
+    return aliases[tag] || tag;
+  }
+
+  function normalizeSelection(values) {
+    return [...new Set(values.map(normalizeTag).filter(Boolean))];
+  }
+
+  function readSelection() {
     const params = new URL(window.location.href).searchParams;
-    return [...new Set(params.getAll(parameter).map((value) => value.trim()).filter(Boolean))];
-  };
+    return normalizeSelection(params.getAll(parameter));
+  }
 
-  const readFocus = () => new URL(window.location.href).searchParams.get("question");
+  function readFocus() {
+    return new URL(window.location.href).searchParams.get("question");
+  }
 
-  const filterHref = (values, questionId = null) => {
+  function filterHref(values, questionId = null) {
     const params = new URLSearchParams();
-    values.forEach((value) => params.append(parameter, value));
+    normalizeSelection(values).forEach((value) => params.append(parameter, value));
     if (questionId) params.set("question", questionId);
     const query = params.toString();
     return `tags.html${query ? `?${query}` : ""}${questionId ? "#filter-results-heading" : ""}`;
-  };
+  }
 
-  const toggledSelection = (value) => {
+  function canonicalizeCurrentUrl() {
+    const url = new URL(window.location.href);
+    const raw = url.searchParams.getAll(parameter).map((value) => value.trim()).filter(Boolean);
+    const canonical = normalizeSelection(raw);
+    const needsReplacement =
+      raw.length !== canonical.length || raw.some((value, index) => value !== canonical[index]);
+    if (needsReplacement) {
+      window.history.replaceState(window.history.state, "", filterHref(canonical, focusId));
+    }
+  }
+
+  function toggledSelection(value) {
+    const normalizedValue = normalizeTag(value);
     const values = new Set(selected);
-    if (values.has(value)) values.delete(value);
-    else values.add(value);
+    if (values.has(normalizedValue)) values.delete(normalizedValue);
+    else values.add(normalizedValue);
     return [...values];
-  };
+  }
 
-  const syncFacetLinks = () => {
+  function syncFacetLinks() {
     root.querySelectorAll("[data-facet-value]").forEach((link) => {
-      const value = link.dataset.facetValue;
+      const value = normalizeTag(link.dataset.facetValue);
       const active = selected.includes(value);
       link.classList.toggle("is-selected", active);
       link.setAttribute("aria-pressed", String(active));
-      link.href = filterHref(toggledSelection(value));
+      link.setAttribute("href", filterHref(toggledSelection(value)));
     });
     if (clear) {
       clear.hidden = selected.length === 0;
-      clear.href = filterHref([]);
+      clear.setAttribute("href", filterHref([]));
     }
-  };
+  }
 
-  const appendTags = (container, tags, questionId) => {
-    tags.forEach((tag) => {
-      const item = element("li");
-      const link = element("a", "tag-link", tag);
-      link.href = filterHref([tag], questionId);
-      item.append(link);
-      container.append(item);
-    });
-  };
+  function orderCards(matches) {
+    const matchSet = new Set(matches);
+    const remainder = cards.filter((card) => !matchSet.has(card)).sort((left, right) => left.index - right.index);
+    const fragment = document.createDocumentFragment();
+    [...matches, ...remainder].forEach((card) => fragment.append(card.node));
+    results.append(fragment);
+  }
 
-  const renderQuestion = (question) => {
-    const article = element("article", "question-card filtered-question-card");
-    article.id = `filtered-q-${question.id}`;
-    if (focusId === question.id) article.classList.add("is-origin-question");
-
-    const meta = element("div", "question-meta");
-    meta.append(element("span", "", `${question.field_label} · QUESTION ${String(question.field_number).padStart(3, "0")}`));
-    const sourceLink = element("a", "", "通常ページで開く");
-    sourceLink.href = question.source_href;
-    meta.append(sourceLink);
-    article.append(meta, element("h2", "", question.stem));
-
-    const choices = element("ol", "choice-list");
-    question.choices.forEach((choice) => {
-      const item = element("li");
-      item.append(element("span", "", choice.label), element("p", "", choice.text));
-      choices.append(item);
-    });
-    article.append(choices);
-
-    const details = element("details", "answer-panel");
-    const detailsSummary = element("summary");
-    detailsSummary.append(element("span", "", "正答と解説を確認"), element("span", "detail-icon"));
-    detailsSummary.lastElementChild.setAttribute("aria-hidden", "true");
-
-    const content = element("div", "answer-content");
-    const correct = element("p", "correct-answer");
-    correct.append(element("span", "", "正答"), element("strong", "", `${question.correct.label}. ${question.correct.text}`));
-
-    const explanation = element("div", "explanation");
-    explanation.append(element("h3", "", "解説"), element("p", "", question.explanation));
-
-    const source = element("dl", "source-row");
-    source.append(element("dt", "", "出典"), element("dd", "", question.source));
-
-    content.append(correct, explanation, source);
-    if (question.tags.length > 0) {
-      const tagRow = element("div", "tag-row");
-      tagRow.append(element("span", "", "タグ"));
-      const tags = element("ul");
-      appendTags(tags, question.tags, question.id);
-      tagRow.append(tags);
-      content.append(tagRow);
+  function resetCards() {
+    for (const card of cards) {
+      card.node.hidden = true;
+      card.node.classList.remove("is-origin-question");
     }
-    details.append(detailsSummary, content);
-    article.append(details);
-    return article;
-  };
+  }
 
-  const render = () => {
+  function render() {
     syncFacetLinks();
-    results.replaceChildren();
-    if (!payload) return;
+    resetCards();
+    controls.hidden = true;
+    loadMore.hidden = true;
+    live.textContent = "";
 
     if (selected.length === 0) {
       heading.textContent = "タグを選択してください";
-      summary.textContent = `${payload.question_count}問からOR条件で抽出します。`;
-      results.append(element("p", "filter-message", "上のタグ一覧から、学習したい用語や分野を選んでください。"));
+      summary.textContent = `${cards.length}問からOR条件で抽出します。`;
+      message.textContent = "上のタグ一覧から、学習したい用語や分野を選んでください。";
+      message.hidden = false;
+      orderCards([]);
       return;
     }
 
-    const matches = payload.questions.filter((question) => question.tags.some((tag) => selected.includes(tag)));
+    const matches = cards
+      .filter((card) => card.tags.some((tag) => selected.includes(tag)))
+      .sort((left, right) => left.index - right.index);
     if (focusId) {
-      const originIndex = matches.findIndex((question) => question.id === focusId);
+      const originIndex = matches.findIndex((card) => card.id === focusId);
       if (originIndex > 0) matches.unshift(...matches.splice(originIndex, 1));
     }
+    orderCards(matches);
+
     heading.replaceChildren(
       document.createTextNode(`「${selected.join("」「")}」の問題`),
       element("span", "filter-hit-count", `${matches.length}問`),
     );
     summary.textContent = `${selected.length}タグのOR検索で${matches.length}問が見つかりました。`;
+    message.hidden = matches.length > 0;
+
     if (matches.length === 0) {
-      results.append(element("p", "filter-message", "条件に合う問題はありません。タグを選び直してください。"));
+      message.textContent = "条件に合う問題はありません。タグを選び直してください。";
       return;
     }
-    const fragment = document.createDocumentFragment();
-    matches.forEach((question) => fragment.append(renderQuestion(question)));
-    results.append(fragment);
-    syncFacetLinks();
-    if (focusId && matches.some((question) => question.id === focusId)) {
+
+    const shown = Math.min(visibleCount, matches.length);
+    matches.slice(0, shown).forEach((card) => {
+      card.node.hidden = false;
+      card.node.classList.toggle("is-origin-question", card.id === focusId);
+    });
+
+    const remaining = matches.length - shown;
+    controls.hidden = false;
+    live.textContent = `${matches.length}問中${shown}問を表示しています。`;
+    loadMore.hidden = remaining === 0;
+    if (remaining > 0) {
+      loadMore.textContent = `さらに${Math.min(PAGE_SIZE, remaining)}問読み込む（残り${remaining}問）`;
+    }
+
+    if (focusId && matches.some((card) => card.id === focusId)) {
       window.requestAnimationFrame(() => resultsSection.scrollIntoView({ block: "start" }));
     }
-  };
+  }
 
-  const setSelection = (values, push = true) => {
-    selected = [...new Set(values)];
+  function setSelection(values, push = true) {
+    selected = normalizeSelection(values);
     focusId = null;
+    visibleCount = PAGE_SIZE;
     if (push) window.history.pushState({}, "", filterHref(selected));
     render();
-  };
+  }
 
   root.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) {
+      return;
+    }
     const facet = event.target.closest("[data-facet-value]");
     if (facet && root.contains(facet)) {
       event.preventDefault();
@@ -172,6 +207,11 @@
       event.preventDefault();
       setSelection([]);
     }
+  });
+
+  loadMore.addEventListener("click", () => {
+    visibleCount += PAGE_SIZE;
+    render();
   });
 
   if (search) {
@@ -191,24 +231,13 @@
   window.addEventListener("popstate", () => {
     selected = readSelection();
     focusId = readFocus();
+    visibleCount = PAGE_SIZE;
+    canonicalizeCurrentUrl();
     render();
   });
 
   selected = readSelection();
   focusId = readFocus();
-  syncFacetLinks();
-  fetch(dataUrl)
-    .then((response) => {
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return response.json();
-    })
-    .then((data) => {
-      payload = data;
-      render();
-    })
-    .catch(() => {
-      heading.textContent = "問題データを読み込めませんでした";
-      summary.textContent = "時間をおいて再読み込みしてください。";
-      results.replaceChildren(element("p", "filter-message", "通常の問題一覧は引き続き利用できます。"));
-    });
+  canonicalizeCurrentUrl();
+  render();
 })();

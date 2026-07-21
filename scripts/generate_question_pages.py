@@ -11,6 +11,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 from classify_questions import validate_field_ids
+from tag_normalization import CANONICAL_TAGS, TAG_ALIASES, normalize_tags
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -117,6 +118,7 @@ def load_questions() -> list[dict]:
             raise ValueError(f"{question_id}: at least two choices are required")
         if not question.get("answer_choice_id"):
             raise ValueError(f"{question_id}: answer_choice_id is required")
+        question["tags"] = normalize_tags(question.get("tags", []))
     return questions
 
 
@@ -161,20 +163,21 @@ def head(
     <meta property="og:url" content="{esc(canonical_url)}" />
     <meta name="twitter:card" content="summary" />
     <link rel="canonical" href="{esc(canonical_url)}" />
-    <link rel="icon" href="{PORTAL_URL}assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="{PORTAL_URL}assets/site.css" />{ad_script}{extra_head}
+    <link rel="icon" href="{prefix}../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="{prefix}../assets/site.css" />{ad_script}{extra_head}
   </head>"""
 
 
 def header(prefix: str, current: str) -> str:
+    portal_prefix = f"{prefix}../"
     nav_items = [
-        ("home", PORTAL_URL, "トップページ"),
-        ("app", f"{PORTAL_URL}info1-quiz-app/app/", "学習アプリ"),
-        ("questions", f"{PORTAL_URL}info1-quiz-app/questions/index.html", "問題一覧"),
-        ("archive", f"{PORTAL_URL}archive/index.html", "動画問題"),
-        ("lecture", f"{PORTAL_URL}LectureNote/index.html", "講義ノート"),
-        ("study", f"{PORTAL_URL}study-guide.html", "勉強法"),
-        ("about", f"{PORTAL_URL}about.html", "このサイトについて"),
+        ("home", f"{portal_prefix}index.html", "トップページ"),
+        ("app", f"{prefix}app/", "学習アプリ"),
+        ("questions", "index.html", "問題一覧"),
+        ("archive", f"{portal_prefix}archive/index.html", "動画問題"),
+        ("lecture", f"{portal_prefix}LectureNote/index.html", "講義ノート"),
+        ("study", f"{portal_prefix}study-guide.html", "勉強法"),
+        ("about", f"{portal_prefix}about.html", "このサイトについて"),
     ]
     links = []
     for key, href, label in nav_items:
@@ -184,7 +187,7 @@ def header(prefix: str, current: str) -> str:
     <a class="skip-link" href="#main-content">本文へ移動</a>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="{PORTAL_URL}" aria-label="情報Ⅰ Study Atlas トップ">
+        <a class="brand" href="{portal_prefix}index.html" aria-label="情報Ⅰ Study Atlas トップ">
           <span class="brand-mark" aria-hidden="true">I</span>
           <span><strong>情報Ⅰ Study Atlas</strong><small>知識を、ひろげ、つなげる</small></span>
         </a>
@@ -194,26 +197,27 @@ def header(prefix: str, current: str) -> str:
 
 
 def footer(prefix: str) -> str:
+    portal_prefix = f"{prefix}../"
     return f"""
     <footer class="site-footer">
       <div class="footer-grid">
-        <a class="brand footer-brand" href="{PORTAL_URL}" aria-label="情報Ⅰ Study Atlas トップ"><span><strong>情報Ⅰ Study Atlas</strong><small>知識を、ひろげ、つなげる</small></span></a>
+        <a class="brand footer-brand" href="{portal_prefix}index.html" aria-label="情報Ⅰ Study Atlas トップ"><span><strong>情報Ⅰ Study Atlas</strong><small>知識を、ひろげ、つなげる</small></span></a>
         <nav aria-label="フッターナビゲーション">
-          <a href="{PORTAL_URL}">トップページ</a>
-          <a href="{PORTAL_URL}info1-quiz-app/app/">学習アプリ</a>
-          <a href="{PORTAL_URL}info1-quiz-app/questions/index.html">問題一覧</a>
-          <a href="{PORTAL_URL}archive/index.html">動画問題</a>
-          <a href="{PORTAL_URL}LectureNote/index.html">講義ノート</a>
-          <a href="{PORTAL_URL}study-guide.html">勉強法</a>
-          <a href="{PORTAL_URL}books/index.html">書籍案内</a>
-          <a href="{PORTAL_URL}about.html">このサイトについて</a>
-          <a href="{PORTAL_URL}privacy.html">プライバシーポリシー</a>
-          <a href="{PORTAL_URL}sitemap.html">サイトマップ</a>
+          <a href="{portal_prefix}index.html">トップページ</a>
+          <a href="{prefix}app/">学習アプリ</a>
+          <a href="index.html">問題一覧</a>
+          <a href="{portal_prefix}archive/index.html">動画問題</a>
+          <a href="{portal_prefix}LectureNote/index.html">講義ノート</a>
+          <a href="{portal_prefix}study-guide.html">勉強法</a>
+          <a href="{portal_prefix}books/index.html">書籍案内</a>
+          <a href="{portal_prefix}about.html">このサイトについて</a>
+          <a href="{portal_prefix}privacy.html">プライバシーポリシー</a>
+          <a href="{portal_prefix}sitemap.html">サイトマップ</a>
         </nav>
       </div>
       <p class="copyright"><small>&copy; 2026 めいちゃんねる</small></p>
     </footer>
-    <script src="/assets/site-header.js"></script>
+    <script src="{portal_prefix}assets/site-header.js"></script>
   </body>
 </html>
 """
@@ -367,7 +371,7 @@ def render_questions_index(grouped: dict[str, list[dict]], public_tags: set[str]
   <body>
     {header('../', 'questions')}
     <main id="main-content" class="subpage">
-      {breadcrumb([('学習トップ', PORTAL_URL), ('問題一覧', None)])}
+      {breadcrumb([('学習トップ', '../../index.html'), ('問題一覧', None)])}
       <section class="page-hero compact-hero">
         <p class="eyebrow">INFORMATION I · QUESTION LIBRARY</p><h1>情報Ⅰ共通テスト対策問題</h1>
         <p>高校生・受験生向けに、情報Ⅰ（「情報1」「情報I」と検索される科目）の全{total}問を主分野ごとに整理しています。正答と解説は各問の「正答と解説を確認」から開けます。</p>
@@ -379,7 +383,7 @@ def render_questions_index(grouped: dict[str, list[dict]], public_tags: set[str]
       </section>
       {facet_panel(tag_counts, groups=primary_tag_groups(grouped, public_tags))}
       <section class="section no-top-padding" aria-labelledby="choose-field"><div class="section-heading"><div><p class="eyebrow">CHOOSE A FIELD</p><h2 id="choose-field">分野を選ぶ</h2></div></div><div class="field-grid">{cards}</div></section>
-      <aside class="content-note"><h2>掲載内容について</h2><p>問題は共通テスト「情報Ⅰ」の学習用として作成・改題したものです。公式の問題・解答・解説ではありません。出典表示は各問題に記載しています。勉強の進め方は<a href="{PORTAL_URL}study-guide.html">情報Ⅰの勉強法</a>、誤りや範囲については<a href="{PORTAL_URL}about.html#contact">お問い合わせ先</a>をご確認ください。</p></aside>
+      <aside class="content-note"><h2>掲載内容について</h2><p>問題は共通テスト「情報Ⅰ」の学習用として作成・改題したものです。公式の問題・解答・解説ではありません。出典表示は各問題に記載しています。勉強の進め方は<a href="../../study-guide.html">情報Ⅰの勉強法</a>、誤りや範囲については<a href="../../about.html#contact">お問い合わせ先</a>をご確認ください。</p></aside>
       {schema}
     </main>
     {footer('../')}"""
@@ -524,7 +528,7 @@ def render_field_pages(field: dict, questions: list[dict], public_tags: set[str]
   <body>
     {header('../', 'questions')}
     <main id="main-content" class="subpage question-page">
-      {breadcrumb([('学習トップ', PORTAL_URL), ('問題一覧', 'index.html'), (field['label'], None)])}
+      {breadcrumb([('学習トップ', '../../index.html'), ('問題一覧', 'index.html'), (field['label'], None)])}
       <section class="field-hero accent-{field['accent']}">
         <div><p class="eyebrow">FIELD {field['number']}</p><h1>{esc(field['label'])}</h1><p>{esc(field['intro'])}</p></div>
         <dl><div><dt>掲載数</dt><dd>{len(questions)}問</dd></div><div><dt>このページ</dt><dd>{start_number}–{end_number}問</dd></div></dl>
@@ -581,8 +585,40 @@ def build_filter_payload(grouped: dict[str, list[dict]], public_tags: set[str]) 
         "question_count": len(items),
         "tag_count": len(tag_counts),
         "match_mode": "OR",
+        "tag_aliases": TAG_ALIASES,
         "questions": items,
     }
+
+
+def render_filter_question(question: dict) -> str:
+    choices = "".join(
+        f'<li><span>{esc(choice["label"])}</span><p>{esc(choice["text"])}</p></li>'
+        for choice in question["choices"]
+    )
+    tag_links = "".join(
+        f'<li><a class="tag-link" href="{tag_filter_href(tag, str(question["id"]))}">{esc(tag)}</a></li>'
+        for tag in question["tags"]
+    )
+    tag_row = (
+        f'              <div class="tag-row"><span>タグ</span><ul>{tag_links}</ul></div>'
+        if tag_links
+        else ""
+    )
+    tags_json = json.dumps(question["tags"], ensure_ascii=False, separators=(",", ":"))
+    return f"""        <article class="question-card filtered-question-card" id="filtered-q-{esc(question['id'])}" data-filter-question data-question-id="{esc(question['id'])}" data-filter-tags="{esc(tags_json)}">
+          <div class="question-meta"><span>{esc(question['field_label'])} · QUESTION {int(question['field_number']):03d}</span><a href="{esc(question['source_href'])}">通常ページで開く</a></div>
+          <h2>{esc(question['stem'])}</h2>
+          <ol class="choice-list">{choices}</ol>
+          <details class="answer-panel">
+            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+            <div class="answer-content">
+              <p class="correct-answer"><span>正答</span><strong>{esc(question['correct']['label'])}. {esc(question['correct']['text'])}</strong></p>
+              <div class="explanation"><h3>解説</h3><p>{esc(question['explanation'])}</p></div>
+              <dl class="source-row"><dt>出典</dt><dd>{esc(question['source'])}</dd></dl>
+{tag_row}
+            </div>
+          </details>
+        </article>"""
 
 
 def render_tag_filter_page(payload: dict) -> None:
@@ -614,11 +650,13 @@ def render_tag_filter_page(payload: dict) -> None:
         )
     )
     extra_head = '\n    <script src="../assets/question-filter.js" defer></script>'
+    filter_cards = "\n".join(render_filter_question(question) for question in payload["questions"])
+    aliases_json = json.dumps(payload["tag_aliases"], ensure_ascii=False, separators=(",", ":"))
     body = f"""{head(title, description, 'questions/tags.html', '../', ads=True, extra_head=extra_head)}
   <body>
     {header('../', 'questions')}
-    <main id="main-content" class="subpage filter-page" data-question-filter data-filter-data="filter-data.json" data-filter-param="tag">
-      {breadcrumb([('学習トップ', PORTAL_URL), ('問題一覧', 'index.html'), ('タグから探す', None)])}
+    <main id="main-content" class="subpage filter-page" data-question-filter data-filter-data="filter-data.json" data-filter-param="tag" data-tag-aliases="{esc(aliases_json)}">
+      {breadcrumb([('学習トップ', '../../index.html'), ('問題一覧', 'index.html'), ('タグから探す', None)])}
       <section class="page-hero compact-hero">
         <p class="eyebrow">TAG SEARCH · OR FILTER</p>
         <h1>タグから問題を探す</h1>
@@ -627,8 +665,15 @@ def render_tag_filter_page(payload: dict) -> None:
       {facet_panel(tag_counts, open_panel=True, searchable=True, groups=primary_tag_groups(grouped, set(tag_counts)))}
       <section class="filter-results" aria-labelledby="filter-results-heading">
         <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading>タグを選択してください</h2><p data-filter-summary>{payload['question_count']}問からOR条件で抽出します。</p></div>
-        <div class="filter-result-list" data-filter-results></div>
-        <noscript><p class="filter-message">絞り込み機能を利用するにはJavaScriptを有効にしてください。通常の<a href="index.html">問題一覧</a>はJavaScriptなしでも読めます。</p></noscript>
+        <noscript><p class="filter-message">JavaScriptが無効なため、全{payload['question_count']}問を表示しています。</p></noscript>
+        <div class="filter-result-list" id="filter-result-list" data-filter-results>
+          <p class="filter-message" data-filter-message hidden></p>
+{filter_cards}
+        </div>
+        <div class="filter-load-more-controls" data-filter-controls hidden>
+          <p class="filter-result-status" data-filter-live aria-live="polite" aria-atomic="true"></p>
+          <button class="button button-ghost filter-load-more-button" type="button" data-filter-load-more aria-controls="filter-result-list"></button>
+        </div>
       </section>
       {schema}
     </main>
@@ -675,6 +720,10 @@ def write_build_report(
         "raw_tag_count": len(tag_counts),
         "tag_count": len(public_tags),
         "minimum_public_tag_questions": MIN_PUBLIC_TAG_QUESTIONS,
+        "forced_public_tags": sorted(
+            tag for tag in CANONICAL_TAGS if tag_counts[tag] and tag_counts[tag] < MIN_PUBLIC_TAG_QUESTIONS
+        ),
+        "tag_aliases": TAG_ALIASES,
         "hidden_low_frequency_tag_count": len(tag_counts) - len(public_tags),
         "questions_without_public_tags": sum(
             not any(str(tag).strip() in public_tags for tag in question.get("tags", []))
@@ -707,6 +756,7 @@ def main() -> int:
     public_tags = {
         tag for tag, count in tag_counts.items() if count >= MIN_PUBLIC_TAG_QUESTIONS
     }
+    public_tags.update(tag for tag in CANONICAL_TAGS if tag_counts[tag])
 
     if QUESTIONS_DIR.resolve().parent != ROOT.resolve():
         raise RuntimeError("Refusing to regenerate questions outside the repository root")

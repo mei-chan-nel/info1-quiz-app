@@ -7,17 +7,21 @@ import sys
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urljoin, urlsplit
 
 from classify_questions import FIELD_LABELS, load_questions, validate_field_ids
+from tag_normalization import CANONICAL_TAGS, TAG_ALIASES
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PORTAL_ROOT = ROOT.parent / "mei-chan-nel.github.io"
 REPORT_DIR = ROOT / "docs" / "reports"
 AD_SCRIPT_MARKER = "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-SHARED_STYLESHEET = "https://mei-chan-nel.github.io/assets/site.css"
-SHARED_FAVICON = "https://mei-chan-nel.github.io/assets/favicon.svg"
-SHARED_SHELL_SCRIPT = "/assets/site-header.js"
+SHARED_STYLESHEET = "../../assets/site.css"
+SHARED_FAVICON = "../../assets/favicon.svg"
+SHARED_SHELL_SCRIPT = "../../assets/site-header.js"
+PUBLIC_REPOSITORY_PREFIX = "/info1-quiz-app/"
+PORTAL_ORIGIN = "https://mei-chan-nel.github.io/"
 MIN_PUBLIC_TAG_QUESTIONS = 4
 PROTECTED_APP_FILES = (
     "app/index.html",
@@ -82,24 +86,22 @@ def protected_app_hashes() -> dict[str, str]:
 
 
 def local_target(source: Path, href: str) -> tuple[Path, str] | None:
-    if href == SHARED_SHELL_SCRIPT:
-        # This project is deployed below /info1-quiz-app/ on the same user
-        # site. The root-relative shared shell belongs to the portal repo.
-        return None
     split = urlsplit(href)
     if split.scheme or split.netloc or href.startswith(("mailto:", "tel:", "javascript:")):
         return None
-    path_part = unquote(split.path)
-    if path_part.startswith("/"):
-        target = ROOT / path_part.lstrip("/")
-    elif path_part:
-        target = source.parent / path_part
+    source_public_path = PUBLIC_REPOSITORY_PREFIX + source.relative_to(ROOT).as_posix()
+    resolved = urlsplit(urljoin(f"https://preview.invalid{source_public_path}", href))
+    path_part = unquote(resolved.path)
+    if path_part.startswith(PUBLIC_REPOSITORY_PREFIX):
+        target = ROOT / path_part.removeprefix(PUBLIC_REPOSITORY_PREFIX)
     else:
-        target = source
+        if not PORTAL_ROOT.is_dir():
+            return None
+        target = PORTAL_ROOT / path_part.lstrip("/")
     target = target.resolve()
     if target.is_dir():
         target = target / "index.html"
-    return target, unquote(split.fragment)
+    return target, unquote(resolved.fragment)
 
 
 def main() -> int:
@@ -114,8 +116,22 @@ def main() -> int:
         for tag in question.get("tags", [])
         if str(tag).strip()
     )
+    remaining_aliases = sorted(tag for tag in TAG_ALIASES if raw_tag_counts[tag])
+    if remaining_aliases:
+        errors.append(f"Question tags still use legacy spellings: {remaining_aliases}")
+    duplicate_tag_ids = [
+        str(question["id"])
+        for question in questions
+        if len(question.get("tags", [])) != len(set(map(str, question.get("tags", []))))
+    ]
+    if duplicate_tag_ids:
+        errors.append(f"Questions contain duplicate tags: {duplicate_tag_ids[:10]}")
     expected_tags = {
         tag for tag, count in raw_tag_counts.items() if count >= MIN_PUBLIC_TAG_QUESTIONS
+    }
+    expected_tags.update(tag for tag in CANONICAL_TAGS if raw_tag_counts[tag])
+    forced_public_tags = {
+        tag for tag in CANONICAL_TAGS if 0 < raw_tag_counts[tag] < MIN_PUBLIC_TAG_QUESTIONS
     }
     expected_tag_links = sum(
         sum(str(tag).strip() in expected_tags for tag in question.get("tags", []))
@@ -154,6 +170,9 @@ def main() -> int:
                 errors.append(f"{relative}: missing Open Graph metadata {marker}")
         if '"@type":"BreadcrumbList"' not in text:
             errors.append(f"{relative}: BreadcrumbList structured data is missing")
+        absolute_internal_links = [href for href in parser.links if href.startswith(PORTAL_ORIGIN)]
+        if absolute_internal_links:
+            errors.append(f"{relative}: internal navigation must use relative paths: {absolute_internal_links[:3]}")
 
     duplicates = [url for url, count in Counter(canonicals).items() if count > 1]
     if duplicates:
@@ -235,11 +254,23 @@ def main() -> int:
             errors.append("tags.html: tags must be grouped into all six learning fields")
         if "data-question-filter" not in tag_text or "data-filter-param=\"tag\"" not in tag_text:
             errors.append("tags.html: OR filter configuration is missing")
+        static_filter_cards = re.findall(r'<article[^>]*data-filter-question[^>]*>', tag_text)
+        static_filter_ids = re.findall(r'data-question-id="([^"]+)"', tag_text)
+        if len(static_filter_cards) != len(questions) or set(static_filter_ids) != expected_ids:
+            errors.append("tags.html: all questions must be retained as static filter cards")
+        if any(re.search(r"\shidden(?:\s|=|>)", card) for card in static_filter_cards):
+            errors.append("tags.html: static question cards must remain readable without JavaScript")
+        if tag_text.count("正答と解説を確認") < len(questions):
+            errors.append("tags.html: static question cards must retain answer and explanation controls")
+        if "data-filter-load-more" not in tag_text or 'aria-live="polite"' not in tag_text:
+            errors.append("tags.html: staged result controls or live status are missing")
         payload = json.loads(filter_data_path.read_text(encoding="utf-8"))
         if payload.get("question_count") != len(questions) or payload.get("tag_count") != len(expected_tags):
             errors.append("filter-data.json: question or tag counts are invalid")
         if payload.get("match_mode") != "OR" or len(payload.get("questions", [])) != len(questions):
             errors.append("filter-data.json: OR filter payload is invalid")
+        if payload.get("tag_aliases") != TAG_ALIASES:
+            errors.append("filter-data.json: legacy tag aliases are not synchronized")
         payload_tags = {
             str(tag)
             for question in payload.get("questions", [])
@@ -248,7 +279,10 @@ def main() -> int:
         if payload_tags != expected_tags:
             errors.append("filter-data.json: missing or low-frequency tags are exposed")
         if any(
-            any(raw_tag_counts[str(tag)] < MIN_PUBLIC_TAG_QUESTIONS for tag in question.get("tags", []))
+            any(
+                raw_tag_counts[str(tag)] < MIN_PUBLIC_TAG_QUESTIONS and str(tag) not in forced_public_tags
+                for tag in question.get("tags", [])
+            )
             for question in payload.get("questions", [])
         ):
             errors.append("filter-data.json: a tag used by three or fewer questions remains")
@@ -259,15 +293,17 @@ def main() -> int:
             errors.append("question-filter.js: source-question prioritization or result scrolling is missing")
         if "filter-hit-count" not in filter_script:
             errors.append("question-filter.js: visible filtered-result count is missing from the heading")
-        if "if (question.tags.length > 0)" not in filter_script:
-            errors.append("question-filter.js: empty result tag rows are not suppressed")
+        if "PAGE_SIZE = 10" not in filter_script or "visibleCount += PAGE_SIZE" not in filter_script:
+            errors.append("question-filter.js: staged display must add ten questions at a time")
+        if "popstate" not in filter_script or "normalizeTag" not in filter_script:
+            errors.append("question-filter.js: history or legacy-tag compatibility is missing")
 
     ad_required = [ROOT / "questions" / "index.html", ROOT / "questions" / "tags.html", *generated_question_pages]
     for path in ad_required:
         page_text = path.read_text(encoding="utf-8")
         if AD_SCRIPT_MARKER not in page_text:
             errors.append(f"{path.relative_to(ROOT)}: AdSense script missing from learning content")
-        if 'href="https://mei-chan-nel.github.io/sitemap.html"' not in page_text:
+        if 'href="../../sitemap.html"' not in page_text:
             errors.append(f"{path.relative_to(ROOT)}: footer sitemap link missing")
     for obsolete_name in ("index.html", "about.html", "privacy.html", "sitemap.html", "ads.txt", "robots.txt", "sitemap.xml"):
         if (ROOT / obsolete_name).exists():
@@ -278,9 +314,9 @@ def main() -> int:
 
     app_index = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
     expected_footer_links = (
-        'href="https://mei-chan-nel.github.io/"',
-        'href="https://mei-chan-nel.github.io/about.html"',
-        'href="https://mei-chan-nel.github.io/privacy.html"',
+        'href="../../index.html"',
+        'href="../../about.html"',
+        'href="../../privacy.html"',
     )
     for expected_link in expected_footer_links:
         if expected_link not in app_index:
@@ -291,6 +327,8 @@ def main() -> int:
         errors.append("app/index.html: shared portal stylesheet is missing")
     if SHARED_SHELL_SCRIPT not in app_index:
         errors.append("app/index.html: shared site footer script is missing")
+    if re.search(r'<a[^>]+href="https://mei-chan-nel\.github\.io/', app_index):
+        errors.append("app/index.html: internal navigation must use relative paths")
     if 'href="./about.html"' in app_index or 'href="./privacy.html"' in app_index:
         errors.append("app/index.html: obsolete local information-page link remains")
 
@@ -315,6 +353,8 @@ def main() -> int:
             build_report.get("raw_tag_count") != len(raw_tag_counts)
             or build_report.get("tag_count") != len(expected_tags)
             or build_report.get("minimum_public_tag_questions") != MIN_PUBLIC_TAG_QUESTIONS
+            or set(build_report.get("forced_public_tags", [])) != forced_public_tags
+            or build_report.get("tag_aliases") != TAG_ALIASES
             or build_report.get("hidden_low_frequency_tag_count") != len(raw_tag_counts) - len(expected_tags)
             or build_report.get("questions_without_public_tags") != expected_without_public_tags
         ):
@@ -330,6 +370,8 @@ def main() -> int:
         "raw_tag_count": len(raw_tag_counts),
         "tag_count": len(expected_tags),
         "minimum_public_tag_questions": MIN_PUBLIC_TAG_QUESTIONS,
+        "forced_public_tags": sorted(forced_public_tags),
+        "tag_aliases": TAG_ALIASES,
         "hidden_low_frequency_tag_count": len(raw_tag_counts) - len(expected_tags),
         "questions_without_public_tags": sum(
             not any(str(tag).strip() in expected_tags for tag in question.get("tags", []))
@@ -344,8 +386,9 @@ def main() -> int:
             "titles, descriptions, canonicals, and one h1 per page",
             "Open Graph and BreadcrumbList structured metadata",
             "local links, assets, and fragments",
-            "tags shown only when linked to at least four questions, with a complete eligible-tag index and multi-tag OR filtering",
-            "six-field tag grouping and source-question-first single-tag navigation",
+            "normalized tags shown at the public threshold or as compatibility targets, with multi-tag OR filtering",
+            "six-field tag grouping, source-question-first navigation, and static no-JavaScript question cards",
+            "ten-question staged display, remaining-count control, and legacy tag URL aliases",
             "AdSense included on every generated question-library page",
             "protected app core-file SHA-256 baseline",
             "consolidated app footer links and removal of old information pages",
