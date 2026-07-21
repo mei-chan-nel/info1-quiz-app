@@ -515,12 +515,13 @@ input {
 }
 
 .question-secondary-action {
-  width: 150px;
+  width: 220px;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .interrupt-button:hover,

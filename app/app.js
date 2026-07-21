@@ -719,13 +719,14 @@ function renderQuestion() {
       : TEXT.next;
 
   if (!question) {
+    chatgptQuestionButton.textContent = "ChatGPTのヒント";
     chatgptQuestionButton.href = CHATGPT_URL;
     renderEmptyState();
     return;
   }
 
   questionStem.textContent = question.stem;
-  chatgptQuestionButton.href = buildChatGPTQuestionUrl(question);
+  updateChatGPTQuestionButton(question, state.recordReviewMode || currentResponse()?.selectedChoiceId !== null);
   updateQuestionCheckButton(question.id);
   renderChoices(question);
   renderSourceNote(question);
@@ -754,6 +755,7 @@ function renderRecordReview(question) {
   resultText.hidden = shouldShowChoiceReasonList(question);
   resultText.textContent = resultText.hidden ? "" : `${TEXT.answer}: ${formatChoice(correctChoice)}`;
   explanation.textContent = buildExplanation(question, null, correctChoice);
+  updateChatGPTQuestionButton(question, true);
   nextButton.hidden = false;
   progressFill.style.width = "100%";
 }
@@ -828,6 +830,7 @@ function grade(question) {
   resultText.hidden = shouldShowChoiceReasonList(question);
   resultText.textContent = resultText.hidden ? "" : `${TEXT.answer}: ${formatChoice(correctChoice)}`;
   explanation.textContent = buildExplanation(question, selectedChoice, correctChoice);
+  updateChatGPTQuestionButton(question, true);
 
   nextButton.hidden = false;
   updateProgressView();
@@ -848,11 +851,20 @@ async function showSummary() {
   }
 }
 
-function buildChatGPTQuestionUrl(question) {
+function updateChatGPTQuestionButton(question, isAnswered) {
+  const answered = Boolean(isAnswered);
+  chatgptQuestionButton.textContent = answered ? "ChatGPTの解説" : "ChatGPTのヒント";
+  chatgptQuestionButton.href = buildChatGPTQuestionUrl(question, answered ? "explanation" : "hint");
+}
+
+function buildChatGPTQuestionUrl(question, promptType = "explanation") {
   const choiceLines = question.choices
     .map((choice, index) => `${index}．${choice.text}`)
     .join("\n");
-  const prompt = `次の問題を解説してください。\n\n${question.stem}\n\n${choiceLines}`;
+  const instruction = promptType === "hint"
+    ? "次の問題を解くヒントだけをください。問題を解くために注目すべき条件、使う知識、考える順序を、段階的に説明してください。それを聞いて答えを自分で考えます。答えそのものは教えないでください。"
+    : "次の問題を解説してください。";
+  const prompt = `${instruction}\n\n${question.stem}\n\n${choiceLines}`;
   return `${CHATGPT_URL}?q=${encodeURIComponent(prompt)}`;
 }
 
