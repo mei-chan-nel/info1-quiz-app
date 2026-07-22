@@ -689,9 +689,14 @@ def render_tag_filter_page(payload: dict) -> None:
 
 
 
+def normalized_text_sha256(path: Path) -> str:
+    content = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(content).hexdigest()
+
+
 def protected_app_hashes() -> dict[str, str]:
     return {
-        relative: hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
+        relative: normalized_text_sha256(ROOT / relative)
         for relative in PROTECTED_APP_FILES
     }
 
