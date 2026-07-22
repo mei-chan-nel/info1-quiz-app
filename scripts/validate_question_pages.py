@@ -300,6 +300,8 @@ def main() -> int:
             errors.append("question-filter.js: visible filtered-result count is missing from the heading")
         if "PAGE_SIZE = 10" not in filter_script or "visibleCount += PAGE_SIZE" not in filter_script:
             errors.append("question-filter.js: staged display must add ten questions at a time")
+        if "shouldScrollToFocus" not in filter_script or "shouldScrollToFocus = false" not in filter_script:
+            errors.append("question-filter.js: load-more must not repeat the initial focused-result scroll")
         if "popstate" not in filter_script or "normalizeTag" not in filter_script:
             errors.append("question-filter.js: history or legacy-tag compatibility is missing")
 
@@ -341,6 +343,9 @@ def main() -> int:
     for marker in ("app-mini-nav", "appMenuButton", "appRecordNavButton", "interruptDialogMessage"):
         if marker not in app_index:
             errors.append(f"app/index.html: compact navigation marker is missing: {marker}")
+    for marker in ("トップページ", "学習アプリ", "問題一覧", "動画問題", "講義ノート", "学習記録", 'href="../../archive/index.html"'):
+        if marker not in app_index:
+            errors.append(f"app/index.html: required menu item is missing: {marker}")
     for marker in ("requestNavigationConfirmation", 'addEventListener("beforeunload"', 'requestedView === "record"', "openRecordAfterChallenge", 'event.key !== "Escape"'):
         if marker not in app_script:
             errors.append(f"app/app.js: navigation compatibility marker is missing: {marker}")

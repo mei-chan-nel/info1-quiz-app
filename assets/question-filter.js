@@ -26,6 +26,7 @@
   let selected = [];
   let focusId = null;
   let visibleCount = PAGE_SIZE;
+  let shouldScrollToFocus = false;
 
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -179,7 +180,8 @@
       loadMore.textContent = `さらに${Math.min(PAGE_SIZE, remaining)}問読み込む（残り${remaining}問）`;
     }
 
-    if (focusId && matches.some((card) => card.id === focusId)) {
+    if (shouldScrollToFocus && focusId && matches.some((card) => card.id === focusId)) {
+      shouldScrollToFocus = false;
       window.requestAnimationFrame(() => resultsSection.scrollIntoView({ block: "start" }));
     }
   }
@@ -232,12 +234,14 @@
     selected = readSelection();
     focusId = readFocus();
     visibleCount = PAGE_SIZE;
+    shouldScrollToFocus = Boolean(focusId);
     canonicalizeCurrentUrl();
     render();
   });
 
   selected = readSelection();
   focusId = readFocus();
+  shouldScrollToFocus = Boolean(focusId);
   canonicalizeCurrentUrl();
   render();
 })();
