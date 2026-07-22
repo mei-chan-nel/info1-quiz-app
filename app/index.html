@@ -13,6 +13,17 @@
   <body>
     <a class="skip-link" href="#main-content">本文へ移動</a>
 
+    <header class="app-mini-nav">
+      <a class="app-mini-nav__brand" href="../../index.html" aria-label="情報Ⅰ Study Atlas トップへ"><span aria-hidden="true">I</span><strong>Study Atlas</strong></a>
+      <button class="app-mini-nav__toggle" id="appMenuButton" type="button" aria-expanded="false" aria-controls="appMenu">メニュー</button>
+      <nav class="app-mini-nav__menu" id="appMenu" aria-label="学習アプリ内のサイトナビゲーション" hidden>
+        <a href="../../index.html">トップ</a>
+        <a href="../questions/index.html">問題一覧</a>
+        <a href="../../LectureNote/index.html">講義ノート</a>
+        <button id="appRecordNavButton" type="button">学習記録</button>
+      </nav>
+    </header>
+
     <main class="app-shell" id="main-content">
       <section class="start-panel" id="startView">
         <div class="start-layout">
@@ -217,7 +228,7 @@
     <dialog class="clear-record-dialog" id="interruptDialog" aria-labelledby="interruptDialogTitle">
       <form method="dialog">
         <h2 id="interruptDialogTitle">挑戦を中断しますか？</h2>
-        <p>回答済みの問題だけで結果を表示します。</p>
+        <p id="interruptDialogMessage">回答済みの問題だけで結果を表示します。</p>
         <div class="dialog-actions">
           <button class="secondary-button" value="cancel">挑戦を続ける</button>
           <button class="danger-button" id="confirmInterruptButton" value="confirm">中断する</button>

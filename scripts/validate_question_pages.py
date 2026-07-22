@@ -336,6 +336,20 @@ def main() -> int:
         errors.append("app/index.html: internal navigation must use relative paths")
     if 'href="./about.html"' in app_index or 'href="./privacy.html"' in app_index:
         errors.append("app/index.html: obsolete local information-page link remains")
+    app_script = (ROOT / "app" / "app.js").read_text(encoding="utf-8")
+    app_styles = (ROOT / "app" / "styles.css").read_text(encoding="utf-8")
+    for marker in ("app-mini-nav", "appMenuButton", "appRecordNavButton", "interruptDialogMessage"):
+        if marker not in app_index:
+            errors.append(f"app/index.html: compact navigation marker is missing: {marker}")
+    for marker in ("requestNavigationConfirmation", 'addEventListener("beforeunload"', 'requestedView === "record"', "openRecordAfterChallenge", 'event.key !== "Escape"'):
+        if marker not in app_script:
+            errors.append(f"app/app.js: navigation compatibility marker is missing: {marker}")
+    if ".app-mini-nav" not in app_styles or "min-height: 44px" not in app_styles:
+        errors.append("app/styles.css: compact navigation sizing is missing")
+    learning_record_script = (ROOT / "app" / "learning-record.js").read_text(encoding="utf-8")
+    for marker in ('"info1LearningRecord:v1"', '"info1QuizStats:v4"', "migrateLegacyData", "localStorage.removeItem(LEGACY_STORAGE_KEY)"):
+        if marker not in learning_record_script:
+            errors.append(f"app/learning-record.js: storage compatibility marker is missing: {marker}")
 
     baseline_path = REPORT_DIR / "app-core-baseline-sha256.json"
     if not baseline_path.exists():

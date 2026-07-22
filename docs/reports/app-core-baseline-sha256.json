@@ -1,8 +1,8 @@
 {
-  "app/index.html": "7584c1acb835fe19fdab78a73c2858dd80c00cd113e9436181564dbe796100b5",
-  "app/app.js": "06697095791f7d474576eb001be2583bcee579560219df56091e4faac841c300",
+  "app/index.html": "503b1e5a139e0ae2c5b86116ac59daa5378ff9fe6820066a867485546f459d81",
+  "app/app.js": "202fdbf87ee7fdd9cea2b9bd9ea61477becd38140bafe8992fefa9890f4bd9c6",
   "app/startup.js": "0a420c49fe403d4b24bcf7c8cba6e8120b434c1a71933f53ba27670de76aa389",
-  "app/styles.css": "a7c0fbfb515b4343826eaa108d9e8677769de8c353e5d031f5ca2bd987c2677e",
+  "app/styles.css": "94b8f157147ec483363a1d865c4da8f40b978a102e3fe9d9d8db2debf53ebdd7",
   "app/issue-report.js": "b4a5ea34c6c8cb92502f757e378b58724f4f12ae39e389cf9ddc802acaae04ef",
   "app/issue-report.css": "fbbfcc9ebf2db74a259533c9293e8c28ff32f3e37bccf0fa5bbd4af2be9395d3",
   "app/learning-record.js": "4219eff470effc4de619f6e1ccaeb8307a9e48677a843337d769fdb85eb857cd"

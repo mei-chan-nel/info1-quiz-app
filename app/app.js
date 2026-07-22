@@ -59,6 +59,12 @@ const clearRecordDialog = document.querySelector("#clearRecordDialog");
 const confirmClearRecordButton = document.querySelector("#confirmClearRecordButton");
 const interruptDialog = document.querySelector("#interruptDialog");
 const confirmInterruptButton = document.querySelector("#confirmInterruptButton");
+const interruptDialogTitle = document.querySelector("#interruptDialogTitle");
+const interruptDialogMessage = document.querySelector("#interruptDialogMessage");
+const appMenuButton = document.querySelector("#appMenuButton");
+const appMenu = document.querySelector("#appMenu");
+const appRecordNavButton = document.querySelector("#appRecordNavButton");
+const appBrandLink = document.querySelector(".app-mini-nav__brand");
 
 const DEFAULT_SET_SIZE = 5;
 const MIN_SET_SIZE = 1;
@@ -255,6 +261,8 @@ const state = {
   recordReviewMode: false,
   recordListReturnView: "wrong",
   recordListSnapshot: null,
+  pendingNavigation: null,
+  allowNavigation: false,
 };
 
 init();
@@ -265,7 +273,14 @@ function init() {
   }
   renderFieldFilters();
   bindStartControls();
-  showStart();
+  bindAppNavigation();
+  const requestedView = new URLSearchParams(window.location.search).get("view");
+  if (requestedView === "record") {
+    state.recordReturnView = "start";
+    showLearningRecord();
+  } else {
+    showStart();
+  }
   void loadQuestionData();
   state.apiAvailabilityPromise = initializeApiAvailability();
 }
@@ -279,6 +294,7 @@ async function loadQuestionData() {
     state.allQuestions = await response.json();
     state.questionDataStatus = "ready";
     updateStartControls();
+    if (!recordView.hidden) renderLearningRecord();
   } catch (error) {
     state.questionDataStatus = "error";
     updateStartControls();
@@ -305,6 +321,92 @@ async function detectApiAvailability() {
     return true;
   } catch {
     return false;
+  }
+}
+
+function isChallengeActive() {
+  return !questionView.hidden && summaryView.hidden;
+}
+
+function closeAppMenu(restoreFocus = false) {
+  appMenu.hidden = true;
+  appMenuButton.setAttribute("aria-expanded", "false");
+  if (restoreFocus) appMenuButton.focus();
+}
+
+function bindAppNavigation() {
+  appMenuButton.addEventListener("click", () => {
+    const opening = appMenu.hidden;
+    appMenu.hidden = !opening;
+    appMenuButton.setAttribute("aria-expanded", String(opening));
+    if (opening) appMenu.querySelector("a, button")?.focus();
+  });
+  appMenu.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    event.preventDefault();
+    closeAppMenu(true);
+  });
+  document.addEventListener("click", (event) => {
+    if (!appMenu.hidden && !event.target.closest(".app-mini-nav")) closeAppMenu();
+  });
+  appMenu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      if (!isChallengeActive()) return;
+      event.preventDefault();
+      closeAppMenu();
+      requestNavigationConfirmation({ type: "href", href: link.href, trigger: appMenuButton });
+    });
+  });
+  appBrandLink.addEventListener("click", (event) => {
+    if (!isChallengeActive()) return;
+    event.preventDefault();
+    requestNavigationConfirmation({ type: "href", href: appBrandLink.href, trigger: appBrandLink });
+  });
+  appRecordNavButton.addEventListener("click", () => {
+    closeAppMenu();
+    if (isChallengeActive()) {
+      requestNavigationConfirmation({ type: "record", trigger: appMenuButton });
+      return;
+    }
+    openLearningRecord(summaryView.hidden ? "start" : "summary");
+  });
+  window.addEventListener("beforeunload", (event) => {
+    if (!isChallengeActive() || state.allowNavigation) return;
+    event.preventDefault();
+    event.returnValue = "";
+  });
+}
+
+function requestNavigationConfirmation(pending) {
+  state.pendingNavigation = pending;
+  interruptDialogTitle.textContent = pending.type === "record" ? "学習記録へ移動しますか？" : "このページを離れますか？";
+  interruptDialogMessage.textContent = "挑戦中です。回答済みの学習履歴は保存されていますが、現在の挑戦は終了します。";
+  confirmInterruptButton.textContent = pending.type === "record" ? "学習記録へ移動" : "移動する";
+  openInterruptDialog();
+}
+
+function resetInterruptDialog() {
+  interruptDialogTitle.textContent = "挑戦を中断しますか？";
+  interruptDialogMessage.textContent = "回答済みの問題だけで結果を表示します。";
+  confirmInterruptButton.textContent = "中断する";
+}
+
+async function openRecordAfterChallenge() {
+  if (state.recordPracticeMode || state.recordReviewMode) {
+    state.recordPracticeMode = false;
+    state.recordReviewMode = false;
+    statusBar.hidden = true;
+    questionView.hidden = true;
+    openLearningRecord("start");
+    return;
+  }
+  const hasAnswered = state.responses.some((response) => response?.selectedChoiceId !== null);
+  if (hasAnswered) {
+    await interruptSession();
+    openLearningRecord("summary");
+  } else {
+    showStart();
+    openLearningRecord("start");
   }
 }
 
@@ -374,8 +476,26 @@ function bindStartControls() {
   interruptButton.addEventListener("click", openInterruptDialog);
   confirmInterruptButton.addEventListener("click", (event) => {
     event.preventDefault();
+    const pending = state.pendingNavigation;
+    state.pendingNavigation = null;
     interruptDialog.close();
-    void interruptSession();
+    resetInterruptDialog();
+    if (!pending) {
+      void interruptSession();
+      return;
+    }
+    if (pending.type === "record") {
+      void openRecordAfterChallenge();
+      return;
+    }
+    state.allowNavigation = true;
+    window.location.assign(pending.href);
+  });
+  interruptDialog.addEventListener("close", () => {
+    const pending = state.pendingNavigation;
+    state.pendingNavigation = null;
+    resetInterruptDialog();
+    pending?.trigger?.focus();
   });
 }
 
@@ -1092,6 +1212,11 @@ function returnFromLearningRecord() {
     scrollToTop();
     return;
   }
+  const currentUrl = new URL(window.location.href);
+  if (currentUrl.searchParams.get("view") === "record") {
+    currentUrl.searchParams.delete("view");
+    window.history.replaceState(null, "", `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`);
+  }
   showStart();
 }
 
@@ -1339,8 +1464,21 @@ function openInterruptDialog() {
     interruptDialog.showModal();
     return;
   }
-  if (window.confirm("挑戦を中断しますか？")) {
-    void interruptSession();
+  const pending = state.pendingNavigation;
+  const message = pending ? interruptDialogMessage.textContent : "挑戦を中断しますか？";
+  if (!window.confirm(message)) {
+    state.pendingNavigation = null;
+    resetInterruptDialog();
+    pending?.trigger?.focus();
+    return;
+  }
+  state.pendingNavigation = null;
+  resetInterruptDialog();
+  if (!pending) void interruptSession();
+  else if (pending.type === "record") void openRecordAfterChallenge();
+  else {
+    state.allowNavigation = true;
+    window.location.assign(pending.href);
   }
 }
 
