@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 import sys
+import xml.etree.ElementTree as ET
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
@@ -21,7 +22,7 @@ SHARED_STYLESHEET = "../../assets/site.css"
 SHARED_FAVICON = "../../assets/favicon.svg"
 SHARED_SHELL_SCRIPT = "../../assets/site-header.js"
 PUBLIC_REPOSITORY_PREFIX = "/info1-quiz-app/"
-PORTAL_ORIGIN = "https://mei-chan-nel.github.io/"
+PORTAL_ORIGIN = "https://mei-chan-nel.com/"
 MIN_PUBLIC_TAG_QUESTIONS = 4
 PROTECTED_APP_FILES = (
     "app/index.html",
@@ -40,12 +41,14 @@ class PageParser(HTMLParser):
         self.title_parts: list[str] = []
         self.in_title = False
         self.description = ""
-        self.canonical = ""
+        self.canonicals: list[str] = []
         self.og_title = ""
+        self.og_urls: list[str] = []
         self.h1_count = 0
         self.links: list[str] = []
         self.assets: list[str] = []
         self.ids: set[str] = set()
+        self.id_values: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = dict(attrs)
@@ -55,8 +58,10 @@ class PageParser(HTMLParser):
             self.description = values.get("content") or ""
         if tag == "meta" and values.get("property") == "og:title":
             self.og_title = values.get("content") or ""
+        if tag == "meta" and values.get("property") == "og:url":
+            self.og_urls.append(values.get("content") or "")
         if tag == "link" and values.get("rel") == "canonical":
-            self.canonical = values.get("href") or ""
+            self.canonicals.append(values.get("href") or "")
         if tag == "link" and values.get("href"):
             self.assets.append(values["href"])
         if tag == "script" and values.get("src"):
@@ -67,6 +72,7 @@ class PageParser(HTMLParser):
             self.h1_count += 1
         if values.get("id"):
             self.ids.add(values["id"])
+            self.id_values.append(values["id"])
 
     def handle_endtag(self, tag: str) -> None:
         if tag == "title":
@@ -79,6 +85,10 @@ class PageParser(HTMLParser):
     @property
     def title(self) -> str:
         return "".join(self.title_parts).strip()
+
+    @property
+    def canonical(self) -> str:
+        return self.canonicals[0] if self.canonicals else ""
 
 
 def normalized_text_sha256(path: Path) -> str:
@@ -110,6 +120,34 @@ def local_target(source: Path, href: str) -> tuple[Path, str] | None:
     if target.is_dir():
         target = target / "index.html"
     return target, unquote(resolved.fragment)
+
+
+def expected_canonical(path: Path) -> str:
+    relative = path.relative_to(ROOT).as_posix()
+    if relative == "app/index.html":
+        return f"{PORTAL_ORIGIN}info1-quiz-app/app/"
+    return f"{PORTAL_ORIGIN}info1-quiz-app/{relative}"
+
+
+def structured_data_blocks(text: str) -> list[str]:
+    return re.findall(
+        r'<script\s+type="application/ld\+json"[^>]*>(.*?)</script>',
+        text,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+
+def structured_url_values(value: object) -> list[tuple[str, str]]:
+    found: list[tuple[str, str]] = []
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if key in {"url", "item", "@id"} and isinstance(child, str):
+                found.append((key, child))
+            found.extend(structured_url_values(child))
+    elif isinstance(value, list):
+        for child in value:
+            found.extend(structured_url_values(child))
+    return found
 
 
 def main() -> int:
@@ -147,9 +185,10 @@ def main() -> int:
     )
 
     html_paths = sorted((ROOT / "questions").glob("*.html"))
+    public_html_paths = [ROOT / "app" / "index.html", *html_paths]
     parsed: dict[Path, PageParser] = {}
     canonicals: list[str] = []
-    for path in html_paths:
+    for path in public_html_paths:
         text = path.read_text(encoding="utf-8")
         parser = PageParser()
         parser.feed(text)
@@ -157,18 +196,40 @@ def main() -> int:
         relative = path.relative_to(ROOT).as_posix()
         if not parser.title:
             errors.append(f"{relative}: missing title")
-        elif not parser.title.startswith("情報Ⅰ Study Atlas｜問題一覧"):
+        elif path.parent == ROOT / "questions" and not parser.title.startswith("情報Ⅰ Study Atlas｜問題一覧"):
             errors.append(f"{relative}: title does not use the question hierarchy: {parser.title}")
         if parser.og_title != parser.title:
             errors.append(f"{relative}: og:title does not match title")
         if not parser.description:
             errors.append(f"{relative}: missing meta description")
-        if not parser.canonical:
-            errors.append(f"{relative}: missing canonical URL")
+        if len(parser.canonicals) != 1:
+            errors.append(f"{relative}: expected one canonical URL, found {len(parser.canonicals)}")
         else:
             canonicals.append(parser.canonical)
-        if parser.h1_count != 1:
+            expected_url = expected_canonical(path)
+            if parser.canonical != expected_url:
+                errors.append(
+                    f"{relative}: canonical does not match the public page URL: "
+                    f"{parser.canonical!r} != {expected_url!r}"
+                )
+            canonical_parts = urlsplit(parser.canonical)
+            if canonical_parts.scheme != "https" or canonical_parts.hostname != "mei-chan-nel.com":
+                errors.append(f"{relative}: canonical must use HTTPS on mei-chan-nel.com")
+            if canonical_parts.query or canonical_parts.fragment:
+                errors.append(f"{relative}: canonical must not contain a query string or fragment")
+        if len(parser.og_urls) != 1:
+            errors.append(f"{relative}: expected one og:url, found {len(parser.og_urls)}")
+        elif parser.og_urls[0] != parser.canonical:
+            errors.append(f"{relative}: og:url does not match canonical")
+        if path.parent == ROOT / "questions" and parser.h1_count != 1:
             errors.append(f"{relative}: expected one h1, found {parser.h1_count}")
+        elif path == ROOT / "app" / "index.html" and parser.h1_count < 1:
+            errors.append(f"{relative}: missing h1")
+        duplicate_html_ids = sorted(
+            html_id for html_id, count in Counter(parser.id_values).items() if count > 1
+        )
+        if duplicate_html_ids:
+            errors.append(f"{relative}: duplicate HTML IDs: {duplicate_html_ids[:10]}")
         if re.search(r"\{[a-zA-Z_][^}]*\}", text):
             errors.append(f"{relative}: unresolved template placeholder")
         if SHARED_STYLESHEET not in text:
@@ -180,15 +241,74 @@ def main() -> int:
         for marker in ('property="og:title"', 'property="og:description"', 'property="og:url"'):
             if marker not in text:
                 errors.append(f"{relative}: missing Open Graph metadata {marker}")
-        if '"@type":"BreadcrumbList"' not in text:
+        blocks = structured_data_blocks(text)
+        if not blocks:
+            errors.append(f"{relative}: JSON-LD structured data is missing")
+        has_breadcrumbs = False
+        structured_urls: list[tuple[str, str]] = []
+        for index, block in enumerate(blocks, start=1):
+            try:
+                structured_value = json.loads(block)
+            except json.JSONDecodeError as exc:
+                errors.append(f"{relative}: JSON-LD block {index} is invalid: {exc}")
+                continue
+            if isinstance(structured_value, dict) and structured_value.get("@type") == "BreadcrumbList":
+                has_breadcrumbs = True
+            structured_urls.extend(structured_url_values(structured_value))
+        if not has_breadcrumbs:
             errors.append(f"{relative}: BreadcrumbList structured data is missing")
+        for key, value in structured_urls:
+            parts = urlsplit(value)
+            if parts.scheme in {"http", "https"} and parts.hostname != "mei-chan-nel.com":
+                errors.append(f"{relative}: JSON-LD {key} uses a non-canonical host: {value}")
+        if parser.canonical and parser.canonical not in {value for _, value in structured_urls}:
+            errors.append(f"{relative}: JSON-LD does not identify the canonical page URL")
         absolute_internal_links = [href for href in parser.links if href.startswith(PORTAL_ORIGIN)]
         if absolute_internal_links:
             errors.append(f"{relative}: internal navigation must use relative paths: {absolute_internal_links[:3]}")
 
+    if any(path.name == "404.html" for path in public_html_paths):
+        errors.append("A 404 page must not be included in the generated public page set")
+
     duplicates = [url for url, count in Counter(canonicals).items() if count > 1]
     if duplicates:
         errors.append(f"Duplicate canonical URLs: {duplicates}")
+
+    sitemap_url_count: int | None = None
+    sitemap_app_url_count: int | None = None
+    sitemap_matches_public_pages: bool | None = None
+    portal_sitemap = PORTAL_ROOT / "sitemap.xml"
+    if portal_sitemap.is_file():
+        try:
+            sitemap_root = ET.parse(portal_sitemap).getroot()
+            sitemap_urls = [
+                element.text.strip()
+                for element in sitemap_root.findall(".//{*}loc")
+                if element.text and element.text.strip()
+            ]
+        except ET.ParseError as exc:
+            errors.append(f"{portal_sitemap}: invalid sitemap XML: {exc}")
+        else:
+            sitemap_url_count = len(sitemap_urls)
+            duplicate_sitemap_urls = sorted(
+                url for url, count in Counter(sitemap_urls).items() if count > 1
+            )
+            if duplicate_sitemap_urls:
+                errors.append(f"Portal sitemap contains duplicate URLs: {duplicate_sitemap_urls[:10]}")
+            public_prefix = f"{PORTAL_ORIGIN}info1-quiz-app/"
+            sitemap_app_urls = {url for url in sitemap_urls if url.startswith(public_prefix)}
+            expected_public_urls = set(canonicals)
+            sitemap_app_url_count = len(sitemap_app_urls)
+            sitemap_matches_public_pages = sitemap_app_urls == expected_public_urls
+            if not sitemap_matches_public_pages:
+                missing = sorted(expected_public_urls - sitemap_app_urls)
+                unexpected = sorted(sitemap_app_urls - expected_public_urls)
+                errors.append(
+                    "Portal sitemap does not match public app/question canonicals: "
+                    f"missing={missing[:10]} unexpected={unexpected[:10]}"
+                )
+    else:
+        warnings.append("Portal sitemap was not available for cross-repository canonical verification")
 
     for source, parser in list(parsed.items()):
         for href in parser.links + parser.assets:
@@ -341,8 +461,6 @@ def main() -> int:
         errors.append("app/index.html: shared portal stylesheet is missing")
     if SHARED_SHELL_SCRIPT not in app_index:
         errors.append("app/index.html: shared site footer script is missing")
-    if re.search(r'<a[^>]+href="https://mei-chan-nel\.github\.io/', app_index):
-        errors.append("app/index.html: internal navigation must use relative paths")
     if 'href="./about.html"' in app_index or 'href="./privacy.html"' in app_index:
         errors.append("app/index.html: obsolete local information-page link remains")
     app_script = (ROOT / "app" / "app.js").read_text(encoding="utf-8")
@@ -376,11 +494,31 @@ def main() -> int:
             changed = [name for name in changed if baseline.get(name) != current.get(name)]
             errors.append(f"Protected app files changed: {changed}")
 
+    build_report_public_page_count: int | None = None
     build_report_path = REPORT_DIR / "question-library-build.json"
     if not build_report_path.is_file():
         errors.append("Missing question-library build report")
     else:
         build_report = json.loads(build_report_path.read_text(encoding="utf-8"))
+        learning_pages = build_report.get("learning_pages", [])
+        related_app_page = build_report.get("related_app_page")
+        expected_learning_pages = {
+            path.relative_to(ROOT).as_posix()
+            for path in html_paths
+        }
+        build_report_public_page_count = (
+            len(learning_pages) + 1 if isinstance(learning_pages, list) and related_app_page else None
+        )
+        if (
+            not isinstance(learning_pages, list)
+            or len(learning_pages) != len(set(learning_pages))
+            or set(learning_pages) != expected_learning_pages
+            or related_app_page != "app/"
+        ):
+            errors.append(
+                "question-library-build.json: public page list does not match the 104 question "
+                "pages and learning app"
+            )
         expected_without_public_tags = len(questions) - questions_with_public_tags
         if (
             build_report.get("raw_tag_count") != len(raw_tag_counts)
@@ -398,7 +536,13 @@ def main() -> int:
         "question_count": len(questions),
         "rendered_question_count": len(rendered_ids),
         "generated_question_pages": len(generated_question_pages),
-        "html_pages_checked": len(html_paths),
+        "html_pages_checked": len(public_html_paths),
+        "canonical_count": len(canonicals),
+        "canonical_origin": PORTAL_ORIGIN,
+        "portal_sitemap_url_count": sitemap_url_count,
+        "portal_sitemap_app_url_count": sitemap_app_url_count,
+        "portal_sitemap_matches_public_pages": sitemap_matches_public_pages,
+        "build_report_public_page_count": build_report_public_page_count,
         "field_counts": dict(Counter(question["field_ids"][0] for question in questions)),
         "raw_tag_count": len(raw_tag_counts),
         "tag_count": len(expected_tags),
@@ -416,9 +560,12 @@ def main() -> int:
             "field_ids completeness and allowed values",
             "unique question IDs and exactly-once publication",
             "maximum 10 questions per generated page",
-            "titles, descriptions, canonicals, and one h1 per page",
-            "Open Graph and BreadcrumbList structured metadata",
+            "one self-referencing HTTPS canonical and one matching og:url per public page",
+            "valid JSON-LD URLs on the canonical host and BreadcrumbList metadata",
+            "unique canonical URLs and HTML IDs, with no generated 404 page",
             "local links, assets, and fragments",
+            "portal sitemap synchronization for all 105 app and question URLs when available",
+            "build-report mapping for 104 question pages and one learning-app page",
             "normalized tags shown at the public threshold or as compatibility targets, with multi-tag OR filtering",
             "six-field tag grouping, source-question-first navigation, and static no-JavaScript question cards",
             "ten-question staged display, remaining-count control, and legacy tag URL aliases",
@@ -436,7 +583,10 @@ def main() -> int:
         print(f"WARNING: {warning}")
     for error in errors:
         print(f"ERROR: {error}", file=sys.stderr)
-    print(f"status={report['status']} questions={len(questions)} rendered={len(rendered_ids)} pages={len(html_paths)}")
+    print(
+        f"status={report['status']} questions={len(questions)} rendered={len(rendered_ids)} "
+        f"public_pages={len(public_html_paths)}"
+    )
     return 1 if errors else 0
 
 
