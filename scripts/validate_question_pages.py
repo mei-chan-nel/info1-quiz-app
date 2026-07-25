@@ -41,6 +41,7 @@ class PageParser(HTMLParser):
         self.in_title = False
         self.description = ""
         self.canonical = ""
+        self.og_title = ""
         self.h1_count = 0
         self.links: list[str] = []
         self.assets: list[str] = []
@@ -52,6 +53,8 @@ class PageParser(HTMLParser):
             self.in_title = True
         if tag == "meta" and values.get("name") == "description":
             self.description = values.get("content") or ""
+        if tag == "meta" and values.get("property") == "og:title":
+            self.og_title = values.get("content") or ""
         if tag == "link" and values.get("rel") == "canonical":
             self.canonical = values.get("href") or ""
         if tag == "link" and values.get("href"):
@@ -154,6 +157,10 @@ def main() -> int:
         relative = path.relative_to(ROOT).as_posix()
         if not parser.title:
             errors.append(f"{relative}: missing title")
+        elif not parser.title.startswith("情報Ⅰ Study Atlas｜問題一覧"):
+            errors.append(f"{relative}: title does not use the question hierarchy: {parser.title}")
+        if parser.og_title != parser.title:
+            errors.append(f"{relative}: og:title does not match title")
         if not parser.description:
             errors.append(f"{relative}: missing meta description")
         if not parser.canonical:
@@ -340,6 +347,8 @@ def main() -> int:
         errors.append("app/index.html: obsolete local information-page link remains")
     app_script = (ROOT / "app" / "app.js").read_text(encoding="utf-8")
     app_styles = (ROOT / "app" / "styles.css").read_text(encoding="utf-8")
+    if "<title>情報Ⅰ Study Atlas｜学習アプリ</title>" not in app_index:
+        errors.append("app/index.html: browser title does not identify the learning app")
     for marker in ("app-mini-nav", "appMenuButton", "appRecordNavButton", "interruptDialogMessage"):
         if marker not in app_index:
             errors.append(f"app/index.html: compact navigation marker is missing: {marker}")
