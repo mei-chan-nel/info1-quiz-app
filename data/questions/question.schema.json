@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://mei-chan-nel.github.io/info1-quiz-app/data/questions/question.schema.json",
+  "$id": "https://mei-chan-nel.com/info1-quiz-app/data/questions/question.schema.json",
   "title": "情報Ⅰ知識問題",
   "type": "object",
   "required": [

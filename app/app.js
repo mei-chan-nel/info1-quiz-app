@@ -71,7 +71,7 @@ const MIN_SET_SIZE = 1;
 const MAX_SET_SIZE = 50;
 const CHATGPT_URL = "https://chatgpt.com/";
 const X_POST_INTENT_URL = "https://x.com/intent/tweet";
-const PUBLIC_APP_URL = "https://mei-chan-nel.github.io/info1-quiz-app/app/";
+const PUBLIC_APP_URL = "https://mei-chan-nel.com/info1-quiz-app/app/";
 const SUPABASE_URL = "https://yygezzpowsvpzarqdtls.supabase.co";
 // Supabase publishable keys are designed for browser clients. Never use a secret or service_role key here.
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rQmX7MCx_8W3nz-xWXQBpA_CHzdRQSk";

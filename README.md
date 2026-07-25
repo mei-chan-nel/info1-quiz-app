@@ -93,8 +93,8 @@ GitHub Pagesなどの静的ホスティングでも、問題表示・解答・�
 公開URLは次のとおりです。
 
 ```text
-https://mei-chan-nel.github.io/info1-quiz-app/questions/
-https://mei-chan-nel.github.io/info1-quiz-app/app/
+https://mei-chan-nel.com/info1-quiz-app/questions/
+https://mei-chan-nel.com/info1-quiz-app/app/
 ```
 
-サイトの入口は `https://mei-chan-nel.github.io/` です。
+サイトの入口は `https://mei-chan-nel.com/` です。
