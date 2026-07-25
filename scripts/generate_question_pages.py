@@ -348,7 +348,7 @@ def render_questions_index(grouped: dict[str, list[dict]], public_tags: set[str]
         if str(tag).strip() in public_tags
     )
     cards = "".join(field_card(field, len(grouped[field["id"]]), page_filename(field, 1)) for field in FIELDS)
-    title = f"情報Ⅰ共通テスト対策問題{total}問 | Study Atlas"
+    title = "情報Ⅰ Study Atlas｜問題一覧"
     description = f"高校生・受験生向けの情報Ⅰ共通テスト対策問題{total}問。検索では「情報1」とも表記される科目を6分野に整理し、正答・解説・出典と{len(tag_counts)}種類のタグを掲載しています。"
     schema = structured_data(
         {
@@ -487,7 +487,7 @@ def render_field_pages(field: dict, questions: list[dict], public_tags: set[str]
             for index, question in enumerate(page_questions, start=start_number)
         )
         page_suffix = f"（{page_number}/{total_pages}ページ）" if total_pages > 1 else ""
-        title = f"情報Ⅰ {field['label']}の問題 {page_suffix} | 共通テスト対策"
+        title = f"情報Ⅰ Study Atlas｜問題一覧｜{field['label']}{page_suffix}"
         description = f"高校生・受験生向けの情報Ⅰ共通テスト対策。「{field['label']}」の問題{start_number}〜{end_number}を、正答・解説・出典と、該当する場合は関連タグも付けて掲載しています。"
         page_url = canonical(path)
         schema = structured_data(
@@ -627,7 +627,7 @@ def render_tag_filter_page(payload: dict) -> None:
         field["id"]: [question for question in payload["questions"] if question["field_id"] == field["id"]]
         for field in FIELDS
     }
-    title = "情報Ⅰ（情報1）の問題をタグから探す | 共通テスト対策"
+    title = "情報Ⅰ Study Atlas｜問題一覧｜タグ検索"
     description = f"情報Ⅰの問題{payload['question_count']}問を{payload['tag_count']}種類のタグから検索。複数タグはOR条件で抽出し、正答・解説・出典まで確認できます。"
     schema = structured_data(
         {
