@@ -33,6 +33,11 @@ body {
   color: var(--text);
 }
 
+/* The learning app uses its compact app navigation instead of the shared site header. */
+body > .site-header {
+  display: none !important;
+}
+
 .app-mini-nav {
   position: sticky;
   top: 0;
