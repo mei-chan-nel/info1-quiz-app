@@ -1278,6 +1278,30 @@ h1 {
   width: 100%;
 }
 
+.record-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.record-pagination button {
+  min-width: 76px;
+}
+
+.record-pagination button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.record-pagination-status {
+  min-width: 54px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 .record-bottom-actions {
   display: flex;
   flex-wrap: wrap;

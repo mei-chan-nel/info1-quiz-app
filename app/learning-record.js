@@ -148,6 +148,7 @@
     let solved = 0;
     const wrongQuestionIds = [];
     const checkedQuestionIds = [];
+    const solvedQuestionIds = [];
 
     for (const [questionId, rawRecord] of Object.entries(data.q)) {
       const record = normalizeRecord(rawRecord);
@@ -162,6 +163,7 @@
       correct += record[1];
       if (question) {
         solved += 1;
+        solvedQuestionIds.push(questionId);
       }
       if (record[2] === 0 && question) {
         wrongQuestionIds.push(questionId);
@@ -176,6 +178,7 @@
     const byNewest = (left, right) => (data.q[right]?.[3] || 0) - (data.q[left]?.[3] || 0);
     wrongQuestionIds.sort(byNewest);
     checkedQuestionIds.sort(byNewest);
+    solvedQuestionIds.sort(byNewest);
     return {
       attempts,
       correct,
@@ -184,6 +187,7 @@
       totalQuestions: questionList.length,
       wrongQuestionIds,
       checkedQuestionIds,
+      solvedQuestionIds,
       fields: Object.values(fields).map((field) => ({
         ...field,
         rate: percentage(field.correct, field.attempts),

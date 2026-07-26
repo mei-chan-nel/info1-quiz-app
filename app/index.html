@@ -201,6 +201,7 @@
         <div class="record-actions">
           <button class="primary-button record-list-button" id="wrongQuestionsButton" type="button">間違えたままの問題</button>
           <button class="primary-button record-list-button" id="checkedQuestionsButton" type="button">保存した問題</button>
+          <button class="primary-button record-list-button" id="solvedQuestionsButton" type="button">解いた問題</button>
         </div>
         <div class="record-bottom-actions">
           <button class="danger-compact-button" id="clearRecordButton" type="button">学習記録をクリア</button>
@@ -216,6 +217,14 @@
         </div>
         <p class="record-lead" id="wrongQuestionCount">0問を復習できます</p>
         <div class="record-question-list" id="wrongQuestionList"></div>
+        <nav class="record-pagination" id="wrongPagination" aria-label="間違えたままの問題のページ移動">
+          <button class="secondary-button" id="wrongPrevButton" type="button">前へ</button>
+          <span class="record-pagination-status" id="wrongPageStatus" aria-live="polite"></span>
+          <button class="secondary-button" id="wrongNextButton" type="button">次へ</button>
+        </nav>
+        <div class="record-bottom-actions">
+          <button class="secondary-button record-bottom-back" id="wrongBottomBackButton" type="button">学習記録に戻る</button>
+        </div>
       </section>
 
       <section class="record-panel" id="checkedView" hidden>
@@ -225,6 +234,31 @@
         </div>
         <p class="record-lead" id="checkedQuestionCount">0問を保存中</p>
         <div class="record-question-list" id="checkedQuestionList"></div>
+        <nav class="record-pagination" id="checkedPagination" aria-label="保存した問題のページ移動">
+          <button class="secondary-button" id="checkedPrevButton" type="button">前へ</button>
+          <span class="record-pagination-status" id="checkedPageStatus" aria-live="polite"></span>
+          <button class="secondary-button" id="checkedNextButton" type="button">次へ</button>
+        </nav>
+        <div class="record-bottom-actions">
+          <button class="secondary-button record-bottom-back" id="checkedBottomBackButton" type="button">学習記録に戻る</button>
+        </div>
+      </section>
+
+      <section class="record-panel" id="solvedView" hidden>
+        <div class="view-heading">
+          <div><p class="eyebrow">SOLVED QUESTIONS</p><h1>解いた問題</h1></div>
+          <button class="secondary-button" id="solvedBackButton" type="button">学習記録に戻る</button>
+        </div>
+        <p class="record-lead" id="solvedQuestionCount">全部で0問解きました。</p>
+        <div class="record-question-list" id="solvedQuestionList"></div>
+        <nav class="record-pagination" id="solvedPagination" aria-label="解いた問題のページ移動">
+          <button class="secondary-button" id="solvedPrevButton" type="button">前へ</button>
+          <span class="record-pagination-status" id="solvedPageStatus" aria-live="polite"></span>
+          <button class="secondary-button" id="solvedNextButton" type="button">次へ</button>
+        </nav>
+        <div class="record-bottom-actions">
+          <button class="secondary-button record-bottom-back" id="solvedBottomBackButton" type="button">学習記録に戻る</button>
+        </div>
       </section>
     </main>
 

@@ -54,12 +54,32 @@ const wrongView = document.querySelector("#wrongView");
 const wrongBackButton = document.querySelector("#wrongBackButton");
 const wrongQuestionCount = document.querySelector("#wrongQuestionCount");
 const wrongQuestionList = document.querySelector("#wrongQuestionList");
+const wrongBottomBackButton = document.querySelector("#wrongBottomBackButton");
+const wrongPagination = document.querySelector("#wrongPagination");
+const wrongPrevButton = document.querySelector("#wrongPrevButton");
+const wrongNextButton = document.querySelector("#wrongNextButton");
+const wrongPageStatus = document.querySelector("#wrongPageStatus");
 const checkedQuestionsButton = document.querySelector("#checkedQuestionsButton");
 const clearRecordButton = document.querySelector("#clearRecordButton");
 const checkedView = document.querySelector("#checkedView");
 const checkedBackButton = document.querySelector("#checkedBackButton");
 const checkedQuestionCount = document.querySelector("#checkedQuestionCount");
 const checkedQuestionList = document.querySelector("#checkedQuestionList");
+const checkedBottomBackButton = document.querySelector("#checkedBottomBackButton");
+const checkedPagination = document.querySelector("#checkedPagination");
+const checkedPrevButton = document.querySelector("#checkedPrevButton");
+const checkedNextButton = document.querySelector("#checkedNextButton");
+const checkedPageStatus = document.querySelector("#checkedPageStatus");
+const solvedQuestionsButton = document.querySelector("#solvedQuestionsButton");
+const solvedView = document.querySelector("#solvedView");
+const solvedBackButton = document.querySelector("#solvedBackButton");
+const solvedQuestionCount = document.querySelector("#solvedQuestionCount");
+const solvedQuestionList = document.querySelector("#solvedQuestionList");
+const solvedBottomBackButton = document.querySelector("#solvedBottomBackButton");
+const solvedPagination = document.querySelector("#solvedPagination");
+const solvedPrevButton = document.querySelector("#solvedPrevButton");
+const solvedNextButton = document.querySelector("#solvedNextButton");
+const solvedPageStatus = document.querySelector("#solvedPageStatus");
 const clearRecordDialog = document.querySelector("#clearRecordDialog");
 const confirmClearRecordButton = document.querySelector("#confirmClearRecordButton");
 const interruptDialog = document.querySelector("#interruptDialog");
@@ -74,6 +94,7 @@ const appBrandLink = document.querySelector(".app-mini-nav__brand");
 const DEFAULT_SET_SIZE = 5;
 const MIN_SET_SIZE = 1;
 const MAX_SET_SIZE = 50;
+const RECORD_LIST_PAGE_SIZE = 10;
 const CHATGPT_URL = "https://chatgpt.com/";
 const X_POST_INTENT_URL = "https://x.com/intent/tweet";
 const PUBLIC_APP_URL = "https://mei-chan-nel.com/info1-quiz-app/app/";
@@ -269,6 +290,10 @@ const state = {
   recordReviewMode: false,
   recordListReturnView: "wrong",
   recordListSnapshot: null,
+  recordWrongPage: 0,
+  recordCheckedPage: 0,
+  recordSolvedPage: 0,
+  recordListScrollTop: 0,
   pendingNavigation: null,
   allowNavigation: false,
 };
@@ -517,8 +542,19 @@ function bindStartControls() {
   recordBottomBackButton.addEventListener("click", returnFromLearningRecord);
   wrongQuestionsButton.addEventListener("click", showWrongQuestions);
   wrongBackButton.addEventListener("click", showLearningRecord);
+  wrongBottomBackButton.addEventListener("click", showLearningRecord);
+  wrongPrevButton.addEventListener("click", () => changeRecordListPage("wrong", -1));
+  wrongNextButton.addEventListener("click", () => changeRecordListPage("wrong", 1));
   checkedQuestionsButton.addEventListener("click", showCheckedQuestions);
   checkedBackButton.addEventListener("click", showLearningRecord);
+  checkedBottomBackButton.addEventListener("click", showLearningRecord);
+  checkedPrevButton.addEventListener("click", () => changeRecordListPage("checked", -1));
+  checkedNextButton.addEventListener("click", () => changeRecordListPage("checked", 1));
+  solvedQuestionsButton.addEventListener("click", showSolvedQuestions);
+  solvedBackButton.addEventListener("click", showLearningRecord);
+  solvedBottomBackButton.addEventListener("click", showLearningRecord);
+  solvedPrevButton.addEventListener("click", () => changeSolvedPage(-1));
+  solvedNextButton.addEventListener("click", () => changeSolvedPage(1));
   clearRecordButton.addEventListener("click", openClearRecordDialog);
   confirmClearRecordButton.addEventListener("click", (event) => {
     event.preventDefault();
@@ -616,6 +652,7 @@ function showStart() {
   recordView.hidden = true;
   wrongView.hidden = true;
   checkedView.hidden = true;
+  solvedView.hidden = true;
   setStatus.textContent = TEXT.notStarted;
   progressFill.style.width = "0%";
   updateStartControls();
@@ -639,6 +676,10 @@ function resetSessionState() {
   state.recordPracticeMode = false;
   state.recordReviewMode = false;
   state.recordListSnapshot = null;
+  state.recordWrongPage = 0;
+  state.recordCheckedPage = 0;
+  state.recordSolvedPage = 0;
+  state.recordListScrollTop = 0;
   state.responseSubmission = null;
   state.outOfScopeSubmission = null;
   retryButton.disabled = false;
@@ -704,6 +745,7 @@ function startSession() {
   recordView.hidden = true;
   wrongView.hidden = true;
   checkedView.hidden = true;
+  solvedView.hidden = true;
   setStatus.textContent = TEXT.running;
   retryButton.disabled = false;
   finishButton.disabled = false;
@@ -946,9 +988,6 @@ function renderRecordReview(question) {
   const correctChoice = getCorrectChoice(question);
   for (const button of choices.querySelectorAll(".choice-button")) {
     button.disabled = true;
-    if (button.dataset.choiceId === correctChoice?.choice_id) {
-      button.classList.add("correct");
-    }
   }
 
   resultPanel.hidden = false;
@@ -1247,6 +1286,9 @@ function toggleQuestionCheck(questionId) {
   if (!checkedView.hidden) {
     renderCheckedQuestions();
   }
+  if (!solvedView.hidden) {
+    renderSolvedQuestions();
+  }
 }
 
 async function interruptSession() {
@@ -1278,6 +1320,7 @@ function showLearningRecord() {
   summaryView.hidden = true;
   wrongView.hidden = true;
   checkedView.hidden = true;
+  solvedView.hidden = true;
   recordView.hidden = false;
   renderLearningRecord();
   scrollToTop();
@@ -1287,6 +1330,7 @@ function returnFromLearningRecord() {
   recordView.hidden = true;
   wrongView.hidden = true;
   checkedView.hidden = true;
+  solvedView.hidden = true;
   if (state.recordListSnapshot) {
     restoreRecordListSnapshot();
   }
@@ -1333,25 +1377,38 @@ function renderLearningRecord() {
 
   wrongQuestionsButton.textContent = `間違えたままの問題（${summary.wrongQuestionIds.length}）`;
   checkedQuestionsButton.textContent = `保存した問題（${summary.checkedQuestionIds.length}）`;
+  solvedQuestionsButton.textContent = `解いた問題（${summary.solvedQuestionIds.length}）`;
 }
 
-function showWrongQuestions() {
+function showWrongQuestions({ resetPage = true, preserveScroll = false } = {}) {
   recordView.hidden = true;
   checkedView.hidden = true;
+  solvedView.hidden = true;
   wrongView.hidden = false;
+  if (resetPage) {
+    state.recordWrongPage = 0;
+  }
   renderWrongQuestions();
-  scrollToTop();
+  restoreRecordListScroll(preserveScroll);
 }
 
 function renderWrongQuestions() {
   const summary = learningRecord.summarize(state.allQuestions, FIELD_DEFINITIONS);
+  const totalPages = Math.max(1, Math.ceil(summary.wrongQuestionIds.length / RECORD_LIST_PAGE_SIZE));
+  state.recordWrongPage = Math.min(Math.max(0, state.recordWrongPage), totalPages - 1);
+  const start = state.recordWrongPage * RECORD_LIST_PAGE_SIZE;
   wrongQuestionCount.textContent = `${summary.wrongQuestionIds.length}問を復習できます`;
   renderRecordQuestionList(
     wrongQuestionList,
-    summary.wrongQuestionIds,
+    summary.wrongQuestionIds.slice(start, start + RECORD_LIST_PAGE_SIZE),
     "間違えたままの問題はありません。",
     "wrong",
   );
+  const hasPagination = summary.wrongQuestionIds.length > RECORD_LIST_PAGE_SIZE;
+  wrongPagination.hidden = !hasPagination;
+  wrongPageStatus.textContent = hasPagination ? `${state.recordWrongPage + 1} / ${totalPages}` : "";
+  wrongPrevButton.disabled = state.recordWrongPage <= 0;
+  wrongNextButton.disabled = state.recordWrongPage >= totalPages - 1;
 }
 
 function buildXShareUrl(total, correct, rate) {
@@ -1367,23 +1424,117 @@ ${PUBLIC_APP_URL}
   return `${X_POST_INTENT_URL}?text=${encodeURIComponent(postText)}`;
 }
 
-function showCheckedQuestions() {
+function showCheckedQuestions({ resetPage = true, preserveScroll = false } = {}) {
   recordView.hidden = true;
   wrongView.hidden = true;
+  solvedView.hidden = true;
   checkedView.hidden = false;
+  if (resetPage) {
+    state.recordCheckedPage = 0;
+  }
   renderCheckedQuestions();
-  scrollToTop();
+  restoreRecordListScroll(preserveScroll);
 }
 
 function renderCheckedQuestions() {
   const summary = learningRecord.summarize(state.allQuestions, FIELD_DEFINITIONS);
+  const totalPages = Math.max(1, Math.ceil(summary.checkedQuestionIds.length / RECORD_LIST_PAGE_SIZE));
+  state.recordCheckedPage = Math.min(Math.max(0, state.recordCheckedPage), totalPages - 1);
+  const start = state.recordCheckedPage * RECORD_LIST_PAGE_SIZE;
   checkedQuestionCount.textContent = `${summary.checkedQuestionIds.length}問を保存中`;
   renderRecordQuestionList(
     checkedQuestionList,
-    summary.checkedQuestionIds,
+    summary.checkedQuestionIds.slice(start, start + RECORD_LIST_PAGE_SIZE),
     "保存した問題はありません。",
     "checked",
   );
+  const hasPagination = summary.checkedQuestionIds.length > RECORD_LIST_PAGE_SIZE;
+  checkedPagination.hidden = !hasPagination;
+  checkedPageStatus.textContent = hasPagination ? `${state.recordCheckedPage + 1} / ${totalPages}` : "";
+  checkedPrevButton.disabled = state.recordCheckedPage <= 0;
+  checkedNextButton.disabled = state.recordCheckedPage >= totalPages - 1;
+}
+
+function changeRecordListPage(view, delta) {
+  const summary = learningRecord.summarize(state.allQuestions, FIELD_DEFINITIONS);
+  const questionIds = view === "wrong" ? summary.wrongQuestionIds : summary.checkedQuestionIds;
+  const currentPage = view === "wrong" ? state.recordWrongPage : state.recordCheckedPage;
+  const totalPages = Math.max(1, Math.ceil(questionIds.length / RECORD_LIST_PAGE_SIZE));
+  const nextPage = Math.min(Math.max(0, currentPage + delta), totalPages - 1);
+  if (nextPage === currentPage) {
+    return;
+  }
+  if (view === "wrong") {
+    state.recordWrongPage = nextPage;
+    renderWrongQuestions();
+  } else {
+    state.recordCheckedPage = nextPage;
+    renderCheckedQuestions();
+  }
+  scrollToTop();
+}
+
+function showSolvedQuestions({ resetPage = true, preserveScroll = false } = {}) {
+  recordView.hidden = true;
+  wrongView.hidden = true;
+  checkedView.hidden = true;
+  solvedView.hidden = false;
+  if (resetPage) {
+    state.recordSolvedPage = 0;
+  }
+  renderSolvedQuestions();
+  restoreRecordListScroll(preserveScroll);
+}
+
+function renderSolvedQuestions() {
+  const summary = learningRecord.summarize(state.allQuestions, FIELD_DEFINITIONS);
+  const groups = groupSolvedQuestionIds(summary.solvedQuestionIds);
+  const totalPages = Math.max(1, groups.length);
+  state.recordSolvedPage = Math.min(Math.max(0, state.recordSolvedPage), totalPages - 1);
+  const page = groups[state.recordSolvedPage];
+  solvedQuestionCount.textContent = page
+    ? `全部で${summary.solvedQuestionIds.length}問解きました。${page.dateLabel}は${page.questionIds.length}問です。`
+    : `全部で${summary.solvedQuestionIds.length}問解きました。`;
+  renderRecordQuestionList(
+    solvedQuestionList,
+    page?.questionIds || [],
+    "まだ解いた問題はありません。",
+    "solved",
+  );
+  const hasPagination = groups.length > 1;
+  solvedPagination.hidden = !hasPagination;
+  solvedPageStatus.textContent = hasPagination ? `${state.recordSolvedPage + 1} / ${totalPages}` : "";
+  solvedPrevButton.disabled = state.recordSolvedPage <= 0;
+  solvedNextButton.disabled = state.recordSolvedPage >= totalPages - 1;
+}
+
+function changeSolvedPage(delta) {
+  const summary = learningRecord.summarize(state.allQuestions, FIELD_DEFINITIONS);
+  const totalPages = Math.max(1, groupSolvedQuestionIds(summary.solvedQuestionIds).length);
+  const nextPage = Math.min(Math.max(0, state.recordSolvedPage + delta), totalPages - 1);
+  if (nextPage === state.recordSolvedPage) {
+    return;
+  }
+  state.recordSolvedPage = nextPage;
+  renderSolvedQuestions();
+  scrollToTop();
+}
+
+function groupSolvedQuestionIds(questionIds) {
+  const groups = [];
+  const groupsByDate = new Map();
+  for (const questionId of questionIds) {
+    const answeredAt = learningRecord.getQuestion(questionId).answeredAt;
+    const dateLabel = answeredAt ? formatAnswerDateOnly(answeredAt) : "日付不明";
+    let group = groupsByDate.get(dateLabel);
+    if (!group) {
+      group = { dateLabel, questionIds: [] };
+      groupsByDate.set(dateLabel, group);
+      groups.push(group);
+    }
+    group.questionIds.push(questionId);
+  }
+  return groups;
 }
 
 function renderRecordQuestionList(container, questionIds, emptyMessage, returnView) {
@@ -1403,7 +1554,7 @@ function renderRecordQuestionList(container, questionIds, emptyMessage, returnVi
       item.innerHTML = `
         <button class="record-question-open" type="button">
           <p>${escapeHtml(question?.stem || questionId)}</p>
-          <span>${record.correct}/${record.attempts}正解（${rate}%）・${lastLabel}${record.answeredAt ? `・${escapeHtml(formatAnswerDate(record.answeredAt))}` : ""}</span>
+          <span>${record.correct}/${record.attempts}（${rate}%）・${lastLabel}${record.answeredAt ? `・${escapeHtml(formatAnswerDate(record.answeredAt))}` : ""}</span>
         </button>
         ${renderQuestionCheckButton(questionId)}
       `;
@@ -1438,6 +1589,7 @@ function startRecordListQuestion(questionId, returnView, mode) {
   if (!question) {
     return;
   }
+  state.recordListScrollTop = window.scrollY;
   if (state.recordReturnView === "summary" && !state.recordListSnapshot) {
     state.recordListSnapshot = captureRecordListSnapshot();
   }
@@ -1466,11 +1618,12 @@ function startRecordListQuestion(questionId, returnView, mode) {
   recordView.hidden = true;
   wrongView.hidden = true;
   checkedView.hidden = true;
+  solvedView.hidden = true;
   statusBar.hidden = false;
   questionView.hidden = false;
   setStatus.textContent = state.recordPracticeMode ? "復習中" : "解説閲覧中";
   renderQuestion();
-  scrollToTop();
+  scrollToTop({ instant: true });
   if (state.recordPracticeMode) {
     loadPastChoiceStats(sessionId, [question.id]);
     retryPendingSubmissions();
@@ -1496,10 +1649,20 @@ function returnToRecordQuestionList() {
   statusBar.hidden = true;
   questionView.hidden = true;
   if (state.recordListReturnView === "checked") {
-    showCheckedQuestions();
+    showCheckedQuestions({ resetPage: false, preserveScroll: true });
+  } else if (state.recordListReturnView === "solved") {
+    showSolvedQuestions({ resetPage: false, preserveScroll: true });
   } else {
-    showWrongQuestions();
+    showWrongQuestions({ resetPage: false, preserveScroll: true });
   }
+}
+
+function restoreRecordListScroll(preserveScroll) {
+  if (!preserveScroll) {
+    scrollToTop();
+    return;
+  }
+  window.scrollTo({ top: Math.max(0, state.recordListScrollTop), behavior: "auto" });
 }
 
 function captureRecordListSnapshot() {
@@ -1575,6 +1738,20 @@ function formatAnswerDate(timestamp) {
     hour: "2-digit",
     minute: "2-digit",
   }).format(new Date(timestamp));
+}
+
+function formatAnswerDateOnly(timestamp) {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Tokyo",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .formatToParts(new Date(timestamp))
+      .map((part) => [part.type, part.value]),
+  );
+  return `${parts.year}/${parts.month}/${parts.day}`;
 }
 
 function renderChoiceStats(question, selectedChoice, correctChoice) {
@@ -1940,8 +2117,8 @@ function updateProgressView() {
   progressFill.style.width = total ? `${Math.round((answered / total) * 100)}%` : "0%";
 }
 
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function scrollToTop({ instant = false } = {}) {
+  window.scrollTo({ top: 0, behavior: instant ? "auto" : "smooth" });
 }
 
 function formatSourceNote(question) {
