@@ -1,3 +1,8 @@
+import {
+  QUESTION_SELECTION_CONFIG,
+  selectWeightedQuestionSet,
+} from "./question-selection.js";
+
 const startView = document.querySelector("#startView");
 const statusBar = document.querySelector("#statusBar");
 const questionView = document.querySelector("#questionView");
@@ -245,6 +250,9 @@ const state = {
   apiAvailable: false,
   apiAvailabilityStatus: "checking",
   apiAvailabilityPromise: Promise.resolve(false),
+  questionAttemptCounts: new Map(),
+  questionAttemptStatsStatus: "not_started",
+  questionAttemptStatsPromise: Promise.resolve(null),
   sessionId: 0,
   pastStatsPromise: Promise.resolve(),
   pastStatsLoading: false,
@@ -293,6 +301,7 @@ async function loadQuestionData() {
     }
     state.allQuestions = await response.json();
     state.questionDataStatus = "ready";
+    void loadQuestionAttemptCounts();
     updateStartControls();
     if (!recordView.hidden) renderLearningRecord();
   } catch (error) {
@@ -322,6 +331,59 @@ async function detectApiAvailability() {
   } catch {
     return false;
   }
+}
+
+function loadQuestionAttemptCounts() {
+  if (state.questionAttemptStatsStatus !== "not_started") {
+    return state.questionAttemptStatsPromise;
+  }
+  state.questionAttemptStatsStatus = "loading";
+  const questionIds = state.allQuestions.map((question) => String(question.id));
+  const request = (async () => {
+    const available = await state.apiAvailabilityPromise;
+    if (!available) {
+      state.questionAttemptStatsStatus = "unavailable";
+      return null;
+    }
+    try {
+      const attemptCounts = await requestAllQuestionAttemptCounts(questionIds);
+      state.questionAttemptCounts = attemptCounts;
+      state.questionAttemptStatsStatus = "success";
+      return attemptCounts;
+    } catch (error) {
+      state.questionAttemptCounts = new Map();
+      state.questionAttemptStatsStatus = "unavailable";
+      console.error("問題ごとの全体回答回数を取得できませんでした。回答回数補正を使わずに出題します。", error);
+      return null;
+    }
+  })();
+  state.questionAttemptStatsPromise = request;
+  return request;
+}
+
+async function requestAllQuestionAttemptCounts(questionIds) {
+  const receivedAttemptCounts = new Map();
+  const batchSize = QUESTION_SELECTION_CONFIG.QUESTION_STATS_BATCH_SIZE;
+  for (let start = 0; start < questionIds.length; start += batchSize) {
+    const batchIds = questionIds.slice(start, start + batchSize);
+    const batchIdSet = new Set(batchIds);
+    const stats = await requestQuestionStats(batchIds);
+    for (const [questionId, record] of Object.entries(stats)) {
+      if (!batchIdSet.has(questionId)) {
+        continue;
+      }
+      const attempts = record?.attempts;
+      if (typeof attempts !== "number" || !Number.isFinite(attempts) || attempts < 0) {
+        throw new Error(`Invalid attempts for question ${questionId}`);
+      }
+      receivedAttemptCounts.set(questionId, attempts);
+    }
+  }
+  const attemptCounts = new Map(questionIds.map((questionId) => [questionId, 0]));
+  for (const [questionId, attempts] of receivedAttemptCounts) {
+    attemptCounts.set(questionId, attempts);
+  }
+  return attemptCounts;
 }
 
 function isChallengeActive() {
@@ -596,7 +658,28 @@ function startSession() {
   state.recordReviewMode = false;
   const sessionId = state.sessionId;
   updateSetSizeControls(pool.length);
-  state.sessionQuestions = pickRandomSet(pool, Math.min(state.setSize, pool.length)).map(prepareSessionQuestion);
+  const selectionCount = Math.min(state.setSize, pool.length);
+  let selectedQuestions;
+  try {
+    selectedQuestions = selectWeightedQuestionSet({
+      questions: pool,
+      count: selectionCount,
+      selectedFieldIds: getSelectedFields().map((definition) => definition.id),
+      fieldOrder: FIELD_DEFINITIONS.map((definition) => definition.id),
+      getMatchingFieldIds: getQuestionFieldIds,
+      attemptCounts: state.questionAttemptCounts,
+      attemptStatsAvailable: state.questionAttemptStatsStatus === "success",
+      getAnsweredAt: (question) => learningRecord.getQuestion(question.id).answeredAt,
+      onWarning: (message) => console.warn(message),
+    });
+    if (selectedQuestions.length !== selectionCount) {
+      throw new Error(`Selected ${selectedQuestions.length} of ${selectionCount} requested questions`);
+    }
+  } catch (error) {
+    console.error("重み付き抽選に失敗したため、単純ランダム抽選へ戻します。", error);
+    selectedQuestions = pickRandomSet(pool, selectionCount);
+  }
+  state.sessionQuestions = selectedQuestions.map(prepareSessionQuestion);
   state.responses = state.sessionQuestions.map((question) => ({
     questionId: question.id,
     selectedChoiceId: null,
@@ -931,6 +1014,7 @@ function grade(question) {
   response.selectedChoiceId = state.selectedChoiceId;
   response.isCorrect = isCorrect;
   learningRecord.recordAnswer(question.id, isCorrect);
+  incrementLocalQuestionAttemptCount(question.id);
   recordSessionChoiceStats(question, selectedChoice, isCorrect);
 
   for (const button of choices.querySelectorAll(".choice-button")) {
@@ -1577,6 +1661,18 @@ function recordSessionChoiceStats(question, selectedChoice, isCorrect) {
   state.sessionChoiceStats[question.id] = stats;
 }
 
+function incrementLocalQuestionAttemptCount(questionId) {
+  if (state.questionAttemptStatsStatus !== "success" || state.recordReviewMode) {
+    return;
+  }
+  const id = String(questionId);
+  const current = Number(state.questionAttemptCounts.get(id));
+  if (!Number.isFinite(current) || current < 0) {
+    return;
+  }
+  state.questionAttemptCounts.set(id, current + 1);
+}
+
 function loadPastChoiceStats(sessionId, questionIds) {
   if (!questionIds.length) {
     return state.pastStatsPromise;
@@ -1667,6 +1763,7 @@ async function submitResponseSubmission(submission) {
 async function replaceWithLatestChoiceStats(submission) {
   try {
     const latestStats = await requestQuestionStats(submission.questionIds);
+    mergeLatestQuestionAttemptCounts(latestStats);
     if (state.sessionId !== submission.sessionId) {
       return;
     }
@@ -1678,6 +1775,27 @@ async function replaceWithLatestChoiceStats(submission) {
     }
   } catch (error) {
     console.error("送信後の選択肢別統計を取得できませんでした。", error);
+  }
+}
+
+function mergeLatestQuestionAttemptCounts(stats) {
+  if (state.questionAttemptStatsStatus !== "success") {
+    return;
+  }
+  for (const [questionId, record] of Object.entries(stats || {})) {
+    const serverAttempts = record?.attempts;
+    const localAttempts = Number(state.questionAttemptCounts.get(questionId));
+    if (
+      typeof serverAttempts !== "number" ||
+      !Number.isFinite(serverAttempts) ||
+      serverAttempts < 0 ||
+      !Number.isFinite(localAttempts) ||
+      localAttempts < 0
+    ) {
+      console.warn(`問題 ${questionId} の最新回答回数が不正なため、ローカル値を維持します。`);
+      continue;
+    }
+    state.questionAttemptCounts.set(questionId, Math.max(localAttempts, serverAttempts));
   }
 }
 
@@ -1792,7 +1910,10 @@ async function requestQuestionStats(questionIds) {
     return {};
   }
   const payload = await callSupabaseRpc("get_question_stats", { p_ids: questionIds });
-  return payload.questions || {};
+  if (!payload?.questions || typeof payload.questions !== "object" || Array.isArray(payload.questions)) {
+    throw new Error("Invalid question stats response");
+  }
+  return payload.questions;
 }
 
 async function callSupabaseRpc(functionName, body) {

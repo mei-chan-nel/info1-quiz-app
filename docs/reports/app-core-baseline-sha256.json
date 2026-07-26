@@ -1,6 +1,7 @@
 {
   "app/index.html": "a179283f1bfda7e8278aca83373f3c2ed5023bcc5aab9e456ade2e7f4d176539",
-  "app/app.js": "e914293d0c5daac488e99c3942bceed0a8549e1234fde94a70969bcb31fab4d6",
+  "app/app.js": "bd690b8d362e21742da96a9806b5c06aa6b9933d75427e8a1cd946f516145d9b",
+  "app/question-selection.js": "11b840e6504d5012218d826cbd8faf8f76603b4171de1d16611484de547a50a9",
   "app/startup.js": "0a420c49fe403d4b24bcf7c8cba6e8120b434c1a71933f53ba27670de76aa389",
   "app/styles.css": "2bd6c272644acb4146f5177e213a60de4b1cfcafdbdc287948ea5d20fc77b7c8",
   "app/issue-report.js": "b4a5ea34c6c8cb92502f757e378b58724f4f12ae39e389cf9ddc802acaae04ef",

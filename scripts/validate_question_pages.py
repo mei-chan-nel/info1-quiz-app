@@ -27,6 +27,7 @@ MIN_PUBLIC_TAG_QUESTIONS = 4
 PROTECTED_APP_FILES = (
     "app/index.html",
     "app/app.js",
+    "app/question-selection.js",
     "app/startup.js",
     "app/styles.css",
     "app/issue-report.js",
