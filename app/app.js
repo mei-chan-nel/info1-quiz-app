@@ -95,6 +95,7 @@ const DEFAULT_SET_SIZE = 5;
 const MIN_SET_SIZE = 1;
 const MAX_SET_SIZE = 50;
 const RECORD_LIST_PAGE_SIZE = 10;
+const MAX_SHARED_QUESTIONS = 10;
 const CHATGPT_URL = "https://chatgpt.com/";
 const X_POST_INTENT_URL = "https://x.com/intent/tweet";
 const PUBLIC_APP_URL = "https://mei-chan-nel.com/info1-quiz-app/app/";
@@ -284,7 +285,11 @@ const state = {
   pendingOutOfScopeSubmissions: [],
   cumulativeTotal: 0,
   cumulativeCorrect: 0,
+  cumulativeQuestionIds: [],
   sessionSummaryRecorded: false,
+  sessionMode: "standard",
+  pendingChallengeQuestionIds: [],
+  challengeRequested: false,
   recordReturnView: "start",
   recordPracticeMode: false,
   recordReviewMode: false,
@@ -355,8 +360,13 @@ function init() {
   renderFieldFilters();
   bindStartControls();
   bindAppNavigation();
-  const requestedView = new URLSearchParams(window.location.search).get("view");
-  if (requestedView === "record") {
+  const searchParams = new URLSearchParams(window.location.search);
+  const requestedView = searchParams.get("view");
+  state.challengeRequested = searchParams.has("challenge");
+  state.pendingChallengeQuestionIds = parseChallengeQuestionIds(searchParams.get("challenge"));
+  if (state.challengeRequested) {
+    startView.hidden = true;
+  } else if (requestedView === "record") {
     state.recordReturnView = "start";
     trackAnalyticsEvent("learning_record_view", {
       entry_point: "direct",
@@ -379,12 +389,57 @@ async function loadQuestionData() {
     state.questionDataStatus = "ready";
     void loadQuestionAttemptCounts();
     updateStartControls();
+    if (state.challengeRequested) {
+      const challengeQuestionIds = state.pendingChallengeQuestionIds;
+      state.challengeRequested = false;
+      state.pendingChallengeQuestionIds = [];
+      if (!startChallengeSession(challengeQuestionIds)) {
+        showStart();
+      }
+      return;
+    }
     if (!recordView.hidden) renderLearningRecord();
   } catch (error) {
     state.questionDataStatus = "error";
-    updateStartControls();
+    if (state.challengeRequested) {
+      showStart();
+    } else {
+      updateStartControls();
+    }
     console.error(error);
   }
+}
+
+function parseChallengeQuestionIds(value) {
+  if (typeof value !== "string") {
+    return [];
+  }
+  return value
+    .split(",")
+    .map((questionId) => questionId.trim())
+    .filter(Boolean)
+    .slice(0, MAX_SHARED_QUESTIONS);
+}
+
+function resolveChallengeQuestions(questionIds) {
+  const questionById = new Map(
+    state.allQuestions.map((question) => [String(question.id), question]),
+  );
+  return questionIds
+    .map((questionId) => questionById.get(String(questionId)))
+    .filter(Boolean);
+}
+
+function startChallengeSession(questionIds) {
+  const selectedQuestions = resolveChallengeQuestions(questionIds);
+  if (selectedQuestions.length !== questionIds.length) {
+    console.warn("共有URLに存在しない問題IDが含まれていたため、有効な問題だけで開始します。");
+  }
+  if (!selectedQuestions.length) {
+    console.warn("共有URLに有効な問題IDがないため、通常の開始画面を表示します。");
+    return false;
+  }
+  return beginSession(selectedQuestions, { sessionMode: "challenge" });
 }
 
 async function initializeApiAvailability() {
@@ -669,6 +724,9 @@ nextButton.addEventListener("click", async () => {
 });
 
 retryButton.addEventListener("click", async () => {
+  if (state.sessionMode !== "standard") {
+    return;
+  }
   await completeSummaryExit();
   if (!startSession()) {
     showStart();
@@ -726,6 +784,9 @@ function resetSessionState() {
   state.pastStatsLoading = false;
   state.pastStatsLoaded = false;
   state.sessionSummaryRecorded = false;
+  state.sessionMode = "standard";
+  state.pendingChallengeQuestionIds = [];
+  state.challengeRequested = false;
   state.recordPracticeMode = false;
   state.recordReviewMode = false;
   state.recordListSnapshot = null;
@@ -747,10 +808,6 @@ function startSession() {
     updateStartControls();
     return false;
   }
-  state.sessionId += 1;
-  state.recordPracticeMode = false;
-  state.recordReviewMode = false;
-  const sessionId = state.sessionId;
   updateSetSizeControls(pool.length);
   const selectionCount = Math.min(state.setSize, pool.length);
   let selectedQuestions;
@@ -773,6 +830,12 @@ function startSession() {
     console.error("重み付き抽選に失敗したため、単純ランダム抽選へ戻します。", error);
     selectedQuestions = pickRandomSet(pool, selectionCount);
   }
+  return beginSession(selectedQuestions, { sessionMode: "standard" });
+}
+
+function initializeSessionQuestions(selectedQuestions) {
+  state.sessionId += 1;
+  const sessionId = state.sessionId;
   state.sessionQuestions = selectedQuestions.map(prepareSessionQuestion);
   state.responses = state.sessionQuestions.map((question) => ({
     questionId: question.id,
@@ -790,6 +853,17 @@ function startSession() {
   state.sessionSummaryRecorded = false;
   state.responseSubmission = null;
   state.outOfScopeSubmission = null;
+  return sessionId;
+}
+
+function beginSession(selectedQuestions, { sessionMode = "standard" } = {}) {
+  if (!selectedQuestions.length) {
+    return false;
+  }
+  state.recordPracticeMode = false;
+  state.recordReviewMode = false;
+  const sessionId = initializeSessionQuestions(selectedQuestions);
+  state.sessionMode = sessionMode;
 
   startView.hidden = true;
   statusBar.hidden = false;
@@ -864,6 +938,7 @@ function updateFieldSelectionButton() {
 function resetCumulativeResults() {
   state.cumulativeTotal = 0;
   state.cumulativeCorrect = 0;
+  state.cumulativeQuestionIds = [];
 }
 
 function changeSetSize(delta) {
@@ -1205,12 +1280,23 @@ function recordCumulativeResults() {
   if (state.sessionSummaryRecorded) {
     return;
   }
-  state.cumulativeTotal += state.sessionQuestions.length;
-  state.cumulativeCorrect += state.responses.filter((response) => response.isCorrect).length;
+  const answeredEntries = state.sessionQuestions
+    .map((question, index) => ({ question, response: state.responses[index] }))
+    .filter(({ response }) => response && response.selectedChoiceId !== null);
+  state.cumulativeTotal += answeredEntries.length;
+  state.cumulativeCorrect += answeredEntries.filter(({ response }) => response.isCorrect).length;
+  state.cumulativeQuestionIds.push(
+    ...answeredEntries.map(({ question }) => String(question.id)),
+  );
   state.sessionSummaryRecorded = true;
 }
 
+function updateSummaryActionVisibility() {
+  retryButton.hidden = state.sessionMode === "challenge";
+}
+
 function renderSummary() {
+  updateSummaryActionVisibility();
   const correct = state.cumulativeCorrect;
   const total = state.cumulativeTotal;
   const rate = total ? Math.round((correct / total) * 100) : 0;
@@ -1509,15 +1595,35 @@ function renderWrongQuestions() {
   wrongNextButton.disabled = state.recordWrongPage >= totalPages - 1;
 }
 
+function getSharedQuestionIds() {
+  return state.cumulativeQuestionIds.slice(-MAX_SHARED_QUESTIONS);
+}
+
+function buildChallengeUrl(questionIds = getSharedQuestionIds()) {
+  const url = new URL(PUBLIC_APP_URL);
+  url.searchParams.set("challenge", questionIds.join(","));
+  return url.toString();
+}
+
 function buildXShareUrl(total, correct, rate) {
+  const sharedQuestionIds = getSharedQuestionIds();
+  const hasSharedQuestions = sharedQuestionIds.length > 0;
+  const invitation = !hasSharedQuestions
+    ? "あなたも挑戦しませんか？"
+    : total > MAX_SHARED_QUESTIONS
+      ? `同じ問題（${MAX_SHARED_QUESTIONS}問）に挑戦しませんか？`
+      : "同じ問題に挑戦しませんか？";
+  const shareUrl = hasSharedQuestions
+    ? buildChallengeUrl(sharedQuestionIds)
+    : PUBLIC_APP_URL;
   const postText = `共通テスト「情報Ⅰ」の問題に挑戦しました！
 
 今回の結果：${total}問中${correct}問正解
 正答率：${rate}％
 
-あなたも挑戦しませんか？
+${invitation}
 
-${PUBLIC_APP_URL}
+${shareUrl}
 #情報I #共通テスト #情報IStudyAtlas`;
   return `${X_POST_INTENT_URL}?text=${encodeURIComponent(postText)}`;
 }
@@ -1708,24 +1814,10 @@ function startRecordListQuestion(questionId, returnView, mode) {
     state.recordListSnapshot = captureRecordListSnapshot();
   }
 
-  state.sessionId += 1;
-  const sessionId = state.sessionId;
   state.recordPracticeMode = mode === "practice";
   state.recordReviewMode = mode === "review";
   state.recordListReturnView = returnView;
-  state.sessionQuestions = [prepareSessionQuestion(question)];
-  state.responses = [{ questionId: question.id, selectedChoiceId: null, isCorrect: null }];
-  state.outOfScopeReports = {};
-  state.pastChoiceStats = {};
-  state.sessionChoiceStats = {};
-  state.currentIndex = 0;
-  state.selectedChoiceId = null;
-  state.pastStatsPromise = Promise.resolve();
-  state.pastStatsLoading = false;
-  state.pastStatsLoaded = false;
-  state.sessionSummaryRecorded = false;
-  state.responseSubmission = null;
-  state.outOfScopeSubmission = null;
+  const sessionId = initializeSessionQuestions([question]);
 
   startView.hidden = true;
   summaryView.hidden = true;
