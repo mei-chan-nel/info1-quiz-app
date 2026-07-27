@@ -298,6 +298,54 @@ const state = {
   allowNavigation: false,
 };
 
+function trackAnalyticsEvent(eventName, parameters = {}) {
+  if (typeof window.gtag !== "function") {
+    return;
+  }
+  try {
+    window.gtag("event", eventName, parameters);
+  } catch {
+    // Analytics must never interrupt the learning flow.
+  }
+}
+
+function openExternalWindow(url) {
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function getLearningContext() {
+  if (state.recordPracticeMode) {
+    return "wrong_review";
+  }
+  if (state.recordReviewMode) {
+    if (state.recordListReturnView === "checked") {
+      return "saved_review";
+    }
+    if (state.recordListReturnView === "solved") {
+      return "solved_review";
+    }
+    return "wrong_review";
+  }
+  return "standard";
+}
+
+function getQuestionField(question) {
+  const questionFieldIds = getQuestionFieldIds(question);
+  return FIELD_DEFINITIONS.find((definition) => questionFieldIds.has(definition.id))?.id || "unknown";
+}
+
+function getQuizAnalyticsParameters(question) {
+  const isWrongReview = state.recordPracticeMode;
+  return {
+    learning_context: isWrongReview ? "wrong_review" : "standard",
+    question_field: getQuestionField(question),
+    answer_mode: isWrongReview ? "not_applicable" : getAnswerModeValue(),
+    calc_mode: isWrongReview ? "not_applicable" : getCalcModeValue(),
+    session_target: isWrongReview ? 1 : state.sessionQuestions.length,
+    question_position: isWrongReview ? 1 : state.currentIndex + 1,
+  };
+}
+
 init();
 
 function init() {
@@ -310,6 +358,9 @@ function init() {
   const requestedView = new URLSearchParams(window.location.search).get("view");
   if (requestedView === "record") {
     state.recordReturnView = "start";
+    trackAnalyticsEvent("learning_record_view", {
+      entry_point: "direct",
+    });
     showLearningRecord();
   } else {
     showStart();
@@ -455,7 +506,7 @@ function bindAppNavigation() {
       requestNavigationConfirmation({ type: "record", trigger: appMenuButton });
       return;
     }
-    openLearningRecord(summaryView.hidden ? "start" : "summary");
+    openLearningRecord(summaryView.hidden ? "start" : "summary", "menu");
   });
   window.addEventListener("beforeunload", (event) => {
     if (!isChallengeActive() || state.allowNavigation) return;
@@ -484,16 +535,16 @@ async function openRecordAfterChallenge() {
     state.recordReviewMode = false;
     statusBar.hidden = true;
     questionView.hidden = true;
-    openLearningRecord("start");
+    openLearningRecord("start", "menu");
     return;
   }
   const hasAnswered = state.responses.some((response) => response?.selectedChoiceId !== null);
   if (hasAnswered) {
     await interruptSession();
-    openLearningRecord("summary");
+    openLearningRecord("summary", "menu");
   } else {
     showStart();
-    openLearningRecord("start");
+    openLearningRecord("start", "menu");
   }
 }
 
@@ -536,21 +587,21 @@ function bindStartControls() {
     updateStartControls();
   });
 
-  startRecordButton.addEventListener("click", () => openLearningRecord("start"));
-  summaryRecordButton.addEventListener("click", () => openLearningRecord("summary"));
+  startRecordButton.addEventListener("click", () => openLearningRecord("start", "start"));
+  summaryRecordButton.addEventListener("click", () => openLearningRecord("summary", "summary"));
   recordBackButton.addEventListener("click", returnFromLearningRecord);
   recordBottomBackButton.addEventListener("click", returnFromLearningRecord);
-  wrongQuestionsButton.addEventListener("click", showWrongQuestions);
+  wrongQuestionsButton.addEventListener("click", () => openReviewList("wrong"));
   wrongBackButton.addEventListener("click", showLearningRecord);
   wrongBottomBackButton.addEventListener("click", showLearningRecord);
   wrongPrevButton.addEventListener("click", () => changeRecordListPage("wrong", -1));
   wrongNextButton.addEventListener("click", () => changeRecordListPage("wrong", 1));
-  checkedQuestionsButton.addEventListener("click", showCheckedQuestions);
+  checkedQuestionsButton.addEventListener("click", () => openReviewList("saved"));
   checkedBackButton.addEventListener("click", showLearningRecord);
   checkedBottomBackButton.addEventListener("click", showLearningRecord);
   checkedPrevButton.addEventListener("click", () => changeRecordListPage("checked", -1));
   checkedNextButton.addEventListener("click", () => changeRecordListPage("checked", 1));
-  solvedQuestionsButton.addEventListener("click", showSolvedQuestions);
+  solvedQuestionsButton.addEventListener("click", () => openReviewList("solved"));
   solvedBackButton.addEventListener("click", showLearningRecord);
   solvedBottomBackButton.addEventListener("click", showLearningRecord);
   solvedPrevButton.addEventListener("click", () => changeSolvedPage(-1));
@@ -568,9 +619,11 @@ function bindStartControls() {
   questionCheckButton.addEventListener("click", () => {
     const question = currentQuestion();
     if (question) {
-      toggleQuestionCheck(question.id);
+      toggleQuestionCheck(question.id, "question");
     }
   });
+  chatgptQuestionButton.addEventListener("click", openCurrentQuestionInChatGPT);
+  summaryShareButton.addEventListener("click", shareResultsToX);
   interruptButton.addEventListener("click", openInterruptDialog);
   confirmInterruptButton.addEventListener("click", (event) => {
     event.preventDefault();
@@ -965,7 +1018,7 @@ function renderQuestion() {
 
   if (!question) {
     chatgptQuestionButton.textContent = "ChatGPTのヒント";
-    chatgptQuestionButton.href = CHATGPT_URL;
+    chatgptQuestionButton.disabled = true;
     renderEmptyState();
     return;
   }
@@ -1052,6 +1105,7 @@ function grade(question) {
   const isCorrect = Boolean(correctChoice && selectedChoice?.choice_id === correctChoice.choice_id);
   response.selectedChoiceId = state.selectedChoiceId;
   response.isCorrect = isCorrect;
+  trackAnalyticsEvent("quiz_answer", getQuizAnalyticsParameters(question));
   learningRecord.recordAnswer(question.id, isCorrect);
   incrementLocalQuestionAttemptCount(question.id);
   recordSessionChoiceStats(question, selectedChoice, isCorrect);
@@ -1096,8 +1150,25 @@ async function showSummary() {
 
 function updateChatGPTQuestionButton(question, isAnswered) {
   const answered = Boolean(isAnswered);
+  chatgptQuestionButton.disabled = false;
   chatgptQuestionButton.textContent = answered ? "ChatGPTの解説" : "ChatGPTのヒント";
-  chatgptQuestionButton.href = buildChatGPTQuestionUrl(question, answered ? "explanation" : "hint");
+}
+
+function openCurrentQuestionInChatGPT() {
+  const question = currentQuestion();
+  if (!question) {
+    return;
+  }
+  const helpType = state.recordReviewMode || currentResponse()?.selectedChoiceId !== null
+    ? "explanation"
+    : "hint";
+  trackAnalyticsEvent("ai_help_click", {
+    help_type: helpType,
+    surface: "question",
+    learning_context: getLearningContext(),
+    question_field: getQuestionField(question),
+  });
+  openExternalWindow(buildChatGPTQuestionUrl(question, helpType));
 }
 
 function buildChatGPTQuestionUrl(question, promptType = "explanation") {
@@ -1146,7 +1217,6 @@ function renderSummary() {
 
   summaryTitle.textContent = `${total}問中 ${correct}問正解`;
   summaryRate.textContent = `${rate}%`;
-  summaryShareButton.href = buildXShareUrl(total, correct, rate);
   renderSummaryLifetime();
 
   summaryList.replaceChildren(
@@ -1163,7 +1233,7 @@ function renderSummary() {
             ${response.isCorrect ? TEXT.correct : TEXT.incorrect}
           </span>
           ${renderQuestionCheckButton(question.id)}
-          ${renderChatGPTExplanationAction(question)}
+          ${renderChatGPTExplanationAction()}
           ${renderOutOfScopeReportAction(question)}
         </div>
         <div class="summary-body">
@@ -1174,7 +1244,16 @@ function renderSummary() {
         </div>
       `;
       item.querySelector("[data-check-question]")?.addEventListener("click", () => {
-        toggleQuestionCheck(question.id);
+        toggleQuestionCheck(question.id, "summary");
+      });
+      item.querySelector("[data-summary-chatgpt]")?.addEventListener("click", () => {
+        trackAnalyticsEvent("ai_help_click", {
+          help_type: "explanation",
+          surface: "summary",
+          learning_context: getLearningContext(),
+          question_field: getQuestionField(question),
+        });
+        openExternalWindow(buildChatGPTQuestionUrl(question, "explanation"));
       });
       if (state.apiAvailable) {
         for (const button of item.querySelectorAll(".scope-report-button")) {
@@ -1219,10 +1298,9 @@ function renderSummarySourceNote(question) {
   return `<p class="summary-source">出典：${escapeHtml(sourceText)}</p>`;
 }
 
-function renderChatGPTExplanationAction(question) {
-  const url = buildChatGPTQuestionUrl(question, "explanation");
+function renderChatGPTExplanationAction() {
   return `
-    <a class="summary-chatgpt-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">ChatGPTの解説</a>
+    <button class="summary-chatgpt-link" type="button" data-summary-chatgpt>ChatGPTの解説</button>
   `;
 }
 
@@ -1267,8 +1345,12 @@ function updateQuestionCheckButton(questionId) {
   questionCheckButton.textContent = checked ? "保存済み" : "保存";
 }
 
-function toggleQuestionCheck(questionId) {
+function toggleQuestionCheck(questionId, surface) {
   const checked = learningRecord.toggleChecked(questionId);
+  trackAnalyticsEvent("question_bookmark", {
+    bookmark_action: checked ? "add" : "remove",
+    surface,
+  });
   for (const button of document.querySelectorAll(`[data-check-question="${cssEscape(questionId)}"]`)) {
     button.classList.toggle("checked", checked);
     button.setAttribute("aria-pressed", String(checked));
@@ -1308,7 +1390,10 @@ async function interruptSession() {
   interruptButton.disabled = false;
 }
 
-function openLearningRecord(returnView) {
+function openLearningRecord(returnView, entryPoint) {
+  trackAnalyticsEvent("learning_record_view", {
+    entry_point: entryPoint,
+  });
   state.recordReturnView = returnView;
   showLearningRecord();
 }
@@ -1380,6 +1465,19 @@ function renderLearningRecord() {
   solvedQuestionsButton.textContent = `解いた問題（${summary.solvedQuestionIds.length}）`;
 }
 
+function openReviewList(listType) {
+  trackAnalyticsEvent("review_list_view", {
+    list_type: listType,
+  });
+  if (listType === "wrong") {
+    showWrongQuestions();
+  } else if (listType === "saved") {
+    showCheckedQuestions();
+  } else {
+    showSolvedQuestions();
+  }
+}
+
 function showWrongQuestions({ resetPage = true, preserveScroll = false } = {}) {
   recordView.hidden = true;
   checkedView.hidden = true;
@@ -1422,6 +1520,16 @@ function buildXShareUrl(total, correct, rate) {
 ${PUBLIC_APP_URL}
 #情報I #共通テスト #情報IStudyAtlas`;
   return `${X_POST_INTENT_URL}?text=${encodeURIComponent(postText)}`;
+}
+
+function shareResultsToX() {
+  const correct = state.cumulativeCorrect;
+  const total = state.cumulativeTotal;
+  const rate = total ? Math.round((correct / total) * 100) : 0;
+  trackAnalyticsEvent("result_share_click", {
+    share_target: "x",
+  });
+  openExternalWindow(buildXShareUrl(total, correct, rate));
 }
 
 function showCheckedQuestions({ resetPage = true, preserveScroll = false } = {}) {
@@ -1562,6 +1670,12 @@ function renderRecordQuestionList(container, questionIds, emptyMessage, returnVi
         if (event.target.closest("[data-check-question]")) {
           return;
         }
+        const listType = returnView === "checked" ? "saved" : returnView;
+        const reviewMode = returnView === "wrong" ? "practice" : "explanation";
+        trackAnalyticsEvent("review_question_open", {
+          list_type: listType,
+          review_mode: reviewMode,
+        });
         if (returnView === "wrong") {
           startRecordPractice(questionId, returnView);
         } else {
@@ -1569,7 +1683,7 @@ function renderRecordQuestionList(container, questionIds, emptyMessage, returnVi
         }
       });
       item.querySelector("[data-check-question]")?.addEventListener("click", () => {
-        toggleQuestionCheck(questionId);
+        toggleQuestionCheck(questionId, "record_list");
       });
       return item;
     }),
