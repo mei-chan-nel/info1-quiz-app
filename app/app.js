@@ -734,7 +734,11 @@ retryButton.addEventListener("click", async () => {
 });
 
 finishButton.addEventListener("click", async () => {
+  const isChallengeSession = state.sessionMode === "challenge";
   await completeSummaryExit();
+  if (isChallengeSession) {
+    resetChallengeUrl();
+  }
   showStart();
   retryPendingSubmissions();
 });
@@ -1603,6 +1607,14 @@ function buildChallengeUrl(questionIds = getSharedQuestionIds()) {
   const url = new URL(PUBLIC_APP_URL);
   url.searchParams.set("challenge", questionIds.join(","));
   return url.toString();
+}
+
+function resetChallengeUrl() {
+  const currentUrl = new URL(window.location.href);
+  if (!currentUrl.searchParams.has("challenge")) {
+    return;
+  }
+  window.history.replaceState(null, "", `${currentUrl.pathname}${currentUrl.hash}`);
 }
 
 function buildXShareUrl(total, correct, rate) {
