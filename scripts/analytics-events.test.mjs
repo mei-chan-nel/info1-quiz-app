@@ -4,6 +4,10 @@ import test from "node:test";
 
 const appSource = readFileSync(new URL("../app/app.js", import.meta.url), "utf8");
 const htmlSource = readFileSync(new URL("../app/index.html", import.meta.url), "utf8");
+const documentationSource = readFileSync(
+  new URL("../docs/analytics-events.md", import.meta.url),
+  "utf8",
+);
 
 function extractFunction(name, nextName) {
   const pattern = new RegExp(
@@ -41,6 +45,18 @@ test("analytics helper is a no-op without gtag and isolates analytics errors", (
   ]);
 });
 
+test("external windows use security features as the third window.open argument", () => {
+  const functionSource = extractFunction("openExternalWindow", "getLearningContext");
+  assert.match(
+    functionSource,
+    /window\.open\(url, "_blank", "noopener,noreferrer"\);/,
+  );
+  assert.doesNotMatch(
+    functionSource,
+    /window\.open\(url,\s*"noopener,noreferrer"/,
+  );
+});
+
 test("all required custom event names are implemented", () => {
   for (const eventName of [
     "quiz_answer",
@@ -52,6 +68,31 @@ test("all required custom event names are implemented", () => {
     "result_share_click",
   ]) {
     assert.match(appSource, new RegExp(`trackAnalyticsEvent\\("${eventName}"`));
+  }
+});
+
+test("all 13 GA4 custom definitions are documented as event-scoped dimensions", () => {
+  assert.match(
+    documentationSource,
+    /13個をイベントスコープのカスタムディメンションとして登録する/,
+  );
+  assert.doesNotMatch(documentationSource, /次のカスタム指標を登録する/);
+  for (const parameterName of [
+    "learning_context",
+    "question_field",
+    "answer_mode",
+    "calc_mode",
+    "help_type",
+    "surface",
+    "entry_point",
+    "list_type",
+    "review_mode",
+    "bookmark_action",
+    "share_target",
+    "session_target",
+    "question_position",
+  ]) {
+    assert.match(documentationSource, new RegExp(`\\b${parameterName}\\b`));
   }
 });
 

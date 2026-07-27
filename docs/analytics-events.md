@@ -29,8 +29,8 @@ ChatGPTのプロンプトと完全なURL、Xの投稿文と完全な投稿URLも
 次の作業はGA4管理画面で手動実施する。
 
 1. `quiz_answer` をキーイベントに設定する。
-2. 次のイベントスコープのカスタムディメンションを登録する。
-   `learning_context`, `question_field`, `answer_mode`, `calc_mode`, `help_type`, `surface`, `entry_point`, `list_type`, `review_mode`, `bookmark_action`, `share_target`
-3. 次のカスタム指標を登録する。
-   `session_target`, `question_position`
-4. DebugViewまたはリアルタイムレポートで、イベント名と各パラメータが意図どおり届くことを確認する。
+2. 次の13個をイベントスコープのカスタムディメンションとして登録する。
+   `learning_context`, `question_field`, `answer_mode`, `calc_mode`, `help_type`, `surface`, `entry_point`, `list_type`, `review_mode`, `bookmark_action`, `share_target`, `session_target`, `question_position`
+3. DebugViewまたはリアルタイムレポートで、イベント名と各パラメータが意図どおり届くことを確認する。
+
+`session_target` と `question_position` のイベントパラメータ値は数値だが、設定区分と到達位置の分類に使うため、カスタム指標ではなくイベントスコープのカスタムディメンションとして扱う。全回答数は `quiz_answer` のイベント数で集計する。
