@@ -199,6 +199,37 @@ test("challenge startup waits for question data", () => {
   assert.match(appSource, /startChallengeSession\(challengeQuestionIds\)/);
 });
 
+test("finishing a challenge clears the shared URL and keeps standard URLs unchanged", () => {
+  const functionSource = extractFunction("resetChallengeUrl", "buildXShareUrl");
+  const replacedUrls = [];
+  const windowStub = {
+    location: { href: "https://mei-chan-nel.com/info1-quiz-app/app/?challenge=A,B#summary" },
+    history: {
+      replaceState(_state, _title, url) {
+        replacedUrls.push(url);
+      },
+    },
+  };
+  const resetChallengeUrl = new Function(
+    "window",
+    `${functionSource}; return resetChallengeUrl;`,
+  )(windowStub);
+
+  resetChallengeUrl();
+  assert.deepEqual(replacedUrls, ["/info1-quiz-app/app/#summary"]);
+
+  windowStub.location.href = "https://mei-chan-nel.com/info1-quiz-app/app/";
+  resetChallengeUrl();
+  assert.deepEqual(replacedUrls, ["/info1-quiz-app/app/#summary"]);
+
+  const finishHandler = appSource.match(
+    /finishButton\.addEventListener\("click", async \(\) => \{[\s\S]*?\r?\n\}\);/,
+  );
+  assert.ok(finishHandler, "finish click handler should exist");
+  assert.match(finishHandler[0], /state\.sessionMode === "challenge"/);
+  assert.match(finishHandler[0], /resetChallengeUrl\(\)/);
+});
+
 test("summary retry visibility follows the current mode on every render", () => {
   const functionSource = extractFunction(
     "updateSummaryActionVisibility",
