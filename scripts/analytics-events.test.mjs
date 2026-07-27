@@ -98,7 +98,7 @@ test("all 13 GA4 custom definitions are documented as event-scoped dimensions", 
 
 test("quiz answer parameters distinguish standard sessions and wrong-answer review", () => {
   const functionSource = extractFunction("getQuizAnalyticsParameters", "init")
-    .replace(/\n\ninit\(\);$/, "");
+    .replace(/\r?\n\r?\ninit\(\);\r?$/, "");
   const state = {
     recordPracticeMode: false,
     sessionQuestions: [{}, {}, {}],
