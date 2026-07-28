@@ -8,7 +8,7 @@ import shutil
 from collections import Counter, defaultdict
 from datetime import date
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import urlencode
 
 from classify_questions import validate_field_ids
 from tag_normalization import CANONICAL_TAGS, TAG_ALIASES, normalize_tags
@@ -250,16 +250,16 @@ def breadcrumb_data(items: list[tuple[str, str]]) -> dict:
 
 
 def tag_filter_href(tag: str, question_id: str | None = None) -> str:
-    href = f"tags.html?tag={quote(tag, safe='')}"
+    params = [("tag", tag)]
     if question_id:
-        href += f"&question={quote(question_id, safe='')}#filter-results-heading"
-    return href
+        params.append(("question", question_id))
+    return f"tags.html#{urlencode(params)}"
 
 
 def facet_links(counts: Counter[str], parameter: str) -> str:
     links = []
     for value, count in sorted(counts.items(), key=lambda item: (-item[1], item[0].casefold(), item[0])):
-        href = f"tags.html?{parameter}={quote(value, safe='')}"
+        href = f"tags.html#{urlencode([(parameter, value)])}"
         links.append(
             f'<a class="facet-link" href="{href}" data-facet-value="{esc(value)}">'
             f'<span>{esc(value)}</span><small>{count}問</small></a>'

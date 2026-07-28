@@ -6,6 +6,7 @@
 
   const PAGE_SIZE = 10;
   const parameter = root.dataset.filterParam || "tag";
+  const searchStateKeys = new Set(["tag", "keyword", "question"]);
   const results = root.querySelector("[data-filter-results]");
   const resultsSection = root.querySelector(".filter-results");
   const heading = root.querySelector("[data-filter-heading]");
@@ -64,32 +65,116 @@
     return [...new Set(values.map(normalizeTag).filter(Boolean))];
   }
 
-  function readSelection() {
-    const params = new URL(window.location.href).searchParams;
-    return normalizeSelection(params.getAll(parameter));
+  let lastAppliedLocation = null;
+
+  function hasStateParameter(params) {
+    return params.getAll(parameter).some((value) => value.trim()) || Boolean(params.get("question")?.trim());
   }
 
-  function readFocus() {
-    return new URL(window.location.href).searchParams.get("question");
+  function hasRecognizedStateParameter(params) {
+    for (const key of params.keys()) {
+      if (searchStateKeys.has(key)) return true;
+    }
+    return false;
+  }
+
+  function queryWithoutSearchState(url = new URL(window.location.href)) {
+    const params = new URLSearchParams();
+    for (const [key, value] of url.searchParams) {
+      if (!searchStateKeys.has(key)) params.append(key, value);
+    }
+    return params;
+  }
+
+  function preservedQuerySuffix() {
+    const query = queryWithoutSearchState().toString();
+    return query ? `?${query}` : "";
+  }
+
+  function parseStateFromParams(params) {
+    return {
+      selected: normalizeSelection(params.getAll(parameter)),
+      question: params.get("question") || null,
+    };
+  }
+
+  function parseStateFromLocation() {
+    const url = new URL(window.location.href);
+    const hashParams = new URLSearchParams(url.hash.startsWith("#") ? url.hash.slice(1) : "");
+    const useHash = hasStateParameter(hashParams);
+    const params = useHash ? hashParams : url.searchParams;
+    return {
+      state: parseStateFromParams(params),
+      hasHashState: useHash,
+      hasQueryState: hasStateParameter(url.searchParams),
+    };
+  }
+
+  function serializeStateToHash(state) {
+    const params = new URLSearchParams();
+    normalizeSelection(state.selected).forEach((value) => params.append(parameter, value));
+    if (state.question) params.set("question", state.question);
+    const serialized = params.toString();
+    return serialized ? `#${serialized}` : "";
+  }
+
+  function locationKey(url = new URL(window.location.href)) {
+    return `${url.pathname}${url.search}${url.hash}`;
+  }
+
+  function stateLocationKey(state) {
+    const url = new URL(window.location.href);
+    url.search = queryWithoutSearchState(url).toString();
+    url.hash = serializeStateToHash(state);
+    return locationKey(url);
   }
 
   function filterHref(values, questionId = null) {
-    const params = new URLSearchParams();
-    normalizeSelection(values).forEach((value) => params.append(parameter, value));
-    if (questionId) params.set("question", questionId);
-    const query = params.toString();
-    return `tags.html${query ? `?${query}` : ""}${questionId ? "#filter-results-heading" : ""}`;
+    return `tags.html${preservedQuerySuffix()}${serializeStateToHash({ selected: values, question: questionId })}`;
   }
 
-  function canonicalizeCurrentUrl() {
-    const url = new URL(window.location.href);
-    const raw = url.searchParams.getAll(parameter).map((value) => value.trim()).filter(Boolean);
-    const canonical = normalizeSelection(raw);
-    const needsReplacement =
-      raw.length !== canonical.length || raw.some((value, index) => value !== canonical[index]);
-    if (needsReplacement) {
-      window.history.replaceState(window.history.state, "", filterHref(canonical, focusId));
+  function synchronizeLocation(state) {
+    const current = new URL(window.location.href);
+    const target = new URL(current);
+    target.search = queryWithoutSearchState(current).toString();
+    target.hash = serializeStateToHash(state);
+    const hashParams = new URLSearchParams(current.hash.slice(1));
+    const targetKey = locationKey(target);
+    if ((hasRecognizedStateParameter(current.searchParams) || hasRecognizedStateParameter(hashParams)) && locationKey(current) !== targetKey) {
+      window.history.replaceState(window.history.state, "", `${target.pathname}${target.search}${target.hash}`);
     }
+    return targetKey;
+  }
+
+  function applySearchState(state, { scrollToFocus = false } = {}) {
+    selected = normalizeSelection(state.selected);
+    focusId = state.question;
+    visibleCount = PAGE_SIZE;
+    shouldScrollToFocus = scrollToFocus && Boolean(focusId);
+    render();
+  }
+
+  function applyLocationState() {
+    const parsed = parseStateFromLocation();
+    const targetKey = synchronizeLocation(parsed.state);
+    if (targetKey === lastAppliedLocation) return;
+    applySearchState(parsed.state, { scrollToFocus: Boolean(parsed.state.question) });
+    lastAppliedLocation = targetKey;
+  }
+
+  function navigateToSearchState(state) {
+    const nextState = {
+      selected: normalizeSelection(state.selected),
+      question: state.question || null,
+    };
+    const targetKey = stateLocationKey(nextState);
+    if (targetKey === locationKey()) return;
+    const url = new URL(window.location.href);
+    url.search = queryWithoutSearchState(url).toString();
+    url.hash = serializeStateToHash(nextState);
+    window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
+    applySearchState(nextState);
+    lastAppliedLocation = targetKey;
   }
 
   function toggledSelection(value) {
@@ -186,12 +271,8 @@
     }
   }
 
-  function setSelection(values, push = true) {
-    selected = normalizeSelection(values);
-    focusId = null;
-    visibleCount = PAGE_SIZE;
-    if (push) window.history.pushState({}, "", filterHref(selected));
-    render();
+  function setSelection(values) {
+    navigateToSearchState({ selected: values, question: null });
   }
 
   root.addEventListener("click", (event) => {
@@ -230,18 +311,8 @@
     });
   }
 
-  window.addEventListener("popstate", () => {
-    selected = readSelection();
-    focusId = readFocus();
-    visibleCount = PAGE_SIZE;
-    shouldScrollToFocus = Boolean(focusId);
-    canonicalizeCurrentUrl();
-    render();
-  });
+  window.addEventListener("popstate", applyLocationState);
+  window.addEventListener("hashchange", applyLocationState);
 
-  selected = readSelection();
-  focusId = readFocus();
-  shouldScrollToFocus = Boolean(focusId);
-  canonicalizeCurrentUrl();
-  render();
+  applyLocationState();
 })();

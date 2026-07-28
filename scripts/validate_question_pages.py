@@ -320,7 +320,8 @@ def main() -> int:
             if not target.exists():
                 errors.append(f"{source.relative_to(ROOT)}: broken local target {href}")
                 continue
-            if fragment and target.suffix.lower() == ".html":
+            is_search_state = fragment.startswith(("tag=", "keyword=", "question="))
+            if fragment and not is_search_state and target.suffix.lower() == ".html":
                 target_parser = parsed.get(target.resolve())
                 if target_parser is None:
                     target_parser = PageParser()
@@ -357,7 +358,7 @@ def main() -> int:
     question_html = "\n".join(path.read_text(encoding="utf-8") for path in generated_question_pages)
     if question_html.count('class="tag-link"') != expected_tag_links:
         errors.append("Every eligible question tag must be published exactly once as a link")
-    if 'href="tags.html?tag=' not in question_html:
+    if 'href="tags.html#tag=' not in question_html:
         errors.append("Generated question tags do not link to the tag filter")
     if question_html.count("&amp;question=") + question_html.count("&question=") != expected_tag_links:
         errors.append("Every question tag link must preserve its source question")
@@ -369,7 +370,7 @@ def main() -> int:
         errors.append("Question pages must omit the entire tag row when no eligible tag remains")
     rendered_tag_values = {
         unquote(value)
-        for value in re.findall(r'class="tag-link" href="tags\.html\?tag=([^"&]+)', question_html)
+        for value in re.findall(r'class="tag-link" href="tags\.html#tag=([^"&]+)', question_html)
     }
     if rendered_tag_values != expected_tags:
         errors.append("Question pages expose a missing or low-frequency tag")
