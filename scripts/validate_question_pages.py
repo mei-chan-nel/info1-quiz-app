@@ -127,6 +127,8 @@ def expected_canonical(path: Path) -> str:
     relative = path.relative_to(ROOT).as_posix()
     if relative == "app/index.html":
         return f"{PORTAL_ORIGIN}info1-quiz-app/app/"
+    if relative == "questions/index.html":
+        return f"{PORTAL_ORIGIN}info1-quiz-app/questions/"
     return f"{PORTAL_ORIGIN}info1-quiz-app/{relative}"
 
 
@@ -450,7 +452,7 @@ def main() -> int:
 
     app_index = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
     expected_footer_links = (
-        'href="../../index.html"',
+        'href="../../"',
         'href="../../about.html"',
         'href="../../privacy.html"',
     )
@@ -472,7 +474,7 @@ def main() -> int:
     for marker in ("app-mini-nav", "appMenuButton", "appRecordNavButton", "interruptDialogMessage"):
         if marker not in app_index:
             errors.append(f"app/index.html: compact navigation marker is missing: {marker}")
-    for marker in ("トップページ", "学習アプリ", "問題一覧", "動画問題", "講義ノート", "学習記録", 'href="../../archive/index.html"'):
+    for marker in ("トップページ", "学習アプリ", "問題一覧", "動画問題", "講義ノート", "学習記録", 'href="../../archive/"'):
         if marker not in app_index:
             errors.append(f"app/index.html: required menu item is missing: {marker}")
     for marker in ("requestNavigationConfirmation", 'addEventListener("beforeunload"', 'requestedView === "record"', "openRecordAfterChallenge", 'event.key !== "Escape"'):

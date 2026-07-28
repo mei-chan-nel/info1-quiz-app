@@ -129,7 +129,10 @@ def page_filename(field: dict, page_number: int) -> str:
 
 
 def canonical(path: str) -> str:
-    return SITE_URL + path.lstrip("/")
+    relative = path.lstrip("/")
+    if relative == "questions/index.html":
+        relative = "questions/"
+    return SITE_URL + relative
 
 
 def head(
@@ -172,11 +175,11 @@ def head(
 def header(prefix: str, current: str) -> str:
     portal_prefix = f"{prefix}../"
     nav_items = [
-        ("home", f"{portal_prefix}index.html", "トップページ"),
+        ("home", portal_prefix, "トップページ"),
         ("app", f"{prefix}app/", "学習アプリ"),
-        ("questions", "index.html", "問題一覧"),
-        ("archive", f"{portal_prefix}archive/index.html", "動画問題"),
-        ("lecture", f"{portal_prefix}LectureNote/index.html", "講義ノート"),
+        ("questions", "./", "問題一覧"),
+        ("archive", f"{portal_prefix}archive/", "動画問題"),
+        ("lecture", f"{portal_prefix}LectureNote/", "講義ノート"),
         ("study", f"{portal_prefix}study-guide.html", "勉強法"),
         ("about", f"{portal_prefix}about.html", "このサイトについて"),
     ]
@@ -188,7 +191,7 @@ def header(prefix: str, current: str) -> str:
     <a class="skip-link" href="#main-content">本文へ移動</a>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="{portal_prefix}index.html" aria-label="情報Ⅰ Study Atlas トップ">
+        <a class="brand" href="{portal_prefix}" aria-label="情報Ⅰ Study Atlas トップ">
           <span class="brand-mark" aria-hidden="true">I</span>
           <span><strong>情報Ⅰ Study Atlas</strong><small>知識を、ひろげ、つなげる</small></span>
         </a>
@@ -202,15 +205,15 @@ def footer(prefix: str) -> str:
     return f"""
     <footer class="site-footer">
       <div class="footer-grid">
-        <a class="brand footer-brand" href="{portal_prefix}index.html" aria-label="情報Ⅰ Study Atlas トップ"><span><strong>情報Ⅰ Study Atlas</strong><small>知識を、ひろげ、つなげる</small></span></a>
+        <a class="brand footer-brand" href="{portal_prefix}" aria-label="情報Ⅰ Study Atlas トップ"><span><strong>情報Ⅰ Study Atlas</strong><small>知識を、ひろげ、つなげる</small></span></a>
         <nav aria-label="フッターナビゲーション">
-          <a href="{portal_prefix}index.html">トップページ</a>
+          <a href="{portal_prefix}">トップページ</a>
           <a href="{prefix}app/">学習アプリ</a>
-          <a href="index.html">問題一覧</a>
-          <a href="{portal_prefix}archive/index.html">動画問題</a>
-          <a href="{portal_prefix}LectureNote/index.html">講義ノート</a>
+          <a href="./">問題一覧</a>
+          <a href="{portal_prefix}archive/">動画問題</a>
+          <a href="{portal_prefix}LectureNote/">講義ノート</a>
           <a href="{portal_prefix}study-guide.html">勉強法</a>
-          <a href="{portal_prefix}books/index.html">書籍案内</a>
+          <a href="{portal_prefix}books/">書籍案内</a>
           <a href="{portal_prefix}about.html">このサイトについて</a>
           <a href="{portal_prefix}privacy.html">プライバシーポリシー</a>
           <a href="{portal_prefix}sitemap.html">サイトマップ</a>
@@ -372,7 +375,7 @@ def render_questions_index(grouped: dict[str, list[dict]], public_tags: set[str]
   <body>
     {header('../', 'questions')}
     <main id="main-content" class="subpage">
-      {breadcrumb([('学習トップ', '../../index.html'), ('問題一覧', None)])}
+      {breadcrumb([('学習トップ', '../../'), ('問題一覧', None)])}
       <section class="page-hero compact-hero">
         <p class="eyebrow">INFORMATION I · QUESTION LIBRARY</p><h1>情報Ⅰ共通テスト対策問題</h1>
         <p>高校生・受験生向けに、情報Ⅰ（「情報1」「情報I」と検索される科目）の全{total}問を主分野ごとに整理しています。正答と解説は各問の「正答と解説を確認」から開けます。</p>
@@ -529,7 +532,7 @@ def render_field_pages(field: dict, questions: list[dict], public_tags: set[str]
   <body>
     {header('../', 'questions')}
     <main id="main-content" class="subpage question-page">
-      {breadcrumb([('学習トップ', '../../index.html'), ('問題一覧', 'index.html'), (field['label'], None)])}
+      {breadcrumb([('学習トップ', '../../'), ('問題一覧', './'), (field['label'], None)])}
       <section class="field-hero accent-{field['accent']}">
         <div><p class="eyebrow">FIELD {field['number']}</p><h1>{esc(field['label'])}</h1><p>{esc(field['intro'])}</p></div>
         <dl><div><dt>掲載数</dt><dd>{len(questions)}問</dd></div><div><dt>このページ</dt><dd>{start_number}–{end_number}問</dd></div></dl>
@@ -645,7 +648,7 @@ def render_tag_filter_page(payload: dict) -> None:
         breadcrumb_data(
             [
                 ("学習トップ", PORTAL_URL),
-                ("情報Ⅰの問題一覧", canonical("questions/index.html")),
+                    ("情報Ⅰの問題一覧", canonical("questions/index.html")),
                 ("タグから探す", canonical("questions/tags.html")),
             ]
         )
@@ -657,7 +660,7 @@ def render_tag_filter_page(payload: dict) -> None:
   <body>
     {header('../', 'questions')}
     <main id="main-content" class="subpage filter-page" data-question-filter data-filter-data="filter-data.json" data-filter-param="tag" data-tag-aliases="{esc(aliases_json)}">
-      {breadcrumb([('学習トップ', '../../index.html'), ('問題一覧', 'index.html'), ('タグから探す', None)])}
+      {breadcrumb([('学習トップ', '../../'), ('問題一覧', './'), ('タグから探す', None)])}
       <section class="page-hero compact-hero">
         <p class="eyebrow">TAG SEARCH · OR FILTER</p>
         <h1>タグから問題を探す</h1>
