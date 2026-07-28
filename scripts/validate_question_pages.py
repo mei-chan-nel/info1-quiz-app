@@ -512,7 +512,10 @@ def main() -> int:
     for consumer_name, consumer_text in (("app.js", app_script), ("issue-report.js", issue_report_script)):
         if 'fetch("../data/questions/completed_questions.json"' in consumer_text:
             errors.append(f"app/{consumer_name}: duplicate question-data fetch remains")
-    if ".app-mini-nav" not in app_styles or "min-height: 44px" not in app_styles:
+    if (
+        ".app-mini-nav__toggle { min-height: 44px" not in app_styles
+        or ".app-mini-nav__menu a, .app-mini-nav__menu button { min-height: 44px" not in app_styles
+    ):
         errors.append("app/styles.css: compact navigation sizing is missing")
     learning_record_script = (ROOT / "app" / "learning-record.js").read_text(encoding="utf-8")
     for marker in ('"info1LearningRecord:v1"', '"info1QuizStats:v4"', "migrateLegacyData", "localStorage.removeItem(LEGACY_STORAGE_KEY)"):
