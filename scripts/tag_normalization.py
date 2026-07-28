@@ -9,6 +9,8 @@ TAG_ALIASES = {
     "ディジタル": "デジタル",
     "firewall": "Firewall",
     "Java Script": "JavaScript",
+    "ユーザインターフェース": "ユーザインタフェース",
+    "クライアント・サーバシステム": "クライアント/サーバシステム",
 }
 
 CANONICAL_TAGS = tuple(dict.fromkeys(TAG_ALIASES.values()))
