@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import html as html_module
 import hashlib
 import json
 import re
@@ -395,10 +396,12 @@ def main() -> int:
     tag_page = ROOT / "questions" / "tags.html"
     filter_data_path = ROOT / "questions" / "filter-data.json"
     filter_script_path = ROOT / "assets" / "question-filter.js"
-    if not tag_page.is_file() or not filter_data_path.is_file() or not filter_script_path.is_file():
-        errors.append("Tag filter page, data, or script is missing")
+    if not tag_page.is_file() or not filter_script_path.is_file():
+        errors.append("Tag filter page or script is missing")
     else:
         tag_text = tag_page.read_text(encoding="utf-8")
+        if filter_data_path.exists() or "data-filter-data=" in tag_text:
+            errors.append("Unused external question-filter JSON must not be published or referenced")
         if tag_text.count('class="facet-link"') != len(expected_tags):
             errors.append("tags.html: expected one link for every unique tag")
         if tag_text.count('class="facet-group"') != len(FIELD_LABELS):
@@ -415,28 +418,29 @@ def main() -> int:
             errors.append("tags.html: static question cards must retain answer and explanation controls")
         if "data-filter-load-more" not in tag_text or 'aria-live="polite"' not in tag_text:
             errors.append("tags.html: staged result controls or live status are missing")
-        payload = json.loads(filter_data_path.read_text(encoding="utf-8"))
-        if payload.get("question_count") != len(questions) or payload.get("tag_count") != len(expected_tags):
-            errors.append("filter-data.json: question or tag counts are invalid")
-        if payload.get("match_mode") != "OR" or len(payload.get("questions", [])) != len(questions):
-            errors.append("filter-data.json: OR filter payload is invalid")
-        if payload.get("tag_aliases") != TAG_ALIASES:
-            errors.append("filter-data.json: legacy tag aliases are not synchronized")
-        payload_tags = {
-            str(tag)
-            for question in payload.get("questions", [])
-            for tag in question.get("tags", [])
-        }
-        if payload_tags != expected_tags:
-            errors.append("filter-data.json: missing or low-frequency tags are exposed")
+        alias_match = re.search(r'data-tag-aliases="([^"]*)"', tag_text)
+        rendered_aliases = (
+            json.loads(html_module.unescape(alias_match.group(1)))
+            if alias_match
+            else None
+        )
+        if rendered_aliases != TAG_ALIASES:
+            errors.append("tags.html: legacy tag aliases are not synchronized")
+        embedded_tag_lists = [
+            json.loads(html_module.unescape(value))
+            for value in re.findall(r'data-filter-tags="([^"]*)"', tag_text)
+        ]
+        embedded_tags = {str(tag) for tags in embedded_tag_lists for tag in tags}
+        if embedded_tags != expected_tags:
+            errors.append("tags.html: missing or low-frequency embedded tags are exposed")
         if any(
             any(
                 raw_tag_counts[str(tag)] < MIN_PUBLIC_TAG_QUESTIONS and str(tag) not in forced_public_tags
-                for tag in question.get("tags", [])
+                for tag in tags
             )
-            for question in payload.get("questions", [])
+            for tags in embedded_tag_lists
         ):
-            errors.append("filter-data.json: a tag used by three or fewer questions remains")
+            errors.append("tags.html: a tag used by three or fewer questions remains")
         filter_script = filter_script_path.read_text(encoding="utf-8")
         if "URLSearchParams" not in filter_script:
             errors.append("question-filter.js: URL-based multi-tag filter is missing")
