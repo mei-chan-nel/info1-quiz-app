@@ -42,6 +42,7 @@
     "unique question IDs and exactly-once publication",
     "maximum 10 questions per generated page",
     "one self-referencing HTTPS canonical and one matching og:url per public page",
+    "app-only OGP image with the shared home image on every generated question page",
     "valid JSON-LD URLs on the canonical host and BreadcrumbList metadata",
     "unique canonical URLs and HTML IDs, with no generated 404 page",
     "local links, assets, and fragments",
