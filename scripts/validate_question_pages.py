@@ -25,6 +25,14 @@ SHARED_FAVICON = "../../assets/favicon.svg"
 SHARED_SHELL_SCRIPT = "../../assets/site-header.js"
 PUBLIC_REPOSITORY_PREFIX = "/info1-quiz-app/"
 PORTAL_ORIGIN = "https://mei-chan-nel.com/"
+HOME_OG_IMAGE_URL = f"{PORTAL_ORIGIN}assets/og/study-atlas-home-og.png"
+HOME_OG_IMAGE_ALT = "情報Ⅰ Study Atlasの学習マップと「知識を、ひろげ、つなげる」のメッセージ"
+HOME_OG_IMAGE_WIDTH = "1734"
+HOME_OG_IMAGE_HEIGHT = "907"
+APP_OG_IMAGE_URL = f"{PORTAL_ORIGIN}assets/og/study-atlas-app-og.png"
+APP_OG_IMAGE_ALT = "情報Ⅰ Study Atlasの知識問題学習アプリ"
+APP_OG_IMAGE_WIDTH = "1734"
+APP_OG_IMAGE_HEIGHT = "907"
 MIN_PUBLIC_TAG_QUESTIONS = 4
 PROTECTED_APP_FILES = (
     "app/index.html",
@@ -48,6 +56,8 @@ class PageParser(HTMLParser):
         self.canonicals: list[str] = []
         self.og_title = ""
         self.og_urls: list[str] = []
+        self.meta_properties: dict[str, list[str]] = {}
+        self.meta_names: dict[str, list[str]] = {}
         self.h1_count = 0
         self.links: list[str] = []
         self.assets: list[str] = []
@@ -56,6 +66,12 @@ class PageParser(HTMLParser):
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = dict(attrs)
+        if tag == "meta":
+            content = values.get("content") or ""
+            if values.get("property"):
+                self.meta_properties.setdefault(values["property"], []).append(content)
+            if values.get("name"):
+                self.meta_names.setdefault(values["name"], []).append(content)
         if tag == "title":
             self.in_title = True
         if tag == "meta" and values.get("name") == "description":
@@ -241,6 +257,36 @@ def main() -> int:
             errors.append(f"{relative}: expected one og:url, found {len(parser.og_urls)}")
         elif parser.og_urls[0] != parser.canonical:
             errors.append(f"{relative}: og:url does not match canonical")
+        is_app_page = path == ROOT / "app" / "index.html"
+        expected_image = APP_OG_IMAGE_URL if is_app_page else HOME_OG_IMAGE_URL
+        expected_alt = APP_OG_IMAGE_ALT if is_app_page else HOME_OG_IMAGE_ALT
+        expected_width = APP_OG_IMAGE_WIDTH if is_app_page else HOME_OG_IMAGE_WIDTH
+        expected_height = APP_OG_IMAGE_HEIGHT if is_app_page else HOME_OG_IMAGE_HEIGHT
+        expected_og_properties = {
+            "og:image": expected_image,
+            "og:image:secure_url": expected_image,
+            "og:image:type": "image/png",
+            "og:image:width": expected_width,
+            "og:image:height": expected_height,
+            "og:image:alt": expected_alt,
+        }
+        expected_twitter_names = {
+            "twitter:card": "summary_large_image",
+            "twitter:image": expected_image,
+            "twitter:image:alt": expected_alt,
+        }
+        for name, expected in expected_og_properties.items():
+            values = parser.meta_properties.get(name, [])
+            if values != [expected]:
+                errors.append(
+                    f"{relative}: expected exactly one {name}={expected!r}, found {values!r}"
+                )
+        for name, expected in expected_twitter_names.items():
+            values = parser.meta_names.get(name, [])
+            if values != [expected]:
+                errors.append(
+                    f"{relative}: expected exactly one {name}={expected!r}, found {values!r}"
+                )
         if path.parent == ROOT / "questions" and parser.h1_count != 1:
             errors.append(f"{relative}: expected one h1, found {parser.h1_count}")
         elif path == ROOT / "app" / "index.html" and parser.h1_count < 1:
@@ -600,6 +646,7 @@ def main() -> int:
             "unique question IDs and exactly-once publication",
             "maximum 10 questions per generated page",
             "one self-referencing HTTPS canonical and one matching og:url per public page",
+            "app-only OGP image with the shared home image on every generated question page",
             "valid JSON-LD URLs on the canonical host and BreadcrumbList metadata",
             "unique canonical URLs and HTML IDs, with no generated 404 page",
             "local links, assets, and fragments",
