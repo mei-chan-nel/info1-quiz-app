@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import re
@@ -153,7 +154,21 @@ def structured_url_values(value: object) -> list[tuple[str, str]]:
     return found
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Validate generated question pages and the learning app.")
+    parser.add_argument(
+        "--portal-root",
+        type=Path,
+        default=PORTAL_ROOT,
+        help="Path to the mei-chan-nel.github.io checkout (defaults to the legacy sibling directory).",
+    )
+    return parser.parse_args()
+
+
 def main() -> int:
+    global PORTAL_ROOT
+    args = parse_args()
+    PORTAL_ROOT = args.portal_root.expanduser().resolve()
     errors: list[str] = []
     warnings: list[str] = []
     questions = load_questions()

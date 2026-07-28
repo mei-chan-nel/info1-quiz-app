@@ -61,6 +61,17 @@ python scripts/validate_question_pages.py
 
 分類と検証の記録は `docs/reports/` に生成されます。
 
+ポータルが従来の隣接フォルダ以外にある場合は、検証対象を明示できます。
+
+```powershell
+python scripts/validate_question_pages.py --portal-root <mei-chan-nel.github.ioのリポジトリルート>
+```
+
+GitHub Actionsの `Integrated Study Atlas validation` はポータルも同じジョブ内へ
+チェックアウトし、ポータル側の統合検証ランナーで両リポジトリの生成物、リンク、
+1,000問の整合性、JavaScriptテストをまとめて確認します。相手側リポジトリが非公開の
+環境では、Actionsのcheckout権限または読み取り用トークンの設定が必要です。
+
 ## ローカルで動かす
 
 Python 3が入っている環境で、リポジトリのルートから次を実行します。
