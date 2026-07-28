@@ -381,11 +381,7 @@ function init() {
 
 async function loadQuestionData() {
   try {
-    const response = await fetch("../data/questions/completed_questions.json", { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    state.allQuestions = await response.json();
+    state.allQuestions = await window.StudyAtlasQuestionData.load();
     state.questionDataStatus = "ready";
     void loadQuestionAttemptCounts();
     updateStartControls();

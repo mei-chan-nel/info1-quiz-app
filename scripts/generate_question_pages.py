@@ -27,6 +27,7 @@ REVIEW_DATE = date.today()
 PROTECTED_APP_FILES = (
     "app/index.html",
     "app/app.js",
+    "app/question-data.js",
     "app/question-selection.js",
     "app/startup.js",
     "app/styles.css",
@@ -659,7 +660,7 @@ def render_tag_filter_page(payload: dict) -> None:
     body = f"""{head(title, description, 'questions/tags.html', '../', ads=True, extra_head=extra_head)}
   <body>
     {header('../', 'questions')}
-    <main id="main-content" class="subpage filter-page" data-question-filter data-filter-data="filter-data.json" data-filter-param="tag" data-tag-aliases="{esc(aliases_json)}">
+    <main id="main-content" class="subpage filter-page" data-question-filter data-filter-param="tag" data-tag-aliases="{esc(aliases_json)}">
       {breadcrumb([('学習トップ', '../../'), ('問題一覧', './'), ('タグから探す', None)])}
       <section class="page-hero compact-hero">
         <p class="eyebrow">TAG SEARCH · OR FILTER</p>
@@ -683,10 +684,7 @@ def render_tag_filter_page(payload: dict) -> None:
     </main>
     {footer('../')}"""
     (QUESTIONS_DIR / "tags.html").write_text(body, encoding="utf-8")
-    (QUESTIONS_DIR / "filter-data.json").write_text(
-        json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n",
-        encoding="utf-8",
-    )
+    (QUESTIONS_DIR / "filter-data.json").unlink(missing_ok=True)
 
 
 
@@ -740,7 +738,6 @@ def write_build_report(
             for question in items
         ),
         "tag_filter_page": "questions/tags.html",
-        "tag_filter_data": "questions/filter-data.json",
         "filter_match_mode": "OR",
         "learning_pages": ["questions/index.html", *generated_paths],
         "related_app_page": "app/",

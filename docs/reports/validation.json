@@ -18,8 +18,8 @@
     "digital": 216,
     "design": 63
   },
-  "raw_tag_count": 608,
-  "tag_count": 242,
+  "raw_tag_count": 606,
+  "tag_count": 243,
   "minimum_public_tag_questions": 4,
   "forced_public_tags": [
     "JavaScript"
@@ -29,9 +29,11 @@
     "公開かぎ暗号方式": "公開鍵暗号方式",
     "ディジタル": "デジタル",
     "firewall": "Firewall",
-    "Java Script": "JavaScript"
+    "Java Script": "JavaScript",
+    "ユーザインターフェース": "ユーザインタフェース",
+    "クライアント・サーバシステム": "クライアント/サーバシステム"
   },
-  "hidden_low_frequency_tag_count": 366,
+  "hidden_low_frequency_tag_count": 363,
   "questions_without_public_tags": 10,
   "errors": [],
   "warnings": [],

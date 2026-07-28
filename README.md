@@ -4,7 +4,7 @@
 
 - 6分野・全1,000問の問題一覧
 - 正答、解説、出典、タグを掲載
-- 4問以上に付くタグとURL互換対象を合わせた242種類の公開タグ一覧、複数タグのOR検索
+- 4問以上に付くタグとURL互換対象を合わせた243種類の公開タグ一覧、複数タグのOR検索
 - 1ページ最大10問の静的ページ
 - 分野・回答状況・問題数を選べる学習アプリ
 - ブラウザ内に保存する学習記録、連続学習日数、チェック問題一覧
@@ -60,6 +60,17 @@ python scripts/validate_question_pages.py
 `generate_question_pages.py` は `questions/` を再生成します。`validate_question_pages.py` は全問題の一意掲載、ページ上限、内部リンク、広告コード、共通資産参照、アプリ保護ハッシュ、ポータル所有ファイルの混入を検査します。
 
 分類と検証の記録は `docs/reports/` に生成されます。
+
+ポータルが従来の隣接フォルダ以外にある場合は、検証対象を明示できます。
+
+```powershell
+python scripts/validate_question_pages.py --portal-root <mei-chan-nel.github.ioのリポジトリルート>
+```
+
+GitHub Actionsの `Integrated Study Atlas validation` はポータルも同じジョブ内へ
+チェックアウトし、ポータル側の統合検証ランナーで両リポジトリの生成物、リンク、
+1,000問の整合性、JavaScriptテストをまとめて確認します。相手側リポジトリが非公開の
+環境では、Actionsのcheckout権限または読み取り用トークンの設定が必要です。
 
 ## ローカルで動かす
 

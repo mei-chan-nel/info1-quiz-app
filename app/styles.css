@@ -56,7 +56,7 @@ body > .site-header {
 .app-mini-nav__brand { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; color: inherit; text-decoration: none; }
 .app-mini-nav__brand > span { width: 25px; height: 25px; display: grid; place-items: center; color: #fff; background: #173042; border-radius: 50%; font-family: Georgia, serif; font-style: italic; }
 .app-mini-nav__brand strong { font-family: Georgia, "Yu Mincho", serif; font-size: .84rem; letter-spacing: .02em; }
-.app-mini-nav__toggle { min-height: 36px; padding: 6px 11px; color: inherit; background: transparent; border: 1px solid rgba(23, 48, 66, .2); border-radius: 999px; cursor: pointer; font-size: .76rem; font-weight: 800; }
+.app-mini-nav__toggle { min-height: 44px; padding: 6px 11px; color: inherit; background: transparent; border: 1px solid rgba(23, 48, 66, .2); border-radius: 999px; cursor: pointer; font-size: .76rem; font-weight: 800; }
 .app-mini-nav__menu {
   position: absolute;
   top: calc(100% + 6px);
@@ -70,7 +70,7 @@ body > .site-header {
   border-radius: 10px;
   box-shadow: 0 16px 42px rgba(24, 32, 42, .18);
 }
-.app-mini-nav__menu a, .app-mini-nav__menu button { min-height: 42px; display: flex; align-items: center; padding: 8px 11px; color: #26323f; background: transparent; border: 0; border-radius: 7px; cursor: pointer; font-size: .86rem; font-weight: 800; text-align: left; text-decoration: none; }
+.app-mini-nav__menu a, .app-mini-nav__menu button { min-height: 44px; display: flex; align-items: center; padding: 8px 11px; color: #26323f; background: transparent; border: 0; border-radius: 7px; cursor: pointer; font-size: .86rem; font-weight: 800; text-align: left; text-decoration: none; }
 .app-mini-nav__menu a:hover, .app-mini-nav__menu button:hover { background: var(--accent-soft); }
 .app-mini-nav__brand:focus-visible, .app-mini-nav__toggle:focus-visible, .app-mini-nav__menu a:focus-visible, .app-mini-nav__menu button:focus-visible { outline: 3px solid rgba(15, 118, 110, .32); outline-offset: 2px; }
 
