@@ -27,6 +27,7 @@ REVIEW_DATE = date.today()
 PROTECTED_APP_FILES = (
     "app/index.html",
     "app/app.js",
+    "app/question-data.js",
     "app/question-selection.js",
     "app/startup.js",
     "app/styles.css",

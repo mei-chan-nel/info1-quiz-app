@@ -29,6 +29,7 @@ MIN_PUBLIC_TAG_QUESTIONS = 4
 PROTECTED_APP_FILES = (
     "app/index.html",
     "app/app.js",
+    "app/question-data.js",
     "app/question-selection.js",
     "app/startup.js",
     "app/styles.css",
@@ -499,6 +500,18 @@ def main() -> int:
     for marker in ("requestNavigationConfirmation", 'addEventListener("beforeunload"', 'requestedView === "record"', "openRecordAfterChallenge", 'event.key !== "Escape"'):
         if marker not in app_script:
             errors.append(f"app/app.js: navigation compatibility marker is missing: {marker}")
+    question_data_script = (ROOT / "app" / "question-data.js").read_text(encoding="utf-8")
+    issue_report_script = (ROOT / "app" / "issue-report.js").read_text(encoding="utf-8")
+    if app_index.index('src="./question-data.js"') > app_index.index('src="./startup.js"'):
+        errors.append("app/index.html: shared question loader must run before startup")
+    for marker in ("StudyAtlasQuestionData", "pendingRequest", "cachedQuestions", 'cache: "no-store"'):
+        if marker not in question_data_script:
+            errors.append(f"app/question-data.js: shared loader marker is missing: {marker}")
+    if "window.StudyAtlasQuestionData.load()" not in app_script or "window.StudyAtlasQuestionData.load()" not in issue_report_script:
+        errors.append("App and issue report must share the question-data Promise")
+    for consumer_name, consumer_text in (("app.js", app_script), ("issue-report.js", issue_report_script)):
+        if 'fetch("../data/questions/completed_questions.json"' in consumer_text:
+            errors.append(f"app/{consumer_name}: duplicate question-data fetch remains")
     if ".app-mini-nav" not in app_styles or "min-height: 44px" not in app_styles:
         errors.append("app/styles.css: compact navigation sizing is missing")
     learning_record_script = (ROOT / "app" / "learning-record.js").read_text(encoding="utf-8")

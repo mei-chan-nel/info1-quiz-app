@@ -1,6 +1,5 @@
 (() => {
   const nativeFetch = window.fetch.bind(window);
-  const questionUrl = new URL("../data/questions/completed_questions.json", window.location.href).href;
   const supabaseProbeUrl = "https://yygezzpowsvpzarqdtls.supabase.co/rest/v1/rpc/get_question_stats";
   const supabasePublishableKey = "sb_publishable_rQmX7MCx_8W3nz-xWXQBpA_CHzdRQSk";
 
@@ -24,8 +23,8 @@
     decreaseSetSizeButton.disabled = true;
   }
 
-  // Start both network requests before app.js runs. app.js reuses these responses below.
-  const questionRequest = nativeFetch(questionUrl, { cache: "default" });
+  // Start the shared question-data Promise before the module scripts run.
+  void window.StudyAtlasQuestionData?.load().catch(() => {});
   const apiProbeRequest = nativeFetch(supabaseProbeUrl, {
     method: "POST",
     headers: {
@@ -38,10 +37,6 @@
 
   window.fetch = (input, init = {}) => {
     const url = getRequestUrl(input);
-
-    if (url === questionUrl) {
-      return reuseOrRetry(questionRequest, input, init);
-    }
 
     if (url === supabaseProbeUrl && isApiAvailabilityProbe(init)) {
       return reuseOrRetry(apiProbeRequest, input, init);

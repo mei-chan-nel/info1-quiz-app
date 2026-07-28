@@ -489,11 +489,7 @@ async function resolveCurrentQuestionRecord() {
 
 async function loadQuestionCatalog() {
   try {
-    const response = await fetch("../data/questions/completed_questions.json", { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    const data = await response.json();
+    const data = await window.StudyAtlasQuestionData.load();
     return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("不備報告用の問題データを読み込めませんでした。", error);
