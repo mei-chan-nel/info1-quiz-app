@@ -503,8 +503,7 @@ def render_field_pages(field: dict, questions: list[dict], public_tags: set[str]
             render_question(question, index, public_tags)
             for index, question in enumerate(page_questions, start=start_number)
         )
-        page_suffix = f"（{page_number}/{total_pages}ページ）" if total_pages > 1 else ""
-        title = f"情報Ⅰ Study Atlas｜問題一覧｜{field['label']}{page_suffix}"
+        title = f"情報Ⅰ Study Atlas｜問題一覧｜{field['label']}｜{page_number}ページ目"
         description = f"高校生・受験生向けの情報Ⅰ共通テスト対策。「{field['label']}」の問題{start_number}〜{end_number}を、正答・解説・出典と、該当する場合は関連タグも付けて掲載しています。"
         page_url = canonical(path)
         schema = structured_data(
