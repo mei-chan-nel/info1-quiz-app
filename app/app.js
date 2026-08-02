@@ -815,15 +815,7 @@ nextButton.addEventListener("click", async () => {
   scrollToTop();
 });
 
-for (const button of summaryRetryButtons) {
-  button.addEventListener("click", handleRetryButtonClick);
-}
-
-for (const button of summaryFinishButtons) {
-  button.addEventListener("click", handleFinishButtonClick);
-}
-
-async function handleRetryButtonClick() {
+retryButton.addEventListener("click", async () => {
   if (state.sessionMode === "tag-search") {
     await completeSummaryExit();
     if (!retryTagChallengeSession()) {
@@ -838,9 +830,9 @@ async function handleRetryButtonClick() {
   if (!startSession()) {
     showStart();
   }
-}
+});
 
-async function handleFinishButtonClick() {
+finishButton.addEventListener("click", async () => {
   const isTagSession = isTagChallengeSession();
   const isChallengeSession = state.sessionMode === "challenge";
   await completeSummaryExit();
@@ -853,7 +845,10 @@ async function handleFinishButtonClick() {
   }
   showStart();
   retryPendingSubmissions();
-}
+});
+
+summaryMiddleRetryButton.addEventListener("click", () => retryButton.click());
+summaryMiddleFinishButton.addEventListener("click", () => finishButton.click());
 
 document.addEventListener("keydown", (event) => {
   if (questionView.hidden || resultPanel.hidden === false) {
@@ -1386,8 +1381,9 @@ function recordCumulativeResults() {
 
 function updateSummaryActionVisibility() {
   const isChallengeSession = state.sessionMode === "challenge";
-  for (const button of summaryRetryButtons) {
-    button.hidden = isChallengeSession;
+  retryButton.hidden = isChallengeSession;
+  if (typeof summaryMiddleRetryButton !== "undefined") {
+    summaryMiddleRetryButton.hidden = isChallengeSession;
   }
 }
 
@@ -1451,8 +1447,9 @@ function renderSummary() {
 
 function updateFinishButtonLabel() {
   const label = isTagChallengeSession() ? "元のページに戻る" : TEXT.finish;
-  for (const button of summaryFinishButtons) {
-    button.textContent = label;
+  finishButton.textContent = label;
+  if (typeof summaryMiddleFinishButton !== "undefined") {
+    summaryMiddleFinishButton.textContent = label;
   }
 }
 
