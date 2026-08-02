@@ -683,8 +683,10 @@ def render_tag_filter_page(payload: dict) -> None:
         <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading>タグを選択してください</h2><p data-filter-summary>{payload['question_count']}問からAND条件で絞り込みます。</p></div>
         <div class="tag-challenge-controls" data-tag-challenge-controls hidden>
           <div class="tag-challenge-count-control">
-            <label class="tag-challenge-count-label" for="tag-challenge-count">出題数</label>
-            <output class="tag-challenge-count-value" id="tag-challenge-count" data-tag-challenge-count aria-live="polite">0問</output>
+            <div class="tag-challenge-count-display">
+              <label class="tag-challenge-count-label" for="tag-challenge-count">出題数</label>
+              <output class="tag-challenge-count-value" id="tag-challenge-count" data-tag-challenge-count aria-live="polite">0問</output>
+            </div>
             <div class="tag-challenge-stepper" aria-label="出題数を変更">
               <button class="tag-challenge-stepper-button" type="button" data-tag-challenge-increase aria-label="出題数を1問増やす">▲</button>
               <button class="tag-challenge-stepper-button" type="button" data-tag-challenge-decrease aria-label="出題数を1問減らす">▼</button>

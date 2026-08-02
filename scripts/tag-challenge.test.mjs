@@ -5,6 +5,7 @@ import vm from "node:vm";
 
 const source = readFileSync(new URL("../app/tag-challenge.js", import.meta.url), "utf8");
 const appSource = readFileSync(new URL("../app/app.js", import.meta.url), "utf8");
+const filterSource = readFileSync(new URL("../assets/question-filter.js", import.meta.url), "utf8");
 const tagsHtml = readFileSync(new URL("../questions/tags.html", import.meta.url), "utf8");
 
 function extractAppFunction(name, nextName) {
@@ -106,8 +107,11 @@ test("clearing the context removes the tag-only session state", () => {
 test("tag page exposes the count controls and shared challenge helper", () => {
   assert.match(tagsHtml, /data-tag-challenge-controls/);
   assert.match(tagsHtml, /data-tag-challenge-count/);
+  assert.match(tagsHtml, /class="tag-challenge-count-display"/);
   assert.match(tagsHtml, /data-tag-challenge-start/);
   assert.match(tagsHtml, /src="\.\.\/app\/tag-challenge\.js"/);
+  assert.match(filterSource, /アプリでランダムに出題/);
+  assert.doesNotMatch(filterSource, /tagChallengeQuestionCount\}問をランダムに出題/);
 });
 
 test("tag challenge parser accepts the full candidate list", () => {

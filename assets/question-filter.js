@@ -261,7 +261,7 @@
     tagChallengeDecrease.disabled = !canStart || tagChallengeQuestionCount <= 1;
     tagChallengeStart.disabled = !canStart;
     tagChallengeStart.textContent = canStart
-      ? `アプリで${tagChallengeQuestionCount}問をランダムに出題`
+      ? "アプリでランダムに出題"
       : "アプリで出題できません";
   }
 
