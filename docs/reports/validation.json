@@ -12,11 +12,11 @@
   "build_report_public_page_count": 105,
   "field_counts": {
     "society_security": 359,
-    "data_db": 113,
+    "data_db": 114,
     "algorithm": 99,
-    "network": 150,
-    "digital": 216,
-    "design": 63
+    "network": 149,
+    "digital": 215,
+    "design": 64
   },
   "raw_tag_count": 225,
   "tag_count": 165,
@@ -38,6 +38,8 @@
   "errors": [],
   "warnings": [],
   "checks": [
+    "absence of obsolete primary-term fields and valid primary_terms objects",
+    "absence of obsolete primary-term references in runtime JavaScript",
     "field_ids completeness and allowed values",
     "unique question IDs and exactly-once publication",
     "maximum 10 questions per generated page",

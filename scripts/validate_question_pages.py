@@ -12,7 +12,12 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlsplit
 
-from classify_questions import FIELD_LABELS, load_questions, validate_field_ids
+from classify_questions import (
+    FIELD_LABELS,
+    OBSOLETE_PRIMARY_TERM_FIELD,
+    load_questions,
+    validate_question_data,
+)
 from tag_normalization import CANONICAL_TAGS, TAG_ALIASES
 
 
@@ -190,7 +195,7 @@ def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
     questions = load_questions()
-    errors.extend(validate_field_ids(questions))
+    errors.extend(validate_question_data(questions))
     expected_ids = {str(question["id"]) for question in questions}
     raw_tag_counts = Counter(
         str(tag).strip()
@@ -558,6 +563,15 @@ def main() -> int:
     for consumer_name, consumer_text in (("app.js", app_script), ("issue-report.js", issue_report_script)):
         if 'fetch("../data/questions/completed_questions.json"' in consumer_text:
             errors.append(f"app/{consumer_name}: duplicate question-data fetch remains")
+    obsolete_runtime_references = sorted(
+        path.relative_to(ROOT).as_posix()
+        for path in (ROOT / "app").glob("*.js")
+        if OBSOLETE_PRIMARY_TERM_FIELD in path.read_text(encoding="utf-8")
+    )
+    if obsolete_runtime_references:
+        errors.append(
+            f"Runtime code references obsolete {OBSOLETE_PRIMARY_TERM_FIELD}: {obsolete_runtime_references}"
+        )
     if (
         ".app-mini-nav__toggle { min-height: 44px" not in app_styles
         or ".app-mini-nav__menu a, .app-mini-nav__menu button { min-height: 44px" not in app_styles
@@ -642,6 +656,8 @@ def main() -> int:
         "errors": errors,
         "warnings": warnings,
         "checks": [
+            "absence of obsolete primary-term fields and valid primary_terms objects",
+            "absence of obsolete primary-term references in runtime JavaScript",
             "field_ids completeness and allowed values",
             "unique question IDs and exactly-once publication",
             "maximum 10 questions per generated page",

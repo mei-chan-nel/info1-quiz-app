@@ -135,21 +135,13 @@ export function assignQuestionToSelectionField({
   question,
   selectedFieldIds,
   fieldOrder,
-  matchingFieldIds,
   onWarning = () => {},
 }) {
   const selected = new Set(Array.from(selectedFieldIds || [], String));
   const orderedFields = uniqueStrings(fieldOrder);
-  const primaryField = String(question?.field_ids?.[0] || question?.fields?.[0] || "");
+  const primaryField = String(question?.field_ids?.[0] || "");
   if (primaryField && selected.has(primaryField)) {
     return primaryField;
-  }
-  const matches = new Set(Array.from(matchingFieldIds || [], String));
-  const matchedSelectedField = orderedFields.find(
-    (fieldId) => selected.has(fieldId) && matches.has(fieldId),
-  );
-  if (matchedSelectedField) {
-    return matchedSelectedField;
   }
   const fallbackField =
     orderedFields.find((fieldId) => selected.has(fieldId)) ||
@@ -166,7 +158,6 @@ export function groupQuestionsBySelectionField({
   questions,
   selectedFieldIds,
   fieldOrder,
-  getMatchingFieldIds = (question) => question?.field_ids || question?.fields || [],
   onWarning = () => {},
 }) {
   const selected = uniqueStrings(selectedFieldIds);
@@ -183,7 +174,6 @@ export function groupQuestionsBySelectionField({
       question,
       selectedFieldIds: selected,
       fieldOrder: orderedFields,
-      matchingFieldIds: getMatchingFieldIds(question),
       onWarning,
     });
     if (!groups.has(fieldId)) {
@@ -252,7 +242,6 @@ export function selectWeightedQuestionSet({
   count,
   selectedFieldIds,
   fieldOrder,
-  getMatchingFieldIds,
   attemptCounts = new Map(),
   attemptStatsAvailable = false,
   getAnsweredAt = () => null,
@@ -271,7 +260,6 @@ export function selectWeightedQuestionSet({
     questions: candidates,
     selectedFieldIds,
     fieldOrder,
-    getMatchingFieldIds,
     onWarning,
   });
   const recentQuestionIds = getRecentAnsweredQuestionIds({

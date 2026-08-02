@@ -19,8 +19,12 @@ FIELD_LABELS = {
     "design": "情報デザイン",
 }
 
-# Keep these in sync with app/app.js. They intentionally reproduce the app's
-# former fallback inference so the original 69-question gap remains auditable.
+OBSOLETE_PRIMARY_TERM_FIELD = "primary_term_names"
+PRIMARY_TERM_FIELDS = ("term_id", "term", "category", "code", "matched_variant")
+NON_EMPTY_PRIMARY_TERM_FIELDS = ("term_id", "term", "code", "matched_variant")
+
+# Preserve the app's historical fallback inference only for classification
+# audits. Runtime field filtering now uses field_ids exclusively.
 APP_NEEDLES = {
     "society_security": [
         "情報社会", "情報セキュリティ", "著作権", "肖像権", "個人情報", "不正アクセス",
@@ -132,11 +136,12 @@ def load_questions() -> list[dict]:
 
 def searchable_parts(question: dict) -> tuple[list[str], list[str]]:
     tags = [str(value) for value in question.get("tags", []) if value]
-    terms: list[str] = [str(value) for value in question.get("primary_term_names", []) if value]
+    terms: list[str] = []
     for term in question.get("primary_terms", []):
         if not isinstance(term, dict):
             continue
-        terms.extend(str(term.get(key)) for key in ("term", "category", "code") if term.get(key))
+        if term.get("term"):
+            terms.append(str(term["term"]))
     return tags, terms
 
 
@@ -248,6 +253,9 @@ def classify(questions: list[dict]) -> list[dict]:
 def validate_field_ids(questions: list[dict]) -> list[str]:
     errors: list[str] = []
     for index, question in enumerate(questions):
+        if not isinstance(question, dict):
+            errors.append(f"index:{index}: question must be an object")
+            continue
         question_id = str(question.get("id") or f"index:{index}")
         field_ids = question.get("field_ids")
         if not isinstance(field_ids, list) or len(field_ids) != 1:
@@ -256,6 +264,45 @@ def validate_field_ids(questions: list[dict]) -> list[str]:
         if field_ids[0] not in FIELD_LABELS:
             errors.append(f"{question_id}: unknown field_id: {field_ids[0]}")
     return errors
+
+
+def validate_primary_terms(questions: list[dict]) -> list[str]:
+    errors: list[str] = []
+    allowed_fields = set(PRIMARY_TERM_FIELDS)
+    for index, question in enumerate(questions):
+        if not isinstance(question, dict):
+            continue
+        question_id = str(question.get("id") or f"index:{index}")
+        if OBSOLETE_PRIMARY_TERM_FIELD in question:
+            errors.append(f"{question_id}: obsolete {OBSOLETE_PRIMARY_TERM_FIELD} field is forbidden")
+
+        primary_terms = question.get("primary_terms")
+        if not isinstance(primary_terms, list) or not primary_terms:
+            errors.append(f"{question_id}: primary_terms must be a non-empty array")
+            continue
+
+        for term_index, primary_term in enumerate(primary_terms):
+            location = f"{question_id}: primary_terms[{term_index}]"
+            if not isinstance(primary_term, dict):
+                errors.append(f"{location} must be an object")
+                continue
+            missing = [field for field in PRIMARY_TERM_FIELDS if field not in primary_term]
+            unexpected = sorted(set(primary_term) - allowed_fields)
+            if missing:
+                errors.append(f"{location} is missing fields: {missing}")
+            if unexpected:
+                errors.append(f"{location} contains unexpected fields: {unexpected}")
+            for field in PRIMARY_TERM_FIELDS:
+                value = primary_term.get(field)
+                if not isinstance(value, str):
+                    errors.append(f"{location}.{field} must be a string")
+                elif field in NON_EMPTY_PRIMARY_TERM_FIELDS and not value.strip():
+                    errors.append(f"{location}.{field} must not be empty")
+    return errors
+
+
+def validate_question_data(questions: list[dict]) -> list[str]:
+    return [*validate_field_ids(questions), *validate_primary_terms(questions)]
 
 
 def write_reports(records: list[dict]) -> None:
@@ -327,7 +374,7 @@ def main() -> int:
         QUESTION_PATH.write_text(json.dumps(questions, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     if args.apply or args.check:
-        errors = validate_field_ids(questions)
+        errors = validate_question_data(questions)
         for question in questions:
             expected = record_by_id[str(question["id"])]["field_id"]
             if question.get("field_ids") != [expected]:

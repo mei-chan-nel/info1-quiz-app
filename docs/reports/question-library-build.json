@@ -1,16 +1,16 @@
 {
-  "generated_on": "2026-08-01",
+  "generated_on": "2026-08-02",
   "generator": "scripts/generate_question_pages.py",
   "question_source": "data/questions/completed_questions.json",
   "question_count": 1000,
   "page_size": 10,
   "field_counts": {
     "society_security": 359,
-    "digital": 216,
-    "network": 150,
-    "data_db": 113,
+    "digital": 215,
+    "network": 149,
+    "data_db": 114,
     "algorithm": 99,
-    "design": 63
+    "design": 64
   },
   "raw_tag_count": 225,
   "tag_count": 165,
