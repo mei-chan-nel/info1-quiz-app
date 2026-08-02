@@ -23,13 +23,51 @@ jobs:
           path: app
           persist-credentials: false
 
+      - name: Resolve portal branch
+        id: portal-branch
+        shell: bash
+        env:
+          PORTAL_REF_OVERRIDE: ${{ inputs.portal_ref }}
+          MATCHING_PORTAL_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$PORTAL_REF_OVERRIDE" ]]; then
+            portal_ref="$PORTAL_REF_OVERRIDE"
+            selection_reason="workflow_dispatch override"
+          elif git ls-remote --exit-code --heads \
+            https://github.com/mei-chan-nel/mei-chan-nel.github.io.git \
+            "refs/heads/$MATCHING_PORTAL_REF" >/dev/null 2>&1; then
+            portal_ref="$MATCHING_PORTAL_REF"
+            selection_reason="matching app branch"
+          else
+            portal_ref="main"
+            selection_reason="main fallback"
+          fi
+          echo "ref=$portal_ref" >> "$GITHUB_OUTPUT"
+          echo "reason=$selection_reason" >> "$GITHUB_OUTPUT"
+          echo "Portal branch selected: $portal_ref ($selection_reason)"
+
       - name: Check out portal
         uses: actions/checkout@v4
         with:
           repository: mei-chan-nel/mei-chan-nel.github.io
-          ref: ${{ inputs.portal_ref || github.head_ref || github.ref_name }}
+          ref: ${{ steps.portal-branch.outputs.ref }}
           path: portal
           persist-credentials: false
+
+      - name: Report portal checkout
+        shell: bash
+        run: |
+          portal_commit="$(git -C portal rev-parse HEAD)"
+          echo "Portal branch used: ${{ steps.portal-branch.outputs.ref }}"
+          echo "Portal selection reason: ${{ steps.portal-branch.outputs.reason }}"
+          echo "Portal commit used: $portal_commit"
+          {
+            echo "### Integrated validation portal checkout"
+            echo "- Branch: \`${{ steps.portal-branch.outputs.ref }}\`"
+            echo "- Selection: ${{ steps.portal-branch.outputs.reason }}"
+            echo "- Commit: \`$portal_commit\`"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Set up Python
         uses: actions/setup-python@v5
