@@ -662,7 +662,10 @@ def render_tag_filter_page(payload: dict) -> None:
             ]
         )
     )
-    extra_head = '\n    <script src="../assets/question-filter.js" defer></script>'
+    extra_head = (
+        '\n    <script src="../app/tag-challenge.js" defer></script>'
+        '\n    <script src="../assets/question-filter.js" defer></script>'
+    )
     filter_cards = "\n".join(render_filter_question(question) for question in payload["questions"])
     aliases_json = json.dumps(payload["tag_aliases"], ensure_ascii=False, separators=(",", ":"))
     body = f"""{head(title, description, 'questions/tags.html', '../', ads=True, extra_head=extra_head)}
@@ -678,6 +681,17 @@ def render_tag_filter_page(payload: dict) -> None:
       {facet_panel(tag_counts, open_panel=True, with_clear=True, groups=primary_tag_groups(grouped, set(tag_counts)))}
       <section class="filter-results" aria-labelledby="filter-results-heading">
         <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading>タグを選択してください</h2><p data-filter-summary>{payload['question_count']}問からAND条件で絞り込みます。</p></div>
+        <div class="tag-challenge-controls" data-tag-challenge-controls hidden>
+          <div class="tag-challenge-count-control">
+            <label class="tag-challenge-count-label" for="tag-challenge-count">出題数</label>
+            <output class="tag-challenge-count-value" id="tag-challenge-count" data-tag-challenge-count aria-live="polite">0問</output>
+            <div class="tag-challenge-stepper" aria-label="出題数を変更">
+              <button class="tag-challenge-stepper-button" type="button" data-tag-challenge-increase aria-label="出題数を1問増やす">▲</button>
+              <button class="tag-challenge-stepper-button" type="button" data-tag-challenge-decrease aria-label="出題数を1問減らす">▼</button>
+            </div>
+          </div>
+          <button class="button button-primary tag-challenge-start" type="button" data-tag-challenge-start disabled>アプリで出題できません</button>
+        </div>
         <noscript><p class="filter-message">JavaScriptが無効なため、全{payload['question_count']}問を表示しています。</p></noscript>
         <div class="filter-result-list" id="filter-result-list" data-filter-results>
           <p class="filter-message" data-filter-message hidden></p>

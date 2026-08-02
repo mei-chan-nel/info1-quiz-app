@@ -90,12 +90,14 @@ const appMenuButton = document.querySelector("#appMenuButton");
 const appMenu = document.querySelector("#appMenu");
 const appRecordNavButton = document.querySelector("#appRecordNavButton");
 const appBrandLink = document.querySelector(".app-mini-nav__brand");
+const tagChallenge = window.Info1TagChallenge;
 
 const DEFAULT_SET_SIZE = 5;
 const MIN_SET_SIZE = 1;
 const MAX_SET_SIZE = 50;
 const RECORD_LIST_PAGE_SIZE = 10;
 const MAX_SHARED_QUESTIONS = 10;
+const TAG_CHALLENGE_MODE = "tag-search";
 const CHATGPT_URL = "https://chatgpt.com/";
 const X_POST_INTENT_URL = "https://x.com/intent/tweet";
 const PUBLIC_APP_URL = "https://mei-chan-nel.com/info1-quiz-app/app/";
@@ -183,6 +185,8 @@ const state = {
   cumulativeQuestionIds: [],
   sessionSummaryRecorded: false,
   sessionMode: "standard",
+  tagChallengeMode: false,
+  tagChallengeContext: null,
   pendingChallengeQuestionIds: [],
   challengeRequested: false,
   recordReturnView: "start",
@@ -258,7 +262,17 @@ function init() {
   const searchParams = new URLSearchParams(window.location.search);
   const requestedView = searchParams.get("view");
   state.challengeRequested = searchParams.has("challenge");
-  state.pendingChallengeQuestionIds = parseChallengeQuestionIds(searchParams.get("challenge"));
+  const savedTagChallengeContext = tagChallenge?.readContext?.() || null;
+  state.tagChallengeMode = Boolean(
+    state.challengeRequested
+    && savedTagChallengeContext
+    && tagChallenge?.isTagSearchSource?.(window.location.href),
+  );
+  state.tagChallengeContext = state.tagChallengeMode ? savedTagChallengeContext : null;
+  state.pendingChallengeQuestionIds = parseChallengeQuestionIds(
+    searchParams.get("challenge"),
+    state.tagChallengeMode ? Number.POSITIVE_INFINITY : MAX_SHARED_QUESTIONS,
+  );
   if (state.challengeRequested) {
     startView.hidden = true;
   } else if (requestedView === "record") {
@@ -293,7 +307,12 @@ async function loadQuestionData() {
   } catch (error) {
     state.questionDataStatus = "error";
     if (state.challengeRequested) {
-      showStart();
+      if (state.tagChallengeMode && state.tagChallengeContext) {
+        state.challengeRequested = false;
+        void returnToTagSearchPage(state.tagChallengeContext);
+      } else {
+        showStart();
+      }
     } else {
       updateStartControls();
     }
@@ -301,15 +320,16 @@ async function loadQuestionData() {
   }
 }
 
-function parseChallengeQuestionIds(value) {
+function parseChallengeQuestionIds(value, maxQuestions = MAX_SHARED_QUESTIONS) {
   if (typeof value !== "string") {
     return [];
   }
-  return value
+  const limit = Number.isFinite(maxQuestions) ? Math.max(0, maxQuestions) : undefined;
+  const questionIds = value
     .split(",")
     .map((questionId) => questionId.trim())
-    .filter(Boolean)
-    .slice(0, MAX_SHARED_QUESTIONS);
+    .filter(Boolean);
+  return limit === undefined ? questionIds : questionIds.slice(0, limit);
 }
 
 function resolveChallengeQuestions(questionIds) {
@@ -322,6 +342,9 @@ function resolveChallengeQuestions(questionIds) {
 }
 
 function startChallengeSession(questionIds) {
+  if (state.tagChallengeMode) {
+    return startTagChallengeSession(questionIds);
+  }
   const selectedQuestions = resolveChallengeQuestions(questionIds);
   if (selectedQuestions.length !== questionIds.length) {
     console.warn("共有URLに存在しない問題IDが含まれていたため、有効な問題だけで開始します。");
@@ -331,6 +354,129 @@ function startChallengeSession(questionIds) {
     return false;
   }
   return beginSession(selectedQuestions, { sessionMode: "challenge" });
+}
+
+function selectTagChallengeQuestionIds(candidateQuestionIds, questionCount, previousQuestionIds = []) {
+  const candidates = tagChallenge?.normalizeIds?.(candidateQuestionIds) || [];
+  const count = Math.min(Math.max(Number(questionCount) || 0, 0), candidates.length);
+  if (!count) {
+    return [];
+  }
+  let selected = [];
+  const previous = tagChallenge?.normalizeIds?.(previousQuestionIds) || [];
+  const shouldAvoidPreviousSet = candidates.length > count && previous.length === count;
+  for (let attempt = 0; attempt < (shouldAvoidPreviousSet ? 6 : 1); attempt += 1) {
+    selected = tagChallenge.shuffle(candidates).slice(0, count);
+    if (!shouldAvoidPreviousSet || !tagChallenge.sameSet(selected, previous)) {
+      break;
+    }
+  }
+  return selected;
+}
+
+function writeTagChallengeContext(context) {
+  if (!tagChallenge?.writeContext?.(context)) {
+    console.error("タグ出題用のセッション情報を更新できませんでした。");
+    return false;
+  }
+  state.tagChallengeContext = tagChallenge.readContext?.() || context;
+  return true;
+}
+
+function updateTagChallengeUrl(questionIds) {
+  const url = new URL(window.location.href);
+  url.searchParams.set("challenge", questionIds.join(","));
+  url.searchParams.set("source", TAG_CHALLENGE_MODE);
+  window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+}
+
+function startTagChallengeSession(questionIds) {
+  if (!tagChallenge || !state.tagChallengeContext) {
+    return false;
+  }
+  const context = state.tagChallengeContext;
+  const validCandidateQuestions = resolveChallengeQuestions(context.candidateQuestionIds);
+  const validCandidateIds = tagChallenge.normalizeIds(
+    validCandidateQuestions.map((question) => question.id),
+  );
+  if (!validCandidateIds.length) {
+    void returnToTagSearchPage(context);
+    return false;
+  }
+
+  const questionCount = Math.min(context.questionCount, validCandidateIds.length);
+  const validCandidateIdSet = new Set(validCandidateIds);
+  const requestedIds = tagChallenge
+    .normalizeIds(questionIds)
+    .filter((questionId) => validCandidateIdSet.has(questionId));
+  const currentQuestionIds = requestedIds.length >= questionCount
+    ? requestedIds.slice(0, questionCount)
+    : [
+        ...requestedIds,
+        ...selectTagChallengeQuestionIds(
+          validCandidateIds.filter((questionId) => !requestedIds.includes(questionId)),
+          questionCount - requestedIds.length,
+        ),
+      ];
+  if (!currentQuestionIds.length) {
+    void returnToTagSearchPage(context);
+    return false;
+  }
+
+  const updatedContext = {
+    ...context,
+    questionCount,
+    currentQuestionIds,
+    createdAt: new Date().toISOString(),
+  };
+  if (!writeTagChallengeContext(updatedContext)) {
+    return false;
+  }
+  updateTagChallengeUrl(currentQuestionIds);
+  const selectedQuestions = resolveChallengeQuestions(currentQuestionIds);
+  if (!selectedQuestions.length) {
+    void returnToTagSearchPage(updatedContext);
+    return false;
+  }
+  return beginSession(selectedQuestions, { sessionMode: TAG_CHALLENGE_MODE });
+}
+
+function retryTagChallengeSession() {
+  if (!tagChallenge || !state.tagChallengeContext) {
+    return false;
+  }
+  const context = state.tagChallengeContext;
+  const validCandidateQuestions = resolveChallengeQuestions(context.candidateQuestionIds);
+  const validCandidateIds = tagChallenge.normalizeIds(
+    validCandidateQuestions.map((question) => question.id),
+  );
+  if (!validCandidateIds.length) {
+    void returnToTagSearchPage(context);
+    return false;
+  }
+
+  const questionCount = Math.min(context.questionCount, validCandidateIds.length);
+  const currentQuestionIds = selectTagChallengeQuestionIds(
+    validCandidateIds,
+    questionCount,
+    context.currentQuestionIds,
+  );
+  if (!currentQuestionIds.length) {
+    void returnToTagSearchPage(context);
+    return false;
+  }
+  const updatedContext = {
+    ...context,
+    questionCount,
+    currentQuestionIds,
+    createdAt: new Date().toISOString(),
+  };
+  if (!writeTagChallengeContext(updatedContext)) {
+    return false;
+  }
+  updateTagChallengeUrl(currentQuestionIds);
+  const selectedQuestions = resolveChallengeQuestions(currentQuestionIds);
+  return beginSession(selectedQuestions, { sessionMode: TAG_CHALLENGE_MODE });
 }
 
 async function initializeApiAvailability() {
@@ -412,6 +558,10 @@ function isChallengeActive() {
   return !questionView.hidden && summaryView.hidden;
 }
 
+function isTagChallengeSession() {
+  return state.sessionMode === TAG_CHALLENGE_MODE;
+}
+
 function closeAppMenu(restoreFocus = false) {
   appMenu.hidden = true;
   appMenuButton.setAttribute("aria-expanded", "false");
@@ -463,16 +613,56 @@ function bindAppNavigation() {
 
 function requestNavigationConfirmation(pending) {
   state.pendingNavigation = pending;
-  interruptDialogTitle.textContent = pending.type === "record" ? "学習記録へ移動しますか？" : "このページを離れますか？";
-  interruptDialogMessage.textContent = "挑戦中です。回答済みの学習履歴は保存されていますが、現在の挑戦は終了します。";
-  confirmInterruptButton.textContent = pending.type === "record" ? "学習記録へ移動" : "移動する";
+  if (isTagChallengeSession() && pending.type !== "record") {
+    interruptDialogTitle.textContent = "元のページに戻りますか？";
+    interruptDialogMessage.textContent = "解答途中ですが、元のページに戻りますか？";
+    confirmInterruptButton.textContent = "元のページに戻る";
+  } else {
+    interruptDialogTitle.textContent = pending.type === "record" ? "学習記録へ移動しますか？" : "このページを離れますか？";
+    interruptDialogMessage.textContent = "挑戦中です。回答済みの学習履歴は保存されていますが、現在の挑戦は終了します。";
+    confirmInterruptButton.textContent = pending.type === "record" ? "学習記録へ移動" : "移動する";
+  }
   openInterruptDialog();
 }
 
 function resetInterruptDialog() {
+  if (isTagChallengeSession()) {
+    interruptDialogTitle.textContent = "元のページに戻りますか？";
+    interruptDialogMessage.textContent = "解答途中ですが、元のページに戻りますか？";
+    confirmInterruptButton.textContent = "元のページに戻る";
+    return;
+  }
   interruptDialogTitle.textContent = "挑戦を中断しますか？";
   interruptDialogMessage.textContent = "回答済みの問題だけで結果を表示します。";
   confirmInterruptButton.textContent = "中断する";
+}
+
+async function saveTagChallengeProgress() {
+  if (!isTagChallengeSession()) {
+    return;
+  }
+  const answeredEntries = state.sessionQuestions
+    .map((question, index) => ({ question, response: state.responses[index] }))
+    .filter(({ response }) => response && response.selectedChoiceId !== null);
+  if (answeredEntries.length) {
+    state.sessionQuestions = answeredEntries.map(({ question }) => question);
+    state.responses = answeredEntries.map(({ response }) => response);
+    state.currentIndex = Math.max(0, state.sessionQuestions.length - 1);
+    state.selectedChoiceId = null;
+    recordCumulativeResults();
+    const responseSubmission = createResponseSubmission();
+    await submitResponseSubmission(responseSubmission);
+  }
+  await commitOutOfScopeReports();
+}
+
+async function returnToTagSearchPage(context = state.tagChallengeContext || tagChallenge?.readContext?.()) {
+  await saveTagChallengeProgress();
+  const returnUrl = tagChallenge?.getSafeReturnUrl?.(context?.returnUrl, window.location)
+    || "/info1-quiz-app/questions/tags.html";
+  tagChallenge?.clearContext?.();
+  state.allowNavigation = true;
+  window.location.assign(returnUrl);
 }
 
 async function openRecordAfterChallenge() {
@@ -578,12 +768,19 @@ function bindStartControls() {
     interruptDialog.close();
     resetInterruptDialog();
     if (!pending) {
-      void interruptSession();
+      if (isTagChallengeSession()) {
+        void returnToTagSearchPage();
+      } else {
+        void interruptSession();
+      }
       return;
     }
     if (pending.type === "record") {
       void openRecordAfterChallenge();
       return;
+    }
+    if (isTagChallengeSession()) {
+      tagChallenge?.clearContext?.();
     }
     state.allowNavigation = true;
     window.location.assign(pending.href);
@@ -615,6 +812,13 @@ nextButton.addEventListener("click", async () => {
 });
 
 retryButton.addEventListener("click", async () => {
+  if (state.sessionMode === "tag-search") {
+    await completeSummaryExit();
+    if (!retryTagChallengeSession()) {
+      showStart();
+    }
+    return;
+  }
   if (state.sessionMode !== "standard") {
     return;
   }
@@ -625,8 +829,13 @@ retryButton.addEventListener("click", async () => {
 });
 
 finishButton.addEventListener("click", async () => {
+  const isTagSession = isTagChallengeSession();
   const isChallengeSession = state.sessionMode === "challenge";
   await completeSummaryExit();
+  if (isTagSession) {
+    await returnToTagSearchPage();
+    return;
+  }
   if (isChallengeSession) {
     resetChallengeUrl();
   }
@@ -680,6 +889,8 @@ function resetSessionState() {
   state.pastStatsLoaded = false;
   state.sessionSummaryRecorded = false;
   state.sessionMode = "standard";
+  state.tagChallengeMode = false;
+  state.tagChallengeContext = null;
   state.pendingChallengeQuestionIds = [];
   state.challengeRequested = false;
   state.recordPracticeMode = false;
@@ -691,6 +902,7 @@ function resetSessionState() {
   state.recordListScrollTop = 0;
   state.responseSubmission = null;
   state.outOfScopeSubmission = null;
+  state.allowNavigation = false;
   retryButton.disabled = false;
   finishButton.disabled = false;
   finishButton.textContent = TEXT.finish;
@@ -758,6 +970,7 @@ function beginSession(selectedQuestions, { sessionMode = "standard" } = {}) {
   state.recordReviewMode = false;
   const sessionId = initializeSessionQuestions(selectedQuestions);
   state.sessionMode = sessionMode;
+  state.tagChallengeMode = sessionMode === TAG_CHALLENGE_MODE;
 
   startView.hidden = true;
   statusBar.hidden = false;
@@ -770,7 +983,7 @@ function beginSession(selectedQuestions, { sessionMode = "standard" } = {}) {
   setStatus.textContent = TEXT.running;
   retryButton.disabled = false;
   finishButton.disabled = false;
-  finishButton.textContent = TEXT.finish;
+  updateFinishButtonLabel();
   summaryView.querySelector(".end-message")?.remove();
   renderQuestion();
   scrollToTop();
@@ -954,6 +1167,7 @@ function renderQuestion() {
   nextButton.hidden = true;
   nextButton.disabled = false;
   interruptButton.hidden = isRecordListQuestion;
+  interruptButton.textContent = isTagChallengeSession() ? "元のページに戻る" : "挑戦を中断する";
   nextButton.textContent = isRecordListQuestion
     ? "一覧に戻る"
     : state.currentIndex >= total - 1
@@ -1166,6 +1380,7 @@ function updateSummaryActionVisibility() {
 
 function renderSummary() {
   updateSummaryActionVisibility();
+  updateFinishButtonLabel();
   const correct = state.cumulativeCorrect;
   const total = state.cumulativeTotal;
   const rate = total ? Math.round((correct / total) * 100) : 0;
@@ -1219,6 +1434,10 @@ function renderSummary() {
       return item;
     }),
   );
+}
+
+function updateFinishButtonLabel() {
+  finishButton.textContent = isTagChallengeSession() ? "元のページに戻る" : TEXT.finish;
 }
 
 function renderSummaryExplanation(question, selectedChoice, correctChoice) {
@@ -1791,11 +2010,17 @@ function openClearRecordDialog() {
 
 function openInterruptDialog() {
   if (typeof interruptDialog.showModal === "function") {
+    if (!state.pendingNavigation) {
+      resetInterruptDialog();
+    }
     interruptDialog.showModal();
     return;
   }
   const pending = state.pendingNavigation;
-  const message = pending ? interruptDialogMessage.textContent : "挑戦を中断しますか？";
+  if (!pending) {
+    resetInterruptDialog();
+  }
+  const message = interruptDialogMessage.textContent;
   if (!window.confirm(message)) {
     state.pendingNavigation = null;
     resetInterruptDialog();
@@ -1804,7 +2029,8 @@ function openInterruptDialog() {
   }
   state.pendingNavigation = null;
   resetInterruptDialog();
-  if (!pending) void interruptSession();
+  if (!pending && isTagChallengeSession()) void returnToTagSearchPage();
+  else if (!pending) void interruptSession();
   else if (pending.type === "record") void openRecordAfterChallenge();
   else {
     state.allowNavigation = true;

@@ -16,6 +16,12 @@
   const loadMore = root.querySelector("[data-filter-load-more]");
   const live = root.querySelector("[data-filter-live]");
   const clear = root.querySelector("[data-facet-clear]");
+  const tagChallengeControls = root.querySelector("[data-tag-challenge-controls]");
+  const tagChallengeCount = root.querySelector("[data-tag-challenge-count]");
+  const tagChallengeIncrease = root.querySelector("[data-tag-challenge-increase]");
+  const tagChallengeDecrease = root.querySelector("[data-tag-challenge-decrease]");
+  const tagChallengeStart = root.querySelector("[data-tag-challenge-start]");
+  const tagChallenge = window.Info1TagChallenge;
   const aliases = readAliases();
   const cards = Array.from(root.querySelectorAll("[data-filter-question]")).map((node, index) => ({
     node,
@@ -27,6 +33,8 @@
   let focusId = null;
   let visibleCount = PAGE_SIZE;
   let shouldScrollToFocus = false;
+  let tagChallengeQuestionCount = 0;
+  let tagChallengeSelectionKey = null;
 
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -192,6 +200,90 @@
     return cards.filter((card) => matchesSelection(card, values)).length;
   }
 
+  function matchingCards() {
+    return cards
+      .filter((card) => matchesSelection(card, selected))
+      .sort((left, right) => left.index - right.index);
+  }
+
+  function tagChallengeKey() {
+    return [...selected].sort().join("\u0000");
+  }
+
+  function syncTagChallengeControls(candidateCards) {
+    if (!tagChallengeControls || !tagChallengeCount || !tagChallengeStart) {
+      return;
+    }
+    const selectionKey = tagChallengeKey();
+    if (selectionKey !== tagChallengeSelectionKey) {
+      tagChallengeQuestionCount = Math.min(5, candidateCards.length);
+      tagChallengeSelectionKey = selectionKey;
+    }
+    const candidateCount = candidateCards.length;
+    const max = candidateCount;
+    tagChallengeQuestionCount = Math.min(
+      Math.max(tagChallengeQuestionCount, candidateCount > 0 ? 1 : 0),
+      max,
+    );
+    const hasSelection = selected.length > 0;
+    const canStart = Boolean(tagChallenge) && hasSelection && tagChallengeQuestionCount > 0;
+    tagChallengeControls.hidden = !hasSelection;
+    tagChallengeCount.textContent = `${tagChallengeQuestionCount}問`;
+    tagChallengeIncrease.disabled = !canStart || tagChallengeQuestionCount >= max;
+    tagChallengeDecrease.disabled = !canStart || tagChallengeQuestionCount <= 1;
+    tagChallengeStart.disabled = !canStart;
+    tagChallengeStart.textContent = canStart
+      ? `アプリで${tagChallengeQuestionCount}問をランダムに出題`
+      : "アプリで出題できません";
+  }
+
+  function changeTagChallengeQuestionCount(delta) {
+    const candidateCards = matchingCards();
+    if (!candidateCards.length) {
+      syncTagChallengeControls(candidateCards);
+      return;
+    }
+    tagChallengeQuestionCount = Math.min(
+      Math.max(tagChallengeQuestionCount + delta, 1),
+      candidateCards.length,
+    );
+    syncTagChallengeControls(candidateCards);
+  }
+
+  function startTagChallenge() {
+    if (!tagChallenge) {
+      return;
+    }
+    const candidateQuestionIds = tagChallenge.normalizeIds(
+      matchingCards().map((card) => card.id),
+    );
+    const questionCount = Math.min(tagChallengeQuestionCount, candidateQuestionIds.length);
+    if (!candidateQuestionIds.length || questionCount < 1) {
+      syncTagChallengeControls(matchingCards());
+      return;
+    }
+    const currentQuestionIds = tagChallenge.shuffle(candidateQuestionIds).slice(0, questionCount);
+    const context = {
+      version: tagChallenge.VERSION,
+      source: tagChallenge.SOURCE,
+      candidateQuestionIds,
+      questionCount,
+      currentQuestionIds,
+      returnUrl: window.location.href,
+      createdAt: new Date().toISOString(),
+    };
+    if (!tagChallenge.writeContext(context)) {
+      if (live) {
+        live.textContent = "セッション情報を保存できないため、アプリを開始できません。";
+      }
+      return;
+    }
+    const appUrl = new URL("../app/", window.location.href);
+    appUrl.searchParams.set("challenge", currentQuestionIds.join(","));
+    appUrl.searchParams.set("source", tagChallenge.SOURCE);
+    window.location.assign(appUrl.toString());
+  }
+
   function syncFacetVisibility() {
     root.querySelectorAll("[data-facet-value]").forEach((link) => {
       const hasResults = link.dataset.filterZero !== "true";
@@ -253,6 +345,7 @@
     live.textContent = "";
 
     if (selected.length === 0) {
+      syncTagChallengeControls([]);
       heading.textContent = "タグを選択してください";
       summary.textContent = `${cards.length}問からAND条件で絞り込みます。`;
       message.textContent = "上のタグ一覧から、学習したい用語や分野を選んでください。";
@@ -261,9 +354,8 @@
       return;
     }
 
-    const matches = cards
-      .filter((card) => matchesSelection(card, selected))
-      .sort((left, right) => left.index - right.index);
+    const matches = matchingCards();
+    syncTagChallengeControls(matches);
     if (focusId) {
       const originIndex = matches.findIndex((card) => card.id === focusId);
       if (originIndex > 0) matches.unshift(...matches.splice(originIndex, 1));
@@ -327,6 +419,10 @@
     visibleCount += PAGE_SIZE;
     render();
   });
+
+  tagChallengeIncrease?.addEventListener("click", () => changeTagChallengeQuestionCount(1));
+  tagChallengeDecrease?.addEventListener("click", () => changeTagChallengeQuestionCount(-1));
+  tagChallengeStart?.addEventListener("click", startTagChallenge);
 
   window.addEventListener("popstate", applyLocationState);
   window.addEventListener("hashchange", applyLocationState);
