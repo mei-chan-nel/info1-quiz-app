@@ -43,6 +43,10 @@ const summaryShareButton = document.querySelector("#summaryShareButton");
 const summaryRecordButton = document.querySelector("#summaryRecordButton");
 const retryButton = document.querySelector("#retryButton");
 const finishButton = document.querySelector("#finishButton");
+const summaryMiddleRetryButton = document.querySelector("#summaryMiddleRetryButton");
+const summaryMiddleFinishButton = document.querySelector("#summaryMiddleFinishButton");
+const summaryRetryButtons = [retryButton, summaryMiddleRetryButton];
+const summaryFinishButtons = [finishButton, summaryMiddleFinishButton];
 const recordView = document.querySelector("#recordView");
 const recordBackButton = document.querySelector("#recordBackButton");
 const recordBottomBackButton = document.querySelector("#recordBottomBackButton");
@@ -843,6 +847,9 @@ finishButton.addEventListener("click", async () => {
   retryPendingSubmissions();
 });
 
+summaryMiddleRetryButton.addEventListener("click", () => retryButton.click());
+summaryMiddleFinishButton.addEventListener("click", () => finishButton.click());
+
 document.addEventListener("keydown", (event) => {
   if (questionView.hidden || resultPanel.hidden === false) {
     return;
@@ -903,9 +910,8 @@ function resetSessionState() {
   state.responseSubmission = null;
   state.outOfScopeSubmission = null;
   state.allowNavigation = false;
-  retryButton.disabled = false;
-  finishButton.disabled = false;
-  finishButton.textContent = TEXT.finish;
+  setSummaryActionsDisabled(false);
+  updateFinishButtonLabel();
   summaryView.querySelector(".end-message")?.remove();
 }
 
@@ -981,8 +987,7 @@ function beginSession(selectedQuestions, { sessionMode = "standard" } = {}) {
   checkedView.hidden = true;
   solvedView.hidden = true;
   setStatus.textContent = TEXT.running;
-  retryButton.disabled = false;
-  finishButton.disabled = false;
+  setSummaryActionsDisabled(false);
   updateFinishButtonLabel();
   summaryView.querySelector(".end-message")?.remove();
   renderQuestion();
@@ -1375,7 +1380,11 @@ function recordCumulativeResults() {
 }
 
 function updateSummaryActionVisibility() {
-  retryButton.hidden = state.sessionMode === "challenge";
+  const isChallengeSession = state.sessionMode === "challenge";
+  retryButton.hidden = isChallengeSession;
+  if (typeof summaryMiddleRetryButton !== "undefined") {
+    summaryMiddleRetryButton.hidden = isChallengeSession;
+  }
 }
 
 function renderSummary() {
@@ -1437,7 +1446,17 @@ function renderSummary() {
 }
 
 function updateFinishButtonLabel() {
-  finishButton.textContent = isTagChallengeSession() ? "元のページに戻る" : TEXT.finish;
+  const label = isTagChallengeSession() ? "元のページに戻る" : TEXT.finish;
+  finishButton.textContent = label;
+  if (typeof summaryMiddleFinishButton !== "undefined") {
+    summaryMiddleFinishButton.textContent = label;
+  }
+}
+
+function setSummaryActionsDisabled(disabled) {
+  for (const button of [...summaryRetryButtons, ...summaryFinishButtons]) {
+    button.disabled = disabled;
+  }
 }
 
 function renderSummaryExplanation(question, selectedChoice, correctChoice) {
@@ -2311,8 +2330,7 @@ async function commitOutOfScopeReports() {
 }
 
 async function completeSummaryExit() {
-  retryButton.disabled = true;
-  finishButton.disabled = true;
+  setSummaryActionsDisabled(true);
   await Promise.all([
     submitResponseSubmission(state.responseSubmission),
     commitOutOfScopeReports(),
