@@ -200,6 +200,34 @@
     return cards.filter((card) => matchesSelection(card, values)).length;
   }
 
+  function sortFacetLinks() {
+    const selectedOrder = new Map(selected.map((value, index) => [value, index]));
+    root.querySelectorAll("[data-facet-links], [data-facet-list]").forEach((container) => {
+      const links = Array.from(container.children)
+        .filter((child) => child.matches("[data-facet-value]"))
+        .map((link, index) => ({
+          link,
+          index,
+          value: normalizeTag(link.dataset.facetValue),
+          matchCount: Number(link.dataset.filterMatchCount),
+        }));
+
+      links.sort((left, right) => {
+        const leftSelected = selectedOrder.has(left.value);
+        const rightSelected = selectedOrder.has(right.value);
+        if (leftSelected !== rightSelected) return leftSelected ? -1 : 1;
+        if (leftSelected && rightSelected) {
+          return selectedOrder.get(left.value) - selectedOrder.get(right.value) || left.index - right.index;
+        }
+        const leftCount = Number.isFinite(left.matchCount) ? left.matchCount : -1;
+        const rightCount = Number.isFinite(right.matchCount) ? right.matchCount : -1;
+        return rightCount - leftCount || left.index - right.index;
+      });
+
+      links.forEach(({ link }) => container.append(link));
+    });
+  }
+
   function matchingCards() {
     return cards
       .filter((card) => matchesSelection(card, selected))
@@ -311,6 +339,7 @@
           const matches = countMatches([...selected, value]);
           count.textContent = `${matches}問`;
           count.hidden = false;
+          link.dataset.filterMatchCount = String(matches);
           link.dataset.filterZero = String(matches === 0);
         }
       }
@@ -319,6 +348,7 @@
       clear.hidden = selected.length === 0;
       clear.setAttribute("href", filterHref([]));
     }
+    sortFacetLinks();
     syncFacetVisibility();
   }
 
