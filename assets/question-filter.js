@@ -15,7 +15,6 @@
   const controls = root.querySelector("[data-filter-controls]");
   const loadMore = root.querySelector("[data-filter-load-more]");
   const live = root.querySelector("[data-filter-live]");
-  const search = root.querySelector("[data-facet-search]");
   const clear = root.querySelector("[data-facet-clear]");
   const aliases = readAliases();
   const cards = Array.from(root.querySelectorAll("[data-filter-question]")).map((node, index) => ({
@@ -185,6 +184,25 @@
     return [...values];
   }
 
+  function matchesSelection(card, values) {
+    return values.every((value) => card.tags.includes(value));
+  }
+
+  function countMatches(values) {
+    return cards.filter((card) => matchesSelection(card, values)).length;
+  }
+
+  function syncFacetVisibility() {
+    root.querySelectorAll("[data-facet-value]").forEach((link) => {
+      const hasResults = link.dataset.filterZero !== "true";
+      link.hidden = !hasResults;
+    });
+    root.querySelectorAll("[data-facet-group]").forEach((group) => {
+      const visible = [...group.querySelectorAll(".facet-link")].some((link) => !link.hidden);
+      group.hidden = !visible;
+    });
+  }
+
   function syncFacetLinks() {
     root.querySelectorAll("[data-facet-value]").forEach((link) => {
       const value = normalizeTag(link.dataset.facetValue);
@@ -192,11 +210,24 @@
       link.classList.toggle("is-selected", active);
       link.setAttribute("aria-pressed", String(active));
       link.setAttribute("href", filterHref(toggledSelection(value)));
+      const count = link.querySelector("[data-facet-count]");
+      if (count) {
+        if (active) {
+          count.hidden = true;
+          link.dataset.filterZero = "false";
+        } else {
+          const matches = countMatches([...selected, value]);
+          count.textContent = `${matches}問`;
+          count.hidden = false;
+          link.dataset.filterZero = String(matches === 0);
+        }
+      }
     });
     if (clear) {
       clear.hidden = selected.length === 0;
       clear.setAttribute("href", filterHref([]));
     }
+    syncFacetVisibility();
   }
 
   function orderCards(matches) {
@@ -223,7 +254,7 @@
 
     if (selected.length === 0) {
       heading.textContent = "タグを選択してください";
-      summary.textContent = `${cards.length}問からOR条件で抽出します。`;
+      summary.textContent = `${cards.length}問からAND条件で絞り込みます。`;
       message.textContent = "上のタグ一覧から、学習したい用語や分野を選んでください。";
       message.hidden = false;
       orderCards([]);
@@ -231,7 +262,7 @@
     }
 
     const matches = cards
-      .filter((card) => card.tags.some((tag) => selected.includes(tag)))
+      .filter((card) => matchesSelection(card, selected))
       .sort((left, right) => left.index - right.index);
     if (focusId) {
       const originIndex = matches.findIndex((card) => card.id === focusId);
@@ -243,7 +274,7 @@
       document.createTextNode(`「${selected.join("」「")}」の問題`),
       element("span", "filter-hit-count", `${matches.length}問`),
     );
-    summary.textContent = `${selected.length}タグのOR検索で${matches.length}問が見つかりました。`;
+    summary.textContent = `${selected.length}タグのAND検索で${matches.length}問が見つかりました。`;
     message.hidden = matches.length > 0;
 
     if (matches.length === 0) {
@@ -296,20 +327,6 @@
     visibleCount += PAGE_SIZE;
     render();
   });
-
-  if (search) {
-    search.addEventListener("input", () => {
-      const query = search.value.trim().toLocaleLowerCase("ja");
-      root.querySelectorAll(".facet-links > .facet-link").forEach((link) => {
-        link.hidden = Boolean(query) && !link.dataset.facetValue.toLocaleLowerCase("ja").includes(query);
-      });
-      root.querySelectorAll("[data-facet-group]").forEach((group) => {
-        const visible = [...group.querySelectorAll(".facet-link")].some((link) => !link.hidden);
-        group.hidden = Boolean(query) && !visible;
-        if (query && visible) group.open = true;
-      });
-    });
-  }
 
   window.addEventListener("popstate", applyLocationState);
   window.addEventListener("hashchange", applyLocationState);

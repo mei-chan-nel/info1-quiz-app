@@ -50,7 +50,7 @@
     "local links, assets, and fragments",
     "portal sitemap synchronization for all 105 app and question URLs when available",
     "build-report mapping for 104 question pages and one learning-app page",
-    "normalized tags shown at the public threshold or as compatibility targets, with multi-tag OR filtering",
+    "normalized tags shown at the public threshold or as compatibility targets, with multi-tag AND filtering",
     "six-field tag grouping, source-question-first navigation, and static no-JavaScript question cards",
     "ten-question staged display, remaining-count control, and legacy tag URL aliases",
     "AdSense included on every generated question-library page",

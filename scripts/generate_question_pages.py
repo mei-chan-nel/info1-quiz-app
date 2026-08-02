@@ -278,7 +278,7 @@ def facet_links(counts: Counter[str], parameter: str) -> str:
         href = f"tags.html#{urlencode([(parameter, value)])}"
         links.append(
             f'<a class="facet-link" href="{href}" data-facet-value="{esc(value)}">'
-            f'<span>{esc(value)}</span><small>{count}問</small></a>'
+            f'<span>{esc(value)}</span><small data-facet-count>{count}問</small></a>'
         )
     return "".join(links)
 
@@ -309,18 +309,15 @@ def facet_panel(
     counts: Counter[str],
     *,
     open_panel: bool = False,
-    searchable: bool = False,
+    with_clear: bool = False,
     groups: list[tuple[str, Counter[str]]] | None = None,
 ) -> str:
     open_attr = " open" if open_panel else ""
-    search = ""
-    if searchable:
-        search = (
-            '<div class="facet-tools"><label class="facet-search"><span>タグ名を検索</span>'
-            '<input type="search" data-facet-search autocomplete="off" placeholder="例：2進数、著作権、DNS" />'
-            '</label><a class="facet-clear" href="tags.html" data-facet-clear>選択を解除</a></div>'
-        )
-    search_markup = f"          {search}\n" if search else ""
+    clear_markup = (
+        '          <div class="facet-tools"><a class="facet-clear" href="tags.html" data-facet-clear>選択を解除</a></div>\n'
+        if with_clear
+        else ""
+    )
     if groups:
         facet_markup = "".join(
             f'''<details class="facet-group" data-facet-group{(" open" if index == 0 else "")}>
@@ -333,10 +330,10 @@ def facet_panel(
     else:
         facet_markup = f'<div class="facet-links" data-facet-list>{facet_links(counts, "tag")}</div>'
     return f"""<details class="facet-panel"{open_attr}>
-        <summary>タグ一覧から問題を絞り込む <span>{len(counts)}種類・複数選択はOR検索</span></summary>
+        <summary>タグ一覧から問題を絞り込む <span>{len(counts)}種類・複数選択はAND検索</span></summary>
         <div class="facet-panel-body">
-          <p>タグは主に関連する分野へ整理しています。この一覧では複数選択のOR検索、各問題に付くタグからはそのタグだけの検索になります。</p>
-{search_markup}          <div class="facet-groups" data-facet-groups>{facet_markup}</div>
+          <p>タグは主に関連する分野へ整理しています。この一覧では複数選択のAND検索、各問題に付くタグからはそのタグだけの検索になります。</p>
+{clear_markup}          <div class="facet-groups" data-facet-groups>{facet_markup}</div>
         </div>
       </details>"""
 
@@ -344,13 +341,13 @@ def facet_panel(
 def field_card(field: dict, count: int, href: str) -> str:
     topics = "".join(f"<li>{esc(topic)}</li>" for topic in field["topics"])
     return f"""
-          <article class="field-card accent-{field['accent']}">
+          <a class="field-card accent-{field['accent']}" href="{href}">
             <div class="field-card-head"><span>{field['number']}</span><p>{count}問</p></div>
-            <h3>{esc(field['label'])}</h3>
+            <h3><span class="field-card-title-main">{esc(field['label'])}</span><span class="field-card-title-particle">の</span><span class="field-card-title-type">問題一覧</span></h3>
             <p>{esc(field['summary'])}</p>
             <ul class="topic-list">{topics}</ul>
-            <a class="text-link" href="{href}">{esc(field['label'])}の問題を読む <span aria-hidden="true">→</span></a>
-          </article>"""
+            <span class="card-arrow" aria-hidden="true">→</span>
+          </a>"""
 
 
 
@@ -600,7 +597,7 @@ def build_filter_payload(grouped: dict[str, list[dict]], public_tags: set[str]) 
         "generated_on": REVIEW_DATE.isoformat(),
         "question_count": len(items),
         "tag_count": len(tag_counts),
-        "match_mode": "OR",
+        "match_mode": "AND",
         "tag_aliases": TAG_ALIASES,
         "questions": items,
     }
@@ -644,7 +641,7 @@ def render_tag_filter_page(payload: dict) -> None:
         for field in FIELDS
     }
     title = "情報Ⅰ Study Atlas｜問題一覧｜タグ検索"
-    description = f"情報Ⅰの問題{payload['question_count']}問を{payload['tag_count']}種類のタグから検索。複数タグはOR条件で抽出し、正答・解説・出典まで確認できます。"
+    description = f"情報Ⅰの問題{payload['question_count']}問を{payload['tag_count']}種類のタグから検索。複数タグはAND条件で抽出し、正答・解説・出典まで確認できます。"
     schema = structured_data(
         {
             "@context": "https://schema.org",
@@ -674,13 +671,13 @@ def render_tag_filter_page(payload: dict) -> None:
     <main id="main-content" class="subpage filter-page" data-question-filter data-filter-param="tag" data-tag-aliases="{esc(aliases_json)}">
       {breadcrumb([('学習トップ', '../../'), ('問題一覧', './'), ('タグから探す', None)])}
       <section class="page-hero compact-hero">
-        <p class="eyebrow">TAG SEARCH · OR FILTER</p>
+        <p class="eyebrow">TAG SEARCH · AND FILTER</p>
         <h1>タグから問題を探す</h1>
-        <p>調べたいタグを選ぶと、そのタグを含む情報Ⅰの問題を抽出します。複数選択した場合は、いずれか1つ以上を含む問題を表示します。</p>
+        <p>調べたいタグを選ぶと、そのタグを含む情報Ⅰの問題を抽出します。複数選択した場合は、すべてを含む問題を表示します。</p>
       </section>
-      {facet_panel(tag_counts, open_panel=True, searchable=True, groups=primary_tag_groups(grouped, set(tag_counts)))}
+      {facet_panel(tag_counts, open_panel=True, with_clear=True, groups=primary_tag_groups(grouped, set(tag_counts)))}
       <section class="filter-results" aria-labelledby="filter-results-heading">
-        <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading>タグを選択してください</h2><p data-filter-summary>{payload['question_count']}問からOR条件で抽出します。</p></div>
+        <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading>タグを選択してください</h2><p data-filter-summary>{payload['question_count']}問からAND条件で絞り込みます。</p></div>
         <noscript><p class="filter-message">JavaScriptが無効なため、全{payload['question_count']}問を表示しています。</p></noscript>
         <div class="filter-result-list" id="filter-result-list" data-filter-results>
           <p class="filter-message" data-filter-message hidden></p>
@@ -749,7 +746,7 @@ def write_build_report(
             for question in items
         ),
         "tag_filter_page": "questions/tags.html",
-        "filter_match_mode": "OR",
+        "filter_match_mode": "AND",
         "learning_pages": ["questions/index.html", *generated_paths],
         "related_app_page": "app/",
         "portal_repository": "https://github.com/mei-chan-nel/mei-chan-nel.github.io",

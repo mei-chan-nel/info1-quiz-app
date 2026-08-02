@@ -459,7 +459,7 @@ def main() -> int:
         if tag_text.count('class="facet-group"') != len(FIELD_LABELS):
             errors.append("tags.html: tags must be grouped into all six learning fields")
         if "data-question-filter" not in tag_text or "data-filter-param=\"tag\"" not in tag_text:
-            errors.append("tags.html: OR filter configuration is missing")
+            errors.append("tags.html: AND filter configuration is missing")
         static_filter_cards = re.findall(r'<article[^>]*data-filter-question[^>]*>', tag_text)
         static_filter_ids = re.findall(r'data-question-id="([^"]+)"', tag_text)
         if len(static_filter_cards) != len(questions) or set(static_filter_ids) != expected_ids:
@@ -500,6 +500,8 @@ def main() -> int:
             errors.append("question-filter.js: source-question prioritization or result scrolling is missing")
         if "filter-hit-count" not in filter_script:
             errors.append("question-filter.js: visible filtered-result count is missing from the heading")
+        if "values.every" not in filter_script or "data-facet-count" not in filter_script:
+            errors.append("question-filter.js: AND matching or dynamic facet counts are missing")
         if "PAGE_SIZE = 10" not in filter_script or "visibleCount += PAGE_SIZE" not in filter_script:
             errors.append("question-filter.js: staged display must add ten questions at a time")
         if "shouldScrollToFocus" not in filter_script or "shouldScrollToFocus = false" not in filter_script:
@@ -668,7 +670,7 @@ def main() -> int:
             "local links, assets, and fragments",
             "portal sitemap synchronization for all 105 app and question URLs when available",
             "build-report mapping for 104 question pages and one learning-app page",
-            "normalized tags shown at the public threshold or as compatibility targets, with multi-tag OR filtering",
+            "normalized tags shown at the public threshold or as compatibility targets, with multi-tag AND filtering",
             "six-field tag grouping, source-question-first navigation, and static no-JavaScript question cards",
             "ten-question staged display, remaining-count control, and legacy tag URL aliases",
             "AdSense included on every generated question-library page",
