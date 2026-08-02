@@ -30,7 +30,7 @@
   "hidden_low_frequency_tag_count": 60,
   "questions_without_public_tags": 0,
   "tag_filter_page": "questions/tags.html",
-  "filter_match_mode": "OR",
+  "filter_match_mode": "AND",
   "learning_pages": [
     "questions/index.html",
     "questions/society-security.html",
