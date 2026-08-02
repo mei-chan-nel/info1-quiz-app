@@ -43,6 +43,10 @@ const summaryShareButton = document.querySelector("#summaryShareButton");
 const summaryRecordButton = document.querySelector("#summaryRecordButton");
 const retryButton = document.querySelector("#retryButton");
 const finishButton = document.querySelector("#finishButton");
+const summaryMiddleRetryButton = document.querySelector("#summaryMiddleRetryButton");
+const summaryMiddleFinishButton = document.querySelector("#summaryMiddleFinishButton");
+const summaryRetryButtons = [retryButton, summaryMiddleRetryButton];
+const summaryFinishButtons = [finishButton, summaryMiddleFinishButton];
 const recordView = document.querySelector("#recordView");
 const recordBackButton = document.querySelector("#recordBackButton");
 const recordBottomBackButton = document.querySelector("#recordBottomBackButton");
@@ -811,7 +815,15 @@ nextButton.addEventListener("click", async () => {
   scrollToTop();
 });
 
-retryButton.addEventListener("click", async () => {
+for (const button of summaryRetryButtons) {
+  button.addEventListener("click", handleRetryButtonClick);
+}
+
+for (const button of summaryFinishButtons) {
+  button.addEventListener("click", handleFinishButtonClick);
+}
+
+async function handleRetryButtonClick() {
   if (state.sessionMode === "tag-search") {
     await completeSummaryExit();
     if (!retryTagChallengeSession()) {
@@ -826,9 +838,9 @@ retryButton.addEventListener("click", async () => {
   if (!startSession()) {
     showStart();
   }
-});
+}
 
-finishButton.addEventListener("click", async () => {
+async function handleFinishButtonClick() {
   const isTagSession = isTagChallengeSession();
   const isChallengeSession = state.sessionMode === "challenge";
   await completeSummaryExit();
@@ -841,7 +853,7 @@ finishButton.addEventListener("click", async () => {
   }
   showStart();
   retryPendingSubmissions();
-});
+}
 
 document.addEventListener("keydown", (event) => {
   if (questionView.hidden || resultPanel.hidden === false) {
@@ -903,9 +915,8 @@ function resetSessionState() {
   state.responseSubmission = null;
   state.outOfScopeSubmission = null;
   state.allowNavigation = false;
-  retryButton.disabled = false;
-  finishButton.disabled = false;
-  finishButton.textContent = TEXT.finish;
+  setSummaryActionsDisabled(false);
+  updateFinishButtonLabel();
   summaryView.querySelector(".end-message")?.remove();
 }
 
@@ -981,8 +992,7 @@ function beginSession(selectedQuestions, { sessionMode = "standard" } = {}) {
   checkedView.hidden = true;
   solvedView.hidden = true;
   setStatus.textContent = TEXT.running;
-  retryButton.disabled = false;
-  finishButton.disabled = false;
+  setSummaryActionsDisabled(false);
   updateFinishButtonLabel();
   summaryView.querySelector(".end-message")?.remove();
   renderQuestion();
@@ -1375,7 +1385,10 @@ function recordCumulativeResults() {
 }
 
 function updateSummaryActionVisibility() {
-  retryButton.hidden = state.sessionMode === "challenge";
+  const isChallengeSession = state.sessionMode === "challenge";
+  for (const button of summaryRetryButtons) {
+    button.hidden = isChallengeSession;
+  }
 }
 
 function renderSummary() {
@@ -1437,7 +1450,16 @@ function renderSummary() {
 }
 
 function updateFinishButtonLabel() {
-  finishButton.textContent = isTagChallengeSession() ? "元のページに戻る" : TEXT.finish;
+  const label = isTagChallengeSession() ? "元のページに戻る" : TEXT.finish;
+  for (const button of summaryFinishButtons) {
+    button.textContent = label;
+  }
+}
+
+function setSummaryActionsDisabled(disabled) {
+  for (const button of [...summaryRetryButtons, ...summaryFinishButtons]) {
+    button.disabled = disabled;
+  }
 }
 
 function renderSummaryExplanation(question, selectedChoice, correctChoice) {
@@ -2311,8 +2333,7 @@ async function commitOutOfScopeReports() {
 }
 
 async function completeSummaryExit() {
-  retryButton.disabled = true;
-  finishButton.disabled = true;
+  setSummaryActionsDisabled(true);
   await Promise.all([
     submitResponseSubmission(state.responseSubmission),
     commitOutOfScopeReports(),
