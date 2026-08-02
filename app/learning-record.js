@@ -168,7 +168,7 @@
       if (record[2] === 0 && question) {
         wrongQuestionIds.push(questionId);
       }
-      const fieldId = question?.field_ids?.[0] || question?.fields?.[0];
+      const fieldId = question?.field_ids?.[0];
       if (fieldId && fields[fieldId]) {
         fields[fieldId].attempts += record[0];
         fields[fieldId].correct += record[1];

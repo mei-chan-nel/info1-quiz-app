@@ -238,28 +238,40 @@ test("固定乱数では抽選結果を再現できる", () => {
   assert.deepEqual(first.map((item) => item.id), second.map((item) => item.id));
 });
 
-test("一部分野だけを選んだ場合の抽選用分野割当は決定的である", () => {
+test("field_idsの主分野が未選択なら決定的なフォールバックを使う", () => {
   const item = question("q", "c");
   const options = {
     question: item,
     selectedFieldIds: ["a", "b"],
     fieldOrder: FIELD_ORDER,
-    matchingFieldIds: new Set(["b", "a", "c"]),
   };
   assert.equal(assignQuestionToSelectionField(options), "a");
   assert.equal(assignQuestionToSelectionField(options), "a");
 });
 
-test("主分野が選択中なら推定分野より主分野を優先する", () => {
+test("field_idsの主分野が選択中ならその分野へ割り当てる", () => {
   assert.equal(
     assignQuestionToSelectionField({
       question: question("q", "b"),
       selectedFieldIds: ["a", "b", "c"],
       fieldOrder: FIELD_ORDER,
-      matchingFieldIds: new Set(["a"]),
     }),
     "b",
   );
+});
+
+test("旧fieldsは抽選用分野の判定に使用しない", () => {
+  const warnings = [];
+  assert.equal(
+    assignQuestionToSelectionField({
+      question: { id: "q", field_ids: ["c"], fields: ["b"] },
+      selectedFieldIds: ["a", "b"],
+      fieldOrder: FIELD_ORDER,
+      onWarning: (message) => warnings.push(message),
+    }),
+    "a",
+  );
+  assert.equal(warnings.length, 1);
 });
 
 function question(id, fieldId) {

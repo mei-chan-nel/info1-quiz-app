@@ -128,131 +128,26 @@ const FIELD_DEFINITIONS = [
   {
     id: "society_security",
     label: "社会・セキュリティ",
-    needles: [
-      "情報社会",
-      "情報セキュリティ",
-      "著作権",
-      "肖像権",
-      "個人情報",
-      "不正アクセス",
-      "フィッシング",
-      "マルウェア",
-      "認証",
-      "パスワード",
-      "暗号",
-      "ディジタル署名",
-      "デジタル署名",
-      "バックアップ",
-      "機密性",
-      "完全性",
-      "可用性",
-      "アクセス制御",
-      "ハッシュ",
-    ],
   },
   {
     id: "digital",
     label: "デジタル表現",
-    needles: [
-      "bit",
-      "ビット",
-      "バイト",
-      "2進数",
-      "16進数",
-      "データ量",
-      "デジタル表現",
-      "画像",
-      "音声",
-      "動画",
-      "標本化",
-      "量子化",
-      "符号化",
-      "圧縮",
-      "論理演算",
-      "AND",
-      "OR",
-      "XOR",
-      "CPU",
-      "主記憶",
-      "ファイル",
-    ],
   },
   {
     id: "network",
     label: "ネットワーク",
-    needles: [
-      "ネットワーク",
-      "IPアドレス",
-      "IPv4",
-      "IPv6",
-      "DNS",
-      "DHCP",
-      "TCP",
-      "UDP",
-      "パケット",
-      "LAN",
-      "Web",
-      "Webページ",
-      "URL",
-      "HTTP",
-      "E-mail",
-      "電子メール",
-    ],
   },
   {
     id: "data_db",
     label: "データ活用・DB",
-    needles: [
-      "データ活用",
-      "データベース",
-      "RDB",
-      "主キー",
-      "外部キー",
-      "フィールド",
-      "レコード",
-      "テーブル",
-      "平均",
-      "中央値",
-      "最頻値",
-      "標準偏差",
-      "グラフ",
-      "欠損",
-      "外れ値",
-      "匿名",
-    ],
   },
   {
     id: "algorithm",
     label: "アルゴリズム",
-    needles: [
-      "プログラム",
-      "アルゴリズム",
-      "条件分岐",
-      "繰返し",
-      "変数",
-      "配列",
-      "探索",
-      "並べ替え",
-      "シミュレーション",
-      "確率",
-      "チェックディジット",
-      "関数",
-      "フローチャート",
-    ],
   },
   {
     id: "design",
     label: "情報デザイン",
-    needles: [
-      "情報デザイン",
-      "ユーザインタフェース",
-      "UI",
-      "アクセシビリティ",
-      "可読性",
-      "視認性",
-      "入力",
-      "ピクトグラム",
-    ],
   },
 ];
 
@@ -817,7 +712,6 @@ function startSession() {
       count: selectionCount,
       selectedFieldIds: getSelectedFields().map((definition) => definition.id),
       fieldOrder: FIELD_DEFINITIONS.map((definition) => definition.id),
-      getMatchingFieldIds: getQuestionFieldIds,
       attemptCounts: state.questionAttemptCounts,
       attemptStatsAvailable: state.questionAttemptStatsStatus === "success",
       getAnsweredAt: (question) => learningRecord.getQuestion(question.id).answeredAt,
@@ -1012,36 +906,11 @@ function getQuestionFieldIds(question) {
     return question.__fieldIds;
   }
 
-  const explicitFields = []
-    .concat(Array.isArray(question.fields) ? question.fields : [])
-    .concat(Array.isArray(question.field_ids) ? question.field_ids : [])
-    .filter((fieldId) => FIELD_ID_SET.has(fieldId));
-  const inferredFields = FIELD_DEFINITIONS
-    .filter((definition) => fieldNeedlesMatch(question, definition))
-    .map((definition) => definition.id);
-
-  question.__fieldIds = new Set([...explicitFields, ...inferredFields]);
+  const fieldIds = Array.isArray(question.field_ids)
+    ? question.field_ids.filter((fieldId) => FIELD_ID_SET.has(fieldId))
+    : [];
+  question.__fieldIds = new Set(fieldIds);
   return question.__fieldIds;
-}
-
-function fieldNeedlesMatch(question, definition) {
-  const searchText = getQuestionSearchText(question);
-  return definition.needles.some((needle) => searchText.includes(needle));
-}
-
-function getQuestionSearchText(question) {
-  if (question.__searchText) {
-    return question.__searchText;
-  }
-  const primaryTerms = Array.isArray(question.primary_terms) ? question.primary_terms : [];
-  question.__searchText = [
-    ...(question.tags || []),
-    ...(question.primary_term_names || []),
-    ...primaryTerms.flatMap((term) => [term.term, term.category, term.code]),
-  ]
-    .filter(Boolean)
-    .join(" ");
-  return question.__searchText;
 }
 
 function pickRandomSet(questions, count) {

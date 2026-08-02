@@ -10,7 +10,7 @@ from datetime import date
 from pathlib import Path
 from urllib.parse import urlencode
 
-from classify_questions import validate_field_ids
+from classify_questions import validate_question_data
 from tag_normalization import CANONICAL_TAGS, TAG_ALIASES, normalize_tags
 
 
@@ -110,9 +110,9 @@ def esc(value: object) -> str:
 def load_questions() -> list[dict]:
     with QUESTION_PATH.open(encoding="utf-8") as file:
         questions = json.load(file)
-    errors = validate_field_ids(questions)
+    errors = validate_question_data(questions)
     if errors:
-        raise ValueError("Invalid question fields:\n" + "\n".join(errors))
+        raise ValueError("Invalid question data:\n" + "\n".join(errors))
     seen: set[str] = set()
     for question in questions:
         question_id = str(question.get("id", ""))
