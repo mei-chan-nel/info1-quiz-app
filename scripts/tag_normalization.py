@@ -16,6 +16,7 @@ TAG_ALIASES = {
 }
 
 CANONICAL_TAGS = tuple(dict.fromkeys(TAG_ALIASES.values()))
+EXCLUDED_PUBLIC_TAGS = frozenset({"共通テスト"})
 
 
 def normalize_tag(value: object) -> str:
