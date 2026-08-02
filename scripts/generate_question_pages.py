@@ -11,7 +11,7 @@ from pathlib import Path
 from urllib.parse import urlencode
 
 from classify_questions import validate_question_data
-from tag_normalization import CANONICAL_TAGS, TAG_ALIASES, normalize_tags
+from tag_normalization import CANONICAL_TAGS, EXCLUDED_PUBLIC_TAGS, TAG_ALIASES, normalize_tags
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,7 +26,7 @@ OG_IMAGE_WIDTH = 1734
 OG_IMAGE_HEIGHT = 907
 ADSENSE_CLIENT = "ca-pub-6257644709224446"
 PAGE_SIZE = 10
-MIN_PUBLIC_TAG_QUESTIONS = 4
+MIN_PUBLIC_TAG_QUESTIONS = 1
 REVIEW_DATE = date.today()
 PROTECTED_APP_FILES = (
     "app/index.html",
@@ -738,8 +738,13 @@ def write_build_report(
         "forced_public_tags": sorted(
             tag for tag in CANONICAL_TAGS if tag_counts[tag] and tag_counts[tag] < MIN_PUBLIC_TAG_QUESTIONS
         ),
+        "excluded_public_tags": sorted(tag for tag in EXCLUDED_PUBLIC_TAGS if tag_counts[tag]),
         "tag_aliases": TAG_ALIASES,
-        "hidden_low_frequency_tag_count": len(tag_counts) - len(public_tags),
+        "hidden_low_frequency_tag_count": sum(
+            0 < count < MIN_PUBLIC_TAG_QUESTIONS
+            for tag, count in tag_counts.items()
+            if tag not in EXCLUDED_PUBLIC_TAGS
+        ),
         "questions_without_public_tags": sum(
             not any(str(tag).strip() in public_tags for tag in question.get("tags", []))
             for items in grouped.values()
@@ -768,9 +773,13 @@ def main() -> int:
         if str(tag).strip()
     )
     public_tags = {
-        tag for tag, count in tag_counts.items() if count >= MIN_PUBLIC_TAG_QUESTIONS
+        tag
+        for tag, count in tag_counts.items()
+        if count >= MIN_PUBLIC_TAG_QUESTIONS and tag not in EXCLUDED_PUBLIC_TAGS
     }
-    public_tags.update(tag for tag in CANONICAL_TAGS if tag_counts[tag])
+    public_tags.update(
+        tag for tag in CANONICAL_TAGS if tag_counts[tag] and tag not in EXCLUDED_PUBLIC_TAGS
+    )
 
     if QUESTIONS_DIR.resolve().parent != ROOT.resolve():
         raise RuntimeError("Refusing to regenerate questions outside the repository root")

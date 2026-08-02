@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, urljoin, urlsplit
+from urllib.parse import unquote, unquote_plus, urljoin, urlsplit
 
 from classify_questions import (
     FIELD_LABELS,
@@ -18,7 +18,7 @@ from classify_questions import (
     load_questions,
     validate_question_data,
 )
-from tag_normalization import CANONICAL_TAGS, TAG_ALIASES
+from tag_normalization import CANONICAL_TAGS, EXCLUDED_PUBLIC_TAGS, TAG_ALIASES
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,7 +38,7 @@ APP_OG_IMAGE_URL = f"{PORTAL_ORIGIN}assets/og/study-atlas-app-og.png"
 APP_OG_IMAGE_ALT = "情報Ⅰ Study Atlasの知識問題学習アプリ"
 APP_OG_IMAGE_WIDTH = "1734"
 APP_OG_IMAGE_HEIGHT = "907"
-MIN_PUBLIC_TAG_QUESTIONS = 4
+MIN_PUBLIC_TAG_QUESTIONS = 1
 PROTECTED_APP_FILES = (
     "app/index.html",
     "app/app.js",
@@ -214,9 +214,19 @@ def main() -> int:
     if duplicate_tag_ids:
         errors.append(f"Questions contain duplicate tags: {duplicate_tag_ids[:10]}")
     expected_tags = {
-        tag for tag, count in raw_tag_counts.items() if count >= MIN_PUBLIC_TAG_QUESTIONS
+        tag
+        for tag, count in raw_tag_counts.items()
+        if count >= MIN_PUBLIC_TAG_QUESTIONS and tag not in EXCLUDED_PUBLIC_TAGS
     }
-    expected_tags.update(tag for tag in CANONICAL_TAGS if raw_tag_counts[tag])
+    expected_tags.update(
+        tag for tag in CANONICAL_TAGS if raw_tag_counts[tag] and tag not in EXCLUDED_PUBLIC_TAGS
+    )
+    expected_excluded_tags = {tag for tag in EXCLUDED_PUBLIC_TAGS if raw_tag_counts[tag]}
+    expected_hidden_low_frequency_tags = sum(
+        0 < count < MIN_PUBLIC_TAG_QUESTIONS
+        for tag, count in raw_tag_counts.items()
+        if tag not in EXCLUDED_PUBLIC_TAGS
+    )
     forced_public_tags = {
         tag for tag in CANONICAL_TAGS if 0 < raw_tag_counts[tag] < MIN_PUBLIC_TAG_QUESTIONS
     }
@@ -439,11 +449,11 @@ def main() -> int:
     if question_html.count('class="tag-row"') != questions_with_public_tags:
         errors.append("Question pages must omit the entire tag row when no eligible tag remains")
     rendered_tag_values = {
-        unquote(value)
+        unquote_plus(value)
         for value in re.findall(r'class="tag-link" href="tags\.html#tag=([^"&]+)', question_html)
     }
     if rendered_tag_values != expected_tags:
-        errors.append("Question pages expose a missing or low-frequency tag")
+        errors.append("Question pages expose a missing or excluded tag")
 
     tag_page = ROOT / "questions" / "tags.html"
     filter_data_path = ROOT / "questions" / "filter-data.json"
@@ -486,13 +496,11 @@ def main() -> int:
         if embedded_tags != expected_tags:
             errors.append("tags.html: missing or low-frequency embedded tags are exposed")
         if any(
-            any(
-                raw_tag_counts[str(tag)] < MIN_PUBLIC_TAG_QUESTIONS and str(tag) not in forced_public_tags
-                for tag in tags
-            )
+            str(tag).strip() in EXCLUDED_PUBLIC_TAGS
             for tags in embedded_tag_lists
+            for tag in tags
         ):
-            errors.append("tags.html: a tag used by three or fewer questions remains")
+            errors.append("tags.html: an explicitly excluded public tag remains")
         filter_script = filter_script_path.read_text(encoding="utf-8")
         if "URLSearchParams" not in filter_script:
             errors.append("question-filter.js: URL-based multi-tag filter is missing")
@@ -626,8 +634,9 @@ def main() -> int:
             or build_report.get("tag_count") != len(expected_tags)
             or build_report.get("minimum_public_tag_questions") != MIN_PUBLIC_TAG_QUESTIONS
             or set(build_report.get("forced_public_tags", [])) != forced_public_tags
+            or set(build_report.get("excluded_public_tags", [])) != expected_excluded_tags
             or build_report.get("tag_aliases") != TAG_ALIASES
-            or build_report.get("hidden_low_frequency_tag_count") != len(raw_tag_counts) - len(expected_tags)
+            or build_report.get("hidden_low_frequency_tag_count") != expected_hidden_low_frequency_tags
             or build_report.get("questions_without_public_tags") != expected_without_public_tags
         ):
             errors.append("question-library-build.json: public-tag audit metadata is not synchronized")
@@ -649,8 +658,9 @@ def main() -> int:
         "tag_count": len(expected_tags),
         "minimum_public_tag_questions": MIN_PUBLIC_TAG_QUESTIONS,
         "forced_public_tags": sorted(forced_public_tags),
+        "excluded_public_tags": sorted(expected_excluded_tags),
         "tag_aliases": TAG_ALIASES,
-        "hidden_low_frequency_tag_count": len(raw_tag_counts) - len(expected_tags),
+        "hidden_low_frequency_tag_count": expected_hidden_low_frequency_tags,
         "questions_without_public_tags": sum(
             not any(str(tag).strip() in expected_tags for tag in question.get("tags", []))
             for question in questions
@@ -670,7 +680,7 @@ def main() -> int:
             "local links, assets, and fragments",
             "portal sitemap synchronization for all 105 app and question URLs when available",
             "build-report mapping for 104 question pages and one learning-app page",
-            "normalized tags shown at the public threshold or as compatibility targets, with multi-tag AND filtering",
+            "all normalized tags shown except explicitly excluded public tags, with multi-tag AND filtering",
             "six-field tag grouping, source-question-first navigation, and static no-JavaScript question cards",
             "ten-question staged display, remaining-count control, and legacy tag URL aliases",
             "AdSense included on every generated question-library page",

@@ -13,9 +13,12 @@
     "design": 64
   },
   "raw_tag_count": 225,
-  "tag_count": 165,
-  "minimum_public_tag_questions": 4,
+  "tag_count": 224,
+  "minimum_public_tag_questions": 1,
   "forced_public_tags": [],
+  "excluded_public_tags": [
+    "共通テスト"
+  ],
   "tag_aliases": {
     "ディジタル署名": "デジタル署名",
     "公開かぎ暗号方式": "公開鍵暗号方式",
@@ -27,7 +30,7 @@
     "クライアント・サーバシステム": "クライアントサーバシステム",
     "クライアント/サーバシステム": "クライアントサーバシステム"
   },
-  "hidden_low_frequency_tag_count": 60,
+  "hidden_low_frequency_tag_count": 0,
   "questions_without_public_tags": 0,
   "tag_filter_page": "questions/tags.html",
   "filter_match_mode": "AND",
