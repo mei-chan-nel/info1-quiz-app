@@ -58587,39 +58587,39 @@
   },
   {
     "id": "original_knowledge_0036",
-    "stem": "CPUが主に担う役割として、最も適切なものはどれか。",
+    "stem": "CPUが主に行う処理として、最も適切なものはどれか。",
     "choices": [
       {
         "label": "0",
-        "text": "入力装置と出力装置の役割だけを担う。",
+        "text": "電源を切った後もデータを保存する。",
         "choice_id": "original_knowledge_0036__choice_0",
         "is_correct": false,
-        "explanation": "入力・出力装置はCPUの外部にある周辺装置として扱われる。"
+        "explanation": "電源を切った後もデータを保存するのは、SSDやハードディスクなどの補助記憶装置である。"
       },
       {
         "label": "1",
-        "text": "電源を切っても保存する補助記憶の役割を担う。",
+        "text": "命令を解釈して各装置を制御し、演算を行う。",
         "choice_id": "original_knowledge_0036__choice_1",
-        "is_correct": false,
-        "explanation": "長期保存は主に補助記憶装置の役割である。"
+        "is_correct": true,
+        "explanation": "CPUは、主記憶装置から命令を取り出して内容を解釈し、その命令に従って各装置の動作を制御する。また、数値の計算やデータの比較などの演算も行う。"
       },
       {
         "label": "2",
-        "text": "プリンタを接続する通信規格の役割を担う。",
+        "text": "コンピュータとプリンタを接続するための通信方式を定める。",
         "choice_id": "original_knowledge_0036__choice_2",
         "is_correct": false,
-        "explanation": "接続の規格や境界はインターフェースと呼ばれる。"
+        "explanation": "USBなどの通信規格は、機器を接続してデータをやり取りするための方式を定めたものであり、CPUが規格を定めるわけではない。"
       },
       {
         "label": "3",
-        "text": "制御装置と演算装置の役割を担う。",
+        "text": "外部から情報を入力し、処理結果を外部へ出力する。",
         "choice_id": "original_knowledge_0036__choice_3",
-        "is_correct": true,
-        "explanation": "五大装置は入力・出力・記憶・演算・制御で、CPUは主に演算と制御を担う。\n\nコンピュータの五大装置は、入力装置、出力装置、記憶装置、演算装置、制御装置である。CPUは命令を主記憶装置から取り出して解読し、各装置を制御しながら演算を行うため、主に制御装置と演算装置に相当する。キーボードやマウスは入力装置、ディスプレイやプリンタは出力装置である。"
+        "is_correct": false,
+        "explanation": "情報の入力はキーボードやマウスなどの入力装置、情報の出力はディスプレイやプリンタなどの出力装置が行う。"
       }
     ],
-    "correct_choice": "3",
-    "explanation": "五大装置は入力・出力・記憶・演算・制御で、CPUは主に演算と制御を担う。\n\nコンピュータの五大装置は、入力装置、出力装置、記憶装置、演算装置、制御装置である。CPUは命令を主記憶装置から取り出して解読し、各装置を制御しながら演算を行うため、主に制御装置と演算装置に相当する。キーボードやマウスは入力装置、ディスプレイやプリンタは出力装置である。",
+    "correct_choice": "1",
+    "explanation": "コンピュータの五大装置は、入力装置、出力装置、記憶装置、演算装置、制御装置である。\n\nCPUは、主記憶装置から命令を取り出して内容を解釈し、その命令に従って各装置の動作を制御する。また、数値の計算やデータの比較などの演算も行う。このため、CPUは五大装置のうち、主に制御装置と演算装置に相当する働きを担っている。",
     "tags": [
       "デジタル",
       "CPU",
@@ -58673,7 +58673,7 @@
     "adoption_status": "completed",
     "evaluation_class": "as_is",
     "evaluation_reasons": [],
-    "answer_choice_id": "original_knowledge_0036__choice_3",
+    "answer_choice_id": "original_knowledge_0036__choice_1",
     "field_ids": [
       "digital"
     ]
