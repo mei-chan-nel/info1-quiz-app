@@ -182,8 +182,8 @@ def main() -> int:
         if marker not in root_text:
             errors.append(f"questions/index.html: required interaction marker is missing: {marker}")
     facet_groups = re.findall(r'<details class="facet-group" data-facet-group(?: open)?>', root_text)
-    if facet_groups and any(not group.endswith(" open>") for group in facet_groups):
-        errors.append("questions/index.html: all tag groups must be expanded by default")
+    if facet_groups and any(group.endswith(" open>") for group in facet_groups):
+        errors.append("questions/index.html: all tag groups must be closed by default")
     if any(not href.startswith("./#tag=") for href in re.findall(r'class="facet-link" href="([^"]+)"', root_text)):
         errors.append("questions/index.html: facet links must target the canonical page with a fragment")
 
