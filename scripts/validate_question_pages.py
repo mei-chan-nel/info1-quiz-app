@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import html as html_module
 import hashlib
 import json
 import re
@@ -10,35 +9,17 @@ import xml.etree.ElementTree as ET
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import unquote, unquote_plus, urljoin, urlsplit
+from urllib.parse import urlsplit
 
-from classify_questions import (
-    FIELD_LABELS,
-    OBSOLETE_PRIMARY_TERM_FIELD,
-    load_questions,
-    validate_question_data,
-)
-from tag_normalization import CANONICAL_TAGS, EXCLUDED_PUBLIC_TAGS, TAG_ALIASES
+from classify_questions import load_questions, validate_question_data
+from tag_normalization import EXCLUDED_PUBLIC_TAGS, TAG_ALIASES
 
 
 ROOT = Path(__file__).resolve().parents[1]
 PORTAL_ROOT = ROOT.parent / "mei-chan-nel.github.io"
-REPORT_DIR = ROOT / "docs" / "reports"
-AD_SCRIPT_MARKER = "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-SHARED_STYLESHEET = "../../assets/site.css"
-SHARED_FAVICON = "../../assets/favicon.svg"
-SHARED_SHELL_SCRIPT = "../../assets/site-header.js"
-PUBLIC_REPOSITORY_PREFIX = "/info1-quiz-app/"
-PORTAL_ORIGIN = "https://mei-chan-nel.com/"
-HOME_OG_IMAGE_URL = f"{PORTAL_ORIGIN}assets/og/study-atlas-home-og.png"
-HOME_OG_IMAGE_ALT = "情報Ⅰ Study Atlasの学習マップと「知識を、ひろげ、つなげる」のメッセージ"
-HOME_OG_IMAGE_WIDTH = "1734"
-HOME_OG_IMAGE_HEIGHT = "907"
-APP_OG_IMAGE_URL = f"{PORTAL_ORIGIN}assets/og/study-atlas-app-og.png"
-APP_OG_IMAGE_ALT = "情報Ⅰ Study Atlasの知識問題学習アプリ"
-APP_OG_IMAGE_WIDTH = "1734"
-APP_OG_IMAGE_HEIGHT = "907"
-MIN_PUBLIC_TAG_QUESTIONS = 1
+REPORT_PATH = ROOT / "docs" / "reports" / "question-pages-validation.json"
+ORIGIN = "https://mei-chan-nel.com/"
+PUBLIC_PREFIX = "/info1-quiz-app/"
 PROTECTED_APP_FILES = (
     "app/index.html",
     "app/app.js",
@@ -50,658 +31,259 @@ PROTECTED_APP_FILES = (
     "app/issue-report.js",
     "app/issue-report.css",
     "app/learning-record.js",
+    "app/tag-challenge.js",
 )
 
 
-class PageParser(HTMLParser):
+class MetaParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
-        self.title_parts: list[str] = []
-        self.in_title = False
-        self.description = ""
-        self.canonicals: list[str] = []
-        self.og_title = ""
-        self.og_urls: list[str] = []
-        self.meta_properties: dict[str, list[str]] = {}
-        self.meta_names: dict[str, list[str]] = {}
+        self.title = ""
+        self._in_title = False
         self.h1_count = 0
+        self.canonical = ""
+        self.og_url = ""
+        self.description = ""
         self.links: list[str] = []
-        self.assets: list[str] = []
-        self.ids: set[str] = set()
-        self.id_values: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = dict(attrs)
-        if tag == "meta":
-            content = values.get("content") or ""
-            if values.get("property"):
-                self.meta_properties.setdefault(values["property"], []).append(content)
-            if values.get("name"):
-                self.meta_names.setdefault(values["name"], []).append(content)
         if tag == "title":
-            self.in_title = True
-        if tag == "meta" and values.get("name") == "description":
-            self.description = values.get("content") or ""
-        if tag == "meta" and values.get("property") == "og:title":
-            self.og_title = values.get("content") or ""
-        if tag == "meta" and values.get("property") == "og:url":
-            self.og_urls.append(values.get("content") or "")
-        if tag == "link" and values.get("rel") == "canonical":
-            self.canonicals.append(values.get("href") or "")
-        if tag == "link" and values.get("href"):
-            self.assets.append(values["href"])
-        if tag == "script" and values.get("src"):
-            self.assets.append(values["src"])
-        if tag == "a" and values.get("href"):
-            self.links.append(values["href"])
-        if tag == "h1":
+            self._in_title = True
+        elif tag == "h1":
             self.h1_count += 1
-        if values.get("id"):
-            self.ids.add(values["id"])
-            self.id_values.append(values["id"])
+        elif tag == "meta" and values.get("name") == "description":
+            self.description = values.get("content") or ""
+        elif tag == "meta" and values.get("property") == "og:url":
+            self.og_url = values.get("content") or ""
+        elif tag == "link" and values.get("rel") == "canonical":
+            self.canonical = values.get("href") or ""
+        elif tag == "a" and values.get("href"):
+            self.links.append(values["href"] or "")
 
     def handle_endtag(self, tag: str) -> None:
         if tag == "title":
-            self.in_title = False
+            self._in_title = False
 
     def handle_data(self, data: str) -> None:
-        if self.in_title:
-            self.title_parts.append(data)
-
-    @property
-    def title(self) -> str:
-        return "".join(self.title_parts).strip()
-
-    @property
-    def canonical(self) -> str:
-        return self.canonicals[0] if self.canonicals else ""
+        if self._in_title:
+            self.title += data
 
 
-def normalized_text_sha256(path: Path) -> str:
-    content = path.read_bytes().replace(b"\r\n", b"\n")
-    return hashlib.sha256(content).hexdigest()
-
-
-def protected_app_hashes() -> dict[str, str]:
-    return {
-        relative: normalized_text_sha256(ROOT / relative)
-        for relative in PROTECTED_APP_FILES
-    }
-
-
-def local_target(source: Path, href: str) -> tuple[Path, str] | None:
-    split = urlsplit(href)
-    if split.scheme or split.netloc or href.startswith(("mailto:", "tel:", "javascript:")):
-        return None
-    source_public_path = PUBLIC_REPOSITORY_PREFIX + source.relative_to(ROOT).as_posix()
-    resolved = urlsplit(urljoin(f"https://preview.invalid{source_public_path}", href))
-    path_part = unquote(resolved.path)
-    if path_part.startswith(PUBLIC_REPOSITORY_PREFIX):
-        target = ROOT / path_part.removeprefix(PUBLIC_REPOSITORY_PREFIX)
-    else:
-        if not PORTAL_ROOT.is_dir():
-            return None
-        target = PORTAL_ROOT / path_part.lstrip("/")
-    target = target.resolve()
-    if target.is_dir():
-        target = target / "index.html"
-    return target, unquote(resolved.fragment)
-
-
-def expected_canonical(path: Path) -> str:
-    relative = path.relative_to(ROOT).as_posix()
-    if relative == "app/index.html":
-        return f"{PORTAL_ORIGIN}info1-quiz-app/app/"
-    if relative == "questions/index.html":
-        return f"{PORTAL_ORIGIN}info1-quiz-app/questions/"
-    return f"{PORTAL_ORIGIN}info1-quiz-app/{relative}"
-
-
-def structured_data_blocks(text: str) -> list[str]:
-    return re.findall(
-        r'<script\s+type="application/ld\+json"[^>]*>(.*?)</script>',
-        text,
-        flags=re.IGNORECASE | re.DOTALL,
-    )
-
-
-def structured_url_values(value: object) -> list[tuple[str, str]]:
-    found: list[tuple[str, str]] = []
-    if isinstance(value, dict):
-        for key, child in value.items():
-            if key in {"url", "item", "@id"} and isinstance(child, str):
-                found.append((key, child))
-            found.extend(structured_url_values(child))
-    elif isinstance(value, list):
-        for child in value:
-            found.extend(structured_url_values(child))
-    return found
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate generated question pages and the learning app.")
-    parser.add_argument(
-        "--portal-root",
-        type=Path,
-        default=PORTAL_ROOT,
-        help="Path to the mei-chan-nel.github.io checkout (defaults to the legacy sibling directory).",
-    )
+    parser = argparse.ArgumentParser(description="Validate the single tag-search question page and app URL integration.")
+    parser.add_argument("--portal-root", type=Path, default=PORTAL_ROOT)
     return parser.parse_args()
 
 
+def local_target(source: Path, href: str, portal_root: Path) -> Path | None:
+    parts = urlsplit(href)
+    if parts.scheme or parts.netloc or href.startswith(("mailto:", "tel:", "javascript:")):
+        return None
+    if parts.path.startswith(PUBLIC_PREFIX):
+        target = ROOT / parts.path.removeprefix(PUBLIC_PREFIX)
+    elif source.parent == ROOT / "questions" and parts.path.startswith("../.."):
+        target = portal_root / parts.path.removeprefix("../..").lstrip("/")
+    elif parts.path.startswith("/"):
+        target = portal_root / parts.path.lstrip("/")
+    else:
+        target = source.parent / parts.path
+    target = target.resolve()
+    if target.is_dir():
+        target = target / "index.html"
+    return target
+
+
 def main() -> int:
-    global PORTAL_ROOT
     args = parse_args()
-    PORTAL_ROOT = args.portal_root.expanduser().resolve()
+    portal_root = args.portal_root.expanduser().resolve()
     errors: list[str] = []
     warnings: list[str] = []
+
     questions = load_questions()
     errors.extend(validate_question_data(questions))
     expected_ids = {str(question["id"]) for question in questions}
-    raw_tag_counts = Counter(
+    tag_counts = Counter(
         str(tag).strip()
         for question in questions
         for tag in question.get("tags", [])
         if str(tag).strip()
     )
-    remaining_aliases = sorted(tag for tag in TAG_ALIASES if raw_tag_counts[tag])
-    if remaining_aliases:
-        errors.append(f"Question tags still use legacy spellings: {remaining_aliases}")
-    duplicate_tag_ids = [
-        str(question["id"])
-        for question in questions
-        if len(question.get("tags", [])) != len(set(map(str, question.get("tags", []))))
-    ]
-    if duplicate_tag_ids:
-        errors.append(f"Questions contain duplicate tags: {duplicate_tag_ids[:10]}")
-    expected_tags = {
-        tag
-        for tag, count in raw_tag_counts.items()
-        if count >= MIN_PUBLIC_TAG_QUESTIONS and tag not in EXCLUDED_PUBLIC_TAGS
-    }
-    expected_tags.update(
-        tag for tag in CANONICAL_TAGS if raw_tag_counts[tag] and tag not in EXCLUDED_PUBLIC_TAGS
-    )
-    expected_excluded_tags = {tag for tag in EXCLUDED_PUBLIC_TAGS if raw_tag_counts[tag]}
-    expected_hidden_low_frequency_tags = sum(
-        0 < count < MIN_PUBLIC_TAG_QUESTIONS
-        for tag, count in raw_tag_counts.items()
-        if tag not in EXCLUDED_PUBLIC_TAGS
-    )
-    forced_public_tags = {
-        tag for tag in CANONICAL_TAGS if 0 < raw_tag_counts[tag] < MIN_PUBLIC_TAG_QUESTIONS
-    }
-    expected_tag_links = sum(
-        sum(str(tag).strip() in expected_tags for tag in question.get("tags", []))
-        for question in questions
-    )
+    aliases_in_data = sorted(tag for tag in TAG_ALIASES if tag_counts[tag])
+    if aliases_in_data:
+        errors.append(f"legacy tag spellings remain in question data: {aliases_in_data}")
+    public_tags = {tag for tag in tag_counts if tag not in EXCLUDED_PUBLIC_TAGS}
 
-    html_paths = sorted((ROOT / "questions").glob("*.html"))
-    public_html_paths = [ROOT / "app" / "index.html", *html_paths]
-    parsed: dict[Path, PageParser] = {}
-    canonicals: list[str] = []
-    for path in public_html_paths:
-        text = path.read_text(encoding="utf-8")
-        parser = PageParser()
-        parser.feed(text)
-        parsed[path.resolve()] = parser
-        relative = path.relative_to(ROOT).as_posix()
-        if not parser.title:
-            errors.append(f"{relative}: missing title")
-        elif path.parent == ROOT / "questions" and not parser.title.startswith("情報Ⅰ Study Atlas｜問題一覧"):
-            errors.append(f"{relative}: title does not use the question hierarchy: {parser.title}")
-        if parser.og_title != parser.title:
-            errors.append(f"{relative}: og:title does not match title")
-        if not parser.description:
-            errors.append(f"{relative}: missing meta description")
-        if len(parser.canonicals) != 1:
-            errors.append(f"{relative}: expected one canonical URL, found {len(parser.canonicals)}")
-        else:
-            canonicals.append(parser.canonical)
-            expected_url = expected_canonical(path)
-            if parser.canonical != expected_url:
-                errors.append(
-                    f"{relative}: canonical does not match the public page URL: "
-                    f"{parser.canonical!r} != {expected_url!r}"
-                )
-            canonical_parts = urlsplit(parser.canonical)
-            if canonical_parts.scheme != "https" or canonical_parts.hostname != "mei-chan-nel.com":
-                errors.append(f"{relative}: canonical must use HTTPS on mei-chan-nel.com")
-            if canonical_parts.query or canonical_parts.fragment:
-                errors.append(f"{relative}: canonical must not contain a query string or fragment")
-        if len(parser.og_urls) != 1:
-            errors.append(f"{relative}: expected one og:url, found {len(parser.og_urls)}")
-        elif parser.og_urls[0] != parser.canonical:
-            errors.append(f"{relative}: og:url does not match canonical")
-        is_app_page = path == ROOT / "app" / "index.html"
-        expected_image = APP_OG_IMAGE_URL if is_app_page else HOME_OG_IMAGE_URL
-        expected_alt = APP_OG_IMAGE_ALT if is_app_page else HOME_OG_IMAGE_ALT
-        expected_width = APP_OG_IMAGE_WIDTH if is_app_page else HOME_OG_IMAGE_WIDTH
-        expected_height = APP_OG_IMAGE_HEIGHT if is_app_page else HOME_OG_IMAGE_HEIGHT
-        expected_og_properties = {
-            "og:image": expected_image,
-            "og:image:secure_url": expected_image,
-            "og:image:type": "image/png",
-            "og:image:width": expected_width,
-            "og:image:height": expected_height,
-            "og:image:alt": expected_alt,
-        }
-        expected_twitter_names = {
-            "twitter:card": "summary_large_image",
-            "twitter:image": expected_image,
-            "twitter:image:alt": expected_alt,
-        }
-        for name, expected in expected_og_properties.items():
-            values = parser.meta_properties.get(name, [])
-            if values != [expected]:
-                errors.append(
-                    f"{relative}: expected exactly one {name}={expected!r}, found {values!r}"
-                )
-        for name, expected in expected_twitter_names.items():
-            values = parser.meta_names.get(name, [])
-            if values != [expected]:
-                errors.append(
-                    f"{relative}: expected exactly one {name}={expected!r}, found {values!r}"
-                )
-        if path.parent == ROOT / "questions" and parser.h1_count != 1:
-            errors.append(f"{relative}: expected one h1, found {parser.h1_count}")
-        elif path == ROOT / "app" / "index.html" and parser.h1_count < 1:
-            errors.append(f"{relative}: missing h1")
-        duplicate_html_ids = sorted(
-            html_id for html_id, count in Counter(parser.id_values).items() if count > 1
-        )
-        if duplicate_html_ids:
-            errors.append(f"{relative}: duplicate HTML IDs: {duplicate_html_ids[:10]}")
-        if re.search(r"\{[a-zA-Z_][^}]*\}", text):
-            errors.append(f"{relative}: unresolved template placeholder")
-        if SHARED_STYLESHEET not in text:
-            errors.append(f"{relative}: shared portal stylesheet is missing")
-        if SHARED_FAVICON not in text:
-            errors.append(f"{relative}: shared portal favicon is missing")
-        if SHARED_SHELL_SCRIPT not in text:
-            errors.append(f"{relative}: shared site header/footer script is missing")
-        for marker in ('property="og:title"', 'property="og:description"', 'property="og:url"'):
-            if marker not in text:
-                errors.append(f"{relative}: missing Open Graph metadata {marker}")
-        blocks = structured_data_blocks(text)
-        if not blocks:
-            errors.append(f"{relative}: JSON-LD structured data is missing")
-        has_breadcrumbs = False
-        structured_urls: list[tuple[str, str]] = []
-        for index, block in enumerate(blocks, start=1):
-            try:
-                structured_value = json.loads(block)
-            except json.JSONDecodeError as exc:
-                errors.append(f"{relative}: JSON-LD block {index} is invalid: {exc}")
-                continue
-            if isinstance(structured_value, dict) and structured_value.get("@type") == "BreadcrumbList":
-                has_breadcrumbs = True
-            structured_urls.extend(structured_url_values(structured_value))
-        if not has_breadcrumbs:
-            errors.append(f"{relative}: BreadcrumbList structured data is missing")
-        for key, value in structured_urls:
-            parts = urlsplit(value)
-            if parts.scheme in {"http", "https"} and parts.hostname != "mei-chan-nel.com":
-                errors.append(f"{relative}: JSON-LD {key} uses a non-canonical host: {value}")
-        if parser.canonical and parser.canonical not in {value for _, value in structured_urls}:
-            errors.append(f"{relative}: JSON-LD does not identify the canonical page URL")
-        absolute_internal_links = [href for href in parser.links if href.startswith(PORTAL_ORIGIN)]
-        if absolute_internal_links:
-            errors.append(f"{relative}: internal navigation must use relative paths: {absolute_internal_links[:3]}")
+    questions_dir = ROOT / "questions"
+    html_names = sorted(path.name for path in questions_dir.glob("*.html"))
+    if html_names != ["index.html", "tags.html"]:
+        errors.append(f"questions/: expected index.html plus compatibility tags.html, found {html_names}")
+    if (questions_dir / "filter-data.json").exists():
+        errors.append("questions/filter-data.json is obsolete and must not be generated")
 
-    if any(path.name == "404.html" for path in public_html_paths):
-        errors.append("A 404 page must not be included in the generated public page set")
-
-    duplicates = [url for url, count in Counter(canonicals).items() if count > 1]
-    if duplicates:
-        errors.append(f"Duplicate canonical URLs: {duplicates}")
-
-    sitemap_url_count: int | None = None
-    sitemap_app_url_count: int | None = None
-    sitemap_matches_public_pages: bool | None = None
-    portal_sitemap = PORTAL_ROOT / "sitemap.xml"
-    if portal_sitemap.is_file():
+    root_path = questions_dir / "index.html"
+    root_text = root_path.read_text(encoding="utf-8") if root_path.is_file() else ""
+    root_parser = MetaParser()
+    root_parser.feed(root_text)
+    expected_canonical = f"{ORIGIN}info1-quiz-app/questions/"
+    if root_parser.title != "情報Ⅰ Study Atlas｜問題を探す｜タグ検索":
+        errors.append(f"questions/index.html: unexpected title {root_parser.title!r}")
+    if root_parser.canonical != expected_canonical or root_parser.og_url != expected_canonical:
+        errors.append("questions/index.html: canonical and og:url must use the root search URL")
+    if not root_parser.description or root_parser.h1_count != 1:
+        errors.append("questions/index.html: description and exactly one h1 are required")
+    visible_breadcrumb = '<nav class="breadcrumb" aria-label="パンくずリスト"><a href="../../">学習トップ</a><span aria-hidden="true">/</span><span aria-current="page">問題を探す</span></nav>'
+    if visible_breadcrumb not in root_text:
+        errors.append("questions/index.html: visible breadcrumb must contain only 学習トップ > 問題を探す")
+    json_ld_values: list[dict] = []
+    for raw_value in re.findall(r'<script type="application/ld\+json">(.*?)</script>', root_text, flags=re.DOTALL):
         try:
-            sitemap_root = ET.parse(portal_sitemap).getroot()
-            sitemap_urls = [
-                element.text.strip()
-                for element in sitemap_root.findall(".//{*}loc")
-                if element.text and element.text.strip()
-            ]
-        except ET.ParseError as exc:
-            errors.append(f"{portal_sitemap}: invalid sitemap XML: {exc}")
-        else:
-            sitemap_url_count = len(sitemap_urls)
-            duplicate_sitemap_urls = sorted(
-                url for url, count in Counter(sitemap_urls).items() if count > 1
-            )
-            if duplicate_sitemap_urls:
-                errors.append(f"Portal sitemap contains duplicate URLs: {duplicate_sitemap_urls[:10]}")
-            public_prefix = f"{PORTAL_ORIGIN}info1-quiz-app/"
-            sitemap_app_urls = {url for url in sitemap_urls if url.startswith(public_prefix)}
-            expected_public_urls = set(canonicals)
-            sitemap_app_url_count = len(sitemap_app_urls)
-            sitemap_matches_public_pages = sitemap_app_urls == expected_public_urls
-            if not sitemap_matches_public_pages:
-                missing = sorted(expected_public_urls - sitemap_app_urls)
-                unexpected = sorted(sitemap_app_urls - expected_public_urls)
-                errors.append(
-                    "Portal sitemap does not match public app/question canonicals: "
-                    f"missing={missing[:10]} unexpected={unexpected[:10]}"
-                )
-    else:
-        warnings.append("Portal sitemap was not available for cross-repository canonical verification")
-
-    for source, parser in list(parsed.items()):
-        for href in parser.links + parser.assets:
-            target_data = local_target(source, href)
-            if target_data is None:
-                continue
-            target, fragment = target_data
-            if not target.exists():
-                errors.append(f"{source.relative_to(ROOT)}: broken local target {href}")
-                continue
-            is_search_state = fragment.startswith(("tag=", "keyword=", "question="))
-            if fragment and not is_search_state and target.suffix.lower() == ".html":
-                target_parser = parsed.get(target.resolve())
-                if target_parser is None:
-                    target_parser = PageParser()
-                    target_parser.feed(target.read_text(encoding="utf-8"))
-                    parsed[target.resolve()] = target_parser
-                if fragment not in target_parser.ids:
-                    errors.append(f"{source.relative_to(ROOT)}: missing fragment target {href}")
-
-    generated_question_pages = [
-        path
-        for path in html_paths
-        if path.parent == ROOT / "questions" and path.name not in {"index.html", "tags.html"}
+            value = json.loads(raw_value)
+        except json.JSONDecodeError as exc:
+            errors.append(f"questions/index.html: invalid JSON-LD: {exc}")
+            continue
+        if isinstance(value, dict):
+            json_ld_values.append(value)
+    breadcrumb_values = [value for value in json_ld_values if value.get("@type") == "BreadcrumbList"]
+    expected_breadcrumb = [
+        ("学習トップ", ORIGIN),
+        ("問題を探す", expected_canonical),
     ]
-    rendered_ids: list[str] = []
-    page_counts: dict[str, int] = {}
-    for path in generated_question_pages:
-        text = path.read_text(encoding="utf-8")
-        ids = re.findall(r'<article class="question-card" id="q-([^"]+)">', text)
-        rendered_ids.extend(ids)
-        page_counts[path.relative_to(ROOT).as_posix()] = len(ids)
-        if not 1 <= len(ids) <= 10:
-            errors.append(f"{path.relative_to(ROOT)}: question count must be 1-10, found {len(ids)}")
-    rendered_counter = Counter(rendered_ids)
-    missing_ids = sorted(expected_ids - set(rendered_counter))
-    duplicate_ids = sorted(question_id for question_id, count in rendered_counter.items() if count != 1)
-    unexpected_ids = sorted(set(rendered_counter) - expected_ids)
-    if missing_ids:
-        errors.append(f"Questions missing from generated pages: {missing_ids[:10]} (total {len(missing_ids)})")
-    if duplicate_ids:
-        errors.append(f"Questions rendered more than once: {duplicate_ids[:10]} (total {len(duplicate_ids)})")
-    if unexpected_ids:
-        errors.append(f"Unexpected rendered question IDs: {unexpected_ids[:10]}")
-
-    question_html = "\n".join(path.read_text(encoding="utf-8") for path in generated_question_pages)
-    if question_html.count('class="tag-link"') != expected_tag_links:
-        errors.append("Every eligible question tag must be published exactly once as a link")
-    if 'href="tags.html#tag=' not in question_html:
-        errors.append("Generated question tags do not link to the tag filter")
-    if question_html.count("&amp;question=") + question_html.count("&question=") != expected_tag_links:
-        errors.append("Every question tag link must preserve its source question")
-    questions_with_public_tags = sum(
-        any(str(tag).strip() in expected_tags for tag in question.get("tags", []))
-        for question in questions
-    )
-    if question_html.count('class="tag-row"') != questions_with_public_tags:
-        errors.append("Question pages must omit the entire tag row when no eligible tag remains")
-    rendered_tag_values = {
-        unquote_plus(value)
-        for value in re.findall(r'class="tag-link" href="tags\.html#tag=([^"&]+)', question_html)
-    }
-    if rendered_tag_values != expected_tags:
-        errors.append("Question pages expose a missing or excluded tag")
-
-    tag_page = ROOT / "questions" / "tags.html"
-    filter_data_path = ROOT / "questions" / "filter-data.json"
-    filter_script_path = ROOT / "assets" / "question-filter.js"
-    if not tag_page.is_file() or not filter_script_path.is_file():
-        errors.append("Tag filter page or script is missing")
+    if len(breadcrumb_values) != 1:
+        errors.append(f"questions/index.html: expected one BreadcrumbList, found {len(breadcrumb_values)}")
     else:
-        tag_text = tag_page.read_text(encoding="utf-8")
-        if filter_data_path.exists() or "data-filter-data=" in tag_text:
-            errors.append("Unused external question-filter JSON must not be published or referenced")
-        if tag_text.count('class="facet-link"') != len(expected_tags):
-            errors.append("tags.html: expected one link for every unique tag")
-        if tag_text.count('class="facet-group"') != len(FIELD_LABELS):
-            errors.append("tags.html: tags must be grouped into all six learning fields")
-        if "data-question-filter" not in tag_text or "data-filter-param=\"tag\"" not in tag_text:
-            errors.append("tags.html: AND filter configuration is missing")
-        static_filter_cards = re.findall(r'<article[^>]*data-filter-question[^>]*>', tag_text)
-        static_filter_ids = re.findall(r'data-question-id="([^"]+)"', tag_text)
-        if len(static_filter_cards) != len(questions) or set(static_filter_ids) != expected_ids:
-            errors.append("tags.html: all questions must be retained as static filter cards")
-        if any(re.search(r"\shidden(?:\s|=|>)", card) for card in static_filter_cards):
-            errors.append("tags.html: static question cards must remain readable without JavaScript")
-        if tag_text.count("正答と解説を確認") < len(questions):
-            errors.append("tags.html: static question cards must retain answer and explanation controls")
-        if "data-filter-load-more" not in tag_text or 'aria-live="polite"' not in tag_text:
-            errors.append("tags.html: staged result controls or live status are missing")
-        alias_match = re.search(r'data-tag-aliases="([^"]*)"', tag_text)
-        rendered_aliases = (
-            json.loads(html_module.unescape(alias_match.group(1)))
-            if alias_match
-            else None
-        )
-        if rendered_aliases != TAG_ALIASES:
-            errors.append("tags.html: legacy tag aliases are not synchronized")
-        embedded_tag_lists = [
-            json.loads(html_module.unescape(value))
-            for value in re.findall(r'data-filter-tags="([^"]*)"', tag_text)
-        ]
-        embedded_tags = {str(tag) for tags in embedded_tag_lists for tag in tags}
-        if embedded_tags != expected_tags:
-            errors.append("tags.html: missing or low-frequency embedded tags are exposed")
-        if any(
-            str(tag).strip() in EXCLUDED_PUBLIC_TAGS
-            for tags in embedded_tag_lists
-            for tag in tags
-        ):
-            errors.append("tags.html: an explicitly excluded public tag remains")
-        filter_script = filter_script_path.read_text(encoding="utf-8")
-        if "URLSearchParams" not in filter_script:
-            errors.append("question-filter.js: URL-based multi-tag filter is missing")
-        if "focusId" not in filter_script or "scrollIntoView" not in filter_script:
-            errors.append("question-filter.js: source-question prioritization or result scrolling is missing")
-        if "filter-hit-count" not in filter_script:
-            errors.append("question-filter.js: visible filtered-result count is missing from the heading")
-        if "values.every" not in filter_script or "data-facet-count" not in filter_script:
-            errors.append("question-filter.js: AND matching or dynamic facet counts are missing")
-        if "PAGE_SIZE = 10" not in filter_script or "visibleCount += PAGE_SIZE" not in filter_script:
-            errors.append("question-filter.js: staged display must add ten questions at a time")
-        if "shouldScrollToFocus" not in filter_script or "shouldScrollToFocus = false" not in filter_script:
-            errors.append("question-filter.js: load-more must not repeat the initial focused-result scroll")
-        if "popstate" not in filter_script or "normalizeTag" not in filter_script:
-            errors.append("question-filter.js: history or legacy-tag compatibility is missing")
+        items = breadcrumb_values[0].get("itemListElement", [])
+        actual_breadcrumb = [(item.get("name"), item.get("item")) for item in items if isinstance(item, dict)]
+        if actual_breadcrumb != expected_breadcrumb:
+            errors.append(f"questions/index.html: JSON-LD breadcrumb is incorrect: {actual_breadcrumb}")
+        breadcrumb_urls = [url for _, url in actual_breadcrumb]
+        if len(breadcrumb_urls) != len(set(breadcrumb_urls)):
+            errors.append("questions/index.html: JSON-LD breadcrumb contains duplicate URLs")
+    if 'data-question-filter' not in root_text or 'data-filter-param="tag"' not in root_text:
+        errors.append("questions/index.html: tag-filter root markers are missing")
+    rendered_ids = re.findall(r'data-filter-question[^>]*data-question-id="([^"]+)"', root_text)
+    if len(rendered_ids) != len(questions):
+        errors.append(f"questions/index.html: expected {len(questions)} static filter cards, found {len(rendered_ids)}")
+    rendered_counter = Counter(rendered_ids)
+    if set(rendered_counter) != expected_ids or any(count != 1 for count in rendered_counter.values()):
+        errors.append("questions/index.html: question IDs are missing, duplicated, or unexpected")
+    facet_values = re.findall(r'class="facet-link"[^>]*data-facet-value="([^"]+)"', root_text)
+    if len(facet_values) != len(public_tags) or set(facet_values) != public_tags:
+        errors.append(f"questions/index.html: expected {len(public_tags)} unique facet tags, found {len(facet_values)}")
+    if "tags.html" in root_text or "通常ページで開く" in root_text or "source_href" in root_text:
+        errors.append("questions/index.html: obsolete field-page or legacy-tag links remain")
+    if 'src="../assets/question-filter.js?v=' not in root_text or 'src="../app/tag-challenge.js?v=' not in root_text:
+        errors.append("questions/index.html: tag-filter scripts are missing")
+    for marker in ("data-facet-groups", "data-filter-results", "data-filter-controls", "data-filter-load-more", "data-tag-challenge-start", "AND検索"):
+        if marker not in root_text:
+            errors.append(f"questions/index.html: required interaction marker is missing: {marker}")
+    facet_groups = re.findall(r'<details class="facet-group" data-facet-group(?: open)?>', root_text)
+    if facet_groups and any(not group.endswith(" open>") for group in facet_groups):
+        errors.append("questions/index.html: all tag groups must be expanded by default")
+    if any(not href.startswith("./#tag=") for href in re.findall(r'class="facet-link" href="([^"]+)"', root_text)):
+        errors.append("questions/index.html: facet links must target the canonical page with a fragment")
 
-    ad_required = [ROOT / "questions" / "index.html", ROOT / "questions" / "tags.html", *generated_question_pages]
-    for path in ad_required:
-        page_text = path.read_text(encoding="utf-8")
-        if AD_SCRIPT_MARKER not in page_text:
-            errors.append(f"{path.relative_to(ROOT)}: AdSense script missing from learning content")
-        if 'href="../../sitemap.html"' not in page_text:
-            errors.append(f"{path.relative_to(ROOT)}: footer sitemap link missing")
-    for obsolete_name in ("index.html", "about.html", "privacy.html", "sitemap.html", "ads.txt", "robots.txt", "sitemap.xml"):
-        if (ROOT / obsolete_name).exists():
-            errors.append(f"Repository-boundary violation: {obsolete_name} belongs to mei-chan-nel.github.io")
-    for obsolete_app_page in ("app/about.html", "app/privacy.html"):
-        if (ROOT / obsolete_app_page).exists():
-            errors.append(f"Obsolete app information page still exists: {obsolete_app_page}")
+    legacy_path = questions_dir / "tags.html"
+    legacy_text = legacy_path.read_text(encoding="utf-8") if legacy_path.is_file() else ""
+    if 'name="robots" content="noindex,follow"' not in legacy_text:
+        errors.append("questions/tags.html: compatibility stub must be noindex,follow")
+    if expected_canonical not in legacy_text or 'meta http-equiv="refresh"' not in legacy_text:
+        errors.append("questions/tags.html: compatibility redirect must canonicalize to the root search page")
+    for marker in ("target.search = window.location.search", "target.hash = window.location.hash"):
+        if marker not in legacy_text:
+            errors.append(f"questions/tags.html: query/hash preservation marker is missing: {marker}")
 
-    app_index = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
-    expected_footer_links = (
-        'href="../../"',
-        'href="../../about.html"',
-        'href="../../privacy.html"',
-    )
-    for expected_link in expected_footer_links:
-        if expected_link not in app_index:
-            errors.append(f"app/index.html: missing consolidated footer link {expected_link}")
-    if SHARED_FAVICON not in app_index:
-        errors.append("app/index.html: shared portal favicon is missing")
-    if SHARED_STYLESHEET not in app_index:
-        errors.append("app/index.html: shared portal stylesheet is missing")
-    if SHARED_SHELL_SCRIPT not in app_index:
-        errors.append("app/index.html: shared site footer script is missing")
-    if 'href="./about.html"' in app_index or 'href="./privacy.html"' in app_index:
-        errors.append("app/index.html: obsolete local information-page link remains")
+    filter_script = (ROOT / "assets" / "question-filter.js").read_text(encoding="utf-8")
+    challenge_script = (ROOT / "app" / "tag-challenge.js").read_text(encoding="utf-8")
     app_script = (ROOT / "app" / "app.js").read_text(encoding="utf-8")
-    app_styles = (ROOT / "app" / "styles.css").read_text(encoding="utf-8")
-    if "<title>情報Ⅰ Study Atlas｜学習アプリ</title>" not in app_index:
-        errors.append("app/index.html: browser title does not identify the learning app")
-    for marker in ("app-mini-nav", "appMenuButton", "appRecordNavButton", "interruptDialogMessage"):
-        if marker not in app_index:
-            errors.append(f"app/index.html: compact navigation marker is missing: {marker}")
-    for marker in ("トップページ", "学習アプリ", "問題一覧", "動画問題", "講義ノート", "学習記録", 'href="../../archive/"'):
-        if marker not in app_index:
-            errors.append(f"app/index.html: required menu item is missing: {marker}")
-    for marker in ("requestNavigationConfirmation", 'addEventListener("beforeunload"', 'requestedView === "record"', "openRecordAfterChallenge", 'event.key !== "Escape"'):
-        if marker not in app_script:
-            errors.append(f"app/app.js: navigation compatibility marker is missing: {marker}")
-    question_data_script = (ROOT / "app" / "question-data.js").read_text(encoding="utf-8")
-    issue_report_script = (ROOT / "app" / "issue-report.js").read_text(encoding="utf-8")
-    if app_index.index('src="./question-data.js"') > app_index.index('src="./startup.js"'):
-        errors.append("app/index.html: shared question loader must run before startup")
-    for marker in ("StudyAtlasQuestionData", "pendingRequest", "cachedQuestions", 'cache: "no-store"'):
-        if marker not in question_data_script:
-            errors.append(f"app/question-data.js: shared loader marker is missing: {marker}")
-    if "window.StudyAtlasQuestionData.load()" not in app_script or "window.StudyAtlasQuestionData.load()" not in issue_report_script:
-        errors.append("App and issue report must share the question-data Promise")
-    for consumer_name, consumer_text in (("app.js", app_script), ("issue-report.js", issue_report_script)):
-        if 'fetch("../data/questions/completed_questions.json"' in consumer_text:
-            errors.append(f"app/{consumer_name}: duplicate question-data fetch remains")
-    obsolete_runtime_references = sorted(
-        path.relative_to(ROOT).as_posix()
-        for path in (ROOT / "app").glob("*.js")
-        if OBSOLETE_PRIMARY_TERM_FIELD in path.read_text(encoding="utf-8")
-    )
-    if obsolete_runtime_references:
-        errors.append(
-            f"Runtime code references obsolete {OBSOLETE_PRIMARY_TERM_FIELD}: {obsolete_runtime_references}"
-        )
-    if (
-        ".app-mini-nav__toggle { min-height: 44px" not in app_styles
-        or ".app-mini-nav__menu a, .app-mini-nav__menu button { min-height: 44px" not in app_styles
-    ):
-        errors.append("app/styles.css: compact navigation sizing is missing")
-    learning_record_script = (ROOT / "app" / "learning-record.js").read_text(encoding="utf-8")
-    for marker in ('"info1LearningRecord:v1"', '"info1QuizStats:v4"', "migrateLegacyData", "localStorage.removeItem(LEGACY_STORAGE_KEY)"):
-        if marker not in learning_record_script:
-            errors.append(f"app/learning-record.js: storage compatibility marker is missing: {marker}")
+    if "tags.html" in filter_script or "tags.html" in challenge_script or "questions/tags.html" in app_script:
+        errors.append("app URL integration still points to questions/tags.html")
+    if 'function getQuestionSearchUrl' not in challenge_script or 'new URL("../questions/", href)' not in challenge_script:
+        errors.append("tag-challenge.js: app-relative question-search return path is missing")
+    if 'new URL("../questions/", window.location.href).pathname' not in app_script:
+        errors.append("app.js: app-relative fallback return path is missing")
+    for marker in ("loadMore", "URLSearchParams", "AND", "history.replaceState"):
+        if marker not in filter_script:
+            warnings.append(f"question-filter.js: could not find expected interaction marker {marker}")
+    app_index_text = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
+    if ">問題一覧<" in app_index_text or ">動画問題<" in app_index_text:
+        errors.append("app/index.html: old navigation labels remain")
+    if './tag-challenge.js?v=' not in app_index_text or './app.js?v=' not in app_index_text:
+        errors.append("app/index.html: changed tag-return scripts must use cache-busting versions")
 
-    baseline_path = REPORT_DIR / "app-core-baseline-sha256.json"
-    if not baseline_path.exists():
-        errors.append("Missing app baseline hash report")
+    report_path = ROOT / "docs" / "reports" / "question-library-build.json"
+    report: dict = json.loads(report_path.read_text(encoding="utf-8")) if report_path.is_file() else {}
+    for key, expected in (("question_count", len(questions)), ("tag_count", len(public_tags)), ("question_search_page", "questions/index.html"), ("learning_pages", ["questions/index.html"]), ("legacy_tag_redirect", "questions/tags.html")):
+        if report.get(key) != expected:
+            errors.append(f"question-library-build.json: {key} must be {expected!r}, found {report.get(key)!r}")
+    if report.get("filter_match_mode") != "AND":
+        errors.append("question-library-build.json: filter_match_mode must be AND")
+    if (ROOT / "docs" / "reports" / "validation.json").exists():
+        errors.append("obsolete docs/reports/validation.json remains; use question-pages-validation.json")
+
+    baseline_path = ROOT / "docs" / "reports" / "app-core-baseline-sha256.json"
+    if not baseline_path.is_file():
+        errors.append("app-core-baseline-sha256.json is missing")
     else:
         baseline = json.loads(baseline_path.read_text(encoding="utf-8"))
-        current = protected_app_hashes()
-        if current != baseline:
-            changed = sorted(set(baseline) | set(current))
-            changed = [name for name in changed if baseline.get(name) != current.get(name)]
-            errors.append(f"Protected app files changed: {changed}")
+        for relative in PROTECTED_APP_FILES:
+            path = ROOT / relative
+            if not path.is_file():
+                errors.append(f"protected app file is missing: {relative}")
+            elif baseline.get(relative) != sha256(path):
+                errors.append(f"protected app baseline mismatch: {relative}")
 
-    build_report_public_page_count: int | None = None
-    build_report_path = REPORT_DIR / "question-library-build.json"
-    if not build_report_path.is_file():
-        errors.append("Missing question-library build report")
+    sitemap_path = portal_root / "sitemap.xml"
+    if sitemap_path.is_file():
+        try:
+            urls = [node.text.strip() for node in ET.parse(sitemap_path).getroot().findall(".//{*}loc") if node.text and node.text.strip()]
+            expected_urls = {f"{ORIGIN}info1-quiz-app/app/", expected_canonical}
+            app_urls = {url for url in urls if url.startswith(f"{ORIGIN}info1-quiz-app/")}
+            if app_urls != expected_urls:
+                errors.append(f"sitemap.xml: app URLs must be {sorted(expected_urls)}, found {sorted(app_urls)}")
+        except ET.ParseError as exc:
+            errors.append(f"sitemap.xml: invalid XML: {exc}")
     else:
-        build_report = json.loads(build_report_path.read_text(encoding="utf-8"))
-        learning_pages = build_report.get("learning_pages", [])
-        related_app_page = build_report.get("related_app_page")
-        expected_learning_pages = {
-            path.relative_to(ROOT).as_posix()
-            for path in html_paths
-        }
-        build_report_public_page_count = (
-            len(learning_pages) + 1 if isinstance(learning_pages, list) and related_app_page else None
-        )
-        if (
-            not isinstance(learning_pages, list)
-            or len(learning_pages) != len(set(learning_pages))
-            or set(learning_pages) != expected_learning_pages
-            or related_app_page != "app/"
-        ):
-            errors.append(
-                "question-library-build.json: public page list does not match the 104 question "
-                "pages and learning app"
-            )
-        expected_without_public_tags = len(questions) - questions_with_public_tags
-        if (
-            build_report.get("raw_tag_count") != len(raw_tag_counts)
-            or build_report.get("tag_count") != len(expected_tags)
-            or build_report.get("minimum_public_tag_questions") != MIN_PUBLIC_TAG_QUESTIONS
-            or set(build_report.get("forced_public_tags", [])) != forced_public_tags
-            or set(build_report.get("excluded_public_tags", [])) != expected_excluded_tags
-            or build_report.get("tag_aliases") != TAG_ALIASES
-            or build_report.get("hidden_low_frequency_tag_count") != expected_hidden_low_frequency_tags
-            or build_report.get("questions_without_public_tags") != expected_without_public_tags
-        ):
-            errors.append("question-library-build.json: public-tag audit metadata is not synchronized")
+        warnings.append("portal sitemap.xml was not found")
 
-    report = {
+    for source in (root_path, legacy_path):
+        if not source.is_file():
+            continue
+        parser = MetaParser()
+        parser.feed(source.read_text(encoding="utf-8"))
+        for href in parser.links:
+            target = local_target(source, href, portal_root)
+            if target is not None and not target.exists():
+                errors.append(f"{source.relative_to(ROOT)}: broken local target {href}")
+
+    report_out = {
         "status": "pass" if not errors else "fail",
-        "question_count": len(questions),
-        "rendered_question_count": len(rendered_ids),
-        "generated_question_pages": len(generated_question_pages),
-        "html_pages_checked": len(public_html_paths),
-        "canonical_count": len(canonicals),
-        "canonical_origin": PORTAL_ORIGIN,
-        "portal_sitemap_url_count": sitemap_url_count,
-        "portal_sitemap_app_url_count": sitemap_app_url_count,
-        "portal_sitemap_matches_public_pages": sitemap_matches_public_pages,
-        "build_report_public_page_count": build_report_public_page_count,
-        "field_counts": dict(Counter(question["field_ids"][0] for question in questions)),
-        "raw_tag_count": len(raw_tag_counts),
-        "tag_count": len(expected_tags),
-        "minimum_public_tag_questions": MIN_PUBLIC_TAG_QUESTIONS,
-        "forced_public_tags": sorted(forced_public_tags),
-        "excluded_public_tags": sorted(expected_excluded_tags),
-        "tag_aliases": TAG_ALIASES,
-        "hidden_low_frequency_tag_count": expected_hidden_low_frequency_tags,
-        "questions_without_public_tags": sum(
-            not any(str(tag).strip() in expected_tags for tag in question.get("tags", []))
-            for question in questions
-        ),
+        "questions_checked": len(questions),
+        "tags_checked": len(public_tags),
+        "question_html": html_names,
+        "field_pages": 0,
+        "canonical_search_url": expected_canonical,
         "errors": errors,
         "warnings": warnings,
         "checks": [
-            "absence of obsolete primary-term fields and valid primary_terms objects",
-            "absence of obsolete primary-term references in runtime JavaScript",
-            "field_ids completeness and allowed values",
-            "unique question IDs and exactly-once publication",
-            "maximum 10 questions per generated page",
-            "one self-referencing HTTPS canonical and one matching og:url per public page",
-            "app-only OGP image with the shared home image on every generated question page",
-            "valid JSON-LD URLs on the canonical host and BreadcrumbList metadata",
-            "unique canonical URLs and HTML IDs, with no generated 404 page",
-            "local links, assets, and fragments",
-            "portal sitemap synchronization for all 105 app and question URLs when available",
-            "build-report mapping for 104 question pages and one learning-app page",
-            "all normalized tags shown except explicitly excluded public tags, with multi-tag AND filtering",
-            "six-field tag grouping, source-question-first navigation, and static no-JavaScript question cards",
-            "ten-question staged display, remaining-count control, and legacy tag URL aliases",
-            "AdSense included on every generated question-library page",
-            "protected app core-file SHA-256 baseline",
-            "consolidated app footer links and removal of old information pages",
-            "shared portal stylesheet, favicon, and header/footer script references",
-            "absence of portal-owned root files",
+            "1,438 unique static filter cards and 229 facet tags",
+            "single canonical tag-search page with AND filtering, staged display, and expanded tag groups",
+            "legacy tags.html noindex redirect preserving query and hash",
+            "app return paths and navigation use /info1-quiz-app/questions/",
+            "protected app baseline hashes and cross-repository sitemap URLs",
         ],
     }
-    REPORT_DIR.mkdir(parents=True, exist_ok=True)
-    (REPORT_DIR / "validation.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
+    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    REPORT_PATH.write_text(json.dumps(report_out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     for warning in warnings:
         print(f"WARNING: {warning}")
     for error in errors:
         print(f"ERROR: {error}", file=sys.stderr)
-    print(
-        f"status={report['status']} questions={len(questions)} rendered={len(rendered_ids)} "
-        f"public_pages={len(public_html_paths)}"
-    )
+    print(f"status={report_out['status']} questions={len(questions)} tags={len(public_tags)} html={html_names}")
     return 1 if errors else 0
 
 

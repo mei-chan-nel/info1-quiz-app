@@ -6,7 +6,7 @@
 
   const PAGE_SIZE = 10;
   const parameter = root.dataset.filterParam || "tag";
-  const searchStateKeys = new Set(["tag", "keyword", "question"]);
+  const searchStateKeys = new Set(["tag", "question"]);
   const results = root.querySelector("[data-filter-results]");
   const resultsSection = root.querySelector(".filter-results");
   const heading = root.querySelector("[data-filter-heading]");
@@ -137,7 +137,7 @@
   }
 
   function filterHref(values, questionId = null) {
-    return `tags.html${preservedQuerySuffix()}${serializeStateToHash({ selected: values, question: questionId })}`;
+    return `./${preservedQuerySuffix()}${serializeStateToHash({ selected: values, question: questionId })}`;
   }
 
   function synchronizeLocation(state) {

@@ -727,7 +727,13 @@ async function saveTagChallengeProgress() {
 async function returnToTagSearchPage(context = state.tagChallengeContext || tagChallenge?.readContext?.()) {
   await saveTagChallengeProgress();
   const returnUrl = tagChallenge?.getSafeReturnUrl?.(context?.returnUrl, window.location)
-    || "/info1-quiz-app/questions/tags.html";
+    || (() => {
+      try {
+        return new URL("../questions/", window.location.href).pathname;
+      } catch {
+        return "/info1-quiz-app/questions/";
+      }
+    })();
   tagChallenge?.clearContext?.();
   state.allowNavigation = true;
   window.location.assign(returnUrl);

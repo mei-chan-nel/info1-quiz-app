@@ -6,7 +6,8 @@ import vm from "node:vm";
 const source = readFileSync(new URL("../app/tag-challenge.js", import.meta.url), "utf8");
 const appSource = readFileSync(new URL("../app/app.js", import.meta.url), "utf8");
 const filterSource = readFileSync(new URL("../assets/question-filter.js", import.meta.url), "utf8");
-const tagsHtml = readFileSync(new URL("../questions/tags.html", import.meta.url), "utf8");
+const searchHtml = readFileSync(new URL("../questions/index.html", import.meta.url), "utf8");
+const legacyTagsHtml = readFileSync(new URL("../questions/tags.html", import.meta.url), "utf8");
 
 function extractAppFunction(name, nextName) {
   const pattern = new RegExp(
@@ -48,7 +49,7 @@ function context(overrides = {}) {
     candidateQuestionIds: ["A", "B", "C", "D"],
     questionCount: 2,
     currentQuestionIds: ["A", "B"],
-    returnUrl: "https://mei-chan-nel.com/info1-quiz-app/questions/tags.html#tag=暗号化",
+    returnUrl: "https://mei-chan-nel.com/info1-quiz-app/questions/#tag=暗号化",
     createdAt: "2026-08-02T00:00:00.000Z",
     ...overrides,
   };
@@ -72,17 +73,38 @@ test("safe return URL keeps the same-origin tag search hash and rejects external
 
   assert.equal(
     api.getSafeReturnUrl(
-      "https://mei-chan-nel.com/info1-quiz-app/questions/tags.html?x=1#tag=暗号化",
+      "https://mei-chan-nel.com/info1-quiz-app/questions/?x=1#tag=暗号化",
     ),
-    "/info1-quiz-app/questions/tags.html?x=1#tag=%E6%9A%97%E5%8F%B7%E5%8C%96",
+    "/info1-quiz-app/questions/?x=1#tag=%E6%9A%97%E5%8F%B7%E5%8C%96",
   );
   assert.equal(
-    api.getSafeReturnUrl("https://example.com/info1-quiz-app/questions/tags.html#tag=暗号化"),
-    "/info1-quiz-app/questions/tags.html",
+    api.getSafeReturnUrl("https://example.com/info1-quiz-app/questions/#tag=暗号化"),
+    "/info1-quiz-app/questions/",
   );
   assert.equal(
     api.getSafeReturnUrl("https://mei-chan-nel.com/"),
-    "/info1-quiz-app/questions/tags.html",
+    "/info1-quiz-app/questions/",
+  );
+});
+
+test("safe return URL follows the app-relative search path in a standalone local server", () => {
+  const { api } = createApi();
+  const localLocation = {
+    href: "http://127.0.0.1:8765/app/",
+    origin: "http://127.0.0.1:8765",
+  };
+
+  assert.equal(
+    api.getSafeReturnUrl("/questions/?x=1#tag=暗号化", localLocation),
+    "/questions/?x=1#tag=%E6%9A%97%E5%8F%B7%E5%8C%96",
+  );
+  assert.equal(
+    api.getSafeReturnUrl("https://example.com/questions/#tag=暗号化", localLocation),
+    "/questions/",
+  );
+  assert.equal(
+    api.getSafeReturnUrl("/info1-quiz-app/questions/#tag=暗号化", localLocation),
+    "/questions/",
   );
 });
 
@@ -105,11 +127,12 @@ test("clearing the context removes the tag-only session state", () => {
 });
 
 test("tag page exposes the count controls and shared challenge helper", () => {
-  assert.match(tagsHtml, /data-tag-challenge-controls/);
-  assert.match(tagsHtml, /data-tag-challenge-count/);
-  assert.match(tagsHtml, /class="tag-challenge-count-display"/);
-  assert.match(tagsHtml, /data-tag-challenge-start/);
-  assert.match(tagsHtml, /src="\.\.\/app\/tag-challenge\.js"/);
+  assert.match(searchHtml, /data-tag-challenge-controls/);
+  assert.match(searchHtml, /data-tag-challenge-count/);
+  assert.match(searchHtml, /class="tag-challenge-count-display"/);
+  assert.match(searchHtml, /data-tag-challenge-start/);
+  assert.match(searchHtml, /src="\.\.\/app\/tag-challenge\.js\?v=\d+"/);
+  assert.match(legacyTagsHtml, /noindex,follow/);
   assert.match(filterSource, /アプリでランダムに出題/);
   assert.doesNotMatch(filterSource, /tagChallengeQuestionCount\}問をランダムに出題/);
 });
