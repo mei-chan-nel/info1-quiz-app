@@ -187,6 +187,7 @@
           </div>
           <div class="question-secondary-actions">
             <button class="interrupt-button question-secondary-action" id="chatgptQuestionButton" type="button">ChatGPTのヒント</button>
+            <button class="interrupt-button question-secondary-action similar-action-button" id="similarQuestionButton" type="button" hidden>類題5問に挑戦</button>
             <button class="interrupt-button question-secondary-action" id="interruptButton" type="button">挑戦を中断する</button>
           </div>
         </div>
@@ -317,6 +318,16 @@
         <div class="dialog-actions">
           <button class="secondary-button" value="cancel">挑戦を続ける</button>
           <button class="danger-button" id="confirmInterruptButton" value="confirm">中断する</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="clear-record-dialog" id="similarMessageDialog" aria-labelledby="similarMessageTitle">
+      <form method="dialog">
+        <h2 id="similarMessageTitle">類題</h2>
+        <p id="similarMessageText" class="similar-message-text" aria-live="polite"></p>
+        <div class="dialog-actions">
+          <button class="secondary-button" value="close">閉じる</button>
         </div>
       </form>
     </dialog>
