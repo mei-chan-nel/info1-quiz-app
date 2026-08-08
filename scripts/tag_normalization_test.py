@@ -34,7 +34,7 @@ class TagNormalizationTest(unittest.TestCase):
         self.assertTrue(set(TAG_ALIASES).isdisjoint(used_tags))
 
     def test_generated_filter_displays_canonical_tags_and_embeds_legacy_aliases(self) -> None:
-        html = (ROOT / "questions" / "tags.html").read_text(encoding="utf-8")
+        html = (ROOT / "questions" / "index.html").read_text(encoding="utf-8")
         aliases_json = json.dumps(TAG_ALIASES, ensure_ascii=False, separators=(",", ":"))
         escaped_aliases = aliases_json.replace("&", "&amp;").replace('"', "&quot;")
         self.assertIn(f'data-tag-aliases="{escaped_aliases}"', html)

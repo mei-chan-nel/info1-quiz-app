@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "questions_checked": 1438,
+  "tags_checked": 229,
+  "question_html": [
+    "index.html",
+    "tags.html"
+  ],
+  "field_pages": 0,
+  "canonical_search_url": "https://mei-chan-nel.com/info1-quiz-app/questions/",
+  "errors": [],
+  "warnings": [],
+  "checks": [
+    "1,438 unique static filter cards and 229 facet tags",
+    "single canonical tag-search page with AND filtering, staged display, and expanded tag groups",
+    "legacy tags.html noindex redirect preserving query and hash",
+    "app return paths and navigation use /info1-quiz-app/questions/",
+    "protected app baseline hashes and cross-repository sitemap URLs"
+  ]
+}

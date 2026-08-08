@@ -4,7 +4,7 @@
   const CONTEXT_KEY = "info1TagChallengeContext:v1";
   const SOURCE = "tag-search";
   const VERSION = 1;
-  const RETURN_PATH = "/info1-quiz-app/questions/tags.html";
+  const DEFAULT_RETURN_PATH = "/info1-quiz-app/questions/";
 
   function normalizeIds(value) {
     if (!Array.isArray(value)) {
@@ -122,12 +122,28 @@
     return leftIds.every((id) => rightSet.has(id));
   }
 
-  function getSafeReturnUrl(returnUrl, locationLike = window.location) {
-    const origin = locationLike?.origin || window.location.origin;
-    const fallback = new URL(RETURN_PATH, origin);
+  function getQuestionSearchUrl(locationLike = window.location) {
+    const href = typeof locationLike?.href === "string" && locationLike.href
+      ? locationLike.href
+      : window.location.href;
     try {
-      const candidate = new URL(returnUrl, origin);
-      if (candidate.origin !== fallback.origin || candidate.pathname !== RETURN_PATH) {
+      return new URL("../questions/", href);
+    } catch {
+      const origin = typeof locationLike?.origin === "string" && locationLike.origin !== "null"
+        ? locationLike.origin
+        : "https://mei-chan-nel.com";
+      return new URL(DEFAULT_RETURN_PATH, origin);
+    }
+  }
+
+  function getSafeReturnUrl(returnUrl, locationLike = window.location) {
+    const fallback = getQuestionSearchUrl(locationLike);
+    const baseHref = typeof locationLike?.href === "string" && locationLike.href
+      ? locationLike.href
+      : fallback.href;
+    try {
+      const candidate = new URL(returnUrl, baseHref);
+      if (candidate.origin !== fallback.origin || candidate.pathname !== fallback.pathname) {
         return `${fallback.pathname}${fallback.search}${fallback.hash}`;
       }
       return `${candidate.pathname}${candidate.search}${candidate.hash}`;
@@ -148,7 +164,7 @@
     CONTEXT_KEY,
     SOURCE,
     VERSION,
-    RETURN_PATH,
+    DEFAULT_RETURN_PATH,
     normalizeIds,
     isValidContext,
     readContext,
@@ -156,6 +172,7 @@
     clearContext,
     shuffle,
     sameSet,
+    getQuestionSearchUrl,
     getSafeReturnUrl,
     isTagSearchSource,
   });

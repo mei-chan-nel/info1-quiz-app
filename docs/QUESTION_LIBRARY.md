@@ -1,15 +1,22 @@
-# 問題一覧の生成・所有範囲
+# 問題検索の生成・所有範囲
 
-更新日: 2026-07-22
+更新日: 2026-08-08
 
-## このリポジトリが所有するもの
+## 所有範囲
 
-- `app/`: 既存学習アプリ
-- `data/questions/`: 問題データ、主分野、スキーマ
-- `questions/`: 読むための問題一覧
-- `docs/reports/question-library-build.json`: ポータルのサイトマップ生成に渡す公開ページ一覧
+- `app/`: 学習アプリ本体
+- `data/questions/`: 1,438問のデータ、主分野、スキーマ
+- `questions/index.html`: タグ検索の正規ページ
+- `questions/tags.html`: 旧URL互換スタブ
+- `docs/reports/question-library-build.json`: ポータルサイトマップへ渡す公開ページ情報
 
-ポータルトップ、サイト案内、全体プライバシーポリシー、利用者向け `sitemap.html`、共通CSS・favicon・ヘッダー／フッター生成スクリプト、`ads.txt`、`robots.txt`、`sitemap.xml` は、`mei-chan-nel.github.io` リポジトリが所有する。
+## 現在の生成結果
+
+- 問題: 1,438問、重複掲載0、未掲載0
+- 公開タグ: 229種類（`共通テスト` は検索UIから除外）
+- 公開HTML: `questions/index.html` と `questions/tags.html` の2枚
+- 検索: 複数タグのAND条件、URLフラグメント、段階表示、タグ条件からのアプリ出題
+- アプリ復帰: 本番では `/info1-quiz-app/questions/` を正規URLとし、配置先からの相対解決によりローカル確認でも検索条件を保持して戻る
 
 ## 生成手順
 
@@ -17,36 +24,15 @@
 python scripts/classify_questions.py --check
 python scripts/normalize_question_tags.py
 python scripts/generate_question_pages.py
-python scripts/validate_question_pages.py
+python scripts/validate_question_pages.py --portal-root <ポータルのルート>
 ```
 
-問題データの主分野を再分類するときだけ、最初に次を実行する。
-
-```powershell
-python scripts/classify_questions.py --apply
-```
-
-## 現在の生成結果
-
-- 全問題: 1,000問
-- 問題一覧ページ: 104ページ（一覧トップ1、分野ページ102、タグ検索1）
-- 1ページ上限: 10問
-- 元データの全225タグのうち、出現数にかかわらず `共通テスト` を除く224タグを公開する。`共通テスト` は分野分類用の例外タグとして非表示とする
-- 公開タグを通常リンクとして表示し、`questions/tags.html#tag=...` で複数タグのAND検索を行う。旧クエリ形式は読み取り後にフラグメント形式へ置換する
-- タグ一覧は主分野別に6グループへ分ける。問題内のタグリンクは単独検索とし、元の問題を結果の先頭へ置いて一覧上端へスクロールする
-- タグ検索HTMLには全1,000問を保持し、JavaScript有効時は最初の10問から10問ずつ追加表示する。JavaScript無効時は全問を表示する
-- 旧表記のタグURLは正規形へ変換し、新旧表記が混在するAND検索でも同じ結果を表示する
-- 未分類: 0問
-- 重複掲載: 0問
-- 未掲載: 0問
-
-生成対象一覧と分野別件数は `docs/reports/question-library-build.json` に保存する。
-同レポートには公開下限、例外的に非表示とするタグ、公開タグが0件になった問題数も記録し、再生成後に検証できるようにする。
+`generate_question_pages.py` は分野別HTMLやキーワード一覧を生成しません。旧 `tags.html` は互換リダイレクトとして毎回再生成し、通常の内部リンク、canonical、サイトマップには出力しません。
 
 ## アプリ保護
 
-`docs/reports/app-core-baseline-sha256.json` と `app/index.html`、`app/app.js`、`app/startup.js`、`app/styles.css`、`app/issue-report.js`、`app/issue-report.css`、`app/learning-record.js` を比較し、意図しないアプリ変更を検知する。基準値は意図したアプリ変更を検証した時点で更新する。サイト案内とプライバシーポリシーはポータルへ統合し、アプリは出題・遷移・集計処理を変更せず、フッターだけをポータル共通のサイトシェルへ接続する。
+`docs/reports/app-core-baseline-sha256.json` に、出題・履歴・類題などのアプリ本体とタグ出題連携の基準ハッシュを記録します。URL連携を除く既存機能が意図せず変更されていないことを `validate_question_pages.py` で確認します。
 
-## ポータルへのリンク
+## ポータルとの共有
 
-問題一覧のヘッダーとフッターは、全ページで `../../assets/site-header.js` を読み込み、ポータルと同じリンク順・名称・ブランド表記を使用する。ポータル内の移動先と共通資産は相対パスで参照し、生成後の検証では共通スクリプトの欠落を検出する。
+検索ページはポータルの `assets/site.css`、`assets/favicon.svg`、`assets/site-header.js` を相対参照します。ポータルの `sitemap.xml` は本レポートの `questions/index.html` とアプリトップだけを取り込みます。
