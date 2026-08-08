@@ -2,6 +2,21 @@ import {
   QUESTION_SELECTION_CONFIG,
   selectWeightedQuestionSet,
 } from "./question-selection.js";
+import {
+  SIMILAR_QUESTION_COUNT,
+  SIMILAR_RETURN_MAX_AGE_MS,
+  SIMILAR_SESSION_MODE,
+  SIMILAR_SOURCE_SCREENS,
+  SIMILAR_SOURCE_TYPES,
+  buildSimilarCandidates,
+  clearSimilarReturnContext,
+  createSimilarQuestionsLoader,
+  createSimilarReturnContext,
+  getSafeSimilarReturnUrl,
+  readSimilarReturnContext,
+  selectSimilarQuestionIds,
+  writeSimilarReturnContext,
+} from "./similar-questions.js";
 
 const startView = document.querySelector("#startView");
 const statusBar = document.querySelector("#statusBar");
@@ -26,6 +41,7 @@ const questionStem = document.querySelector("#questionStem");
 const choices = document.querySelector("#choices");
 const questionSource = document.querySelector("#questionSource");
 const chatgptQuestionButton = document.querySelector("#chatgptQuestionButton");
+const similarQuestionButton = document.querySelector("#similarQuestionButton");
 const interruptButton = document.querySelector("#interruptButton");
 const questionCheckButton = document.querySelector("#questionCheckButton");
 const nextButton = document.querySelector("#nextButton");
@@ -43,6 +59,7 @@ const summaryShareButton = document.querySelector("#summaryShareButton");
 const summaryRecordButton = document.querySelector("#summaryRecordButton");
 const retryButton = document.querySelector("#retryButton");
 const finishButton = document.querySelector("#finishButton");
+const summaryMiddleActions = document.querySelector(".summary-middle-actions");
 const summaryMiddleRetryButton = document.querySelector("#summaryMiddleRetryButton");
 const summaryMiddleFinishButton = document.querySelector("#summaryMiddleFinishButton");
 const summaryRetryButtons = [retryButton, summaryMiddleRetryButton];
@@ -90,6 +107,8 @@ const interruptDialog = document.querySelector("#interruptDialog");
 const confirmInterruptButton = document.querySelector("#confirmInterruptButton");
 const interruptDialogTitle = document.querySelector("#interruptDialogTitle");
 const interruptDialogMessage = document.querySelector("#interruptDialogMessage");
+const similarMessageDialog = document.querySelector("#similarMessageDialog");
+const similarMessageText = document.querySelector("#similarMessageText");
 const appMenuButton = document.querySelector("#appMenuButton");
 const appMenu = document.querySelector("#appMenu");
 const appRecordNavButton = document.querySelector("#appRecordNavButton");
@@ -102,6 +121,8 @@ const MAX_SET_SIZE = 50;
 const RECORD_LIST_PAGE_SIZE = 10;
 const MAX_SHARED_QUESTIONS = 10;
 const TAG_CHALLENGE_MODE = "tag-search";
+const SIMILAR_BUTTON_LABEL = `類題${SIMILAR_QUESTION_COUNT}問に挑戦`;
+const SIMILAR_LOADING_LABEL = "読み込み中…";
 const CHATGPT_URL = "https://chatgpt.com/";
 const X_POST_INTENT_URL = "https://x.com/intent/tweet";
 const PUBLIC_APP_URL = "https://mei-chan-nel.com/info1-quiz-app/app/";
@@ -109,6 +130,14 @@ const SUPABASE_URL = "https://yygezzpowsvpzarqdtls.supabase.co";
 // Supabase publishable keys are designed for browser clients. Never use a secret or service_role key here.
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rQmX7MCx_8W3nz-xWXQBpA_CHzdRQSk";
 const learningRecord = window.Info1LearningRecord;
+const similarQuestionsUrl = new URL(
+  "../data/questions/similar_questions_compact.json",
+  window.location.href,
+).href;
+const similarQuestionsLoader = createSimilarQuestionsLoader({
+  url: similarQuestionsUrl,
+  fetchImpl: (input, init) => window.fetch(input, init),
+});
 
 const TEXT = {
   loadError: "問題データを読み込めません",
@@ -191,6 +220,9 @@ const state = {
   sessionMode: "standard",
   tagChallengeMode: false,
   tagChallengeContext: null,
+  similarChallengeMode: false,
+  similarReturnContext: null,
+  similarChallengeStarting: false,
   pendingChallengeQuestionIds: [],
   challengeRequested: false,
   recordReturnView: "start",
@@ -266,6 +298,20 @@ function init() {
   const searchParams = new URLSearchParams(window.location.search);
   const requestedView = searchParams.get("view");
   state.challengeRequested = searchParams.has("challenge");
+  state.similarReturnContext = readSimilarReturnContext();
+  state.similarChallengeMode = Boolean(
+    state.challengeRequested
+    && searchParams.get("source") === SIMILAR_SESSION_MODE
+    && state.similarReturnContext,
+  );
+  if (
+    state.challengeRequested
+    && searchParams.get("source") === SIMILAR_SESSION_MODE
+    && !state.similarChallengeMode
+  ) {
+    state.challengeRequested = false;
+    resetChallengeUrl();
+  }
   const savedTagChallengeContext = tagChallenge?.readContext?.() || null;
   state.tagChallengeMode = Boolean(
     state.challengeRequested
@@ -346,6 +392,16 @@ function resolveChallengeQuestions(questionIds) {
 }
 
 function startChallengeSession(questionIds) {
+  if (state.similarChallengeMode) {
+    const selectedQuestions = resolveChallengeQuestions(questionIds);
+    if (selectedQuestions.length !== questionIds.length || !selectedQuestions.length) {
+      console.warn("類題出題の問題IDを復元できなかったため、元のページへ戻ります。");
+      void returnToSimilarSource();
+      return false;
+    }
+    resetCumulativeResults();
+    return beginSession(selectedQuestions, { sessionMode: SIMILAR_SESSION_MODE });
+  }
   if (state.tagChallengeMode) {
     return startTagChallengeSession(questionIds);
   }
@@ -566,6 +622,14 @@ function isTagChallengeSession() {
   return state.sessionMode === TAG_CHALLENGE_MODE;
 }
 
+function isSimilarChallengeSession() {
+  return state.sessionMode === SIMILAR_SESSION_MODE;
+}
+
+function isReturnChallengeSession() {
+  return isTagChallengeSession() || isSimilarChallengeSession();
+}
+
 function closeAppMenu(restoreFocus = false) {
   appMenu.hidden = true;
   appMenuButton.setAttribute("aria-expanded", "false");
@@ -630,7 +694,7 @@ function requestNavigationConfirmation(pending) {
 }
 
 function resetInterruptDialog() {
-  if (isTagChallengeSession()) {
+  if (isReturnChallengeSession()) {
     interruptDialogTitle.textContent = "元のページに戻りますか？";
     interruptDialogMessage.textContent = "解答途中ですが、元のページに戻りますか？";
     confirmInterruptButton.textContent = "元のページに戻る";
@@ -690,6 +754,7 @@ async function openRecordAfterChallenge() {
 
 function bindStartControls() {
   startButton.addEventListener("click", () => {
+    clearSimilarChallengeState();
     resetCumulativeResults();
     startSession();
   });
@@ -763,6 +828,17 @@ function bindStartControls() {
     }
   });
   chatgptQuestionButton.addEventListener("click", openCurrentQuestionInChatGPT);
+  similarQuestionButton.addEventListener("click", () => {
+    const source = getCurrentDetailSimilarSource();
+    const questionId = String(currentQuestion()?.id || "");
+    if (source && questionId) {
+      void handleSimilarChallengeButtonClick(similarQuestionButton, {
+        sourceType: source.sourceType,
+        sourceScreen: source.sourceScreen,
+        sourceQuestionId: questionId,
+      });
+    }
+  });
   summaryShareButton.addEventListener("click", shareResultsToX);
   interruptButton.addEventListener("click", openInterruptDialog);
   confirmInterruptButton.addEventListener("click", (event) => {
@@ -774,17 +850,26 @@ function bindStartControls() {
     if (!pending) {
       if (isTagChallengeSession()) {
         void returnToTagSearchPage();
+      } else if (isSimilarChallengeSession()) {
+        void returnToSimilarSource();
       } else {
         void interruptSession();
       }
       return;
     }
     if (pending.type === "record") {
+      if (isSimilarChallengeSession()) {
+        void leaveSimilarChallengeForRecord();
+        return;
+      }
       void openRecordAfterChallenge();
       return;
     }
     if (isTagChallengeSession()) {
       tagChallenge?.clearContext?.();
+    }
+    if (isSimilarChallengeSession()) {
+      clearSimilarChallengeState();
     }
     state.allowNavigation = true;
     window.location.assign(pending.href);
@@ -816,6 +901,10 @@ nextButton.addEventListener("click", async () => {
 });
 
 retryButton.addEventListener("click", async () => {
+  if (state.sessionMode === "similar") {
+    await returnToSimilarSource({ fromSummary: true });
+    return;
+  }
   if (state.sessionMode === "tag-search") {
     await completeSummaryExit();
     if (!retryTagChallengeSession()) {
@@ -835,12 +924,17 @@ retryButton.addEventListener("click", async () => {
 finishButton.addEventListener("click", async () => {
   const isTagSession = isTagChallengeSession();
   const isChallengeSession = state.sessionMode === "challenge";
+  const isSimilarSession = isSimilarChallengeSession();
   await completeSummaryExit();
   if (isTagSession) {
     await returnToTagSearchPage();
     return;
   }
   if (isChallengeSession) {
+    resetChallengeUrl();
+  }
+  if (isSimilarSession) {
+    clearSimilarChallengeState();
     resetChallengeUrl();
   }
   showStart();
@@ -898,6 +992,9 @@ function resetSessionState() {
   state.sessionMode = "standard";
   state.tagChallengeMode = false;
   state.tagChallengeContext = null;
+  state.similarChallengeMode = false;
+  state.similarReturnContext = null;
+  state.similarChallengeStarting = false;
   state.pendingChallengeQuestionIds = [];
   state.challengeRequested = false;
   state.recordPracticeMode = false;
@@ -945,10 +1042,16 @@ function startSession() {
   return beginSession(selectedQuestions, { sessionMode: "standard" });
 }
 
-function initializeSessionQuestions(selectedQuestions) {
+function initializeSessionQuestions(
+  selectedQuestions,
+  { choiceOrdersByQuestionId = new Map() } = {},
+) {
   state.sessionId += 1;
   const sessionId = state.sessionId;
-  state.sessionQuestions = selectedQuestions.map(prepareSessionQuestion);
+  state.sessionQuestions = selectedQuestions.map((question) => prepareSessionQuestion(
+    question,
+    choiceOrdersByQuestionId.get(String(question.id)),
+  ));
   state.responses = state.sessionQuestions.map((question) => ({
     questionId: question.id,
     selectedChoiceId: null,
@@ -977,6 +1080,7 @@ function beginSession(selectedQuestions, { sessionMode = "standard" } = {}) {
   const sessionId = initializeSessionQuestions(selectedQuestions);
   state.sessionMode = sessionMode;
   state.tagChallengeMode = sessionMode === TAG_CHALLENGE_MODE;
+  state.similarChallengeMode = sessionMode === SIMILAR_SESSION_MODE;
 
   startView.hidden = true;
   statusBar.hidden = false;
@@ -992,6 +1096,7 @@ function beginSession(selectedQuestions, { sessionMode = "standard" } = {}) {
   summaryView.querySelector(".end-message")?.remove();
   renderQuestion();
   scrollToTop();
+  scheduleSimilarQuestionsBackgroundLoad();
   loadPastChoiceStats(sessionId, state.sessionQuestions.map((question) => question.id));
   retryPendingSubmissions();
   return true;
@@ -1135,17 +1240,30 @@ function pickRandomSet(questions, count) {
   return shuffleArray(questions).slice(0, count);
 }
 
-function prepareSessionQuestion(question) {
+function prepareSessionQuestion(question, preferredChoiceOrder = null) {
   const answerChoiceId = getAnswerChoiceId(question);
-  const shuffledChoices = shuffleArray(question.choices).map((choice, index) => {
+  const preparedChoices = question.choices.map((choice) => {
     const choiceId = getChoiceId(question, choice);
     return {
       ...choice,
       choice_id: choiceId,
-      displayLabel: String(index),
       is_correct: isChoiceCorrect(question, choice, choiceId, answerChoiceId),
     };
   });
+  const choiceById = new Map(preparedChoices.map((choice) => [choice.choice_id, choice]));
+  const normalizedOrder = Array.isArray(preferredChoiceOrder)
+    ? preferredChoiceOrder.map(String)
+    : [];
+  const usesPreferredOrder = normalizedOrder.length === preparedChoices.length
+    && new Set(normalizedOrder).size === preparedChoices.length
+    && normalizedOrder.every((choiceId) => choiceById.has(choiceId));
+  const orderedChoices = usesPreferredOrder
+    ? normalizedOrder.map((choiceId) => choiceById.get(choiceId))
+    : shuffleArray(preparedChoices);
+  const shuffledChoices = orderedChoices.map((choice, index) => ({
+    ...choice,
+    displayLabel: String(index),
+  }));
 
   return {
     ...question,
@@ -1172,7 +1290,9 @@ function renderQuestion() {
   nextButton.hidden = true;
   nextButton.disabled = false;
   interruptButton.hidden = isRecordListQuestion;
-  interruptButton.textContent = isTagChallengeSession() ? "元のページに戻る" : "挑戦を中断する";
+  interruptButton.textContent = isReturnChallengeSession() ? "元のページに戻る" : "挑戦を中断する";
+  resetSimilarButtonState(similarQuestionButton);
+  similarQuestionButton.hidden = true;
   nextButton.textContent = isRecordListQuestion
     ? "一覧に戻る"
     : state.currentIndex >= total - 1
@@ -1188,6 +1308,7 @@ function renderQuestion() {
 
   questionStem.textContent = question.stem;
   updateChatGPTQuestionButton(question, state.recordReviewMode || currentResponse()?.selectedChoiceId !== null);
+  similarQuestionButton.hidden = !state.recordReviewMode;
   updateQuestionCheckButton(question.id);
   renderChoices(question);
   renderSourceNote(question);
@@ -1273,12 +1394,21 @@ function grade(question) {
   incrementLocalQuestionAttemptCount(question.id);
   recordSessionChoiceStats(question, selectedChoice, isCorrect);
 
+  renderAnsweredQuestion(question, response);
+}
+
+function renderAnsweredQuestion(question, response) {
+  const correctChoice = getCorrectChoice(question);
+  const selectedChoice = findChoice(question, response?.selectedChoiceId);
+  const isCorrect = Boolean(correctChoice && selectedChoice?.choice_id === correctChoice.choice_id);
+  state.selectedChoiceId = response?.selectedChoiceId ?? null;
+
   for (const button of choices.querySelectorAll(".choice-button")) {
     button.disabled = true;
-    button.setAttribute("aria-pressed", String(button.dataset.choiceId === state.selectedChoiceId));
+    button.setAttribute("aria-pressed", String(button.dataset.choiceId === response?.selectedChoiceId));
     if (button.dataset.choiceId === correctChoice?.choice_id) {
       button.classList.add("correct");
-    } else if (button.dataset.choiceId === state.selectedChoiceId) {
+    } else if (button.dataset.choiceId === response?.selectedChoiceId) {
       button.classList.add("incorrect");
     }
   }
@@ -1291,6 +1421,7 @@ function grade(question) {
   resultText.textContent = resultText.hidden ? "" : `${TEXT.answer}: ${formatChoice(correctChoice)}`;
   explanation.textContent = buildExplanation(question, selectedChoice, correctChoice);
   updateChatGPTQuestionButton(question, true);
+  similarQuestionButton.hidden = !state.recordPracticeMode;
 
   nextButton.hidden = false;
   updateProgressView();
@@ -1305,6 +1436,7 @@ async function showSummary() {
   recordCumulativeResults();
   renderSummary();
   scrollToTop();
+  scheduleSimilarQuestionsBackgroundLoad();
   const submission = createResponseSubmission();
   if (submission) {
     void submitResponseSubmission(submission);
@@ -1381,9 +1513,19 @@ function recordCumulativeResults() {
 
 function updateSummaryActionVisibility() {
   const isChallengeSession = state.sessionMode === "challenge";
+  const isSimilarSession = state.sessionMode === "similar";
   retryButton.hidden = isChallengeSession;
+  const retryLabel = isSimilarSession ? "元のページに戻る" : "もう一度挑戦する";
+  retryButton.textContent = retryLabel;
+  if (typeof summaryMiddleActions !== "undefined") {
+    summaryMiddleActions.hidden = false;
+  }
   if (typeof summaryMiddleRetryButton !== "undefined") {
     summaryMiddleRetryButton.hidden = isChallengeSession;
+    summaryMiddleRetryButton.textContent = retryLabel;
+  }
+  if (typeof summaryMiddleFinishButton !== "undefined") {
+    summaryMiddleFinishButton.hidden = false;
   }
 }
 
@@ -1411,9 +1553,12 @@ function renderSummary() {
           <span class="summary-status ${response.isCorrect ? "right" : "wrong"}">
             ${response.isCorrect ? TEXT.correct : TEXT.incorrect}
           </span>
-          ${renderQuestionCheckButton(question.id)}
-          ${renderChatGPTExplanationAction()}
-          ${renderOutOfScopeReportAction(question)}
+          <div class="summary-action-grid">
+            ${renderChatGPTExplanationAction()}
+            ${renderQuestionCheckButton(question.id)}
+            ${renderSummarySimilarAction(question.id)}
+            ${renderOutOfScopeReportAction(question)}
+          </div>
         </div>
         <div class="summary-body">
           <p class="summary-stem">${escapeHtml(question.stem)}</p>
@@ -1433,6 +1578,13 @@ function renderSummary() {
           question_field: getQuestionField(question),
         });
         openExternalWindow(buildChatGPTQuestionUrl(question, "explanation"));
+      });
+      item.querySelector("[data-summary-similar]")?.addEventListener("click", (event) => {
+        void handleSimilarChallengeButtonClick(event.currentTarget, {
+          sourceType: SIMILAR_SOURCE_TYPES.RESULT_LIST,
+          sourceScreen: SIMILAR_SOURCE_SCREENS[SIMILAR_SOURCE_TYPES.RESULT_LIST],
+          sourceQuestionId: String(question.id),
+        });
       });
       if (state.apiAvailable) {
         for (const button of item.querySelectorAll(".scope-report-button")) {
@@ -1495,6 +1647,511 @@ function renderChatGPTExplanationAction() {
   return `
     <button class="summary-chatgpt-link" type="button" data-summary-chatgpt>ChatGPTの解説</button>
   `;
+}
+
+function renderSummarySimilarAction(questionId) {
+  return `
+    <button class="summary-chatgpt-link summary-similar-button similar-action-button" type="button"
+      data-summary-similar data-question-id="${escapeHtml(questionId)}">${SIMILAR_BUTTON_LABEL}</button>
+  `;
+}
+
+function loadSimilarQuestionsInBackground() {
+  return similarQuestionsLoader.load();
+}
+
+function scheduleSimilarQuestionsBackgroundLoad() {
+  if (similarQuestionsLoader.getCachedData() || similarQuestionsLoader.getPendingRequest()) {
+    return;
+  }
+  const startLoading = () => {
+    void loadSimilarQuestionsInBackground().catch(() => {
+      // A button click retries the request and presents the user-facing error.
+    });
+  };
+  if (typeof window.requestAnimationFrame === "function") {
+    window.requestAnimationFrame(startLoading);
+  } else {
+    window.setTimeout(startLoading, 0);
+  }
+}
+
+function getCurrentDetailSimilarSource() {
+  if (state.recordPracticeMode && currentResponse()?.selectedChoiceId !== null) {
+    return {
+      sourceType: SIMILAR_SOURCE_TYPES.INCORRECT_QUESTION_ANSWER,
+      sourceScreen: SIMILAR_SOURCE_SCREENS[SIMILAR_SOURCE_TYPES.INCORRECT_QUESTION_ANSWER],
+    };
+  }
+  if (!state.recordReviewMode) {
+    return null;
+  }
+  const sourceType = state.recordListReturnView === "checked"
+    ? SIMILAR_SOURCE_TYPES.SAVED_QUESTION_DETAIL
+    : SIMILAR_SOURCE_TYPES.HISTORY_QUESTION_DETAIL;
+  return {
+    sourceType,
+    sourceScreen: SIMILAR_SOURCE_SCREENS[sourceType],
+  };
+}
+
+async function handleSimilarChallengeButtonClick(button, {
+  sourceType,
+  sourceScreen,
+  sourceQuestionId,
+}) {
+  const questionId = String(sourceQuestionId || "").trim();
+  if (
+    !(button instanceof HTMLButtonElement)
+    || !questionId
+    || !SIMILAR_SOURCE_SCREENS[sourceType]
+    || sourceScreen !== SIMILAR_SOURCE_SCREENS[sourceType]
+    || state.similarChallengeStarting
+    || button.disabled
+  ) {
+    return;
+  }
+
+  state.similarChallengeStarting = true;
+  button.disabled = true;
+  button.setAttribute("aria-busy", "true");
+  button.textContent = SIMILAR_LOADING_LABEL;
+  trackAnalyticsEvent("similar_button_click", {
+    source_screen: sourceScreen,
+    source_question_id: questionId,
+  });
+
+  let started = false;
+  let pendingReturnUrl = "";
+  try {
+    let similarData;
+    try {
+      similarData = await loadSimilarQuestionsInBackground();
+    } catch (error) {
+      console.error(
+        "similar_questions_compact.json の読み込みに失敗しました",
+        error,
+      );
+      showSimilarMessage(
+        "類題データを読み込めませんでした。\n通信状況を確認して、もう一度お試しください。",
+      );
+      return;
+    }
+
+    const candidates = buildSimilarCandidates({
+      sourceQuestionId: questionId,
+      similarEntry: similarData[questionId],
+      validQuestionIds: state.allQuestions.map((question) => String(question.id)),
+    });
+    const selectedQuestionIds = selectSimilarQuestionIds({
+      candidates,
+      count: SIMILAR_QUESTION_COUNT,
+    });
+    if (!selectedQuestionIds.length) {
+      showSimilarMessage("類題が設定されていません");
+      return;
+    }
+
+    const returnContext = createSimilarReturnContext({
+      sourceType,
+      sourceQuestionId: questionId,
+      returnUrl: window.location.href,
+      scrollY: window.scrollY,
+      viewState: captureSimilarSourceViewState(sourceType),
+    });
+    pendingReturnUrl = returnContext.returnUrl;
+    clearSimilarReturnContext();
+    state.similarReturnContext = returnContext;
+    if (writeSimilarReturnContext(returnContext)) {
+      state.similarReturnContext = readSimilarReturnContext() || returnContext;
+    }
+
+    const selectedQuestions = resolveChallengeQuestions(selectedQuestionIds);
+    if (selectedQuestions.length !== selectedQuestionIds.length) {
+      throw new Error("選定した類題を問題データから取得できませんでした。");
+    }
+    updateSimilarChallengeUrl(selectedQuestionIds);
+    resetCumulativeResults();
+    started = beginSession(selectedQuestions, { sessionMode: SIMILAR_SESSION_MODE });
+    if (!started) {
+      throw new Error("類題出題を開始できませんでした。");
+    }
+  } catch (error) {
+    console.error("類題出題を開始できませんでした。", error);
+    clearSimilarChallengeState();
+    const safeReturnUrl = getSafeSimilarReturnUrl(pendingReturnUrl, window.location);
+    if (safeReturnUrl) {
+      window.history.replaceState(window.history.state, "", safeReturnUrl);
+    } else {
+      resetChallengeUrl();
+    }
+    showSimilarMessage("類題を開始できませんでした。\nもう一度お試しください。");
+  } finally {
+    state.similarChallengeStarting = false;
+    if (!started) {
+      resetSimilarButtonState(button);
+    }
+  }
+}
+
+function resetSimilarButtonState(button) {
+  if (!button) {
+    return;
+  }
+  button.disabled = false;
+  button.setAttribute("aria-busy", "false");
+  button.textContent = SIMILAR_BUTTON_LABEL;
+}
+
+function showSimilarMessage(message) {
+  similarMessageText.textContent = message;
+  if (typeof similarMessageDialog.showModal === "function") {
+    if (similarMessageDialog.open) {
+      similarMessageDialog.close();
+    }
+    similarMessageDialog.showModal();
+    return;
+  }
+  window.alert(message);
+}
+
+function updateSimilarChallengeUrl(questionIds) {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("view");
+  url.searchParams.set("challenge", questionIds.join(","));
+  url.searchParams.set("source", SIMILAR_SESSION_MODE);
+  window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+}
+
+function captureSimilarSourceViewState(sourceType) {
+  if (sourceType === SIMILAR_SOURCE_TYPES.RESULT_LIST) {
+    return {
+      view: "summary",
+      session: captureSerializableSessionState(),
+    };
+  }
+  const question = currentQuestion();
+  const response = currentResponse();
+  return {
+    view: "record-detail",
+    recordReturnView: state.recordReturnView,
+    recordListReturnView: state.recordListReturnView,
+    recordWrongPage: state.recordWrongPage,
+    recordCheckedPage: state.recordCheckedPage,
+    recordSolvedPage: state.recordSolvedPage,
+    recordListScrollTop: state.recordListScrollTop,
+    backgroundSession: state.recordReturnView === "summary"
+      ? captureSerializableSessionState(state.recordListSnapshot || state)
+      : null,
+    detail: {
+      questionId: String(question?.id || ""),
+      choiceIds: Array.isArray(question?.choices)
+        ? question.choices.map((choice) => String(choice.choice_id))
+        : [],
+      selectedChoiceId: response?.selectedChoiceId ?? null,
+      isCorrect: response?.isCorrect ?? null,
+      answered: response?.selectedChoiceId !== null,
+    },
+  };
+}
+
+function captureSerializableSessionState(source = state) {
+  const read = (key) => (Object.prototype.hasOwnProperty.call(source, key) ? source[key] : state[key]);
+  const sessionQuestions = Array.isArray(read("sessionQuestions")) ? read("sessionQuestions") : [];
+  const responses = Array.isArray(read("responses")) ? read("responses") : [];
+  return {
+    questions: sessionQuestions.map((question) => ({
+      questionId: String(question.id),
+      choiceIds: Array.isArray(question.choices)
+        ? question.choices.map((choice) => String(choice.choice_id))
+        : [],
+    })),
+    responses: responses.map((response) => ({
+      questionId: String(response?.questionId || ""),
+      selectedChoiceId: response?.selectedChoiceId ?? null,
+      isCorrect: response?.isCorrect ?? null,
+    })),
+    outOfScopeReports: cloneJsonValue(read("outOfScopeReports"), {}),
+    pastChoiceStats: cloneJsonValue(read("pastChoiceStats"), {}),
+    sessionChoiceStats: cloneJsonValue(read("sessionChoiceStats"), {}),
+    currentIndex: Number(read("currentIndex")) || 0,
+    selectedChoiceId: read("selectedChoiceId") ?? null,
+    sessionSummaryRecorded: Boolean(read("sessionSummaryRecorded")),
+    sessionMode: String(read("sessionMode") || "standard"),
+    tagChallengeContext: cloneJsonValue(read("tagChallengeContext"), null),
+    similarReturnContext: cloneJsonValue(read("similarReturnContext"), null),
+    cumulativeTotal: Math.max(0, Number(read("cumulativeTotal")) || 0),
+    cumulativeCorrect: Math.max(0, Number(read("cumulativeCorrect")) || 0),
+    cumulativeQuestionIds: Array.from(read("cumulativeQuestionIds") || [], String),
+  };
+}
+
+function cloneJsonValue(value, fallback) {
+  try {
+    return value === undefined ? fallback : JSON.parse(JSON.stringify(value));
+  } catch {
+    return fallback;
+  }
+}
+
+function restoreSessionSnapshot(snapshot) {
+  if (!snapshot || !Array.isArray(snapshot.questions) || !snapshot.questions.length) {
+    return false;
+  }
+  const questionById = new Map(
+    state.allQuestions.map((question) => [String(question.id), question]),
+  );
+  const sessionQuestions = [];
+  for (const savedQuestion of snapshot.questions) {
+    const questionId = String(savedQuestion?.questionId || "").trim();
+    const question = questionById.get(questionId);
+    if (!question) {
+      return false;
+    }
+    sessionQuestions.push(prepareSessionQuestion(question, savedQuestion.choiceIds));
+  }
+  const savedResponses = Array.isArray(snapshot.responses) ? snapshot.responses : [];
+  const responses = sessionQuestions.map((question, index) => {
+    const savedResponse = savedResponses[index];
+    const selectedChoiceId = typeof savedResponse?.selectedChoiceId === "string"
+      && findChoice(question, savedResponse.selectedChoiceId)
+      ? savedResponse.selectedChoiceId
+      : null;
+    const correctChoice = getCorrectChoice(question);
+    return {
+      questionId: question.id,
+      selectedChoiceId,
+      isCorrect: selectedChoiceId === null
+        ? null
+        : selectedChoiceId === correctChoice?.choice_id,
+    };
+  });
+
+  state.sessionId += 1;
+  state.sessionQuestions = sessionQuestions;
+  state.responses = responses;
+  state.outOfScopeReports = cloneJsonValue(snapshot.outOfScopeReports, {});
+  state.pastChoiceStats = cloneJsonValue(snapshot.pastChoiceStats, {});
+  state.sessionChoiceStats = cloneJsonValue(snapshot.sessionChoiceStats, {});
+  state.currentIndex = Math.min(
+    Math.max(0, Number(snapshot.currentIndex) || 0),
+    sessionQuestions.length - 1,
+  );
+  state.selectedChoiceId = responses[state.currentIndex]?.selectedChoiceId ?? null;
+  state.pastStatsPromise = Promise.resolve();
+  state.pastStatsLoading = false;
+  state.pastStatsLoaded = Object.keys(state.pastChoiceStats).length > 0;
+  state.sessionSummaryRecorded = Boolean(snapshot.sessionSummaryRecorded);
+  state.sessionMode = typeof snapshot.sessionMode === "string" ? snapshot.sessionMode : "standard";
+  state.tagChallengeMode = state.sessionMode === TAG_CHALLENGE_MODE;
+  state.tagChallengeContext = cloneJsonValue(snapshot.tagChallengeContext, null);
+  state.similarChallengeMode = state.sessionMode === SIMILAR_SESSION_MODE;
+  state.similarReturnContext = cloneJsonValue(snapshot.similarReturnContext, null);
+  const cumulativeQuestionIds = Array.isArray(snapshot.cumulativeQuestionIds)
+    ? snapshot.cumulativeQuestionIds.map(String).filter(Boolean)
+    : [];
+  state.cumulativeQuestionIds = cumulativeQuestionIds;
+  state.cumulativeTotal = cumulativeQuestionIds.length;
+  state.cumulativeCorrect = Math.min(
+    Math.max(0, Number(snapshot.cumulativeCorrect) || 0),
+    state.cumulativeTotal,
+  );
+  state.responseSubmission = null;
+  state.outOfScopeSubmission = null;
+  return true;
+}
+
+async function returnToSimilarSource({ fromSummary = false } = {}) {
+  const storedReturnContext = readSimilarReturnContext();
+  const inMemoryReturnContext = state.similarReturnContext;
+  const inMemoryContextAge = Date.now() - Number(inMemoryReturnContext?.createdAt);
+  const returnContext = storedReturnContext || (
+    inMemoryReturnContext
+    && Number.isFinite(inMemoryContextAge)
+    && inMemoryContextAge >= 0
+    && inMemoryContextAge < SIMILAR_RETURN_MAX_AGE_MS
+      ? inMemoryReturnContext
+      : null
+  );
+  if (!returnContext) {
+    clearSimilarChallengeState();
+    resetChallengeUrl();
+    showStart();
+    return false;
+  }
+
+  if (fromSummary || !summaryView.hidden) {
+    await completeSummaryExit();
+  } else {
+    const responseSubmission = createResponseSubmission();
+    await Promise.all([
+      submitResponseSubmission(responseSubmission),
+      commitOutOfScopeReports(),
+    ]);
+  }
+
+  const returnUrl = getSafeSimilarReturnUrl(returnContext.returnUrl, window.location);
+  let restored = false;
+  try {
+    if (returnUrl) {
+      window.history.replaceState(window.history.state, "", returnUrl);
+    }
+    restored = restoreSimilarSourceContext(returnContext);
+  } catch (error) {
+    console.error("類題の遷移元画面を復元できませんでした。", error);
+  }
+
+  if (restored) {
+    const parentContext = isSimilarChallengeSession() ? state.similarReturnContext : null;
+    clearSimilarReturnContext();
+    if (parentContext && writeSimilarReturnContext(parentContext)) {
+      state.similarReturnContext = readSimilarReturnContext() || parentContext;
+    } else if (!parentContext) {
+      state.similarReturnContext = null;
+    }
+    restoreSimilarScrollPosition(returnContext.scrollY);
+    retryPendingSubmissions();
+    return true;
+  }
+
+  clearSimilarChallengeState();
+  showSafeSimilarReturnFallback(returnContext);
+  return false;
+}
+
+function restoreSimilarSourceContext(returnContext) {
+  if (returnContext.sourceType === SIMILAR_SOURCE_TYPES.RESULT_LIST) {
+    if (!restoreSessionSnapshot(returnContext.viewState?.session)) {
+      return false;
+    }
+    startView.hidden = true;
+    statusBar.hidden = true;
+    questionView.hidden = true;
+    recordView.hidden = true;
+    wrongView.hidden = true;
+    checkedView.hidden = true;
+    solvedView.hidden = true;
+    summaryView.hidden = false;
+    setStatus.textContent = TEXT.result;
+    setSummaryActionsDisabled(false);
+    renderSummary();
+    scheduleSimilarQuestionsBackgroundLoad();
+    return true;
+  }
+  return restoreRecordDetailFromSimilar(returnContext);
+}
+
+function restoreRecordDetailFromSimilar(returnContext) {
+  const viewState = returnContext.viewState;
+  const detail = viewState?.detail;
+  if (
+    viewState?.view !== "record-detail"
+    || String(detail?.questionId || "") !== returnContext.sourceQuestionId
+  ) {
+    return false;
+  }
+
+  const returnView = returnContext.sourceType === SIMILAR_SOURCE_TYPES.SAVED_QUESTION_DETAIL
+    ? "checked"
+    : returnContext.sourceType === SIMILAR_SOURCE_TYPES.HISTORY_QUESTION_DETAIL
+      ? "solved"
+      : "wrong";
+  const mode = returnView === "wrong" ? "practice" : "review";
+  const recordReturnView = viewState.recordReturnView === "summary" ? "summary" : "start";
+  if (
+    recordReturnView === "summary"
+    && !restoreSessionSnapshot(viewState.backgroundSession)
+  ) {
+    return false;
+  }
+  if (recordReturnView !== "summary") {
+    resetSessionState();
+  }
+
+  state.recordReturnView = recordReturnView;
+  state.recordListReturnView = returnView;
+  state.recordWrongPage = Math.max(0, Number(viewState.recordWrongPage) || 0);
+  state.recordCheckedPage = Math.max(0, Number(viewState.recordCheckedPage) || 0);
+  state.recordSolvedPage = Math.max(0, Number(viewState.recordSolvedPage) || 0);
+  state.recordListSnapshot = null;
+  startRecordListQuestion(returnContext.sourceQuestionId, returnView, mode, {
+    preferredChoiceOrder: detail.choiceIds,
+  });
+  state.recordListScrollTop = Math.max(0, Number(viewState.recordListScrollTop) || 0);
+
+  if (mode === "practice") {
+    const response = currentResponse();
+    const selectedChoiceId = typeof detail.selectedChoiceId === "string"
+      && findChoice(currentQuestion(), detail.selectedChoiceId)
+      ? detail.selectedChoiceId
+      : null;
+    if (!response || !detail.answered || selectedChoiceId === null) {
+      return false;
+    }
+    response.selectedChoiceId = selectedChoiceId;
+    response.isCorrect = selectedChoiceId === getCorrectChoice(currentQuestion())?.choice_id;
+    renderAnsweredQuestion(currentQuestion(), response);
+  }
+  return String(currentQuestion()?.id || "") === returnContext.sourceQuestionId;
+}
+
+function restoreSimilarScrollPosition(scrollY) {
+  const top = Math.max(0, Number(scrollY) || 0);
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top, behavior: "auto" });
+    });
+  });
+}
+
+function showSafeSimilarReturnFallback(returnContext) {
+  state.sessionMode = "standard";
+  state.similarChallengeMode = false;
+  state.similarReturnContext = null;
+  resetChallengeUrl();
+  startView.hidden = true;
+  statusBar.hidden = true;
+  questionView.hidden = true;
+  summaryView.hidden = true;
+  recordView.hidden = true;
+  wrongView.hidden = true;
+  checkedView.hidden = true;
+  solvedView.hidden = true;
+  if (returnContext.sourceType === SIMILAR_SOURCE_TYPES.SAVED_QUESTION_DETAIL) {
+    state.recordReturnView = "start";
+    showCheckedQuestions();
+  } else if (returnContext.sourceType === SIMILAR_SOURCE_TYPES.HISTORY_QUESTION_DETAIL) {
+    state.recordReturnView = "start";
+    showSolvedQuestions();
+  } else if (returnContext.sourceType === SIMILAR_SOURCE_TYPES.INCORRECT_QUESTION_ANSWER) {
+    state.recordReturnView = "start";
+    showWrongQuestions();
+  } else {
+    showStart();
+  }
+}
+
+async function leaveSimilarChallengeForRecord() {
+  const responseSubmission = createResponseSubmission();
+  await Promise.all([
+    submitResponseSubmission(responseSubmission),
+    commitOutOfScopeReports(),
+  ]);
+  clearSimilarChallengeState();
+  resetChallengeUrl();
+  state.sessionMode = "standard";
+  state.recordPracticeMode = false;
+  state.recordReviewMode = false;
+  statusBar.hidden = true;
+  questionView.hidden = true;
+  openLearningRecord("start", "menu");
+}
+
+function clearSimilarChallengeState() {
+  clearSimilarReturnContext();
+  state.similarReturnContext = null;
+  state.similarChallengeMode = false;
+  state.similarChallengeStarting = false;
 }
 
 function renderSummaryLifetime() {
@@ -1919,7 +2576,12 @@ function startRecordReview(questionId, returnView) {
   startRecordListQuestion(questionId, returnView, "review");
 }
 
-function startRecordListQuestion(questionId, returnView, mode) {
+function startRecordListQuestion(
+  questionId,
+  returnView,
+  mode,
+  { preferredChoiceOrder = null } = {},
+) {
   const question = state.allQuestions.find((item) => String(item.id) === String(questionId));
   if (!question) {
     return;
@@ -1932,7 +2594,11 @@ function startRecordListQuestion(questionId, returnView, mode) {
   state.recordPracticeMode = mode === "practice";
   state.recordReviewMode = mode === "review";
   state.recordListReturnView = returnView;
-  const sessionId = initializeSessionQuestions([question]);
+  const choiceOrdersByQuestionId = new Map();
+  if (Array.isArray(preferredChoiceOrder)) {
+    choiceOrdersByQuestionId.set(String(question.id), preferredChoiceOrder);
+  }
+  const sessionId = initializeSessionQuestions([question], { choiceOrdersByQuestionId });
 
   startView.hidden = true;
   summaryView.hidden = true;
@@ -1945,6 +2611,7 @@ function startRecordListQuestion(questionId, returnView, mode) {
   setStatus.textContent = state.recordPracticeMode ? "復習中" : "解説閲覧中";
   renderQuestion();
   scrollToTop({ instant: true });
+  scheduleSimilarQuestionsBackgroundLoad();
   if (state.recordPracticeMode) {
     loadPastChoiceStats(sessionId, [question.id]);
     retryPendingSubmissions();
@@ -2049,9 +2716,14 @@ function openInterruptDialog() {
   state.pendingNavigation = null;
   resetInterruptDialog();
   if (!pending && isTagChallengeSession()) void returnToTagSearchPage();
+  else if (!pending && isSimilarChallengeSession()) void returnToSimilarSource();
   else if (!pending) void interruptSession();
+  else if (pending.type === "record" && isSimilarChallengeSession()) void leaveSimilarChallengeForRecord();
   else if (pending.type === "record") void openRecordAfterChallenge();
   else {
+    if (isSimilarChallengeSession()) {
+      clearSimilarChallengeState();
+    }
     state.allowNavigation = true;
     window.location.assign(pending.href);
   }

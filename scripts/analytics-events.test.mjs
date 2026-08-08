@@ -66,15 +66,16 @@ test("all required custom event names are implemented", () => {
     "review_question_open",
     "question_bookmark",
     "result_share_click",
+    "similar_button_click",
   ]) {
     assert.match(appSource, new RegExp(`trackAnalyticsEvent\\("${eventName}"`));
   }
 });
 
-test("all 13 GA4 custom definitions are documented as event-scoped dimensions", () => {
+test("all 15 GA4 custom definitions are documented as event-scoped dimensions", () => {
   assert.match(
     documentationSource,
-    /13個をイベントスコープのカスタムディメンションとして登録する/,
+    /15個をイベントスコープのカスタムディメンションとして登録する/,
   );
   assert.doesNotMatch(documentationSource, /次のカスタム指標を登録する/);
   for (const parameterName of [
@@ -91,9 +92,25 @@ test("all 13 GA4 custom definitions are documented as event-scoped dimensions", 
     "share_target",
     "session_target",
     "question_position",
+    "source_screen",
+    "source_question_id",
   ]) {
     assert.match(documentationSource, new RegExp(`\\b${parameterName}\\b`));
   }
+});
+
+test("similar button analytics sends only the required source parameters", () => {
+  const eventMatch = appSource.match(
+    /trackAnalyticsEvent\("similar_button_click",\s*\{([\s\S]*?)\}\);/,
+  );
+  assert.ok(eventMatch, "similar_button_click should be implemented");
+  assert.match(eventMatch[1], /source_screen:\s*sourceScreen/);
+  assert.match(eventMatch[1], /source_question_id:\s*questionId/);
+  const parameterNames = Array.from(
+    eventMatch[1].matchAll(/\b([a-z_]+)\s*:/g),
+    (match) => match[1],
+  );
+  assert.deepEqual(parameterNames, ["source_screen", "source_question_id"]);
 });
 
 test("quiz answer parameters distinguish standard sessions and wrong-answer review", () => {

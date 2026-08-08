@@ -1,10 +1,11 @@
 {
-  "app/index.html": "bb648e3d26a6910af2c762abbc81f68d949636cf5fcdce46d191adb6347f3513",
-  "app/app.js": "b6fa415a45ba1919662e2346f878bff6c577bd06d618b7c7ce411e0f93a7bf66",
+  "app/index.html": "e304f145fdd944eac6497923ba46f75fc65442140d4e3dccff0858408700aaeb",
+  "app/app.js": "8d7b38bedf3a1190b113ebad994671e892602179b736a7bf7095aa8de7facb97",
   "app/question-data.js": "dd9b9ac367e8a980ddc47bc43745e6cfd88cb4eed15407082c74c05871047a42",
   "app/question-selection.js": "c7b4f8de930893905bd1b7c3258f0e9d5868a12f435ce2644d58812f93d1eb28",
+  "app/similar-questions.js": "5687381d50d304e6da294f6dcc14c81b897ca7ac9c9b3802637bc4aef5caad18",
   "app/startup.js": "cd49e754066c389c0541627bce07c3c15ced10fcec094fee43c269fe8de27c7f",
-  "app/styles.css": "443ad9022e2471027511329f4d1a189b17c5d42b2525568180c9dc10686887d6",
+  "app/styles.css": "50ae2ae9713532c87aa8e6b9f4ab1378f3c8967d8f855917fa5b27d648b876e2",
   "app/issue-report.js": "154c1c35c8110568ed074977c382f3673cec5c823af2510cae101121ff9485c5",
   "app/issue-report.css": "fbbfcc9ebf2db74a259533c9293e8c28ff32f3e37bccf0fa5bbd4af2be9395d3",
   "app/learning-record.js": "9e1b52e397158939cd553b9bf04f2eaed44fe6ab0e89a3bd6f5f21099f3044f2"

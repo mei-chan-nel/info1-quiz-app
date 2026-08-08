@@ -619,6 +619,12 @@ input {
   color: #7c2d12;
 }
 
+.interrupt-button:disabled,
+.summary-chatgpt-link:disabled {
+  opacity: 0.62;
+  cursor: wait;
+}
+
 .check-question-button {
   min-height: 34px;
   padding: 0 10px;
@@ -970,11 +976,43 @@ h1 {
 
 .summary-item-head {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
   padding: 12px 14px;
   background: #f8fafb;
+}
+
+.summary-action-grid {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) max-content;
+  grid-template-rows: repeat(2, auto);
+  align-items: center;
+  justify-content: end;
+  gap: 8px 10px;
+  min-width: 0;
+}
+
+.summary-action-grid [data-summary-chatgpt] {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.summary-action-grid .check-question-button {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.summary-action-grid [data-summary-similar] {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.summary-action-grid .scope-report-action {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
 }
 
 .summary-number {
@@ -1017,11 +1055,44 @@ h1 {
   cursor: pointer;
 }
 
+.summary-action-grid .summary-chatgpt-link {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .summary-chatgpt-link:hover,
 .summary-chatgpt-link:focus-visible {
   border-color: rgba(15, 118, 110, 0.42);
   background: var(--accent-soft);
   color: var(--accent-dark);
+}
+
+.similar-action-button {
+  border-color: rgba(19, 115, 51, 0.34);
+  background: var(--right-soft);
+  color: #216e39;
+}
+
+.interrupt-button.similar-action-button:hover,
+.interrupt-button.similar-action-button:focus-visible,
+.summary-chatgpt-link.similar-action-button:hover,
+.summary-chatgpt-link.similar-action-button:focus-visible {
+  border-color: rgba(19, 115, 51, 0.58);
+  background: #d7f0dc;
+  color: #14532d;
+  outline: 3px solid rgba(19, 115, 51, 0.2);
+  outline-offset: 2px;
+}
+
+.similar-action-button:active {
+  background: #c9e9d0;
+}
+
+.similar-action-button:disabled {
+  border-color: rgba(19, 115, 51, 0.24);
+  background: #eef7ef;
+  color: #54765a;
+  opacity: 0.75;
 }
 
 .scope-report-action {
@@ -1042,6 +1113,10 @@ h1 {
   border-color: var(--amber);
   background: var(--amber-soft);
   color: #7c2d12;
+}
+
+.similar-message-text {
+  white-space: pre-line;
 }
 
 .summary-body {
@@ -1611,29 +1686,23 @@ h1 {
   }
 
   .summary-item-head {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-rows: auto auto auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 8px;
     padding: 9px 10px;
   }
 
-  .summary-item-head .check-question-button {
-    grid-column: 3;
-    grid-row: 1;
-    justify-self: end;
+  .summary-action-grid {
+    flex: 0 0 auto;
+    grid-template-columns: max-content max-content;
+    width: max-content;
+    max-width: 100%;
+    margin-left: auto;
   }
 
-  .summary-chatgpt-link {
-    grid-column: 2 / 4;
-    grid-row: 2;
-    justify-self: end;
-  }
-
-  .scope-report-action {
-    grid-column: 2 / 4;
-    grid-row: 3;
-    justify-self: end;
-    align-self: start;
+  .summary-action-grid .summary-chatgpt-link {
+    font-size: 0.82rem;
   }
 
   .scope-report-button {

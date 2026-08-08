@@ -33,6 +33,7 @@ PROTECTED_APP_FILES = (
     "app/app.js",
     "app/question-data.js",
     "app/question-selection.js",
+    "app/similar-questions.js",
     "app/startup.js",
     "app/styles.css",
     "app/issue-report.js",
