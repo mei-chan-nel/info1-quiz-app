@@ -316,7 +316,7 @@ def facet_panel(
     )
     if groups:
         facet_markup = "".join(
-            f'''<details class="facet-group" data-facet-group open>
+            f'''<details class="facet-group" data-facet-group>
             <summary>{esc(label)} <span>{len(group_counts)}種類</span></summary>
             <div class="facet-links" data-facet-list>{facet_links(group_counts, "tag")}</div>
           </details>'''
