@@ -353,38 +353,44 @@ def source_label(question: dict) -> str:
     return source
 
 
-def build_filter_payload(grouped: dict[str, list[dict]], public_tags: set[str]) -> dict:
+def build_filter_payload(questions: list[dict], public_tags: set[str]) -> dict:
+    fields_by_id = {field["id"]: field for field in FIELDS}
+    field_numbers: Counter[str] = Counter()
     items: list[dict] = []
-    global_number = 0
-    for field in FIELDS:
-        field_questions = grouped[field["id"]]
-        for field_number, question in enumerate(field_questions, start=1):
-            global_number += 1
-            correct = answer_choice(question)
-            if not correct:
-                raise ValueError(f"{question['id']}: correct choice not found")
-            items.append(
-                {
-                    "id": str(question["id"]),
-                    "number": global_number,
-                    "field_number": field_number,
-                    "field_id": field["id"],
-                    "field_label": field["label"],
-                    "stem": str(question.get("stem", "")),
-                    "choices": [
-                        {"label": str(choice.get("label", "")), "text": str(choice.get("text", ""))}
-                        for choice in question.get("choices", [])
-                    ],
-                    "correct": {"label": str(correct.get("label", "")), "text": str(correct.get("text", ""))},
-                    "explanation": str(question.get("explanation", "")).strip(),
-                    "source": source_label(question),
-                    "tags": [
-                        str(tag).strip()
-                        for tag in question.get("tags", [])
-                        if str(tag).strip() in public_tags
-                    ],
-                }
-            )
+    for global_number, question in enumerate(questions, start=1):
+        field_id = question["field_ids"][0]
+        field = fields_by_id[field_id]
+        field_numbers[field_id] += 1
+        correct = answer_choice(question)
+        if not correct:
+            raise ValueError(f"{question['id']}: correct choice not found")
+        items.append(
+            {
+                "id": str(question["id"]),
+                "number": global_number,
+                "field_number": field_numbers[field_id],
+                "field_id": field_id,
+                "field_label": field["label"],
+                "stem": str(question.get("stem", "")),
+                "choices": [
+                    {"label": str(choice.get("label", "")), "text": str(choice.get("text", ""))}
+                    for choice in question.get("choices", [])
+                ],
+                "correct": {"label": str(correct.get("label", "")), "text": str(correct.get("text", ""))},
+                "explanation": str(question.get("explanation", "")).strip(),
+                "source": source_label(question),
+                "tags": [
+                    str(tag).strip()
+                    for tag in question.get("tags", [])
+                    if str(tag).strip() in public_tags
+                ],
+            }
+        )
+
+    # The JSON array is the registration ledger: newly registered questions are
+    # appended to it. Reverse only the rendered payload so the source remains a
+    # stable chronological record while the public list stays newest-first.
+    items.reverse()
     tag_counts = Counter(tag for item in items for tag in item["tags"])
     return {
         "generated_on": REVIEW_DATE.isoformat(),
@@ -587,6 +593,7 @@ def write_build_report(
         ),
         "question_search_page": "questions/index.html",
         "filter_match_mode": "AND",
+        "question_display_order": "newest_first",
         "learning_pages": ["questions/index.html"],
         "legacy_tag_redirect": "questions/tags.html",
         "related_app_page": "app/",
@@ -623,7 +630,7 @@ def main() -> int:
         shutil.rmtree(QUESTIONS_DIR)
     QUESTIONS_DIR.mkdir(parents=True)
 
-    filter_payload = build_filter_payload(grouped, public_tags)
+    filter_payload = build_filter_payload(questions, public_tags)
     render_tag_filter_page(filter_payload)
     render_legacy_tag_redirect()
     generated_paths: list[str] = []

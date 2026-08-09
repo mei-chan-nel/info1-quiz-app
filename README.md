@@ -31,6 +31,8 @@ python scripts/validate_question_pages.py --portal-root <mei-chan-nel.github.io�
 
 生成時に問題IDの一意性、229タグ、AND検索、段階表示、アプリ出題への遷移、正規URL、互換スタブを確認します。`docs/reports/question-library-build.json` はポータルのサイトマップ生成に渡す正規公開ページを記録します。
 
+問題の登録順は `data/questions/completed_questions.json` の配列順です。新しい問題は配列の末尾へ追加し、既存問題の順序は変更しません。`generate_question_pages.py` は公開カードを登録順の逆（新着順）で生成し、`validate_question_pages.py` がその順序を検証します。生成済みの `questions/index.html` を直接並べ替えないでください。
+
 ## ローカル確認
 
 ```powershell
