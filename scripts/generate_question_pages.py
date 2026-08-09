@@ -150,6 +150,7 @@ def head(
         ad_script = (
             f'\n    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" '
             'crossorigin="anonymous"></script>'
+            f'\n    <script src="{prefix}../assets/manual-ads.js?v=2026080901" defer></script>'
         )
     canonical_url = canonical(path)
     return f"""<!doctype html>
@@ -177,7 +178,7 @@ def head(
     <meta name="twitter:image:alt" content="{OG_IMAGE_ALT}" />
     <link rel="canonical" href="{esc(canonical_url)}" />
     <link rel="icon" href="{prefix}../assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="{prefix}../assets/site.css" />{ad_script}{extra_head}
+    <link rel="stylesheet" href="{prefix}../assets/site.css?v=2026080901" />{ad_script}{extra_head}
   </head>"""
 
 
@@ -485,6 +486,7 @@ def render_tag_filter_page(payload: dict) -> None:
           </div>
           <button class="button button-primary tag-challenge-start" type="button" data-tag-challenge-start disabled>アプリで出題できません</button>
         </div>
+        <div class="manual-ad-slot manual-ad-slot--display" data-manual-ad="display" data-ad-placement="after-tag-challenge-controls" hidden></div>
         <noscript><p class="filter-message">JavaScriptが無効なため、全{payload['question_count']}問を表示しています。</p></noscript>
         <div class="filter-result-list" id="filter-result-list" data-filter-results>
           <p class="filter-message" data-filter-message hidden></p>
