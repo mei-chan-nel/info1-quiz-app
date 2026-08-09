@@ -86,12 +86,6 @@ input {
   line-height: normal;
 }
 
-.ad-slot {
-  width: min(920px, calc(100% - 32px));
-  min-height: 120px;
-  margin: 0 auto;
-}
-
 .info-header a,
 .info-content a {
   color: var(--accent-dark);
@@ -1602,13 +1596,8 @@ h1 {
     padding: 14px 0;
   }
 
-  .ad-slot,
   .info-header {
     width: min(100% - 20px, 920px);
-  }
-
-  .ad-slot {
-    min-height: 96px;
   }
 
   .info-header {
