@@ -171,6 +171,12 @@ def main() -> int:
     rendered_counter = Counter(rendered_ids)
     if set(rendered_counter) != expected_ids or any(count != 1 for count in rendered_counter.values()):
         errors.append("questions/index.html: question IDs are missing, duplicated, or unexpected")
+    expected_rendered_ids = [str(question["id"]) for question in reversed(questions)]
+    if rendered_ids != expected_rendered_ids:
+        errors.append(
+            "questions/index.html: questions must be rendered newest-first "
+            "(reverse order of completed_questions.json)"
+        )
     facet_values = re.findall(r'class="facet-link"[^>]*data-facet-value="([^"]+)"', root_text)
     if len(facet_values) != len(public_tags) or set(facet_values) != public_tags:
         errors.append(f"questions/index.html: expected {len(public_tags)} unique facet tags, found {len(facet_values)}")
@@ -217,7 +223,7 @@ def main() -> int:
 
     report_path = ROOT / "docs" / "reports" / "question-library-build.json"
     report: dict = json.loads(report_path.read_text(encoding="utf-8")) if report_path.is_file() else {}
-    for key, expected in (("question_count", len(questions)), ("tag_count", len(public_tags)), ("question_search_page", "questions/index.html"), ("learning_pages", ["questions/index.html"]), ("legacy_tag_redirect", "questions/tags.html")):
+    for key, expected in (("question_count", len(questions)), ("tag_count", len(public_tags)), ("question_search_page", "questions/index.html"), ("question_display_order", "newest_first"), ("learning_pages", ["questions/index.html"]), ("legacy_tag_redirect", "questions/tags.html")):
         if report.get(key) != expected:
             errors.append(f"question-library-build.json: {key} must be {expected!r}, found {report.get(key)!r}")
     if report.get("filter_match_mode") != "AND":

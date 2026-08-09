@@ -33,6 +33,7 @@
   "questions_without_public_tags": 0,
   "question_search_page": "questions/index.html",
   "filter_match_mode": "AND",
+  "question_display_order": "newest_first",
   "learning_pages": [
     "questions/index.html"
   ],

@@ -55,6 +55,14 @@ Do not change existing question text, choices, correct answers, explanations, or
 
 For content based on public third-party exam questions, pay attention to source attribution, whether the question has been adapted, and applicable usage terms.
 
+## Question Registration Workflow
+
+- Treat the array order in `data/questions/completed_questions.json` as the registration order.
+- Append newly registered questions to the end of that array. Do not reorder existing records to control the public display.
+- Regenerate `questions/index.html` with `python scripts/generate_question_pages.py`; the generator renders the array in reverse so the public question list remains newest-first.
+- Run `python scripts/validate_question_pages.py --portal-root <portal-repository-root>` after regeneration. The validator must reject any generated page that is not the exact reverse of the registration order.
+- Do not hand-edit the generated question cards in `questions/index.html`.
+
 ## Git Operations
 
 This folder corresponds to:
