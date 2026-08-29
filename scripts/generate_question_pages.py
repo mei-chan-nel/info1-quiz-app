@@ -19,7 +19,7 @@ QUESTIONS_DIR = ROOT / "questions"
 REPORT_DIR = ROOT / "docs" / "reports"
 SITE_URL = "https://mei-chan-nel.com/info1-quiz-app/"
 PORTAL_URL = "https://mei-chan-nel.com/"
-SEARCH_ASSET_VERSION = "2026080802"
+SEARCH_ASSET_VERSION = "2026083001"
 OG_IMAGE_URL = "https://mei-chan-nel.com/assets/og/study-atlas-home-og.png"
 OG_IMAGE_ALT = "情報Ⅰ Study Atlasの学習マップと「知識を、ひろげ、つなげる」のメッセージ"
 OG_IMAGE_WIDTH = 1734
@@ -178,7 +178,7 @@ def head(
     <meta name="twitter:image:alt" content="{OG_IMAGE_ALT}" />
     <link rel="canonical" href="{esc(canonical_url)}" />
     <link rel="icon" href="{prefix}../assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="{prefix}../assets/site.css?v=2026080901" />{ad_script}{extra_head}
+    <link rel="stylesheet" href="{prefix}../assets/site.css?v=2026083001" />{ad_script}{extra_head}
   </head>"""
 
 
@@ -412,25 +412,27 @@ def render_filter_question(question: dict) -> str:
         for tag in question["tags"]
     )
     tag_row = (
-        f'              <div class="tag-row"><span>タグ</span><ul>{tag_links}</ul></div>'
+        f'                <div class="tag-row"><span>タグ</span><ul>{tag_links}</ul></div>'
         if tag_links
         else ""
     )
     tags_json = json.dumps(question["tags"], ensure_ascii=False, separators=(",", ":"))
-    return f"""        <article class="question-card filtered-question-card" id="filtered-q-{esc(question['id'])}" data-filter-question data-question-id="{esc(question['id'])}" data-filter-tags="{esc(tags_json)}">
-          <div class="question-meta"><span>{esc(question['field_label'])} · QUESTION {int(question['field_number']):03d}</span><a href="#filtered-q-{esc(question['id'])}" aria-label="この問題へのリンク">#{esc(question['id'])}</a></div>
-          <h3>{esc(question['stem'])}</h3>
-          <ol class="choice-list">{choices}</ol>
-          <details class="answer-panel">
-            <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-            <div class="answer-content">
-              <p class="correct-answer"><span>正答</span><strong>{esc(question['correct']['label'])}. {esc(question['correct']['text'])}</strong></p>
-              <div class="explanation"><h3>解説</h3><p>{esc(question['explanation'])}</p></div>
-              <dl class="source-row"><dt>出典</dt><dd>{esc(question['source'])}</dd></dl>
+    return f"""        <div class="filtered-question-shell" id="filtered-q-{esc(question['id'])}" hidden="until-found" data-filter-question data-question-id="{esc(question['id'])}" data-filter-tags="{esc(tags_json)}">
+          <article class="question-card filtered-question-card">
+            <div class="question-meta"><span>{esc(question['field_label'])} · QUESTION {int(question['field_number']):03d}</span><a href="#filtered-q-{esc(question['id'])}" aria-label="この問題へのリンク">#{esc(question['id'])}</a></div>
+            <h3>{esc(question['stem'])}</h3>
+            <ol class="choice-list">{choices}</ol>
+            <details class="answer-panel">
+              <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
+              <div class="answer-content">
+                <p class="correct-answer"><span>正答</span><strong>{esc(question['correct']['label'])}. {esc(question['correct']['text'])}</strong></p>
+                <div class="explanation"><h3>解説</h3><p>{esc(question['explanation'])}</p></div>
+                <dl class="source-row"><dt>出典</dt><dd>{esc(question['source'])}</dd></dl>
 {tag_row}
-            </div>
-          </details>
-        </article>"""
+              </div>
+            </details>
+          </article>
+        </div>"""
 
 
 def render_tag_filter_page(payload: dict) -> None:
@@ -461,6 +463,7 @@ def render_tag_filter_page(payload: dict) -> None:
         )
     )
     extra_head = (
+        '\n    <noscript><style>.filtered-question-shell[hidden="until-found"] { display: block; content-visibility: visible; } .filtered-question-shell + .filtered-question-shell { margin-top: 18px; }</style></noscript>'
         f'\n    <script src="../app/tag-challenge.js?v={SEARCH_ASSET_VERSION}" defer></script>'
         f'\n    <script src="../assets/question-filter.js?v={SEARCH_ASSET_VERSION}" defer></script>'
     )

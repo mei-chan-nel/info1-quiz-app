@@ -362,9 +362,29 @@
 
   function resetCards() {
     for (const card of cards) {
-      card.node.hidden = true;
+      card.node.setAttribute("hidden", "until-found");
       card.node.classList.remove("is-origin-question");
     }
+  }
+
+  function revealBeforeMatch(card) {
+    focusId = card.id;
+    shouldScrollToFocus = false;
+    resetCards();
+    card.node.removeAttribute("hidden");
+    card.node.classList.add("is-origin-question");
+    card.node.querySelectorAll("details").forEach((details) => {
+      details.open = true;
+    });
+    message.hidden = true;
+    controls.hidden = true;
+    loadMore.hidden = true;
+    live.textContent = "";
+    heading.replaceChildren(
+      document.createTextNode("検索で見つかった問題"),
+      element("span", "filter-hit-count", "1問"),
+    );
+    summary.textContent = "ページ内検索で見つかった問題を表示しています。";
   }
 
   function render() {
@@ -406,7 +426,7 @@
 
     const shown = Math.min(visibleCount, matches.length);
     matches.slice(0, shown).forEach((card) => {
-      card.node.hidden = false;
+      card.node.removeAttribute("hidden");
       card.node.classList.toggle("is-origin-question", card.id === focusId);
     });
 
@@ -453,6 +473,15 @@
   tagChallengeIncrease?.addEventListener("click", () => changeTagChallengeQuestionCount(1));
   tagChallengeDecrease?.addEventListener("click", () => changeTagChallengeQuestionCount(-1));
   tagChallengeStart?.addEventListener("click", startTagChallenge);
+
+  root.addEventListener("beforematch", (event) => {
+    if (!(event.target instanceof Element)) {
+      return;
+    }
+    const matchedNode = event.target.closest("[data-filter-question]");
+    const card = cards.find((item) => item.node === matchedNode);
+    if (card) revealBeforeMatch(card);
+  });
 
   window.addEventListener("popstate", applyLocationState);
   window.addEventListener("hashchange", applyLocationState);

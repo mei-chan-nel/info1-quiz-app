@@ -165,9 +165,16 @@ def main() -> int:
             errors.append("questions/index.html: JSON-LD breadcrumb contains duplicate URLs")
     if 'data-question-filter' not in root_text or 'data-filter-param="tag"' not in root_text:
         errors.append("questions/index.html: tag-filter root markers are missing")
-    rendered_ids = re.findall(r'data-filter-question[^>]*data-question-id="([^"]+)"', root_text)
+    rendered_ids = re.findall(
+        r'<div class="filtered-question-shell"[^>]*hidden="until-found"[^>]*'
+        r'data-filter-question[^>]*data-question-id="([^"]+)"',
+        root_text,
+    )
     if len(rendered_ids) != len(questions):
-        errors.append(f"questions/index.html: expected {len(questions)} static filter cards, found {len(rendered_ids)}")
+        errors.append(
+            f"questions/index.html: expected {len(questions)} static hidden-until-found "
+            f"filter shells, found {len(rendered_ids)}"
+        )
     rendered_counter = Counter(rendered_ids)
     if set(rendered_counter) != expected_ids or any(count != 1 for count in rendered_counter.values()):
         errors.append("questions/index.html: question IDs are missing, duplicated, or unexpected")
@@ -184,6 +191,10 @@ def main() -> int:
         errors.append("questions/index.html: obsolete field-page or legacy-tag links remain")
     if 'src="../assets/question-filter.js?v=' not in root_text or 'src="../app/tag-challenge.js?v=' not in root_text:
         errors.append("questions/index.html: tag-filter scripts are missing")
+    if root_text.count('<article class="question-card filtered-question-card">') != len(questions):
+        errors.append("questions/index.html: each filter shell must contain one undecorated question article")
+    if '<noscript><style>.filtered-question-shell[hidden="until-found"] { display: block; content-visibility: visible; } .filtered-question-shell + .filtered-question-shell { margin-top: 18px; }</style></noscript>' not in root_text:
+        errors.append("questions/index.html: no-script users must retain access to all static questions")
     for marker in ("data-facet-groups", "data-filter-results", "data-filter-controls", "data-filter-load-more", "data-tag-challenge-start", "AND検索"):
         if marker not in root_text:
             errors.append(f"questions/index.html: required interaction marker is missing: {marker}")
@@ -212,9 +223,31 @@ def main() -> int:
         errors.append("tag-challenge.js: app-relative question-search return path is missing")
     if 'new URL("../questions/", window.location.href).pathname' not in app_script:
         errors.append("app.js: app-relative fallback return path is missing")
-    for marker in ("loadMore", "URLSearchParams", "AND", "history.replaceState"):
+    for marker in (
+        "loadMore",
+        "URLSearchParams",
+        "AND",
+        "history.replaceState",
+        'setAttribute("hidden", "until-found")',
+        'addEventListener("beforematch"',
+        'querySelectorAll("details")',
+    ):
         if marker not in filter_script:
             warnings.append(f"question-filter.js: could not find expected interaction marker {marker}")
+    portal_css_path = portal_root / "assets" / "site.css"
+    if portal_css_path.is_file():
+        portal_css = portal_css_path.read_text(encoding="utf-8")
+        for marker in (
+            ".filter-result-list { display: block; }",
+            '.filtered-question-shell[hidden]:not([hidden="until-found"]) { display: none; }',
+            ".filtered-question-shell:not([hidden]) ~ .filtered-question-shell:not([hidden])",
+        ):
+            if marker not in portal_css:
+                errors.append(f"site.css: hidden-until-found layout marker is missing: {marker}")
+        if ".filtered-question-card[hidden]" in portal_css:
+            errors.append("site.css: question-card hidden rule would bypass the matchable wrapper")
+    else:
+        warnings.append("portal assets/site.css was not found")
     app_index_text = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
     if ">問題一覧<" in app_index_text or ">動画問題<" in app_index_text:
         errors.append("app/index.html: old navigation labels remain")
@@ -276,8 +309,9 @@ def main() -> int:
         "errors": errors,
         "warnings": warnings,
         "checks": [
-            "1,438 unique static filter cards and 229 facet tags",
+            "1,438 unique static hidden-until-found filter shells and 229 facet tags",
             "single canonical tag-search page with AND filtering, staged display, and expanded tag groups",
+            "matchable wrappers avoid card decoration and grid gaps while beforematch reveals one question",
             "legacy tags.html noindex redirect preserving query and hash",
             "app return paths and navigation use /info1-quiz-app/questions/",
             "protected app baseline hashes and cross-repository sitemap URLs",
