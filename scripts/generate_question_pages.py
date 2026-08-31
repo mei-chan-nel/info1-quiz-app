@@ -340,9 +340,6 @@ def answer_choice(question: dict) -> dict | None:
     for choice in question.get("choices", []):
         if str(choice.get("choice_id", "")) == answer_id:
             return choice
-    for choice in question.get("choices", []):
-        if choice.get("is_correct") or str(choice.get("label", "")) == str(question.get("correct_choice", "")):
-            return choice
     return None
 
 

@@ -1253,7 +1253,7 @@ function prepareSessionQuestion(question, preferredChoiceOrder = null) {
     return {
       ...choice,
       choice_id: choiceId,
-      is_correct: isChoiceCorrect(question, choice, choiceId, answerChoiceId),
+      is_correct: isChoiceCorrect(choiceId, answerChoiceId),
     };
   });
   const choiceById = new Map(preparedChoices.map((choice) => [choice.choice_id, choice]));
@@ -3127,7 +3127,7 @@ function scrollToTop({ instant = false } = {}) {
 }
 
 function formatSourceNote(question) {
-  const source = normalizeSourceDisplay(question.source_display || question.source_question_ids?.[0] || "");
+  const source = normalizeSourceDisplay(question.source_display);
   if (!source) {
     return "";
   }
@@ -3177,28 +3177,15 @@ function getChoiceId(question, choice) {
 }
 
 function getAnswerChoiceId(question) {
-  if (question.answer_choice_id) {
-    return String(question.answer_choice_id);
-  }
-  const correctChoice = question.choices.find(
-    (choice) => choice.is_correct || String(choice.label) === String(question.correct_choice),
-  );
-  return correctChoice ? getChoiceId(question, correctChoice) : "";
+  return String(question.answer_choice_id || "");
 }
 
-function isChoiceCorrect(question, choice, choiceId, answerChoiceId) {
-  if (answerChoiceId) {
-    return choiceId === answerChoiceId;
-  }
-  return Boolean(choice.is_correct) || String(choice.label) === String(question.correct_choice);
+function isChoiceCorrect(choiceId, answerChoiceId) {
+  return choiceId === answerChoiceId;
 }
 
 function getCorrectChoice(question) {
-  return (
-    question.choices.find((choice) => choice.choice_id === question.answer_choice_id) ||
-    question.choices.find((choice) => choice.is_correct) ||
-    null
-  );
+  return question.choices.find((choice) => choice.choice_id === question.answer_choice_id) || null;
 }
 
 function findChoice(question, choiceId) {

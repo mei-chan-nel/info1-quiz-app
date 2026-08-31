@@ -515,17 +515,7 @@ function getCorrectChoiceId(question) {
   if (!question) {
     return "";
   }
-  if (question.answer_choice_id) {
-    return String(question.answer_choice_id);
-  }
-
-  const correctChoice = (Array.isArray(question.choices) ? question.choices : []).find(
-    (choice) => choice?.is_correct || String(choice?.label) === String(question.correct_choice),
-  );
-  if (!correctChoice) {
-    return "";
-  }
-  return String(correctChoice.choice_id || `${question.id}__choice_${correctChoice.label}`);
+  return String(question.answer_choice_id || "");
 }
 
 function normalizeComparableText(value) {

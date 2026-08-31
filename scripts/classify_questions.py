@@ -19,111 +19,15 @@ FIELD_LABELS = {
     "design": "情報デザイン",
 }
 
-OBSOLETE_PRIMARY_TERM_FIELD = "primary_term_names"
-PRIMARY_TERM_FIELDS = ("term_id", "term", "category", "code", "matched_variant")
-NON_EMPTY_PRIMARY_TERM_FIELDS = ("term_id", "term", "code", "matched_variant")
-
-# Preserve the app's historical fallback inference only for classification
-# audits. Runtime field filtering now uses field_ids exclusively.
-APP_NEEDLES = {
-    "society_security": [
-        "情報社会", "情報セキュリティ", "著作権", "肖像権", "個人情報", "不正アクセス",
-        "フィッシング", "マルウェア", "認証", "パスワード", "暗号", "ディジタル署名",
-        "デジタル署名", "バックアップ", "機密性", "完全性", "可用性", "アクセス制御", "ハッシュ",
-    ],
-    "digital": [
-        "bit", "ビット", "バイト", "2進数", "16進数", "データ量", "デジタル表現", "画像",
-        "音声", "動画", "標本化", "量子化", "符号化", "圧縮", "論理演算", "AND", "OR",
-        "XOR", "CPU", "主記憶", "ファイル",
-    ],
-    "network": [
-        "ネットワーク", "IPアドレス", "IPv4", "IPv6", "DNS", "DHCP", "TCP", "UDP",
-        "パケット", "LAN", "Web", "Webページ", "URL", "HTTP", "E-mail", "電子メール",
-    ],
-    "data_db": [
-        "データ活用", "データベース", "RDB", "主キー", "外部キー", "フィールド", "レコード",
-        "テーブル", "平均", "中央値", "最頻値", "標準偏差", "グラフ", "欠損", "外れ値", "匿名",
-    ],
-    "algorithm": [
-        "プログラム", "アルゴリズム", "条件分岐", "繰返し", "変数", "配列", "探索", "並べ替え",
-        "シミュレーション", "確率", "チェックディジット", "関数", "フローチャート",
-    ],
-    "design": [
-        "情報デザイン", "ユーザインタフェース", "UI", "アクセシビリティ", "可読性", "視認性",
-        "入力", "ピクトグラム",
-    ],
-}
-
-DOMAIN_TAGS = {
-    "society_security": {"情報社会", "情報セキュリティ", "情報モラル"},
-    "digital": {"デジタル表現", "ディジタル表現", "デジタル", "ディジタル", "コンピュータ"},
-    "network": {"ネットワーク", "情報通信ネットワーク"},
-    "data_db": {"データ活用", "データベース", "統計", "データサイエンス"},
-    "algorithm": {"アルゴリズム", "プログラミング", "モデル化", "シミュレーション"},
-    "design": {"情報デザイン", "デザイン"},
-}
-
-# These are the 69 questions for which the app's historical keyword inference
-# returned no candidate. Each group was reviewed by its actual learning focus.
-MANUAL_REVIEW_GROUPS = {
-    "society_security": {
-        "reason": "情報社会における問題解決・調査・協働・制度を主題とするため",
-        "ids": [
-            "center_style_ip_curated_058", "center_style_ap_curated_104",
-            "center_style_curated_065_005", "center_style_curated_065_014",
-            "center_style_curated_067_003", "center_style_curated_067_012",
-            "center_style_curated_067_019", "center_style_curated_074_013",
-            "center_style_curated_084_004", "simple_original_005", "simple_original_006",
-            "simple_original_009", "simple_original_010",
-        ],
-    },
-    "digital": {
-        "reason": "コンピュータ構成・メディア表現・数値表現を主題とするため",
-        "ids": [
-            "center_style_common_test_0026", "center_style_ip_curated_053",
-            "center_style_ip_curated_108", "center_style_ap_curated_089",
-            "center_style_fe_curated_074", "center_style_ip_curated_129",
-            "center_style_ip_curated_139", "center_style_fe_curated_076",
-            "center_style_fe_curated_080", "center_style_curated_065_010",
-            "center_style_curated_073_018", "center_style_curated_075_003",
-            "center_style_curated_077_002", "center_style_curated_081_002",
-            "center_style_curated_082_003", "center_style_curated_084_018",
-            "center_style_curated_085_006", "center_style_curated_085_012",
-            "original_knowledge_0027", "simple_original_091", "simple_original_092",
-            "simple_original_093", "simple_original_094", "simple_original_096",
-            "simple_original_100", "simple_original_102", "simple_original_103",
-        ],
-    },
-    "network": {
-        "reason": "情報を結ぶ通信経路の構成を主題とするため",
-        "ids": ["center_style_ip_curated_131"],
-    },
-    "data_db": {
-        "reason": "統計・表計算・データ整形・機械学習によるデータ活用を主題とするため",
-        "ids": [
-            "center_style_ip_curated_023", "center_style_ip_curated_048",
-            "center_style_ip_curated_051", "center_style_ip_curated_054",
-            "center_style_ip_curated_055", "center_style_ap_curated_067",
-            "center_style_ap_curated_068", "center_style_ip_curated_086",
-            "center_style_ip_curated_105", "center_style_ap_curated_105",
-            "center_style_ip_curated_214", "center_style_curated_064_009",
-            "center_style_curated_069_011", "center_style_curated_074_002",
-        ],
-    },
-    "algorithm": {
-        "reason": "計算手順・プログラム・センサと制御の仕組みを主題とするため",
-        "ids": [
-            "center_style_seed_0030", "center_style_common_test_0031",
-            "center_style_common_test_0041", "center_style_ap_0004",
-            "center_style_fe_curated_066", "center_style_fe_curated_072",
-            "center_style_fe_curated_073", "center_style_ap_curated_097",
-            "center_style_curated_075_001", "center_style_curated_081_004",
-            "center_style_curated_085_008", "simple_original_097",
-            "simple_original_113", "simple_original_117",
-        ],
-    },
-    "design": {"reason": "情報デザインを主題とするため", "ids": []},
-}
+OBSOLETE_QUESTION_FIELDS = (
+    "primary_term_names",
+    "correct_choice",
+    "source_question_ids",
+    "curation_status",
+    "adoption_status",
+    "evaluation_class",
+    "evaluation_reasons",
+)
 
 
 def load_questions() -> list[dict]:
@@ -134,127 +38,49 @@ def load_questions() -> list[dict]:
     return value
 
 
-def searchable_parts(question: dict) -> tuple[list[str], list[str]]:
-    tags = [str(value) for value in question.get("tags", []) if value]
-    terms: list[str] = []
-    for term in question.get("primary_terms", []):
-        if not isinstance(term, dict):
+def validate_required_fields(questions: list[dict]) -> list[str]:
+    errors: list[str] = []
+    seen_ids: set[str] = set()
+    for index, question in enumerate(questions):
+        if not isinstance(question, dict):
+            errors.append(f"index:{index}: question must be an object")
             continue
-        if term.get("term"):
-            terms.append(str(term["term"]))
-    return tags, terms
-
-
-def app_candidates(question: dict) -> list[str]:
-    tags, terms = searchable_parts(question)
-    search_text = " ".join(tags + terms)
-    return [field_id for field_id, needles in APP_NEEDLES.items() if any(needle in search_text for needle in needles)]
-
-
-def automatic_primary(question: dict, candidates: list[str]) -> tuple[str, dict[str, int], list[str]]:
-    tags, terms = searchable_parts(question)
-    scores = {field_id: 0 for field_id in candidates}
-    matches: list[str] = []
-
-    for field_id in candidates:
-        if tags and tags[0] in DOMAIN_TAGS[field_id]:
-            scores[field_id] += 500
-            matches.append(f"先頭タグ:{tags[0]}")
-        for index, tag in enumerate(tags):
-            if tag in DOMAIN_TAGS[field_id]:
-                scores[field_id] += 220 - min(index, 20) * 5
-            for needle in APP_NEEDLES[field_id]:
-                if needle in tag:
-                    scores[field_id] += 90 - min(index, 20) * 2
-                    if tag == needle:
-                        scores[field_id] += 30
-                    break
-        for term in terms:
-            if term in DOMAIN_TAGS[field_id]:
-                scores[field_id] += 80
-            if any(needle in term for needle in APP_NEEDLES[field_id]):
-                scores[field_id] += 20
-
-    primary = max(candidates, key=lambda field_id: scores[field_id])
-    return primary, scores, matches
-
-
-def manual_assignments() -> dict[str, tuple[str, str]]:
-    assignments: dict[str, tuple[str, str]] = {}
-    for field_id, group in MANUAL_REVIEW_GROUPS.items():
-        for question_id in group["ids"]:
-            if question_id in assignments:
-                raise ValueError(f"Duplicate manual assignment: {question_id}")
-            assignments[question_id] = (field_id, str(group["reason"]))
-    return assignments
-
-
-def classify(questions: list[dict]) -> list[dict]:
-    manual = manual_assignments()
-    records: list[dict] = []
-    question_ids = {str(question.get("id", "")) for question in questions}
-    unknown_manual_ids = sorted(set(manual) - question_ids)
-    if unknown_manual_ids:
-        raise ValueError(f"Manual review contains unknown IDs: {unknown_manual_ids}")
-
-    for question in questions:
-        question_id = str(question.get("id", ""))
-        candidates = app_candidates(question)
-        if question_id in manual:
-            field_id, reason = manual[question_id]
-            if candidates:
-                _, scores, _ = automatic_primary(question, candidates)
-                mode = "manual_review_retained"
-            else:
-                scores = {}
-                mode = "manual_review"
+        question_id = question.get("id")
+        if not isinstance(question_id, str) or not question_id.strip():
+            errors.append(f"index:{index}: id must be a non-empty string")
+            question_label = f"index:{index}"
         else:
-            if not candidates:
-                existing_fields = question.get("field_ids")
-                if not isinstance(existing_fields, list) or len(existing_fields) != 1 or existing_fields[0] not in FIELD_LABELS:
-                    raise ValueError(f"Unreviewed question has no candidate or valid existing field: {question_id}")
-                field_id = existing_fields[0]
-                scores = {}
-                reason = "完成済み問題データで確認された主分野を保持（キーワード候補なし）"
-                mode = "existing_assignment_review"
-            else:
-                field_id, scores, _ = automatic_primary(question, candidates)
-                reason = "既存の分野キーワード候補から、タグ順と一致の強さで主分野を選択"
-                mode = "automatic_candidate"
+            question_label = question_id
+            if question_id in seen_ids:
+                errors.append(f"{question_id}: duplicate id")
+            seen_ids.add(question_id)
+        for field in ("stem", "explanation"):
+            value = question.get(field)
+            if not isinstance(value, str) or not value.strip():
+                errors.append(f"{question_label}: {field} must be a non-empty string")
+    return errors
 
-        existing_fields = question.get("field_ids")
-        if isinstance(existing_fields, list) and len(existing_fields) == 1 and existing_fields[0] in FIELD_LABELS:
-            existing_field = existing_fields[0]
-            if existing_field != field_id:
-                suggested_field = field_id
-                field_id = existing_field
-                reason = (
-                    "完成済み問題データで確認された主分野を保持。"
-                    f"自動候補の先頭は{FIELD_LABELS[suggested_field]}。"
-                )
-                mode = "existing_assignment_override"
 
-        records.append(
-            {
-                "question_id": question_id,
-                "field_id": field_id,
-                "field_label": FIELD_LABELS[field_id],
-                "selection": mode,
-                "candidates": candidates,
-                "scores": scores,
-                "reason": reason,
-                "tags": question.get("tags", []),
-                "stem": question.get("stem", ""),
-            }
-        )
-    return records
+def validate_tags(questions: list[dict]) -> list[str]:
+    errors: list[str] = []
+    for index, question in enumerate(questions):
+        if not isinstance(question, dict):
+            continue
+        question_id = str(question.get("id") or f"index:{index}")
+        tags = question.get("tags")
+        if not isinstance(tags, list):
+            errors.append(f"{question_id}: tags must be an array")
+            continue
+        for tag_index, tag in enumerate(tags):
+            if not isinstance(tag, str) or not tag.strip():
+                errors.append(f"{question_id}: tags[{tag_index}] must be a non-empty string")
+    return errors
 
 
 def validate_field_ids(questions: list[dict]) -> list[str]:
     errors: list[str] = []
     for index, question in enumerate(questions):
         if not isinstance(question, dict):
-            errors.append(f"index:{index}: question must be an object")
             continue
         question_id = str(question.get("id") or f"index:{index}")
         field_ids = question.get("field_ids")
@@ -266,92 +92,100 @@ def validate_field_ids(questions: list[dict]) -> list[str]:
     return errors
 
 
-def validate_primary_terms(questions: list[dict]) -> list[str]:
+def validate_obsolete_fields(questions: list[dict]) -> list[str]:
     errors: list[str] = []
-    allowed_fields = set(PRIMARY_TERM_FIELDS)
     for index, question in enumerate(questions):
         if not isinstance(question, dict):
             continue
         question_id = str(question.get("id") or f"index:{index}")
-        if OBSOLETE_PRIMARY_TERM_FIELD in question:
-            errors.append(f"{question_id}: obsolete {OBSOLETE_PRIMARY_TERM_FIELD} field is forbidden")
+        for field in OBSOLETE_QUESTION_FIELDS:
+            if field in question:
+                errors.append(f"{question_id}: obsolete {field} field is forbidden")
+    return errors
 
-        primary_terms = question.get("primary_terms")
-        if not isinstance(primary_terms, list) or not primary_terms:
-            errors.append(f"{question_id}: primary_terms must be a non-empty array")
+
+def validate_answer_and_source(questions: list[dict]) -> list[str]:
+    errors: list[str] = []
+    for index, question in enumerate(questions):
+        if not isinstance(question, dict):
             continue
-
-        for term_index, primary_term in enumerate(primary_terms):
-            location = f"{question_id}: primary_terms[{term_index}]"
-            if not isinstance(primary_term, dict):
-                errors.append(f"{location} must be an object")
-                continue
-            missing = [field for field in PRIMARY_TERM_FIELDS if field not in primary_term]
-            unexpected = sorted(set(primary_term) - allowed_fields)
-            if missing:
-                errors.append(f"{location} is missing fields: {missing}")
-            if unexpected:
-                errors.append(f"{location} contains unexpected fields: {unexpected}")
-            for field in PRIMARY_TERM_FIELDS:
-                value = primary_term.get(field)
-                if not isinstance(value, str):
-                    errors.append(f"{location}.{field} must be a string")
-                elif field in NON_EMPTY_PRIMARY_TERM_FIELDS and not value.strip():
-                    errors.append(f"{location}.{field} must not be empty")
+        question_id = str(question.get("id") or f"index:{index}")
+        choices = question.get("choices")
+        if not isinstance(choices, list) or len(choices) < 2:
+            errors.append(f"{question_id}: choices must contain at least two values")
+        else:
+            answer_choice_id = question.get("answer_choice_id")
+            if not isinstance(answer_choice_id, str) or not answer_choice_id.strip():
+                errors.append(f"{question_id}: answer_choice_id must be a non-empty string")
+            else:
+                answer_matches = [
+                    choice for choice in choices
+                    if isinstance(choice, dict) and choice.get("choice_id") == answer_choice_id
+                ]
+                if len(answer_matches) != 1:
+                    errors.append(f"{question_id}: answer_choice_id must match exactly one choice_id")
+                correct_choices = [
+                    choice for choice in choices
+                    if isinstance(choice, dict) and choice.get("is_correct") is True
+                ]
+                if len(correct_choices) != 1 or not answer_matches or correct_choices[0] is not answer_matches[0]:
+                    errors.append(f"{question_id}: choices[].is_correct must agree with answer_choice_id")
+        source_display = question.get("source_display")
+        if not isinstance(source_display, str) or not source_display.strip():
+            errors.append(f"{question_id}: source_display must be a non-empty string")
     return errors
 
 
 def validate_question_data(questions: list[dict]) -> list[str]:
-    return [*validate_field_ids(questions), *validate_primary_terms(questions)]
+    return [
+        *validate_obsolete_fields(questions),
+        *validate_required_fields(questions),
+        *validate_tags(questions),
+        *validate_answer_and_source(questions),
+        *validate_field_ids(questions),
+    ]
+
+
+def field_records(questions: list[dict]) -> list[dict]:
+    return [
+        {
+            "question_id": str(question["id"]),
+            "field_id": str(question["field_ids"][0]),
+            "field_label": FIELD_LABELS[str(question["field_ids"][0])],
+        }
+        for question in questions
+    ]
 
 
 def write_reports(records: list[dict]) -> None:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
-    candidate_path = REPORT_DIR / "field-classification.json"
-    candidate_path.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (REPORT_DIR / "field-classification.json").write_text(
+        json.dumps(records, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
-    manual_ids = set(manual_assignments())
-    manual_records = [record for record in records if record["question_id"] in manual_ids]
-    existing_records = [record for record in records if record["selection"].startswith("existing_assignment") and record["question_id"] not in manual_ids]
-    automatic_records = [record for record in records if record["selection"] == "automatic_candidate" and record["question_id"] not in manual_ids]
     counts = Counter(record["field_id"] for record in records)
     lines = [
-        "# 分野分類レビュー記録",
+        "# 分野ID検証レポート",
         "",
         "生成元: `scripts/classify_questions.py`",
         "",
         "## 集計",
         "",
         f"- 全問題: {len(records)}問",
-        f"- 自動候補から決定: {len(automatic_records)}問",
-        f"- 初期分類で候補なしを個別確認: {len(manual_records)}問",
-        f"- 完成済みデータの主分野を保持: {len(existing_records)}問",
-        "- 未分類: 0問",
-        "",
+        "- 未分類・不正な分野ID: 0問",
     ]
     for field_id, label in FIELD_LABELS.items():
         lines.append(f"- {label}: {counts[field_id]}問")
     lines.extend(
         [
             "",
-            "## 初期分類時に候補がなかった69問の確認結果",
-            "",
-            "| 問題ID | 主分野 | 判断理由 | タグ |",
-            "|---|---|---|---|",
-        ]
-    )
-    for record in manual_records:
-        tags = " / ".join(record["tags"])
-        lines.append(f"| `{record['question_id']}` | {record['field_label']} | {record['reason']} | {tags} |")
-    lines.extend(
-        [
-            "",
             "## 運用ルール",
             "",
-            "- `field_ids` は主分野を表す1要素の配列とする。",
-            "- 値は6分野のIDだけを許可する。",
-            "- 新規問題は分類後に検証を通し、未分類のまま公開しない。",
-            "- 自動候補の詳細・採点値は `docs/reports/field-classification.json` に保存する。",
+            "- `field_ids` を各問題の確定済み主分野の正本とする。",
+            "- `field_ids` は許可された6分野のうち1要素だけを含む配列とする。",
+            "- `tags` は問題に付与する用語・検索情報の正本とする。",
+            "- タグや問題文のキーワードから主分野を再推定しない。",
             "",
         ]
     )
@@ -359,35 +193,20 @@ def write_reports(records: list[dict]) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Classify every question into one primary field.")
-    parser.add_argument("--apply", action="store_true", help="Write field_ids into completed_questions.json")
-    parser.add_argument("--check", action="store_true", help="Validate existing field_ids against the classification")
-    args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="Validate the canonical field_ids assigned to every question.")
+    parser.add_argument("--check", action="store_true", help="Validate question data and existing field_ids")
+    parser.parse_args()
 
     questions = load_questions()
-    records = classify(questions)
-    record_by_id = {record["question_id"]: record for record in records}
+    errors = validate_question_data(questions)
+    if errors:
+        raise SystemExit("\n".join(errors))
 
-    if args.apply:
-        for question in questions:
-            question["field_ids"] = [record_by_id[str(question["id"])]["field_id"]]
-        QUESTION_PATH.write_text(json.dumps(questions, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-    if args.apply or args.check:
-        errors = validate_question_data(questions)
-        for question in questions:
-            expected = record_by_id[str(question["id"])]["field_id"]
-            if question.get("field_ids") != [expected]:
-                errors.append(f"{question['id']}: expected field_ids [{expected!r}]")
-        if errors:
-            raise SystemExit("\n".join(errors))
-
+    records = field_records(questions)
     write_reports(records)
-    manual_ids = set(manual_assignments())
-    manual_count = sum(record["question_id"] in manual_ids for record in records)
-    existing_count = sum(record["selection"].startswith("existing_assignment") and record["question_id"] not in manual_ids for record in records)
-    print(f"classified={len(records)} automatic={len(records) - manual_count - existing_count} manual={manual_count} existing={existing_count}")
-    print(" ".join(f"{field_id}={count}" for field_id, count in Counter(r["field_id"] for r in records).items()))
+    counts = Counter(record["field_id"] for record in records)
+    print(f"validated={len(records)}")
+    print(" ".join(f"{field_id}={counts[field_id]}" for field_id in FIELD_LABELS))
     return 0
 
 

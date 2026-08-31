@@ -13,46 +13,109 @@ ROOT = Path(__file__).resolve().parents[1]
 def valid_question() -> dict:
     return {
         "id": "q-1",
-        "field_ids": ["digital"],
-        "primary_terms": [
-            {
-                "term_id": "T0001",
-                "term": "ビット",
-                "category": "デジタル表現",
-                "code": "2ア",
-                "matched_variant": "bit",
-            }
+        "choices": [
+            {"choice_id": "q-1__choice_0", "is_correct": True},
+            {"choice_id": "q-1__choice_1", "is_correct": False},
         ],
+        "answer_choice_id": "q-1__choice_0",
+        "stem": "ビットについて答えよ。",
+        "explanation": "ビットは情報量の単位である。",
+        "tags": ["ビット"],
+        "source_display": "オリジナル",
+        "field_ids": ["digital"],
     }
 
 
 class QuestionDataValidationTest(unittest.TestCase):
-    def test_valid_primary_terms_are_accepted(self) -> None:
+    def test_valid_question_is_accepted(self) -> None:
         self.assertEqual(validate_question_data([valid_question()]), [])
 
-    def test_obsolete_primary_term_names_are_rejected(self) -> None:
+    def test_obsolete_question_fields_are_rejected(self) -> None:
+        obsolete_fields = (
+            "primary_term_names",
+            "correct_choice",
+            "source_question_ids",
+            "curation_status",
+            "adoption_status",
+            "evaluation_class",
+            "evaluation_reasons",
+        )
+        for field in obsolete_fields:
+            with self.subTest(field=field):
+                question = valid_question()
+                question[field] = None
+                self.assertTrue(
+                    any(f"obsolete {field} field is forbidden" in error for error in validate_question_data([question]))
+                )
+
+    def test_answer_choice_id_and_is_correct_must_agree(self) -> None:
         question = valid_question()
-        question["primary_term_names"] = ["ビット"]
+        question["answer_choice_id"] = "q-1__choice_1"
         self.assertTrue(
-            any("obsolete primary_term_names field is forbidden" in error for error in validate_question_data([question]))
+            any("choices[].is_correct must agree with answer_choice_id" in error for error in validate_question_data([question]))
         )
 
-    def test_primary_term_shape_is_enforced(self) -> None:
+    def test_source_display_must_not_be_blank(self) -> None:
         question = valid_question()
-        question["primary_terms"][0].pop("term")
+        question["source_display"] = " "
         self.assertTrue(
-            any("primary_terms[0] is missing fields: ['term']" in error for error in validate_question_data([question]))
+            any("source_display must be a non-empty string" in error for error in validate_question_data([question]))
         )
 
-    def test_schema_declares_primary_terms_and_forbids_obsolete_field(self) -> None:
+    def test_tags_must_be_an_array_of_non_empty_strings(self) -> None:
+        question = valid_question()
+        question["tags"] = [""]
+        self.assertTrue(
+            any("tags[0] must be a non-empty string" in error for error in validate_question_data([question]))
+        )
+
+    def test_completed_questions_use_only_current_top_level_fields(self) -> None:
+        questions = json.loads(
+            (ROOT / "data" / "questions" / "completed_questions.json").read_text(encoding="utf-8")
+        )
+        expected_fields = {
+            "id",
+            "stem",
+            "choices",
+            "answer_choice_id",
+            "explanation",
+            "tags",
+            "difficulty",
+            "source_display",
+            "改題",
+            "field_ids",
+        }
+        for question in questions:
+            with self.subTest(question_id=question.get("id")):
+                self.assertEqual(set(question), expected_fields)
+
+    def test_schema_forbids_obsolete_term_fields(self) -> None:
         schema = json.loads(
             (ROOT / "data" / "questions" / "question.schema.json").read_text(encoding="utf-8")
         )
-        self.assertIn("primary_terms", schema["required"])
-        self.assertEqual(schema["not"]["required"], ["primary_term_names"])
         self.assertEqual(
-            schema["properties"]["primary_terms"]["items"]["required"],
-            ["term_id", "term", "category", "code", "matched_variant"],
+            schema["required"],
+            ["id", "stem", "choices", "answer_choice_id", "explanation", "tags", "source_display", "field_ids"],
+        )
+        self.assertEqual(
+            set(schema["properties"]),
+            {"id", "stem", "choices", "answer_choice_id", "explanation", "tags", "source_display", "field_ids"},
+        )
+        forbidden_fields = {
+            clause["required"][0]
+            for clause in schema["not"]["anyOf"]
+        }
+        self.assertEqual(
+            forbidden_fields,
+            {
+                "primary_term_names",
+                "correct_choice",
+                "source_question_ids",
+                "curation_status",
+                "adoption_status",
+                "evaluation_class",
+                "evaluation_reasons",
+            },
         )
 
 

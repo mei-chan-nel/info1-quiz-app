@@ -1,12 +1,12 @@
 {
   "app/index.html": "6ed7244765ee626625a0d91fc1bbfdfc62798af3b61dfe78ef34495a407b2ef0",
-  "app/app.js": "68c11197819a18269bf8fc27be8b3ce4e22c9c593b000cd21bd1058ac393f8f9",
+  "app/app.js": "ca619e5571c368ae214fbd7efe3dab51260c61cf122b938d2d1f874fb52e08f9",
   "app/question-data.js": "dd9b9ac367e8a980ddc47bc43745e6cfd88cb4eed15407082c74c05871047a42",
   "app/question-selection.js": "c7b4f8de930893905bd1b7c3258f0e9d5868a12f435ce2644d58812f93d1eb28",
   "app/similar-questions.js": "5687381d50d304e6da294f6dcc14c81b897ca7ac9c9b3802637bc4aef5caad18",
   "app/startup.js": "cd49e754066c389c0541627bce07c3c15ced10fcec094fee43c269fe8de27c7f",
   "app/styles.css": "3a0e8ed517a532ec0b06c82e77ca4548144c76a2efe06ceeb2fbd43970cec786",
-  "app/issue-report.js": "154c1c35c8110568ed074977c382f3673cec5c823af2510cae101121ff9485c5",
+  "app/issue-report.js": "93ab3933999c2e6d0cfff29a22b808e391da1a2b4a0d1bc920c20d1246857432",
   "app/issue-report.css": "fbbfcc9ebf2db74a259533c9293e8c28ff32f3e37bccf0fa5bbd4af2be9395d3",
   "app/learning-record.js": "9e1b52e397158939cd553b9bf04f2eaed44fe6ab0e89a3bd6f5f21099f3044f2",
   "app/tag-challenge.js": "7abd05cf41889a65e39c5bd25c892d3f70aa15a28760b5ba51ada690075e7aeb"
