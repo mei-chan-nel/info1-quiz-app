@@ -309,7 +309,7 @@ def main() -> int:
         "errors": errors,
         "warnings": warnings,
         "checks": [
-            "1,438 unique static hidden-until-found filter shells and 229 facet tags",
+            f"{len(questions):,} unique static hidden-until-found filter shells and {len(public_tags)} facet tags",
             "single canonical tag-search page with AND filtering, staged display, and expanded tag groups",
             "matchable wrappers avoid card decoration and grid gaps while beforematch reveals one question",
             "legacy tags.html noindex redirect preserving query and hash",

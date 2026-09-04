@@ -1,7 +1,7 @@
 {
   "status": "pass",
   "questions_checked": 1438,
-  "tags_checked": 229,
+  "tags_checked": 225,
   "question_html": [
     "index.html",
     "tags.html"
@@ -11,7 +11,7 @@
   "errors": [],
   "warnings": [],
   "checks": [
-    "1,438 unique static hidden-until-found filter shells and 229 facet tags",
+    "1,438 unique static hidden-until-found filter shells and 225 facet tags",
     "single canonical tag-search page with AND filtering, staged display, and expanded tag groups",
     "matchable wrappers avoid card decoration and grid gaps while beforematch reveals one question",
     "legacy tags.html noindex redirect preserving query and hash",

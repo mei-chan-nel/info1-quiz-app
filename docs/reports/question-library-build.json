@@ -11,13 +11,11 @@
     "algorithm": 115,
     "design": 121
   },
-  "raw_tag_count": 230,
-  "tag_count": 229,
+  "raw_tag_count": 225,
+  "tag_count": 225,
   "minimum_public_tag_questions": 1,
   "forced_public_tags": [],
-  "excluded_public_tags": [
-    "共通テスト"
-  ],
+  "excluded_public_tags": [],
   "tag_aliases": {
     "ディジタル署名": "デジタル署名",
     "公開かぎ暗号方式": "公開鍵暗号方式",
