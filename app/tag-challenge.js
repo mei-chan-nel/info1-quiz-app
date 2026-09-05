@@ -219,6 +219,9 @@
         font-weight: 800;
         text-decoration: none;
       }
+      .tag-term-guide-link[hidden] {
+        display: none !important;
+      }
       .tag-term-guide-link:hover,
       .tag-term-guide-link:focus-visible {
         border-color: var(--coral);
@@ -298,15 +301,23 @@
       const hasGuide = Boolean(guide?.url && guide?.summary);
 
       controls.classList.toggle("has-term-guide", hasGuide);
-      guideLink.hidden = !hasGuide;
-      summary.hidden = !hasGuide;
+      if (guideLink.hidden === hasGuide) {
+        guideLink.hidden = !hasGuide;
+      }
+      if (summary.hidden === hasGuide) {
+        summary.hidden = !hasGuide;
+      }
 
       if (hasGuide) {
         guideLink.href = guide.url;
-        summary.textContent = guide.summary;
+        if (summary.textContent !== guide.summary) {
+          summary.textContent = guide.summary;
+        }
       } else {
         guideLink.removeAttribute("href");
-        summary.textContent = "";
+        if (summary.textContent) {
+          summary.textContent = "";
+        }
       }
     };
 
@@ -314,7 +325,7 @@
     observer.observe(root, {
       subtree: true,
       attributes: true,
-      attributeFilter: ["class", "hidden", "aria-pressed"],
+      attributeFilter: ["class", "aria-pressed"],
     });
 
     window.addEventListener("hashchange", update);
@@ -327,9 +338,11 @@
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initializeTagSearchTermGuideUi, { once: true });
-  } else {
-    initializeTagSearchTermGuideUi();
+  if (typeof document !== "undefined") {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initializeTagSearchTermGuideUi, { once: true });
+    } else {
+      initializeTagSearchTermGuideUi();
+    }
   }
 })();
