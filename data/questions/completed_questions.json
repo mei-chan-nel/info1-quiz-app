@@ -19913,7 +19913,7 @@
         "explanation": "請求書の配送に必要な範囲で個人データの取扱いを委託する場合は、個人情報保護法第27条第5項第1号により第三者提供には当たらず、本人の同意は不要である。"
       }
     ],
-    "explanation": "個人データを第三者に提供する場合は、個人情報保護法第27条第1項により、原則としてあらかじめ本人の同意が必要である。親会社への販促目的の提供は委託等の例外に当たらないため、選択肢0が該当する。",
+    "explanation": "個人データを第三者に提供する場合は、個人情報保護法第27条第1項により、原則としてあらかじめ本人の同意が必要である。親会社への販促目的の提供は委託等の例外に当たらないため、親会社への販促目的の提供が該当する。",
     "tags": [
       "個人情報"
     ],
@@ -25709,7 +25709,7 @@
         "text": "b、c",
         "choice_id": "center_style_curated_074_001__choice_1",
         "is_correct": false,
-        "explanation": "cを不適切としているが、不要な名簿を溶解処理するのは復元されにくい処理として適切である。3もcを不適切としている点が誤りで、bを含んでいない。"
+        "explanation": "cを不適切としているが、不要な名簿を溶解処理するのは復元されにくい処理として適切である。c、dの組合せもcを不適切としている点が誤りで、正しいb、dの組合せではない。"
       },
       {
         "label": "2",
@@ -27477,7 +27477,7 @@
         "text": "更新権限",
         "choice_id": "center_style_curated_080_005__choice_1",
         "is_correct": false,
-        "explanation": "登録・変更・削除ができてしまう。3も更新権限が含まれるため過剰である。"
+        "explanation": "登録・変更・削除ができてしまう。参照権限と更新権限の両方を与える場合も更新権限が含まれるため過剰である。"
       },
       {
         "label": "2",
@@ -28694,7 +28694,7 @@
         "text": "書込み権",
         "choice_id": "center_style_curated_083_011__choice_1",
         "is_correct": false,
-        "explanation": "元ファイルを書き換える権限であり、コピー元の読取りとは別である。2、3も元ファイルの内容を読む権限を直接表していない。"
+        "explanation": "元ファイルを書き換える権限であり、コピー元の読取りとは別である。削除権や所有者変更権も元ファイルの内容を読む権限を直接表していない。"
       },
       {
         "label": "2",
@@ -43854,7 +43854,7 @@
         "explanation": "販売データには商品、数量、時刻などが含まれるため、集計・分析によって売れ方の傾向を把握できる。"
       }
     ],
-    "explanation": "POSシステムは、商品を販売した時点で商品コード、数量、価格、時刻などを記録する仕組みであり、現金残高だけを管理するものではない。したがって、選択肢0が誤りである。\n\n販売データをデータベースに蓄積すると、売上集計、在庫管理、仕入れ計画、時間帯別の需要分析などに活用できる。銀行の振込のように複数の更新を一体として扱う処理では、途中だけが実行されて不整合が生じないよう、トランザクションとして管理する。",
+    "explanation": "POSシステムは、商品を販売した時点で商品コード、数量、価格、時刻などを記録する仕組みであり、現金残高だけを管理するものではない。したがって、「POSシステムは現金残高だけを管理し、販売情報を記録しない」とする説明が誤りである。\n\n販売データをデータベースに蓄積すると、売上集計、在庫管理、仕入れ計画、時間帯別の需要分析などに活用できる。銀行の振込のように複数の更新を一体として扱う処理では、途中だけが実行されて不整合が生じないよう、トランザクションとして管理する。",
     "tags": [
       "POSシステム",
       "データベース"
@@ -44037,7 +44037,7 @@
         "explanation": "音声を文字列に変換して保存するだけなら音声認識である。文字列から傾向や規則性を抽出する段階がなければ、テキストマイニングではない。"
       }
     ],
-    "explanation": "テキストマイニングは、大量の文章を解析し、頻出語、話題、感情、分類に役立つ特徴などを見いだす手法である。選択肢0〜2は文章から傾向や規則性を抽出している。選択肢3は音声を文字へ変換する音声認識であり、変換した文章を分析していないため、テキストマイニングの活用例とはいえない。",
+    "explanation": "テキストマイニングは、大量の文章を解析し、頻出語、話題、感情、分類に役立つ特徴などを見いだす手法である。SNS投稿、迷惑メール本文、顧客との対話記録を分析する例は、文章から傾向や規則性を抽出している。一方、講演の音声を文字に変換して保存する例は音声認識であり、変換した文章を分析していないため、テキストマイニングの活用例とはいえない。",
     "tags": [
       "テキストマイニング"
     ],
@@ -44720,7 +44720,7 @@
         "explanation": "図書館等が利用者の求めに応じて行える複写は、原則として公表された著作物の一部分を一人につき一部提供する場合である。単行本一冊全部の複写依頼は、この条件を満たさない。"
       }
     ],
-    "explanation": "公表された著作物は、公正な慣行に合致し、報道・批評・研究など引用の目的上正当な範囲であれば、著作権者の許諾を得ずに引用できる。具体的には、引用する必然性があり、自分の論述が主で引用部分が従となること、引用部分を明確に区別すること、必要な範囲にとどめること、出所を明示することなどが必要である。選択肢1はこれらを満たす例である。",
+    "explanation": "公表された著作物は、公正な慣行に合致し、報道・批評・研究など引用の目的上正当な範囲であれば、著作権者の許諾を得ずに引用できる。具体的には、引用する必然性があり、自分の論述が主で引用部分が従となること、引用部分を明確に区別すること、必要な範囲にとどめること、出所を明示することなどが必要である。学校の課題レポートで、自分の論述を主とし、出所と引用範囲を示して必要な部分だけ引用する例が、これらを満たしている。",
     "tags": [
       "著作権",
       "引用"
@@ -45559,7 +45559,7 @@
   {"id":"center_style_original_202608_0142","stem":"通信開始時の鍵共有・相手認証に公開鍵暗号を用い、その後の大量データ通信に共通鍵暗号を用いるハイブリッド方式が採用される理由を次から選べ。","choices":[{"label":"0","text":"公開鍵暗号と共通鍵暗号は、鍵の扱いも処理速度も同じなので用途を分けない","choice_id":"center_style_original_202608_0142__choice_0","is_correct":false,"explanation":"誤り。一般に両方式は鍵の配り方と計算量に違いがあり、その違いがハイブリッド化の理由である。"},{"label":"1","text":"公開鍵暗号は秘密鍵を全通信相手へ公開するため処理が速くなる","choice_id":"center_style_original_202608_0142__choice_1","is_correct":false,"explanation":"誤り。秘密鍵は公開せず所有者が守る必要があり、公開すると安全な認証・復号ができない。"},{"label":"2","text":"共通鍵暗号には暗号化機能がなく、公開鍵暗号だけがデータを暗号化できる","choice_id":"center_style_original_202608_0142__choice_2","is_correct":false,"explanation":"誤り。共通鍵暗号も同じ鍵で暗号化と復号を行う暗号方式であり、大量データの暗号化に広く用いられる。"},{"label":"3","text":"公開鍵暗号は安全な鍵共有に利用しやすく、共通鍵暗号は大量データを比較的高速に処理できる","choice_id":"center_style_original_202608_0142__choice_3","is_correct":true,"explanation":"正しい。公開鍵方式でセッション鍵を安全に合意・配送し、以後は高速な共通鍵方式で本文を処理することで長所を組み合わせる。"}],"explanation":"公開鍵方式でセッション鍵を安全に合意・配送し、以後は高速な共通鍵方式で本文を処理することで長所を組み合わせる。一般に両方式は鍵の配り方と計算量に違いがあり、その違いがハイブリッド化の理由である。","tags":["共通鍵暗号方式","公開鍵暗号方式","暗号化"],"difficulty":"basic","source_display":"オリジナル","改題":false,"answer_choice_id":"center_style_original_202608_0142__choice_3","field_ids":["society_security"]},
 {"id":"center_style_original_202608_0143","stem":"各ビットが0または1のいずれかをとる5ビットの固定長ビット列で表せる、異なる状態の総数を次から選べ。","choices":[{"label":"0","text":"5通り","choice_id":"center_style_original_202608_0143__choice_0","is_correct":false,"explanation":"誤り。5はビットの個数であり、各ビットに二つずつある選択肢の組合せ数ではない。"},{"label":"1","text":"32通り","choice_id":"center_style_original_202608_0143__choice_1","is_correct":true,"explanation":"正しい。5桁それぞれに0と1の2通りがあるため、2×2×2×2×2＝2⁵＝32通りである。"},{"label":"2","text":"10通り","choice_id":"center_style_original_202608_0143__choice_2","is_correct":false,"explanation":"誤り。10は2×5で求めた値だが、独立な桁の選択肢は加算せず積をとる。"},{"label":"3","text":"25通り","choice_id":"center_style_original_202608_0143__choice_3","is_correct":false,"explanation":"誤り。25は5²であり、1桁当たり5通りが2桁ある場合のような計算で、5個の2値ビットに対応しない。"}],"explanation":"nビットの各桁が独立に0または1を取るなら、組合せは2×…×2＝2ⁿ通りである。5ビットでは32通りになる。","tags":["ビット"],"difficulty":"calculation_basic","source_display":"オリジナル","改題":false,"answer_choice_id":"center_style_original_202608_0143__choice_1","field_ids":["digital"]},
   {"id":"center_style_original_202608_0144","stem":"正方形の中へ乱数で点を多数発生させ、内接する4分の1円の中に入った点の割合から円周率を近似する。この方法の説明として最も適当なものを次から選べ。","choices":[{"label":"0","text":"点を発生させず、正方形と円の面積公式だけを記号計算して厳密値を求める方法である","choice_id":"center_style_original_202608_0144__choice_0","is_correct":false,"explanation":"誤り。面積公式だけで厳密に計算する方法は乱数試行を使わず、この事例のモンテカルロシミュレーションを説明していない。"},{"label":"1","text":"点の個数を一つずつ増やし、起こり得る座標の組を有限個として漏れなく列挙する方法である","choice_id":"center_style_original_202608_0144__choice_1","is_correct":false,"explanation":"誤り。連続する座標の候補を有限個として列挙するのではなく、乱数で標本を取り、出現割合から近似する。"},{"label":"2","text":"発生した点のx座標だけを説明変数とする回帰直線を求め、傾きから円周率を決める方法である","choice_id":"center_style_original_202608_0144__choice_2","is_correct":false,"explanation":"誤り。回帰分析は変数間の関係をモデル化する方法である。この事例では円内に入った点の割合を利用する。"},{"label":"3","text":"乱数による試行を繰り返し、円内に入る割合という標本結果から求めたい値を近似する方法である","choice_id":"center_style_original_202608_0144__choice_3","is_correct":true,"explanation":"正しい。多数の乱数試行から得た割合を面積比の推定に使うため、モンテカルロシミュレーションに当たる。"}],"explanation":"正方形内で一様に点を選ぶと、4分の1円に入る割合はおよそπ/4になるため、「4×円内の点数÷全点数」でπを近似できる。試行回数を増やすと一般にばらつきは小さくなるが、有限回で厳密値になるとは限らない。","tags":["シミュレーション"],"difficulty":"basic","source_display":"オリジナル","改題":false,"answer_choice_id":"center_style_original_202608_0144__choice_3","field_ids":["algorithm"]},
-  {"id":"center_style_original_202608_0145","stem":"あるシミュレーション結果は平均値102、四分位範囲18であり、比較対象の実データは平均値108、四分位範囲26であった。調整後の候補について、平均値の差の絶対値と四分位範囲の差の絶対値の合計が最も小さいものを次から選べ。","choices":[{"label":"0","text":"平均値102、四分位範囲25","choice_id":"center_style_original_202608_0145__choice_0","is_correct":false,"explanation":"誤り。四分位範囲は実データに近いが、差の合計は|102−108|＋|25−26|＝7であり、中心のずれが残る。"},{"label":"1","text":"平均値107、四分位範囲25","choice_id":"center_style_original_202608_0145__choice_1","is_correct":true,"explanation":"正しい。差の合計は|107−108|＋|25−26|＝2で、四つの候補の中で最も小さい。中心と散らばりの両方が実データに近い。"},{"label":"2","text":"平均値107、四分位範囲18","choice_id":"center_style_original_202608_0145__choice_2","is_correct":false,"explanation":"誤り。平均値は実データに近いが、四分位範囲が調整前のままである。差の合計は|107−108|＋|18−26|＝9となる。"},{"label":"3","text":"平均値110、四分位範囲24","choice_id":"center_style_original_202608_0145__choice_3","is_correct":false,"explanation":"誤り。平均値の差と四分位範囲の差はいずれも2で、合計は4となり、選択肢1の合計2より大きい。"}],"explanation":"平均値は分布の中心、四分位範囲は中央50％のデータの広がりを表す。選択肢1では実データとの差が平均値で1、四分位範囲で1なので、指定された合計は1＋1＝2となる。他の候補の合計は順に7、9、4であるため、中心と散らばりを合わせて最も近づけているのは選択肢1である。","tags":["シミュレーション","箱ひげ図"],"difficulty":"basic","source_display":"オリジナル","改題":false,"answer_choice_id":"center_style_original_202608_0145__choice_1","field_ids":["algorithm"]},
+  {"id":"center_style_original_202608_0145","stem":"あるシミュレーション結果は平均値102、四分位範囲18であり、比較対象の実データは平均値108、四分位範囲26であった。調整後の候補について、平均値の差の絶対値と四分位範囲の差の絶対値の合計が最も小さいものを次から選べ。","choices":[{"label":"0","text":"平均値102、四分位範囲25","choice_id":"center_style_original_202608_0145__choice_0","is_correct":false,"explanation":"誤り。四分位範囲は実データに近いが、差の合計は|102−108|＋|25−26|＝7であり、中心のずれが残る。"},{"label":"1","text":"平均値107、四分位範囲25","choice_id":"center_style_original_202608_0145__choice_1","is_correct":true,"explanation":"正しい。差の合計は|107−108|＋|25−26|＝2で、四つの候補の中で最も小さい。中心と散らばりの両方が実データに近い。"},{"label":"2","text":"平均値107、四分位範囲18","choice_id":"center_style_original_202608_0145__choice_2","is_correct":false,"explanation":"誤り。平均値は実データに近いが、四分位範囲が調整前のままである。差の合計は|107−108|＋|18−26|＝9となる。"},{"label":"3","text":"平均値110、四分位範囲24","choice_id":"center_style_original_202608_0145__choice_3","is_correct":false,"explanation":"誤り。平均値の差と四分位範囲の差はいずれも2で、合計は4となり、平均値107、四分位範囲25の候補の合計2より大きい。"}],"explanation":"平均値は分布の中心、四分位範囲は中央50％のデータの広がりを表す。平均値107、四分位範囲25の候補では実データとの差が平均値で1、四分位範囲で1なので、指定された合計は1＋1＝2となる。平均値102、四分位範囲25の候補の合計は7、平均値107、四分位範囲18の候補の合計は9、平均値110、四分位範囲24の候補の合計は4であるため、中心と散らばりを合わせて最も近づけているのは平均値107、四分位範囲25の候補である。","tags":["シミュレーション","箱ひげ図"],"difficulty":"basic","source_display":"オリジナル","改題":false,"answer_choice_id":"center_style_original_202608_0145__choice_1","field_ids":["algorithm"]},
   {"id":"center_style_original_202608_0146","stem":"Webページの意味構造を支援技術にも伝え、内容のない画像を除く情報画像の内容も利用可能にする実装を次から選べ。","choices":[{"label":"0","text":"見出し要素を階層どおりに用い、情報を伝える画像に目的に合う代替テキストを付ける","choice_id":"center_style_original_202608_0146__choice_0","is_correct":true,"explanation":"正しい。意味に合う見出し要素と代替テキストにより、画面を見ない利用者にも構造と画像情報を伝えられる。"},{"label":"1","text":"文字を一律に大きくし、見出し要素を使わず太字だけで文書の階層を示す","choice_id":"center_style_original_202608_0146__choice_1","is_correct":false,"explanation":"誤り。見た目の大きさや太字だけでは文書構造が機械可読にならず、見出し間を支援技術で移動しにくい。"},{"label":"2","text":"公共機関以外のサイトでは支援技術への対応を行わない","choice_id":"center_style_original_202608_0146__choice_2","is_correct":false,"explanation":"誤り。アクセシビリティは運営主体にかかわらず多様な利用者のアクセスに関係し、民間サイトなら不要とはいえない。"},{"label":"3","text":"状態を色だけで示し、文字や記号による説明を削除する","choice_id":"center_style_original_202608_0146__choice_3","is_correct":false,"explanation":"誤り。色を知覚できない状況では状態が伝わらず、色以外の手掛かりを併用する必要がある。"}],"explanation":"意味に合う見出し要素と代替テキストにより、画面を見ない利用者にも構造と画像情報を伝えられる。見た目の大きさや太字だけでは文書構造が機械可読にならず、見出し間を支援技術で移動しにくい。","tags":["アクセシビリティ","HTML","構造化"],"difficulty":"basic","source_display":"オリジナル","改題":false,"answer_choice_id":"center_style_original_202608_0146__choice_0","field_ids":["design"]},
   {"id":"center_style_original_202608_0147","stem":"同じ意味構造のHTMLを保ったまま、画面幅に応じて1列表示と2列表示へ切り替える方法を次から選べ。","choices":[{"label":"0","text":"HTMLで意味構造を記述し、CSSのメディアクエリで幅に応じた配置を指定する","choice_id":"center_style_original_202608_0147__choice_0","is_correct":true,"explanation":"正しい。内容の意味はHTMLに保ち、表示条件に応じたレイアウトだけをCSSで変更するレスポンシブ設計が適する。"},{"label":"1","text":"見出しを画像へ変換し、画面幅にかかわらず固定幅で表示する","choice_id":"center_style_original_202608_0147__choice_1","is_correct":false,"explanation":"誤り。固定幅の画像化は狭い画面で縮小や横スクロールを生じ、意味構造も機械から読み取りにくくなる。"},{"label":"2","text":"CSSで文書の意味構造を定義し、HTMLでは色だけを指定する","choice_id":"center_style_original_202608_0147__choice_2","is_correct":false,"explanation":"誤り。HTMLとCSSの役割が逆で、HTMLが構造、CSSが色や配置などの表現を担当する。"},{"label":"3","text":"画面幅ごとに別のHTMLを用意し、利用者に表示用ファイルを選ばせる","choice_id":"center_style_original_202608_0147__choice_3","is_correct":false,"explanation":"誤り。利用者へ端末別ファイルを選ばせると、画面回転やウィンドウ幅の変更にも追従しにくい。同じ意味構造を保ち、表示条件だけをCSSで切り替える方が適する。"}],"explanation":"レスポンシブ設計では、HTMLが内容の構造と意味を受け持ち、CSSが画面幅などに応じた見た目を受け持つ。内容を重複させずに配置だけを変えられるため、保守しやすく、読み上げなどにも同じ構造を提供できる。","tags":["HTML","CSS"],"difficulty":"basic","source_display":"オリジナル","改題":false,"answer_choice_id":"center_style_original_202608_0147__choice_0","field_ids":["design"]},
   {"id":"center_style_original_202608_0148","stem":"WebブラウザがHTTPSでページを取得するときに使われる、HTTP、TCP、IPの役割の組合せを次から選べ。","choices":[{"label":"0","text":"HTTPは要求・応答の形式、TCPは順序制御や再送を伴うバイト列転送、IPは宛先ネットワークへのパケット配送","choice_id":"center_style_original_202608_0148__choice_0","is_correct":true,"explanation":"正しい。HTTPはWebの要求・応答、TCPは信頼性のある順序付き転送、IPはアドレスに基づくパケット配送を担当し、TLSはHTTPとTCPの間で保護を行う。"},{"label":"1","text":"HTTPは名前解決、TCPは経路選択、IPはWebページの要求・応答を担当する","choice_id":"center_style_original_202608_0148__choice_1","is_correct":false,"explanation":"誤り。名前解決はDNS、経路に基づく配送はIP、Webの要求・応答はHTTPの役割である。三つの役割を入れ替えている。"},{"label":"2","text":"HTTPは通信の暗号化、TCPは宛先IPアドレスへの配送、IPは順序制御と再送を担当する","choice_id":"center_style_original_202608_0148__choice_2","is_correct":false,"explanation":"誤り。暗号化はこの構成ではTLS、順序制御と再送はTCP、IPアドレスに基づく配送はIPが担う。階層間の役割がずれている。"},{"label":"3","text":"HTTPはIPアドレスによる配送、TCPはWebの要求・応答、IPは到着順の保証を担当する","choice_id":"center_style_original_202608_0148__choice_3","is_correct":false,"explanation":"誤り。HTTPがWebの要求・応答、TCPが順序制御など、IPが宛先への配送を担う。各役割を一段ずつ取り違えている。"}],"explanation":"階層ごとに役割を追うと混同しにくい。HTTPはWebの要求と応答、TLSはその通信の暗号化と相手確認、TCPは順序や再送を伴う転送、IPはアドレスに基づく配送を担う。一つの通信でも、異なる層の仕組みが役割分担している。","tags":["HTTP","TCP","IP"],"difficulty":"basic","source_display":"オリジナル","改題":false,"answer_choice_id":"center_style_original_202608_0148__choice_0","field_ids":["network"]},
