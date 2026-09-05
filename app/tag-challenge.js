@@ -6,6 +6,7 @@
   const VERSION = 1;
   const DEFAULT_RETURN_PATH = "/info1-quiz-app/questions/";
   const TERM_GUIDES_URL = "/assets/term-guides.js";
+  const REMOVED_FACET_HELP = "タグは主に関連する分野へ整理しています。この一覧では複数選択のAND検索、各問題に付くタグからはそのタグだけの検索になります。";
 
   function normalizeIds(value) {
     if (!Array.isArray(value)) {
@@ -187,14 +188,11 @@
     style.textContent = `
       .tag-challenge-controls.tag-learning-actions {
         display: grid;
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
       }
       .tag-challenge-controls.tag-learning-actions[hidden] {
         display: none;
-      }
-      .tag-learning-actions.has-term-guide {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
       .tag-learning-actions .tag-challenge-count-control {
         display: none !important;
@@ -209,14 +207,15 @@
         justify-content: center;
         box-sizing: border-box;
         text-align: center;
+        font-size: .82rem;
+        font-weight: 800;
+        line-height: 1.4;
       }
       .tag-term-guide-link {
         border: 1px solid var(--ink);
         border-radius: 999px;
         color: var(--ink);
         background: var(--white);
-        font-size: .82rem;
-        font-weight: 800;
         text-decoration: none;
       }
       .tag-term-guide-link[hidden] {
@@ -240,12 +239,20 @@
         display: none;
       }
       @media (max-width: 680px) {
-        .tag-learning-actions.has-term-guide {
+        .tag-challenge-controls.tag-learning-actions {
           grid-template-columns: 1fr;
         }
       }
     `;
     document.head.append(style);
+  }
+
+  function removeObsoleteFacetHelp(root) {
+    root.querySelectorAll(".facet-panel-body > p").forEach((paragraph) => {
+      if (paragraph.textContent.trim() === REMOVED_FACET_HELP) {
+        paragraph.remove();
+      }
+    });
   }
 
   function loadTermGuides() {
@@ -277,6 +284,7 @@
     }
 
     installTermGuideStyles();
+    removeObsoleteFacetHelp(root);
     controls.classList.add("tag-learning-actions");
 
     const summary = document.createElement("p");
@@ -301,11 +309,11 @@
       const hasGuide = Boolean(guide?.url && guide?.summary);
 
       controls.classList.toggle("has-term-guide", hasGuide);
-      if (guideLink.hidden === hasGuide) {
-        guideLink.hidden = !hasGuide;
-      }
-      if (summary.hidden === hasGuide) {
-        summary.hidden = !hasGuide;
+      guideLink.hidden = !hasGuide;
+      summary.hidden = !hasGuide;
+
+      if (!startButton.disabled) {
+        startButton.textContent = "アプリでランダムに出題する";
       }
 
       if (hasGuide) {
@@ -325,7 +333,7 @@
     observer.observe(root, {
       subtree: true,
       attributes: true,
-      attributeFilter: ["class", "aria-pressed"],
+      attributeFilter: ["class", "aria-pressed", "disabled"],
     });
 
     window.addEventListener("hashchange", update);
