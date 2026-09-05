@@ -5,6 +5,7 @@
   const SOURCE = "tag-search";
   const VERSION = 1;
   const DEFAULT_RETURN_PATH = "/info1-quiz-app/questions/";
+  const TERM_GUIDES_URL = "/assets/term-guides.js";
 
   function normalizeIds(value) {
     if (!Array.isArray(value)) {
@@ -176,4 +177,159 @@
     getSafeReturnUrl,
     isTagSearchSource,
   });
+
+  function installTermGuideStyles() {
+    if (document.querySelector("[data-term-guide-action-styles]")) {
+      return;
+    }
+    const style = document.createElement("style");
+    style.dataset.termGuideActionStyles = "";
+    style.textContent = `
+      .tag-challenge-controls.tag-learning-actions {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px;
+      }
+      .tag-challenge-controls.tag-learning-actions[hidden] {
+        display: none;
+      }
+      .tag-learning-actions.has-term-guide {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .tag-learning-actions .tag-challenge-count-control {
+        display: none !important;
+      }
+      .tag-learning-actions .tag-challenge-start,
+      .tag-learning-actions .tag-term-guide-link {
+        width: 100%;
+        min-width: 0;
+        min-height: 54px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        text-align: center;
+      }
+      .tag-term-guide-link {
+        border: 1px solid var(--ink);
+        border-radius: 999px;
+        color: var(--ink);
+        background: var(--white);
+        font-size: .82rem;
+        font-weight: 800;
+        text-decoration: none;
+      }
+      .tag-term-guide-link:hover,
+      .tag-term-guide-link:focus-visible {
+        border-color: var(--coral);
+        background: #f9e8e2;
+      }
+      .tag-term-summary {
+        margin: 16px 0 0;
+        padding: 16px 18px;
+        border-left: 3px solid var(--coral);
+        color: var(--ink-soft);
+        background: var(--white);
+        font-size: .82rem;
+        line-height: 1.8;
+      }
+      .tag-term-summary[hidden] {
+        display: none;
+      }
+      @media (max-width: 680px) {
+        .tag-learning-actions.has-term-guide {
+          grid-template-columns: 1fr;
+        }
+      }
+    `;
+    document.head.append(style);
+  }
+
+  function loadTermGuides() {
+    if (window.StudyAtlasTermGuides && typeof window.StudyAtlasTermGuides === "object") {
+      return Promise.resolve(window.StudyAtlasTermGuides);
+    }
+    return new Promise((resolve) => {
+      const existing = document.querySelector(`script[src^="${TERM_GUIDES_URL}"]`);
+      if (existing) {
+        existing.addEventListener("load", () => resolve(window.StudyAtlasTermGuides || {}), { once: true });
+        existing.addEventListener("error", () => resolve({}), { once: true });
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = TERM_GUIDES_URL;
+      script.defer = true;
+      script.addEventListener("load", () => resolve(window.StudyAtlasTermGuides || {}), { once: true });
+      script.addEventListener("error", () => resolve({}), { once: true });
+      document.head.append(script);
+    });
+  }
+
+  function initializeTagSearchTermGuideUi() {
+    const root = document.querySelector("[data-question-filter]");
+    const controls = root?.querySelector("[data-tag-challenge-controls]");
+    const startButton = root?.querySelector("[data-tag-challenge-start]");
+    if (!root || !controls || !startButton) {
+      return;
+    }
+
+    installTermGuideStyles();
+    controls.classList.add("tag-learning-actions");
+
+    const summary = document.createElement("p");
+    summary.className = "tag-term-summary";
+    summary.hidden = true;
+    controls.before(summary);
+
+    const guideLink = document.createElement("a");
+    guideLink.className = "tag-term-guide-link";
+    guideLink.textContent = "詳しい解説を読む";
+    guideLink.hidden = true;
+    controls.append(guideLink);
+
+    let termGuides = window.StudyAtlasTermGuides || {};
+
+    const update = () => {
+      const selectedLinks = [...root.querySelectorAll("[data-facet-value].is-selected")];
+      const selectedTags = selectedLinks
+        .map((link) => String(link.dataset.facetValue || "").trim())
+        .filter(Boolean);
+      const guide = selectedTags.length === 1 ? termGuides[selectedTags[0]] : null;
+      const hasGuide = Boolean(guide?.url && guide?.summary);
+
+      controls.classList.toggle("has-term-guide", hasGuide);
+      guideLink.hidden = !hasGuide;
+      summary.hidden = !hasGuide;
+
+      if (hasGuide) {
+        guideLink.href = guide.url;
+        summary.textContent = guide.summary;
+      } else {
+        guideLink.removeAttribute("href");
+        summary.textContent = "";
+      }
+    };
+
+    const observer = new MutationObserver(update);
+    observer.observe(root, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class", "hidden", "aria-pressed"],
+    });
+
+    window.addEventListener("hashchange", update);
+    window.addEventListener("popstate", update);
+
+    update();
+    void loadTermGuides().then((guides) => {
+      termGuides = guides;
+      update();
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeTagSearchTermGuideUi, { once: true });
+  } else {
+    initializeTagSearchTermGuideUi();
+  }
 })();
