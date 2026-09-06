@@ -5,7 +5,7 @@
   const SOURCE = "tag-search";
   const VERSION = 1;
   const DEFAULT_RETURN_PATH = "/info1-quiz-app/questions/";
-  const TERM_GUIDES_URL = "/assets/term-guides.js";
+  const TERM_GUIDES_URL = "/assets/term-guides.js?v=2026090601";
   const REMOVED_FACET_HELP = "タグは主に関連する分野へ整理しています。この一覧では複数選択のAND検索、各問題に付くタグからはそのタグだけの検索になります。";
 
   function normalizeIds(value) {
