@@ -16,6 +16,7 @@
     "matchable wrappers avoid card decoration and grid gaps while beforematch reveals one question",
     "legacy tags.html noindex redirect preserving query and hash",
     "app return paths and navigation use /info1-quiz-app/questions/",
+    "242 tag descriptions are embedded as static HTML and toggled by selection",
     "protected app baseline hashes and cross-repository sitemap URLs"
   ]
 }

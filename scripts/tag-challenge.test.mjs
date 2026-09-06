@@ -137,6 +137,16 @@ test("tag page exposes the count controls and shared challenge helper", () => {
   assert.doesNotMatch(filterSource, /tagChallengeQuestionCount\}問をランダムに出題/);
 });
 
+test("tag summaries are static HTML and guide links are independent", () => {
+  assert.equal((searchHtml.match(/class="tag-term-summary"/g) || []).length, 242);
+  assert.match(searchHtml, /data-tag-summary="CPU" hidden>/);
+  assert.match(source, /querySelectorAll\("\[data-tag-summary\]"\)/);
+  assert.match(source, /const hasDescription = Boolean\(summaryElement\)/);
+  assert.match(source, /const hasGuideLink = Boolean\(guide\?\.url\)/);
+  assert.doesNotMatch(source, /guide\?\.url && guide\?\.summary/);
+  assert.doesNotMatch(source, /guide\.summary/);
+});
+
 test("tag challenge parser accepts the full candidate list", () => {
   const functionSource = extractAppFunction(
     "parseChallengeQuestionIds",

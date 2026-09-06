@@ -287,10 +287,12 @@
     removeObsoleteFacetHelp(root);
     controls.classList.add("tag-learning-actions");
 
-    const summary = document.createElement("p");
-    summary.className = "tag-term-summary";
-    summary.hidden = true;
-    controls.before(summary);
+    const summaryElements = new Map(
+      [...root.querySelectorAll("[data-tag-summary]")].map((element) => [
+        String(element.dataset.tagSummary || "").trim(),
+        element,
+      ]),
+    );
 
     const guideLink = document.createElement("a");
     guideLink.className = "tag-term-guide-link";
@@ -305,27 +307,25 @@
       const selectedTags = selectedLinks
         .map((link) => String(link.dataset.facetValue || "").trim())
         .filter(Boolean);
+      const summaryElement = selectedTags.length === 1 ? summaryElements.get(selectedTags[0]) : null;
       const guide = selectedTags.length === 1 ? termGuides[selectedTags[0]] : null;
-      const hasGuide = Boolean(guide?.url && guide?.summary);
+      const hasDescription = Boolean(summaryElement);
+      const hasGuideLink = Boolean(guide?.url);
 
-      controls.classList.toggle("has-term-guide", hasGuide);
-      guideLink.hidden = !hasGuide;
-      summary.hidden = !hasGuide;
+      controls.classList.toggle("has-term-guide", hasGuideLink);
+      guideLink.hidden = !hasGuideLink;
+      for (const element of summaryElements.values()) {
+        element.hidden = element !== summaryElement || !hasDescription;
+      }
 
       if (!startButton.disabled) {
         startButton.textContent = "アプリでランダムに出題する";
       }
 
-      if (hasGuide) {
+      if (hasGuideLink) {
         guideLink.href = guide.url;
-        if (summary.textContent !== guide.summary) {
-          summary.textContent = guide.summary;
-        }
       } else {
         guideLink.removeAttribute("href");
-        if (summary.textContent) {
-          summary.textContent = "";
-        }
       }
     };
 

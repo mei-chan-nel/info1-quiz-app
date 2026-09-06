@@ -10,11 +10,12 @@ from pathlib import Path
 from urllib.parse import urlencode
 
 from classify_questions import validate_question_data
-from tag_normalization import CANONICAL_TAGS, EXCLUDED_PUBLIC_TAGS, TAG_ALIASES, normalize_tags
+from tag_normalization import CANONICAL_TAGS, EXCLUDED_PUBLIC_TAGS, TAG_ALIASES, normalize_tag, normalize_tags
 
 
 ROOT = Path(__file__).resolve().parents[1]
 QUESTION_PATH = ROOT / "data" / "questions" / "completed_questions.json"
+TAG_DESCRIPTIONS_PATH = ROOT / "data" / "tags" / "tag_descriptions.json"
 QUESTIONS_DIR = ROOT / "questions"
 REPORT_DIR = ROOT / "docs" / "reports"
 SITE_URL = "https://mei-chan-nel.com/info1-quiz-app/"
@@ -106,6 +107,58 @@ FIELDS = [
 
 def esc(value: object) -> str:
     return html.escape(str(value), quote=True)
+
+
+def load_tag_descriptions() -> dict[str, str]:
+    duplicate_keys: list[str] = []
+
+    def capture_pairs(pairs: list[tuple[str, object]]) -> dict[str, object]:
+        values: dict[str, object] = {}
+        for key, value in pairs:
+            if key in values:
+                duplicate_keys.append(str(key))
+            values[key] = value
+        return values
+
+    try:
+        raw = json.loads(
+            TAG_DESCRIPTIONS_PATH.read_text(encoding="utf-8"),
+            object_pairs_hook=capture_pairs,
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"Could not load {TAG_DESCRIPTIONS_PATH.relative_to(ROOT)}: {exc}") from exc
+    if not isinstance(raw, dict):
+        raise ValueError(f"{TAG_DESCRIPTIONS_PATH.relative_to(ROOT)} must contain a JSON object")
+
+    descriptions: dict[str, str] = {}
+    blank_tags: list[str] = []
+    blank_descriptions: list[str] = []
+    non_normalized_tags: list[str] = []
+    duplicate_normalized_tags = set(duplicate_keys)
+    for raw_tag, raw_description in raw.items():
+        tag = str(raw_tag).strip()
+        normalized_tag = normalize_tag(tag)
+        description = raw_description.strip() if isinstance(raw_description, str) else ""
+        if not tag:
+            blank_tags.append(str(raw_tag))
+        if not description:
+            blank_descriptions.append(tag or str(raw_tag))
+        if tag and tag != normalized_tag:
+            non_normalized_tags.append(f"{tag} -> {normalized_tag}")
+        if normalized_tag in descriptions:
+            duplicate_normalized_tags.add(normalized_tag)
+        if tag and description:
+            descriptions[normalized_tag] = description
+
+    if blank_tags or blank_descriptions or non_normalized_tags or duplicate_normalized_tags:
+        raise ValueError(
+            "Invalid tag description data: "
+            f"blank_tags={blank_tags}, "
+            f"blank_descriptions={blank_descriptions}, "
+            f"non_normalized_tags={non_normalized_tags}, "
+            f"duplicate_normalized_tags={sorted(duplicate_normalized_tags)}"
+        )
+    return descriptions
 
 
 def load_questions() -> list[dict]:
@@ -432,7 +485,17 @@ def render_filter_question(question: dict) -> str:
         </div>"""
 
 
-def render_tag_filter_page(payload: dict) -> None:
+def render_tag_summaries(descriptions: dict[str, str]) -> str:
+    entries = "\n".join(
+        f'          <p class="tag-term-summary" data-tag-summary="{esc(tag)}" hidden>{esc(description)}</p>'
+        for tag, description in descriptions.items()
+    )
+    return f"""        <div class="tag-term-summaries" data-tag-summaries>
+{entries}
+        </div>"""
+
+
+def render_tag_filter_page(payload: dict, tag_descriptions: dict[str, str]) -> None:
     tag_counts = Counter(tag for question in payload["questions"] for tag in question["tags"])
     grouped = {
         field["id"]: [question for question in payload["questions"] if question["field_id"] == field["id"]]
@@ -465,6 +528,7 @@ def render_tag_filter_page(payload: dict) -> None:
         f'\n    <script src="../assets/question-filter.js?v={SEARCH_ASSET_VERSION}" defer></script>'
     )
     filter_cards = "\n".join(render_filter_question(question) for question in payload["questions"])
+    tag_summary_markup = render_tag_summaries(tag_descriptions)
     aliases_json = json.dumps(payload["tag_aliases"], ensure_ascii=False, separators=(",", ":"))
     body = f"""{head(title, description, 'questions/index.html', '../', ads=True, extra_head=extra_head)}
   <body>
@@ -479,6 +543,7 @@ def render_tag_filter_page(payload: dict) -> None:
       {facet_panel(tag_counts, open_panel=True, with_clear=True, groups=primary_tag_groups(grouped, set(tag_counts)))}
       <section class="filter-results" aria-labelledby="filter-results-heading">
         <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading>タグを選択してください</h2><p data-filter-summary>{payload['question_count']}問からAND条件で絞り込みます。</p></div>
+{tag_summary_markup}
         <div class="tag-challenge-controls" data-tag-challenge-controls hidden>
           <div class="tag-challenge-count-control">
             <div class="tag-challenge-count-display">
@@ -554,7 +619,12 @@ def protected_app_hashes() -> dict[str, str]:
 
 
 def write_build_report(
-    grouped: dict[str, list[dict]], generated_paths: list[str], public_tags: set[str]
+    grouped: dict[str, list[dict]],
+    generated_paths: list[str],
+    public_tags: set[str],
+    tag_descriptions: dict[str, str],
+    missing_tag_descriptions: list[str],
+    unused_tag_descriptions: list[str],
 ) -> None:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     baseline_path = REPORT_DIR / "app-core-baseline-sha256.json"
@@ -575,6 +645,10 @@ def write_build_report(
         "field_counts": {field["id"]: len(grouped[field["id"]]) for field in FIELDS},
         "raw_tag_count": len(tag_counts),
         "tag_count": len(public_tags),
+        "tag_description_source": TAG_DESCRIPTIONS_PATH.relative_to(ROOT).as_posix(),
+        "tag_description_count": len(tag_descriptions),
+        "missing_tag_descriptions": missing_tag_descriptions,
+        "unused_tag_descriptions": unused_tag_descriptions,
         "minimum_public_tag_questions": MIN_PUBLIC_TAG_QUESTIONS,
         "forced_public_tags": sorted(
             tag for tag in CANONICAL_TAGS if tag_counts[tag] and tag_counts[tag] < MIN_PUBLIC_TAG_QUESTIONS
@@ -623,6 +697,9 @@ def main() -> int:
     public_tags.update(
         tag for tag in CANONICAL_TAGS if tag_counts[tag] and tag not in EXCLUDED_PUBLIC_TAGS
     )
+    tag_descriptions = load_tag_descriptions()
+    missing_tag_descriptions = sorted(public_tags - set(tag_descriptions))
+    unused_tag_descriptions = sorted(set(tag_descriptions) - public_tags)
 
     if QUESTIONS_DIR.resolve().parent != ROOT.resolve():
         raise RuntimeError("Refusing to regenerate questions outside the repository root")
@@ -631,11 +708,23 @@ def main() -> int:
     QUESTIONS_DIR.mkdir(parents=True)
 
     filter_payload = build_filter_payload(questions, public_tags)
-    render_tag_filter_page(filter_payload)
+    render_tag_filter_page(filter_payload, tag_descriptions)
     render_legacy_tag_redirect()
     generated_paths: list[str] = []
-    write_build_report(grouped, generated_paths, public_tags)
-    print(f"questions={len(questions)} question_search_pages=1 legacy_redirect=1")
+    write_build_report(
+        grouped,
+        generated_paths,
+        public_tags,
+        tag_descriptions,
+        missing_tag_descriptions,
+        unused_tag_descriptions,
+    )
+    print(
+        f"questions={len(questions)} question_search_pages=1 legacy_redirect=1 "
+        f"tag_descriptions={len(tag_descriptions)} "
+        f"missing_tag_descriptions={len(missing_tag_descriptions)} "
+        f"unused_tag_descriptions={len(unused_tag_descriptions)}"
+    )
     return 0
 
 

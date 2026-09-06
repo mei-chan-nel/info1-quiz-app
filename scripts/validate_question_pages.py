@@ -7,6 +7,7 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 from collections import Counter
+from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -16,6 +17,7 @@ from tag_normalization import EXCLUDED_PUBLIC_TAGS, TAG_ALIASES
 
 
 ROOT = Path(__file__).resolve().parents[1]
+TAG_DESCRIPTIONS_PATH = ROOT / "data" / "tags" / "tag_descriptions.json"
 PORTAL_ROOT = ROOT.parent / "mei-chan-nel.github.io"
 REPORT_PATH = ROOT / "docs" / "reports" / "question-pages-validation.json"
 ORIGIN = "https://mei-chan-nel.com/"
@@ -117,6 +119,32 @@ def main() -> int:
     if aliases_in_data:
         errors.append(f"legacy tag spellings remain in question data: {aliases_in_data}")
     public_tags = {tag for tag in tag_counts if tag not in EXCLUDED_PUBLIC_TAGS}
+    tag_descriptions: dict[str, str] = {}
+    if not TAG_DESCRIPTIONS_PATH.is_file():
+        errors.append(f"{TAG_DESCRIPTIONS_PATH.relative_to(ROOT)} is missing")
+    else:
+        try:
+            raw_tag_descriptions = json.loads(TAG_DESCRIPTIONS_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"{TAG_DESCRIPTIONS_PATH.relative_to(ROOT)} cannot be read: {exc}")
+        else:
+            if not isinstance(raw_tag_descriptions, dict):
+                errors.append(f"{TAG_DESCRIPTIONS_PATH.relative_to(ROOT)} must contain a JSON object")
+            else:
+                invalid_entries = [
+                    str(tag)
+                    for tag, description in raw_tag_descriptions.items()
+                    if not str(tag).strip() or not isinstance(description, str) or not description.strip()
+                ]
+                if invalid_entries:
+                    errors.append(
+                        f"{TAG_DESCRIPTIONS_PATH.relative_to(ROOT)} has blank or non-string entries: {invalid_entries}"
+                    )
+                tag_descriptions = {
+                    str(tag).strip(): str(description).strip()
+                    for tag, description in raw_tag_descriptions.items()
+                    if str(tag).strip() and isinstance(description, str) and description.strip()
+                }
 
     questions_dir = ROOT / "questions"
     html_names = sorted(path.name for path in questions_dir.glob("*.html"))
@@ -165,6 +193,25 @@ def main() -> int:
             errors.append("questions/index.html: JSON-LD breadcrumb contains duplicate URLs")
     if 'data-question-filter' not in root_text or 'data-filter-param="tag"' not in root_text:
         errors.append("questions/index.html: tag-filter root markers are missing")
+    summary_matches = re.findall(
+        r'<p class="tag-term-summary" data-tag-summary="([^"]+)" hidden>(.*?)</p>',
+        root_text,
+        flags=re.DOTALL,
+    )
+    summary_values = {
+        unescape(tag): unescape(description).strip()
+        for tag, description in summary_matches
+    }
+    if '<div class="tag-term-summaries" data-tag-summaries>' not in root_text:
+        errors.append("questions/index.html: static tag-summary container is missing")
+    if len(summary_matches) != len(tag_descriptions) or set(summary_values) != set(tag_descriptions):
+        errors.append(
+            f"questions/index.html: expected {len(tag_descriptions)} static tag summaries, "
+            f"found {len(summary_matches)}"
+        )
+    for tag, description in tag_descriptions.items():
+        if summary_values.get(tag) != description:
+            errors.append(f"questions/index.html: static tag summary does not match data for {tag}")
     rendered_ids = re.findall(
         r'<div class="filtered-question-shell"[^>]*hidden="until-found"[^>]*'
         r'data-filter-question[^>]*data-question-id="([^"]+)"',
@@ -219,6 +266,10 @@ def main() -> int:
     app_script = (ROOT / "app" / "app.js").read_text(encoding="utf-8")
     if "tags.html" in filter_script or "tags.html" in challenge_script or "questions/tags.html" in app_script:
         errors.append("app URL integration still points to questions/tags.html")
+    if "guide?.summary" in challenge_script or "guide.summary" in challenge_script:
+        errors.append("tag-challenge.js: guide.summary must not be used for tag-search summaries")
+    if 'querySelectorAll("[data-tag-summary]")' not in challenge_script or "hasDescription" not in challenge_script:
+        errors.append("tag-challenge.js: static tag-summary toggling is missing")
     if 'function getQuestionSearchUrl' not in challenge_script or 'new URL("../questions/", href)' not in challenge_script:
         errors.append("tag-challenge.js: app-relative question-search return path is missing")
     if 'new URL("../questions/", window.location.href).pathname' not in app_script:
@@ -257,6 +308,16 @@ def main() -> int:
     report_path = ROOT / "docs" / "reports" / "question-library-build.json"
     report: dict = json.loads(report_path.read_text(encoding="utf-8")) if report_path.is_file() else {}
     for key, expected in (("question_count", len(questions)), ("tag_count", len(public_tags)), ("question_search_page", "questions/index.html"), ("question_display_order", "newest_first"), ("learning_pages", ["questions/index.html"]), ("legacy_tag_redirect", "questions/tags.html")):
+        if report.get(key) != expected:
+            errors.append(f"question-library-build.json: {key} must be {expected!r}, found {report.get(key)!r}")
+    expected_missing_descriptions = sorted(public_tags - set(tag_descriptions))
+    expected_unused_descriptions = sorted(set(tag_descriptions) - public_tags)
+    for key, expected in (
+        ("tag_description_source", TAG_DESCRIPTIONS_PATH.relative_to(ROOT).as_posix()),
+        ("tag_description_count", len(tag_descriptions)),
+        ("missing_tag_descriptions", expected_missing_descriptions),
+        ("unused_tag_descriptions", expected_unused_descriptions),
+    ):
         if report.get(key) != expected:
             errors.append(f"question-library-build.json: {key} must be {expected!r}, found {report.get(key)!r}")
     if report.get("filter_match_mode") != "AND":
@@ -314,6 +375,7 @@ def main() -> int:
             "matchable wrappers avoid card decoration and grid gaps while beforematch reveals one question",
             "legacy tags.html noindex redirect preserving query and hash",
             "app return paths and navigation use /info1-quiz-app/questions/",
+            f"{len(tag_descriptions)} tag descriptions are embedded as static HTML and toggled by selection",
             "protected app baseline hashes and cross-repository sitemap URLs",
         ],
     }
