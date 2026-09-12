@@ -44,6 +44,24 @@ test("concurrent consumers share one fetch, one JSON parse, and one cached array
   assert.deepEqual(forApp, questions);
 });
 
+test("refresh performs one HTTP revalidation and replaces the cached array", async () => {
+  let fetchCount = 0;
+  const cacheModes = [];
+  const loader = createContext(async (_url, init) => {
+    fetchCount += 1;
+    cacheModes.push(init.cache);
+    const questions = fetchCount === 1 ? [{ id: "old" }] : [{ id: "old" }, { id: "new" }];
+    return { ok: true, async json() { return questions; } };
+  });
+
+  assert.deepEqual(await loader.load(), [{ id: "old" }]);
+  const [firstConsumer, secondConsumer] = await Promise.all([loader.refresh(), loader.refresh()]);
+  assert.equal(fetchCount, 2);
+  assert.deepEqual(cacheModes, ["no-cache", "no-cache"]);
+  assert.equal(firstConsumer, secondConsumer);
+  assert.deepEqual(await loader.load(), [{ id: "old" }, { id: "new" }]);
+});
+
 test("a failed request clears the pending Promise so the next call can retry", async () => {
   let fetchCount = 0;
   const loader = createContext(async () => {
@@ -56,5 +74,22 @@ test("a failed request clears the pending Promise so the next call can retry", a
 
   await assert.rejects(loader.load(), /temporary failure/);
   assert.deepEqual(await loader.load(), [{ id: "q-2" }]);
+  assert.equal(fetchCount, 2);
+});
+
+test("a failed refresh keeps the last valid cached questions", async () => {
+  let fetchCount = 0;
+  const original = [{ id: "still-valid" }];
+  const loader = createContext(async () => {
+    fetchCount += 1;
+    if (fetchCount === 2) {
+      throw new Error("refresh failed");
+    }
+    return { ok: true, async json() { return original; } };
+  });
+
+  assert.equal(await loader.load(), original);
+  await assert.rejects(loader.refresh(), /refresh failed/);
+  assert.equal(await loader.load(), original);
   assert.equal(fetchCount, 2);
 });

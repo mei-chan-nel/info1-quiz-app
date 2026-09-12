@@ -118,6 +118,7 @@ const tagChallenge = window.Info1TagChallenge;
 const DEFAULT_SET_SIZE = 5;
 const MIN_SET_SIZE = 1;
 const MAX_SET_SIZE = 50;
+const QUESTION_DATA_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 const RECORD_LIST_PAGE_SIZE = 10;
 const MAX_SHARED_QUESTIONS = 10;
 const TAG_CHALLENGE_MODE = "tag-search";
@@ -130,6 +131,7 @@ const SUPABASE_URL = "https://yygezzpowsvpzarqdtls.supabase.co";
 // Supabase publishable keys are designed for browser clients. Never use a secret or service_role key here.
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_rQmX7MCx_8W3nz-xWXQBpA_CHzdRQSk";
 const learningRecord = window.Info1LearningRecord;
+const quizPreferences = window.Info1QuizPreferences;
 const similarQuestionsUrl = new URL(
   "../data/questions/similar_questions_compact.json",
   window.location.href,
@@ -238,6 +240,12 @@ const state = {
   allowNavigation: false,
 };
 
+let lastQuestionDataRefreshAt = 0;
+let questionDataRefreshPromise = null;
+let questionDataRefreshPending = false;
+let hasSeenPageShow = false;
+let questionDataWasHidden = false;
+
 function trackAnalyticsEvent(eventName, parameters = {}) {
   if (typeof window.gtag !== "function") {
     return;
@@ -293,8 +301,10 @@ function init() {
     throw new Error("学習記録モジュールを読み込めませんでした。");
   }
   renderFieldFilters();
+  applyQuizPreferences();
   bindStartControls();
   bindAppNavigation();
+  bindQuestionDataLifecycle();
   const searchParams = new URLSearchParams(window.location.search);
   const requestedView = searchParams.get("view");
   state.challengeRequested = searchParams.has("challenge");
@@ -342,6 +352,7 @@ async function loadQuestionData() {
   try {
     state.allQuestions = await window.StudyAtlasQuestionData.load();
     state.questionDataStatus = "ready";
+    lastQuestionDataRefreshAt = Date.now();
     void loadQuestionAttemptCounts();
     updateStartControls();
     if (state.challengeRequested) {
@@ -772,6 +783,7 @@ function bindStartControls() {
       input.checked = shouldSelectAll;
     }
     updateStartControls();
+    saveQuizPreferences();
   });
 
   increaseSetSizeButton.addEventListener("click", () => {
@@ -784,10 +796,12 @@ function bindStartControls() {
 
   calcMode.addEventListener("change", () => {
     updateStartControls();
+    saveQuizPreferences();
   });
 
   answerMode.addEventListener("change", () => {
     updateStartControls();
+    saveQuizPreferences();
   });
 
   advancedSettings.addEventListener("toggle", () => {
@@ -796,6 +810,7 @@ function bindStartControls() {
 
   fieldFilters.addEventListener("change", () => {
     updateStartControls();
+    saveQuizPreferences();
   });
 
   startRecordButton.addEventListener("click", () => openLearningRecord("start", "start"));
@@ -980,6 +995,9 @@ function showStart() {
   updateStartControls();
   progressText.textContent = `0/${state.setSize}`;
   scrollToTop();
+  if (questionDataRefreshPending) {
+    void refreshQuestionData({ bypassInterval: true });
+  }
 }
 
 function resetSessionState() {
@@ -1125,6 +1143,36 @@ function renderFieldFilters() {
   );
 }
 
+function applyQuizPreferences() {
+  const preferences = quizPreferences?.load?.();
+  if (!preferences) {
+    return;
+  }
+  const selectedFields = new Set(preferences.fields);
+  for (const input of fieldFilters.querySelectorAll("input[type='checkbox']")) {
+    input.checked = selectedFields.has(input.value);
+  }
+  setCheckedRadioValue(answerMode, "answerMode", preferences.answerMode);
+  setCheckedRadioValue(calcMode, "calcMode", preferences.calcMode);
+  state.setSize = preferences.setSize;
+}
+
+function setCheckedRadioValue(container, name, value) {
+  const input = container.querySelector(`input[name='${name}'][value='${value}']`);
+  if (input) {
+    input.checked = true;
+  }
+}
+
+function saveQuizPreferences() {
+  quizPreferences?.save?.({
+    fields: getSelectedFields().map((definition) => definition.id),
+    answerMode: getAnswerModeValue(),
+    calcMode: getCalcModeValue(),
+    setSize: state.setSize,
+  });
+}
+
 function updateStartControls() {
   updateFieldSelectionButton();
 
@@ -1169,6 +1217,7 @@ function changeSetSize(delta) {
   const max = getSetSizeMax(poolLength);
   state.setSize = Math.min(Math.max(state.setSize + delta, MIN_SET_SIZE), max);
   updateStartControls();
+  saveQuizPreferences();
 }
 
 function updateSetSizeControls(poolLength) {
@@ -1533,6 +1582,73 @@ function updateSummaryActionVisibility() {
   if (typeof summaryMiddleFinishButton !== "undefined") {
     summaryMiddleFinishButton.hidden = false;
   }
+}
+
+function bindQuestionDataLifecycle() {
+  window.addEventListener("pageshow", (event) => {
+    const isRestoredPage = event.persisted || hasSeenPageShow;
+    hasSeenPageShow = true;
+    if (isRestoredPage) {
+      void refreshQuestionData({ bypassInterval: true });
+    }
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      questionDataWasHidden = true;
+      return;
+    }
+    if (document.visibilityState === "visible") {
+      const bypassInterval = questionDataWasHidden;
+      questionDataWasHidden = false;
+      void refreshQuestionData({ bypassInterval });
+    }
+  });
+}
+
+function isQuestionDataRefreshSafe() {
+  return state.questionDataStatus === "ready"
+    && questionView.hidden
+    && summaryView.hidden
+    && !state.challengeRequested
+    && !state.recordPracticeMode
+    && !state.recordReviewMode;
+}
+
+function refreshQuestionData({ bypassInterval = false } = {}) {
+  if (!isQuestionDataRefreshSafe()) {
+    questionDataRefreshPending = state.questionDataStatus === "ready";
+    return Promise.resolve(null);
+  }
+  if (
+    !bypassInterval
+    && Date.now() - lastQuestionDataRefreshAt < QUESTION_DATA_REFRESH_INTERVAL_MS
+  ) {
+    return Promise.resolve(state.allQuestions);
+  }
+  if (questionDataRefreshPromise) {
+    return questionDataRefreshPromise;
+  }
+
+  questionDataRefreshPending = false;
+  questionDataRefreshPromise = window.StudyAtlasQuestionData.refresh()
+    .then((questions) => {
+      state.allQuestions = questions;
+      lastQuestionDataRefreshAt = Date.now();
+      updateStartControls();
+      if (!recordView.hidden) renderLearningRecord();
+      if (!wrongView.hidden) renderWrongQuestions();
+      if (!checkedView.hidden) renderCheckedQuestions();
+      if (!solvedView.hidden) renderSolvedQuestions();
+      return questions;
+    })
+    .catch((error) => {
+      console.warn("問題データを更新できなかったため、現在のデータを使用します。", error);
+      return state.allQuestions;
+    })
+    .finally(() => {
+      questionDataRefreshPromise = null;
+    });
+  return questionDataRefreshPromise;
 }
 
 function renderSummary() {

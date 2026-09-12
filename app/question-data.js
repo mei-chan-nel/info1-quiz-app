@@ -9,11 +9,18 @@
     if (cachedQuestions) {
       return Promise.resolve(cachedQuestions);
     }
+    return requestLatestQuestions();
+  };
+
+  const refresh = () => requestLatestQuestions();
+
+  const requestLatestQuestions = () => {
     if (pendingRequest) {
       return pendingRequest;
     }
 
-    pendingRequest = fetch(questionUrl, { cache: "no-store" })
+    // Allow the browser to reuse the body after validating it with the server.
+    pendingRequest = fetch(questionUrl, { cache: "no-cache" })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
@@ -27,15 +34,15 @@
         cachedQuestions = questions;
         return cachedQuestions;
       })
-      .catch((error) => {
+      .finally(() => {
         pendingRequest = null;
-        throw error;
       });
     return pendingRequest;
   };
 
   window.StudyAtlasQuestionData = Object.freeze({
     load,
+    refresh,
     url: questionUrl,
   });
 })();
