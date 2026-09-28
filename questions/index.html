@@ -23516,7 +23516,17 @@ sinobu と exmple.ed.jp というドメイン名は存在しない。両方の�
         <div class="filtered-question-shell" id="filtered-q-center_style_common_test_0024" hidden="until-found" data-filter-question data-question-id="center_style_common_test_0024" data-filter-tags="[&quot;シミュレーション&quot;]">
           <article class="question-card filtered-question-card">
             <div class="question-meta"><span>アルゴリズム · QUESTION 005</span><a href="#filtered-q-center_style_common_test_0024" aria-label="この問題へのリンク">#center_style_common_test_0024</a></div>
-            <h3>集金のシミュレーションを1万回行い、各回における千円札の枚数の最小値を調べた。結果には最小値が−40となる回があり、最小値が0となる回は1000回未満であった。
+            <h3>1人あたり1000円を集金する。集金を始める時点では、手元に千円札は0枚あるものとする。
+
+各人は、次のいずれかの方法で支払うものとする。
+
+- 千円札1枚で支払う。
+- 五千円札1枚で支払い、4000円の釣り銭を千円札4枚で受け取る。
+- 一万円札1枚で支払い、9000円の釣り銭を千円札9枚で受け取る。
+
+このとき、千円札で支払われた場合は手元の千円札が1枚増え、五千円札で支払われた場合は4枚減り、一万円札で支払われた場合は9枚減るものとする。千円札の枚数が負になった場合は、釣り銭に必要な千円札が不足したことを表す。
+
+集金のシミュレーションを1万回行い、各回について、集金開始時点を含む千円札の枚数の最小値を調べた。その結果、最小値が−40となる回があり、最小値が0となる回は1000回未満であった。
 
 この結果から判断できることとして最も適当なものを、次の選択肢から一つ選べ。</h3>
             <ol class="choice-list"><li><span>0</span><p>全員が1万円札で支払うケースはなかった。</p></li><li><span>1</span><p>最後まで千円札が不足しなかった回は、全体の1割以下である。</p></li><li><span>2</span><p>別の乱数で再び1万回行っても、まったく同じ度数分布になる。</p></li><li><span>3</span><p>全員が千円札で支払ったケースが必ず1回以上あった。</p></li></ol>
@@ -23524,7 +23534,7 @@ sinobu と exmple.ed.jp というドメイン名は存在しない。両方の�
               <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
               <div class="answer-content">
                 <p class="correct-answer"><span>正答</span><strong>1. 最後まで千円札が不足しなかった回は、全体の1割以下である。</strong></p>
-                <div class="explanation"><h3>解説</h3><p>最初の千円札を0枚として最小値が0なら、途中で負にならないため最後まで不足しなかったことを表す。最小値0の回が1000回未満なので、1万回中1割未満であり、「1割以下」と判断できる。</p></div>
+                <div class="explanation"><h3>解説</h3><p>集金開始時点の0枚も含めて最小値を調べるため、最小値が0の回は、その後に千円札の枚数が負にならず、釣り銭不足が起きなかった回である。その回数は1000回未満なので、1万回に占める割合は10%未満であり、「1割以下」と判断できる。最小値が−40の回があることから、少なくとも1回は釣り銭用の千円札が不足したことも分かる。</p></div>
                 <dl class="source-row"><dt>出典</dt><dd>共通テストR7追試験 第2問B 問2（改題）</dd></dl>
                 <div class="tag-row"><span>タグ</span><ul><li><a class="tag-link" href="./#tag=%E3%82%B7%E3%83%9F%E3%83%A5%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3&question=center_style_common_test_0024">シミュレーション</a></li></ul></div>
               </div>
