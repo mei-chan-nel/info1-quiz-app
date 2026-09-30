@@ -1,5 +1,5 @@
 {
-  "generated_on": "2026-09-29",
+  "generated_on": "2026-10-01",
   "generator": "scripts/generate_question_pages.py",
   "question_source": "data/questions/completed_questions.json",
   "question_count": 1438,
