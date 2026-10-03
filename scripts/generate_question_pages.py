@@ -243,6 +243,7 @@ def header(prefix: str, current: str) -> str:
         ("questions", "./", "問題を探す"),
         ("archive", f"{portal_prefix}archive/", "解説動画"),
         ("lecture", f"{portal_prefix}LectureNote/", "講義ノート"),
+        ("trace", f"{portal_prefix}program-trace/", "プログラムトレース"),
         ("study", f"{portal_prefix}study-guide.html", "使い方"),
         ("about", f"{portal_prefix}about.html", "このサイトについて"),
     ]
@@ -275,6 +276,7 @@ def footer(prefix: str) -> str:
           <a href="./">問題を探す</a>
           <a href="{portal_prefix}archive/">解説動画</a>
           <a href="{portal_prefix}LectureNote/">講義ノート</a>
+          <a href="{portal_prefix}program-trace/">プログラムトレース</a>
           <a href="{portal_prefix}study-guide.html">使い方</a>
           <a href="{portal_prefix}books/">書籍案内</a>
           <a href="{portal_prefix}about.html">このサイトについて</a>

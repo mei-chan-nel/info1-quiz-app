@@ -35,6 +35,8 @@ python scripts/validate_question_pages.py --portal-root <mei-chan-nel.github.io�
 
 ## ローカル確認
 
+「プログラムトレース」は、ポータルの `mei-chan-nel.github.io` リポジトリ内の `program-trace/` で管理します。公開URLは `https://mei-chan-nel.com/program-trace/` です。ローカル確認・テスト・説明書もポータル側で管理します。
+
 ```powershell
 python scripts/quiz_server.py --host 127.0.0.1 --port 8765
 ```
