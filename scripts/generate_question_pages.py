@@ -244,8 +244,6 @@ def header(prefix: str, current: str) -> str:
         ("archive", f"{portal_prefix}archive/", "解説動画"),
         ("lecture", f"{portal_prefix}LectureNote/", "講義ノート"),
         ("trace", f"{portal_prefix}program-trace/", "プログラムトレース"),
-        ("study", f"{portal_prefix}study-guide.html", "使い方"),
-        ("about", f"{portal_prefix}about.html", "このサイトについて"),
     ]
     links = []
     for key, href, label in nav_items:
@@ -277,8 +275,8 @@ def footer(prefix: str) -> str:
           <a href="{portal_prefix}archive/">解説動画</a>
           <a href="{portal_prefix}LectureNote/">講義ノート</a>
           <a href="{portal_prefix}program-trace/">プログラムトレース</a>
-          <a href="{portal_prefix}study-guide.html">使い方</a>
           <a href="{portal_prefix}books/">書籍案内</a>
+          <a href="{portal_prefix}study-guide.html">使い方</a>
           <a href="{portal_prefix}about.html">このサイトについて</a>
           <a href="{portal_prefix}privacy.html">プライバシーポリシー</a>
           <a href="{portal_prefix}sitemap.html">サイトマップ</a>
@@ -286,7 +284,7 @@ def footer(prefix: str) -> str:
       </div>
       <p class="copyright"><small>&copy; 2026 めいちゃんねる</small></p>
     </footer>
-    <script src="{portal_prefix}assets/site-header.js"></script>
+    <script src="{portal_prefix}assets/site-header.js?v=2026100501"></script>
   </body>
 </html>
 """
