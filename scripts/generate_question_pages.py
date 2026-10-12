@@ -211,6 +211,7 @@ def head(
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="{prefix}../assets/site-analytics.js?v=2026101201" defer></script>
     <title>{esc(title)}</title>
     <meta name="description" content="{esc(description)}" />
     <meta name="theme-color" content="#102f35" />
@@ -284,7 +285,7 @@ def footer(prefix: str) -> str:
       </div>
       <p class="copyright"><small>&copy; 2026 めいちゃんねる</small></p>
     </footer>
-    <script src="{portal_prefix}assets/site-header.js?v=2026100501"></script>
+    <script src="{portal_prefix}assets/site-header.js?v=2026101201"></script>
   </body>
 </html>
 """

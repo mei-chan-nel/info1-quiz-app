@@ -1,6 +1,6 @@
 # 学習アプリのGA4独自イベント
 
-学習アプリは、サイト共通の `assets/site-header.js` が用意する `window.gtag` を利用する。アプリ内でGA4タグ本体は追加しない。`window.gtag` がない環境では、イベント送信を行わず通常どおり動作する。
+学習アプリは、サイト共通の `assets/site-analytics.js` が用意する `window.gtag` を利用する。HTMLのheadで共通ファイルを `defer` 付きで読み込み、アプリ内でGA4タグ本体は追加しない。`window.gtag` がない環境では、イベント送信を行わず通常どおり動作する。
 
 GA4のキーイベントとして設定するのは `quiz_answer` だけである。その他は通常イベントとして扱う。
 
