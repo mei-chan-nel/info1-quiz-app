@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "source_sha256": "096e4bdd2f4d0bbbab856556c1b3a1a89bc8cbaf70be01954d9c296fe357c222",
+  "count": 1438,
+  "method": "PCA(50) -> t-SNE",
+  "generated_at": "2026-10-13T22:03:08.536207+00:00",
+  "source_filename": "completed_questions.json",
+  "term_extraction": {
+    "source": "stem + correct choice + explanation",
+    "method": "tag lexicon and conservative regex candidates",
+    "unique_tags": 225,
+    "term_candidates": 3919,
+    "retained_terms": 1312,
+    "note": "Auto-extracted terms are candidates, not linguistically validated nouns."
+  },
+  "question_url": "completed_questions.json",
+  "content_policy": "The map files contain no questions, choices, explanations, tags or fields."
+}
