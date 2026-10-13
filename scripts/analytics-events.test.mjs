@@ -9,6 +9,19 @@ const documentationSource = readFileSync(
   "utf8",
 );
 
+test("app and question pages load common analytics once from head", () => {
+  for (const path of ["app/index.html", "questions/index.html"]) {
+    const html = readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
+    const tags = [...html.matchAll(/<script\b[^>]*src="\.\.\/\.\.\/assets\/site-analytics\.js[^>]*>/gu)];
+    assert.equal(tags.length, 1, path);
+    assert.ok(tags[0].index < html.indexOf("</head>"), path);
+    assert.match(tags[0][0], /\bdefer\b/u);
+    assert.doesNotMatch(html, /site-header\.js\?v=2026100501/u);
+  }
+  const redirect = readFileSync(new URL("../questions/tags.html", import.meta.url), "utf8");
+  assert.doesNotMatch(redirect, /site-analytics\.js/u);
+});
+
 function extractFunction(name, nextName) {
   const pattern = new RegExp(
     `function ${name}\\([\\s\\S]*?(?=\\nfunction ${nextName}\\()`,
