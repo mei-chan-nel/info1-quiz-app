@@ -158,7 +158,7 @@ def main() -> int:
     root_parser = MetaParser()
     root_parser.feed(root_text)
     expected_canonical = f"{ORIGIN}info1-quiz-app/questions/"
-    if root_parser.title != "情報Ⅰ Study Atlas｜問題を探す｜タグ検索":
+    if root_parser.title != "タグ検索｜問題を探す｜情報Ⅰ Study Atlas":
         errors.append(f"questions/index.html: unexpected title {root_parser.title!r}")
     if root_parser.canonical != expected_canonical or root_parser.og_url != expected_canonical:
         errors.append("questions/index.html: canonical and og:url must use the root search URL")

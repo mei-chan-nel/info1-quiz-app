@@ -231,7 +231,7 @@ def head(
     <meta name="twitter:image" content="{OG_IMAGE_URL}" />
     <meta name="twitter:image:alt" content="{OG_IMAGE_ALT}" />
     <link rel="canonical" href="{esc(canonical_url)}" />
-    <link rel="icon" href="{prefix}../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="{prefix}../assets/site.css?v=2026083001" />{ad_script}{extra_head}
   </head>"""
 
@@ -502,7 +502,7 @@ def render_tag_filter_page(payload: dict, tag_descriptions: dict[str, str]) -> N
         field["id"]: [question for question in payload["questions"] if question["field_id"] == field["id"]]
         for field in FIELDS
     }
-    title = "情報Ⅰ Study Atlas｜問題を探す｜タグ検索"
+    title = "タグ検索｜問題を探す｜情報Ⅰ Study Atlas"
     description = f"情報Ⅰの問題{payload['question_count']}問を{payload['tag_count']}種類のタグから検索。複数タグはAND条件で抽出し、正答・解説・出典まで確認できます。"
     schema = structured_data(
         {
@@ -586,7 +586,8 @@ def render_legacy_tag_redirect() -> None:
     <meta name="robots" content="noindex,follow" />
     <link rel="canonical" href="https://mei-chan-nel.com/info1-quiz-app/questions/" />
     <meta http-equiv="refresh" content="0;url=./" />
-    <title>問題を探すへ移動</title>
+    <title>問題を探すへ移動｜情報Ⅰ Study Atlas</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
     <script>
       (() => {
         const target = new URL("./", window.location.href);
