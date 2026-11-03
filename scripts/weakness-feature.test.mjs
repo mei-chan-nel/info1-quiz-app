@@ -46,12 +46,12 @@ test("availability resets only the question mode, while summary values follow ev
   selected = "weakness";
   api.updateAdvancedSettingsSummary();
   assert.equal(questionSummary.textContent, "出題方法：苦手重点");
-  assert.equal(answerSummary.textContent, "回答状況：未解答のみ");
+  assert.equal(answerSummary.textContent, "回答状況：未回答");
   assert.equal(calcSummary.textContent, "計算問題：除く");
   answer = "exclude_mastered";
   calc = "only";
   api.updateAdvancedSettingsSummary();
-  assert.equal(answerSummary.textContent, "回答状況：3回連続正答の問題を除く");
+  assert.equal(answerSummary.textContent, "回答状況：3回正答除く");
   assert.equal(calcSummary.textContent, "計算問題：計算だけ");
   wrongIds = [];
   api.updateQuestionModeAvailability();
