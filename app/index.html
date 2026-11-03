@@ -25,7 +25,7 @@
     <meta name="twitter:image:alt" content="情報Ⅰ Study Atlasの知識問題学習アプリ" />
     <link rel="canonical" href="https://mei-chan-nel.com/info1-quiz-app/app/" />
     <link rel="stylesheet" href="../../assets/site.css?v=2026080901" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=2026110301" />
     <link rel="stylesheet" href="./issue-report.css" />
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6257644709224446" crossorigin="anonymous"></script>
@@ -114,8 +114,22 @@
             </section>
 
             <details class="advanced-settings" id="advancedSettings">
-              <summary><span id="advancedSettingsLabel">＋ 詳細な設定</span></summary>
+              <summary>
+                <span id="advancedSettingsLabel">＋ 詳細な設定</span>
+                <span class="advanced-settings-summary" id="advancedSettingsSummary">
+                  <span id="questionModeSummary">出題方法：通常出題</span>
+                  <span id="answerModeSummary">回答状況：すべての問題</span>
+                  <span id="calcModeSummary">計算問題：すべて</span>
+                </span>
+              </summary>
               <div class="advanced-settings-body">
+                <section class="control-section" aria-labelledby="questionModeHeading">
+                  <h2 id="questionModeHeading">出題方法</h2>
+                  <div class="segmented-control question-mode-control" id="questionMode" role="radiogroup" aria-label="出題方法">
+                    <label><input type="radio" name="questionMode" value="standard" checked /><span>通常出題</span></label>
+                    <label><input type="radio" name="questionMode" value="weakness" disabled /><span id="weaknessModeLabel">🔒 苦手重点出題（誤答5題以上で解放）</span></label>
+                  </div>
+                </section>
                 <section class="control-section" aria-labelledby="answerModeHeading">
                   <h2 id="answerModeHeading">回答状況</h2>
                   <div class="segmented-control answer-mode-control" id="answerMode" role="radiogroup" aria-label="回答状況">
@@ -359,9 +373,9 @@
     <script src="./question-data.js?v=2026091301"></script>
     <script src="./tag-challenge.js?v=2026080802"></script>
     <script src="./startup.js?v=2026091301"></script>
-    <script src="./learning-record.js?v=2026091301"></script>
-    <script src="./quiz-preferences.js?v=2026091301"></script>
-    <script src="./app.js?v=2026091301" type="module"></script>
+    <script src="./learning-record.js?v=2026110301"></script>
+    <script src="./quiz-preferences.js?v=2026110301"></script>
+    <script src="./app.js?v=2026110301" type="module"></script>
     <script src="./issue-report.js?v=2026091301" type="module"></script>
   </body>
 </html>

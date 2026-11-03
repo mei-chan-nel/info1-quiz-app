@@ -14,9 +14,11 @@
   const FIELD_ID_SET = new Set(FIELD_IDS);
   const ANSWER_MODES = new Set(["all", "unanswered", "wrong", "exclude_mastered"]);
   const CALC_MODES = new Set(["all", "without", "only"]);
+  const QUESTION_MODES = new Set(["standard", "weakness"]);
   const DEFAULTS = Object.freeze({
     fields: Object.freeze([...FIELD_IDS]),
     answerMode: "all",
+    questionMode: "standard",
     calcMode: "all",
     setSize: 5,
   });
@@ -44,6 +46,7 @@
         v: PREFERENCES_VERSION,
         fields: normalized.fields,
         answerMode: normalized.answerMode,
+        questionMode: normalized.questionMode,
         calcMode: normalized.calcMode,
         setSize: normalized.setSize,
       }));
@@ -71,6 +74,7 @@
     return {
       fields,
       answerMode: ANSWER_MODES.has(value.answerMode) ? value.answerMode : DEFAULTS.answerMode,
+      questionMode: QUESTION_MODES.has(value.questionMode) ? value.questionMode : DEFAULTS.questionMode,
       calcMode: CALC_MODES.has(value.calcMode) ? value.calcMode : DEFAULTS.calcMode,
       setSize: Number.isInteger(setSize) && setSize >= 1 && setSize <= 50
         ? setSize
@@ -82,6 +86,7 @@
     return {
       fields: [...DEFAULTS.fields],
       answerMode: DEFAULTS.answerMode,
+      questionMode: DEFAULTS.questionMode,
       calcMode: DEFAULTS.calcMode,
       setSize: DEFAULTS.setSize,
     };

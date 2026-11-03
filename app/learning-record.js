@@ -17,6 +17,7 @@
   window.Info1LearningRecord = Object.freeze({
     recordAnswer,
     getQuestion,
+    getEverWrongQuestionIds,
     getHistory,
     isChecked,
     toggleChecked,
@@ -107,6 +108,10 @@
 
   function getHistory(questionId) {
     return String(data.q[String(questionId || "")]?.[4] || "");
+  }
+
+  function getEverWrongQuestionIds() {
+    return Object.keys(data.q).filter((id) => data.q[id][0] > data.q[id][1]);
   }
 
   function isChecked(questionId) {

@@ -3,6 +3,11 @@ import {
   selectWeightedQuestionSet,
 } from "./question-selection.js";
 import {
+  buildWeaknessWeights,
+  isWeaknessUnlocked,
+  selectWeaknessQuestionSet,
+} from "./weakness-selection.js";
+import {
   SIMILAR_QUESTION_COUNT,
   SIMILAR_RETURN_MAX_AGE_MS,
   SIMILAR_SESSION_MODE,
@@ -35,6 +40,11 @@ const progressFill = document.querySelector("#progressFill");
 const setStatus = document.querySelector("#setStatus");
 const advancedSettings = document.querySelector("#advancedSettings");
 const advancedSettingsLabel = document.querySelector("#advancedSettingsLabel");
+const questionMode = document.querySelector("#questionMode");
+const weaknessModeLabel = document.querySelector("#weaknessModeLabel");
+const questionModeSummary = document.querySelector("#questionModeSummary");
+const answerModeSummary = document.querySelector("#answerModeSummary");
+const calcModeSummary = document.querySelector("#calcModeSummary");
 const answerMode = document.querySelector("#answerMode");
 const calcMode = document.querySelector("#calcMode");
 const questionStem = document.querySelector("#questionStem");
@@ -201,6 +211,7 @@ const state = {
   selectedChoiceId: null,
   setSize: DEFAULT_SET_SIZE,
   questionDataStatus: "loading",
+  sessionStarting: false,
   apiAvailable: false,
   apiAvailabilityStatus: "checking",
   apiAvailabilityPromise: Promise.resolve(false),
@@ -773,7 +784,7 @@ function bindStartControls() {
   startButton.addEventListener("click", () => {
     clearSimilarChallengeState();
     resetCumulativeResults();
-    startSession();
+    void startSession();
   });
 
   clearFiltersButton.addEventListener("click", () => {
@@ -800,6 +811,11 @@ function bindStartControls() {
   });
 
   answerMode.addEventListener("change", () => {
+    updateStartControls();
+    saveQuizPreferences();
+  });
+
+  questionMode.addEventListener("change", () => {
     updateStartControls();
     saveQuizPreferences();
   });
@@ -937,7 +953,8 @@ retryButton.addEventListener("click", async () => {
     return;
   }
   await completeSummaryExit();
-  if (!startSession()) {
+  if (state.sessionStarting) return;
+  if (!await startSession() && !summaryView.hidden) {
     showStart();
   }
 });
@@ -1036,7 +1053,41 @@ function resetSessionState() {
   summaryView.querySelector(".end-message")?.remove();
 }
 
-function startSession() {
+async function startSession() {
+  if (state.sessionStarting) return false;
+  updateQuestionModeAvailability();
+  if (getQuestionModeValue() !== "weakness") return startSelectedSession();
+
+  state.sessionStarting = true;
+  const sessionId = state.sessionId;
+  const startingFromSummary = !summaryView.hidden;
+  updateStartControls();
+  try {
+    const similarData = await loadSimilarQuestionsInBackground();
+    // A user may leave the start/summary screen while the shared loader is pending.
+    if (sessionId !== state.sessionId
+      || (startingFromSummary ? summaryView.hidden : startView.hidden)) return false;
+    updateQuestionModeAvailability();
+    const weaknessWeights = getQuestionModeValue() === "weakness"
+      ? buildWeaknessWeights({
+        questionIds: state.allQuestions.map((question) => question.id),
+        everWrongQuestionIds: learningRecord.getEverWrongQuestionIds(),
+        getRecord: (id) => learningRecord.getQuestion(id),
+        similarData,
+      }).weights
+      : null;
+    return startSelectedSession(weaknessWeights);
+  } catch (error) {
+    console.error("苦手重点出題の準備に失敗しました。", error);
+    showSimilarMessage("苦手重点出題を準備できませんでした。\n通信状況を確認して、もう一度お試しください。");
+    return false;
+  } finally {
+    state.sessionStarting = false;
+    updateStartControls();
+  }
+}
+
+function startSelectedSession(weaknessWeights = null) {
   const pool = getQuestionPool();
   if (!pool.length) {
     updateStartControls();
@@ -1046,7 +1097,7 @@ function startSession() {
   const selectionCount = Math.min(state.setSize, pool.length);
   let selectedQuestions;
   try {
-    selectedQuestions = selectWeightedQuestionSet({
+    const options = {
       questions: pool,
       count: selectionCount,
       selectedFieldIds: getSelectedFields().map((definition) => definition.id),
@@ -1055,11 +1106,15 @@ function startSession() {
       attemptStatsAvailable: state.questionAttemptStatsStatus === "success",
       getAnsweredAt: (question) => learningRecord.getQuestion(question.id).answeredAt,
       onWarning: (message) => console.warn(message),
-    });
+    };
+    selectedQuestions = weaknessWeights
+      ? selectWeaknessQuestionSet({ ...options, weights: weaknessWeights })
+      : selectWeightedQuestionSet(options);
     if (selectedQuestions.length !== selectionCount) {
       throw new Error(`Selected ${selectedQuestions.length} of ${selectionCount} requested questions`);
     }
   } catch (error) {
+    if (weaknessWeights) throw error;
     console.error("重み付き抽選に失敗したため、単純ランダム抽選へ戻します。", error);
     selectedQuestions = pickRandomSet(pool, selectionCount);
   }
@@ -1154,6 +1209,7 @@ function applyQuizPreferences() {
   }
   setCheckedRadioValue(answerMode, "answerMode", preferences.answerMode);
   setCheckedRadioValue(calcMode, "calcMode", preferences.calcMode);
+  setCheckedRadioValue(questionMode, "questionMode", preferences.questionMode);
   state.setSize = preferences.setSize;
 }
 
@@ -1169,11 +1225,14 @@ function saveQuizPreferences() {
     fields: getSelectedFields().map((definition) => definition.id),
     answerMode: getAnswerModeValue(),
     calcMode: getCalcModeValue(),
+    questionMode: getQuestionModeValue(),
     setSize: state.setSize,
   });
 }
 
 function updateStartControls() {
+  updateQuestionModeAvailability();
+  updateAdvancedSettingsSummary();
   updateFieldSelectionButton();
 
   if (state.questionDataStatus === "loading") {
@@ -1197,8 +1256,35 @@ function updateStartControls() {
   const pool = getQuestionPool();
   questionCount.textContent = `${pool.length}問`;
   updateSetSizeControls(pool.length);
-  startButton.disabled = pool.length === 0;
-  startButton.textContent = pool.length === 0 ? TEXT.empty : "挑戦を開始";
+  startButton.disabled = state.sessionStarting || pool.length === 0;
+  startButton.textContent = state.sessionStarting ? "準備中…" : pool.length === 0 ? TEXT.empty : "挑戦を開始";
+}
+
+function getQuestionModeValue() {
+  return questionMode.querySelector("input[name='questionMode']:checked")?.value || "standard";
+}
+
+function updateQuestionModeAvailability() {
+  const unlocked = isWeaknessUnlocked(learningRecord.getEverWrongQuestionIds());
+  const input = questionMode.querySelector("input[value='weakness']");
+  input.disabled = !unlocked;
+  weaknessModeLabel.textContent = unlocked
+    ? "苦手重点出題" : "🔒 苦手重点出題（誤答5題以上で解放）";
+  if (!unlocked && getQuestionModeValue() === "weakness") {
+    setCheckedRadioValue(questionMode, "questionMode", "standard");
+    saveQuizPreferences();
+  }
+}
+
+function updateAdvancedSettingsSummary() {
+  questionModeSummary.textContent = `出題方法：${getQuestionModeValue() === "weakness" ? "苦手重点出題" : "通常出題"}`;
+  const answerLabels = {
+    all: "すべての問題", unanswered: "未解答のみ", wrong: "間違えたままの問題のみ",
+    exclude_mastered: "3回連続正答の問題を除く",
+  };
+  const calcLabels = { all: "すべて", without: "除く", only: "計算だけ" };
+  answerModeSummary.textContent = `回答状況：${answerLabels[getAnswerModeValue()]}`;
+  calcModeSummary.textContent = `計算問題：${calcLabels[getCalcModeValue()]}`;
 }
 
 function updateFieldSelectionButton() {

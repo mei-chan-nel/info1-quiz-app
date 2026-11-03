@@ -40,6 +40,7 @@ test("missing preferences use the existing UI defaults", () => {
   assert.deepEqual(plain(api.load()), {
     fields: ALL_FIELDS,
     answerMode: "all",
+    questionMode: "standard",
     calcMode: "all",
     setSize: 5,
   });
@@ -50,6 +51,7 @@ test("valid preferences including all-fields-cleared survive a reload", () => {
   assert.equal(api.save({
     fields: [],
     answerMode: "unanswered",
+    questionMode: "standard",
     calcMode: "without",
     setSize: 17,
   }), true);
@@ -58,6 +60,7 @@ test("valid preferences including all-fields-cleared survive a reload", () => {
   assert.deepEqual(plain(reloaded), {
     fields: [],
     answerMode: "unanswered",
+    questionMode: "standard",
     calcMode: "without",
     setSize: 17,
   });
@@ -74,6 +77,7 @@ test("every supported answer and calculation mode round-trips", () => {
       assert.deepEqual(plain(api.load()), {
         fields: ["algorithm"],
         answerMode,
+        questionMode: "standard",
         calcMode,
         setSize: 23,
       });
@@ -86,6 +90,7 @@ test("corrupt and unsupported values fall back safely", () => {
   assert.deepEqual(plain(corrupt), {
     fields: ALL_FIELDS,
     answerMode: "all",
+    questionMode: "standard",
     calcMode: "all",
     setSize: 5,
   });
@@ -95,6 +100,7 @@ test("corrupt and unsupported values fall back safely", () => {
       v: 1,
       fields: ["removed_future_field"],
       answerMode: "future-mode",
+      questionMode: "standard",
       calcMode: "future-mode",
       setSize: 1000,
     }),
@@ -102,6 +108,7 @@ test("corrupt and unsupported values fall back safely", () => {
   assert.deepEqual(plain(unsupported), {
     fields: ALL_FIELDS,
     answerMode: "all",
+    questionMode: "standard",
     calcMode: "all",
     setSize: 5,
   });
@@ -119,4 +126,31 @@ test("saving preferences never changes the learning-record key", () => {
 
   assert.equal(values.get(LEARNING_KEY), learningRecord);
   assert.ok(values.has(PREFERENCE_KEY));
+});
+
+test("question modes round-trip and old v1 settings default to standard", () => {
+  for (const questionMode of ["standard", "weakness"]) {
+    const { api, values } = createPreferences();
+    api.save({ fields: ALL_FIELDS, questionMode, answerMode: "unanswered", calcMode: "without", setSize: 5 });
+    const loaded = createPreferences(Object.fromEntries(values)).api.load();
+    assert.equal(loaded.questionMode, questionMode);
+    assert.equal(loaded.answerMode, "unanswered");
+    assert.equal(loaded.calcMode, "without");
+  }
+  const old = createPreferences({ [PREFERENCE_KEY]: JSON.stringify({
+    v: 1, fields: ["digital"], answerMode: "wrong", calcMode: "only", setSize: 9,
+  }) }).api.load();
+  assert.equal(old.questionMode, "standard");
+  assert.equal(old.answerMode, "wrong");
+  const unknown = createPreferences({ [PREFERENCE_KEY]: JSON.stringify({ v: 1, questionMode: "unknown" }) }).api.load();
+  assert.equal(unknown.questionMode, "standard");
+});
+
+test("unavailable localStorage never throws on load or save", () => {
+  const context = vm.createContext({ console: { warn() {} }, window: {}, localStorage: {
+    getItem() { throw new Error("denied"); }, setItem() { throw new Error("denied"); },
+  } });
+  vm.runInContext(source, context);
+  assert.equal(context.window.Info1QuizPreferences.load().questionMode, "standard");
+  assert.equal(context.window.Info1QuizPreferences.save({ questionMode: "weakness" }), false);
 });

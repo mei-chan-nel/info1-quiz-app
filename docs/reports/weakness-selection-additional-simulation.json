@@ -1,0 +1,605 @@
+{
+  "seed": 20261104,
+  "questionCount": 1438,
+  "fields": [
+    "society_security",
+    "digital",
+    "network",
+    "data_db",
+    "algorithm",
+    "design"
+  ],
+  "roundsPerScenario": 2000,
+  "note": "仮想履歴。未解放時は通常抽選。確率欄は解放条件とは別に算出した苦手重点出題の初回抽選重み。",
+  "reports": [
+    {
+      "name": "CSV：低正答率5題（回答20回以上）",
+      "sourceIds": [
+        "center_style_original_202608_0164",
+        "center_style_curated_067_017",
+        "center_style_curated_079_006",
+        "center_style_common_test_0001",
+        "center_style_curated_074_006"
+      ],
+      "recoveredIds": [],
+      "unlocked": true,
+      "actualMode": "weakness",
+      "eligibleCount": 1438,
+      "weightedCandidateCount": 72,
+      "weightTotal": 3.614000000000002,
+      "categoryProbability": {
+        "unanswered": 0.9573879358052013,
+        "wrong": 0.04261206419479799,
+        "recovered": 0
+      },
+      "fieldProbability": {
+        "society_security": 0.9568345323741,
+        "digital": 0,
+        "network": 0.00442722744881018,
+        "data_db": 0,
+        "algorithm": 0.001106806862202545,
+        "design": 0.03763143331488654
+      },
+      "actualFirstDrawCategoryProbability": {
+        "unanswered": 0.9573879358052013,
+        "wrong": 0.04261206419479799,
+        "recovered": 0
+      },
+      "actualFirstDrawFieldProbability": {
+        "society_security": 0.9568345323741,
+        "digital": 0,
+        "network": 0.00442722744881018,
+        "data_db": 0,
+        "algorithm": 0.001106806862202545,
+        "design": 0.03763143331488654
+      },
+      "topWeights": [
+        {
+          "id": "center_style_curated_082_004",
+          "weight": 0.136,
+          "probability": 0.03763143331488653
+        },
+        {
+          "id": "center_style_ip_curated_165",
+          "weight": 0.136,
+          "probability": 0.03763143331488653
+        },
+        {
+          "id": "center_style_curated_084_015",
+          "weight": 0.136,
+          "probability": 0.03763143331488653
+        },
+        {
+          "id": "center_style_ip_curated_171",
+          "weight": 0.136,
+          "probability": 0.03763143331488653
+        },
+        {
+          "id": "center_style_ap_curated_024",
+          "weight": 0.136,
+          "probability": 0.03763143331488653
+        }
+      ],
+      "rounds": 2000,
+      "averageUnansweredPerSet": 4.7775,
+      "unansweredHistogram": [
+        0,
+        1,
+        0,
+        31,
+        379,
+        1589
+      ],
+      "fieldDrawShare": {
+        "society_security": 0.9592,
+        "digital": 0,
+        "network": 0.0046,
+        "data_db": 0,
+        "algorithm": 0.0009,
+        "design": 0.0353
+      },
+      "topSelected": [
+        {
+          "id": "center_style_ip_curated_171",
+          "count": 411,
+          "setInclusionRate": 0.2055
+        },
+        {
+          "id": "center_style_curated_082_004",
+          "count": 409,
+          "setInclusionRate": 0.2045
+        },
+        {
+          "id": "center_style_ap_curated_024",
+          "count": 398,
+          "setInclusionRate": 0.199
+        },
+        {
+          "id": "center_style_ip_curated_165",
+          "count": 393,
+          "setInclusionRate": 0.1965
+        },
+        {
+          "id": "center_style_curated_074_005",
+          "count": 383,
+          "setInclusionRate": 0.1915
+        }
+      ],
+      "duplicates": 0,
+      "buildMs": 3.2275669999999934,
+      "averageDrawMs": 0.6447611394999999
+    },
+    {
+      "name": "CSV：誤答回数上位5題",
+      "sourceIds": [
+        "center_style_original_202608_0164",
+        "center_style_ap_curated_063",
+        "simple2_original_049",
+        "center_style_curated_067_017",
+        "simple2_original_140"
+      ],
+      "recoveredIds": [],
+      "unlocked": true,
+      "actualMode": "weakness",
+      "eligibleCount": 1438,
+      "weightedCandidateCount": 69,
+      "weightTotal": 3.6032000000000024,
+      "categoryProbability": {
+        "unanswered": 0.956927175843695,
+        "wrong": 0.043072824156305485,
+        "recovered": 0
+      },
+      "fieldProbability": {
+        "society_security": 0.5585035523978685,
+        "digital": 0.19760213143872105,
+        "network": 0.004440497335701596,
+        "data_db": 0,
+        "algorithm": 0.20170959147424503,
+        "design": 0.03774422735346356
+      },
+      "actualFirstDrawCategoryProbability": {
+        "unanswered": 0.956927175843695,
+        "wrong": 0.043072824156305485,
+        "recovered": 0
+      },
+      "actualFirstDrawFieldProbability": {
+        "society_security": 0.5585035523978685,
+        "digital": 0.19760213143872105,
+        "network": 0.004440497335701596,
+        "data_db": 0,
+        "algorithm": 0.20170959147424503,
+        "design": 0.03774422735346356
+      },
+      "topWeights": [
+        {
+          "id": "simple2_original_135",
+          "weight": 0.136,
+          "probability": 0.03774422735346356
+        },
+        {
+          "id": "original_knowledge_0039",
+          "weight": 0.136,
+          "probability": 0.03774422735346356
+        },
+        {
+          "id": "center_style_original_202608_0328",
+          "weight": 0.136,
+          "probability": 0.03774422735346356
+        },
+        {
+          "id": "center_style_curated_082_004",
+          "weight": 0.136,
+          "probability": 0.03774422735346356
+        },
+        {
+          "id": "center_style_ip_curated_165",
+          "weight": 0.136,
+          "probability": 0.03774422735346356
+        }
+      ],
+      "rounds": 2000,
+      "averageUnansweredPerSet": 4.7895,
+      "unansweredHistogram": [
+        0,
+        0,
+        0,
+        22,
+        377,
+        1601
+      ],
+      "fieldDrawShare": {
+        "society_security": 0.5591,
+        "digital": 0.1938,
+        "network": 0.0045,
+        "data_db": 0,
+        "algorithm": 0.2024,
+        "design": 0.0402
+      },
+      "topSelected": [
+        {
+          "id": "center_style_curated_082_004",
+          "count": 406,
+          "setInclusionRate": 0.203
+        },
+        {
+          "id": "original_knowledge_0039",
+          "count": 375,
+          "setInclusionRate": 0.1875
+        },
+        {
+          "id": "center_style_original_202608_0328",
+          "count": 372,
+          "setInclusionRate": 0.186
+        },
+        {
+          "id": "center_style_curated_068_013",
+          "count": 372,
+          "setInclusionRate": 0.186
+        },
+        {
+          "id": "center_style_ip_curated_165",
+          "count": 372,
+          "setInclusionRate": 0.186
+        }
+      ],
+      "duplicates": 0,
+      "buildMs": 0.5520970000000034,
+      "averageDrawMs": 0.44806666799999995
+    },
+    {
+      "name": "CSV：6分野の低正答率各1題（回答10回以上）",
+      "sourceIds": [
+        "simple_original_039",
+        "center_style_curated_072_006",
+        "center_style_fe_curated_005",
+        "center_style_ip_curated_044",
+        "center_style_ap_curated_063",
+        "simple2_original_045"
+      ],
+      "recoveredIds": [],
+      "unlocked": true,
+      "actualMode": "weakness",
+      "eligibleCount": 1438,
+      "weightedCandidateCount": 82,
+      "weightTotal": 4.336799999999987,
+      "categoryProbability": {
+        "unanswered": 0.9573879358052056,
+        "wrong": 0.042612064194798134,
+        "recovered": 0
+      },
+      "fieldProbability": {
+        "society_security": 0.07065117137059607,
+        "digital": 0.22855561704482635,
+        "network": 0.10929717764250173,
+        "data_db": 0.16749677181331907,
+        "algorithm": 0.16758900571850258,
+        "design": 0.2564102564102573
+      },
+      "actualFirstDrawCategoryProbability": {
+        "unanswered": 0.9573879358052056,
+        "wrong": 0.042612064194798134,
+        "recovered": 0
+      },
+      "actualFirstDrawFieldProbability": {
+        "society_security": 0.07065117137059607,
+        "digital": 0.22855561704482635,
+        "network": 0.10929717764250173,
+        "data_db": 0.16749677181331907,
+        "algorithm": 0.16758900571850258,
+        "design": 0.2564102564102573
+      },
+      "topWeights": [
+        {
+          "id": "center_style_fe_curated_085",
+          "weight": 0.144,
+          "probability": 0.03320420586607647
+        },
+        {
+          "id": "center_style_ap_curated_119",
+          "weight": 0.136,
+          "probability": 0.03135952776240556
+        },
+        {
+          "id": "center_style_curated_082_008",
+          "weight": 0.136,
+          "probability": 0.03135952776240556
+        },
+        {
+          "id": "center_style_ip_curated_182",
+          "weight": 0.136,
+          "probability": 0.03135952776240556
+        },
+        {
+          "id": "center_style_curated_075_002",
+          "weight": 0.136,
+          "probability": 0.03135952776240556
+        }
+      ],
+      "rounds": 2000,
+      "averageUnansweredPerSet": 4.777,
+      "unansweredHistogram": [
+        0,
+        0,
+        1,
+        38,
+        367,
+        1594
+      ],
+      "fieldDrawShare": {
+        "society_security": 0.0692,
+        "digital": 0.2304,
+        "network": 0.113,
+        "data_db": 0.1687,
+        "algorithm": 0.165,
+        "design": 0.2537
+      },
+      "topSelected": [
+        {
+          "id": "center_style_original_202608_0146",
+          "count": 335,
+          "setInclusionRate": 0.1675
+        },
+        {
+          "id": "center_style_fe_curated_085",
+          "count": 334,
+          "setInclusionRate": 0.167
+        },
+        {
+          "id": "center_style_curated_082_008",
+          "count": 329,
+          "setInclusionRate": 0.1645
+        },
+        {
+          "id": "center_style_ap_curated_056",
+          "count": 325,
+          "setInclusionRate": 0.1625
+        },
+        {
+          "id": "center_style_curated_072_007",
+          "count": 324,
+          "setInclusionRate": 0.162
+        }
+      ],
+      "duplicates": 0,
+      "buildMs": 0.7799410000002354,
+      "averageDrawMs": 0.46790933900000004
+    },
+    {
+      "name": "CSV：最多誤答問題＋直接類題4題",
+      "sourceIds": [
+        "center_style_original_202608_0164",
+        "center_style_curated_067_011",
+        "center_style_original_202608_0346",
+        "center_style_original_202608_0023",
+        "simple2_original_098"
+      ],
+      "recoveredIds": [],
+      "unlocked": true,
+      "actualMode": "weakness",
+      "eligibleCount": 1438,
+      "weightedCandidateCount": 69,
+      "weightTotal": 3.0632000000000015,
+      "categoryProbability": {
+        "unanswered": 0.9297466701488633,
+        "wrong": 0.07025332985113604,
+        "recovered": 0
+      },
+      "fieldProbability": {
+        "society_security": 0.5681640114912507,
+        "digital": 0.001305823974928179,
+        "network": 0.18281535648994507,
+        "data_db": 0.001305823974928179,
+        "algorithm": 0.04439801514755808,
+        "design": 0.20201096892138928
+      },
+      "actualFirstDrawCategoryProbability": {
+        "unanswered": 0.9297466701488633,
+        "wrong": 0.07025332985113604,
+        "recovered": 0
+      },
+      "actualFirstDrawFieldProbability": {
+        "society_security": 0.5681640114912507,
+        "digital": 0.001305823974928179,
+        "network": 0.18281535648994507,
+        "data_db": 0.001305823974928179,
+        "algorithm": 0.04439801514755808,
+        "design": 0.20201096892138928
+      },
+      "topWeights": [
+        {
+          "id": "simple2_original_010",
+          "weight": 0.144,
+          "probability": 0.047009663097414445
+        },
+        {
+          "id": "center_style_original_202608_0410",
+          "weight": 0.14,
+          "probability": 0.045703839122486274
+        },
+        {
+          "id": "center_style_ip_curated_195",
+          "weight": 0.14,
+          "probability": 0.045703839122486274
+        },
+        {
+          "id": "center_style_original_202608_0070",
+          "weight": 0.136,
+          "probability": 0.04439801514755809
+        },
+        {
+          "id": "center_style_original_202608_0408",
+          "weight": 0.136,
+          "probability": 0.04439801514755809
+        }
+      ],
+      "rounds": 2000,
+      "averageUnansweredPerSet": 4.641,
+      "unansweredHistogram": [
+        0,
+        0,
+        3,
+        76,
+        557,
+        1364
+      ],
+      "fieldDrawShare": {
+        "society_security": 0.5687,
+        "digital": 0.0018,
+        "network": 0.1859,
+        "data_db": 0.0018,
+        "algorithm": 0.041,
+        "design": 0.2008
+      },
+      "topSelected": [
+        {
+          "id": "simple2_original_010",
+          "count": 465,
+          "setInclusionRate": 0.2325
+        },
+        {
+          "id": "center_style_curated_065_009",
+          "count": 453,
+          "setInclusionRate": 0.2265
+        },
+        {
+          "id": "center_style_original_202608_0387",
+          "count": 447,
+          "setInclusionRate": 0.2235
+        },
+        {
+          "id": "center_style_ip_curated_195",
+          "count": 441,
+          "setInclusionRate": 0.2205
+        },
+        {
+          "id": "center_style_ip_curated_058",
+          "count": 440,
+          "setInclusionRate": 0.22
+        }
+      ],
+      "duplicates": 0,
+      "buildMs": 2.4642260000000533,
+      "averageDrawMs": 0.46714577950000014
+    },
+    {
+      "name": "CSV：低正答率5題のうち2題回復",
+      "sourceIds": [
+        "center_style_original_202608_0164",
+        "center_style_curated_067_017",
+        "center_style_curated_079_006",
+        "center_style_common_test_0001",
+        "center_style_curated_074_006"
+      ],
+      "recoveredIds": [
+        "center_style_common_test_0001",
+        "center_style_curated_074_006"
+      ],
+      "unlocked": true,
+      "actualMode": "weakness",
+      "eligibleCount": 1438,
+      "weightedCandidateCount": 72,
+      "weightTotal": 2.595300000000001,
+      "categoryProbability": {
+        "unanswered": 0.9609679035178973,
+        "wrong": 0.03544869571918467,
+        "recovered": 0.0035834007629175807
+      },
+      "fieldProbability": {
+        "society_security": 0.9398913420413821,
+        "digital": 0,
+        "network": 0.006164990559858204,
+        "data_db": 0,
+        "algorithm": 0.001541247639964551,
+        "design": 0.05240241975879472
+      },
+      "actualFirstDrawCategoryProbability": {
+        "unanswered": 0.9609679035178973,
+        "wrong": 0.03544869571918467,
+        "recovered": 0.0035834007629175807
+      },
+      "actualFirstDrawFieldProbability": {
+        "society_security": 0.9398913420413821,
+        "digital": 0,
+        "network": 0.006164990559858204,
+        "data_db": 0,
+        "algorithm": 0.001541247639964551,
+        "design": 0.05240241975879472
+      },
+      "topWeights": [
+        {
+          "id": "center_style_curated_082_004",
+          "weight": 0.136,
+          "probability": 0.052402419758794734
+        },
+        {
+          "id": "center_style_ip_curated_165",
+          "weight": 0.136,
+          "probability": 0.052402419758794734
+        },
+        {
+          "id": "center_style_curated_084_015",
+          "weight": 0.136,
+          "probability": 0.052402419758794734
+        },
+        {
+          "id": "center_style_ip_curated_171",
+          "weight": 0.136,
+          "probability": 0.052402419758794734
+        },
+        {
+          "id": "center_style_ap_curated_024",
+          "weight": 0.136,
+          "probability": 0.052402419758794734
+        }
+      ],
+      "rounds": 2000,
+      "averageUnansweredPerSet": 4.7905,
+      "unansweredHistogram": [
+        0,
+        0,
+        1,
+        26,
+        364,
+        1609
+      ],
+      "fieldDrawShare": {
+        "society_security": 0.94,
+        "digital": 0,
+        "network": 0.0068,
+        "data_db": 0,
+        "algorithm": 0.0013,
+        "design": 0.0519
+      },
+      "topSelected": [
+        {
+          "id": "center_style_curated_082_004",
+          "count": 558,
+          "setInclusionRate": 0.279
+        },
+        {
+          "id": "center_style_curated_068_013",
+          "count": 516,
+          "setInclusionRate": 0.258
+        },
+        {
+          "id": "center_style_ip_curated_165",
+          "count": 507,
+          "setInclusionRate": 0.2535
+        },
+        {
+          "id": "center_style_ip_curated_171",
+          "count": 505,
+          "setInclusionRate": 0.2525
+        },
+        {
+          "id": "center_style_curated_084_015",
+          "count": 496,
+          "setInclusionRate": 0.248
+        }
+      ],
+      "duplicates": 0,
+      "buildMs": 0.7723160000005009,
+      "averageDrawMs": 0.5496647005000004
+    }
+  ]
+}

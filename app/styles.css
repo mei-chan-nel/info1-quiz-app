@@ -379,7 +379,9 @@ input {
 .advanced-settings summary {
   min-height: 42px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
   color: var(--accent-dark);
   font-weight: 900;
   cursor: pointer;
@@ -388,6 +390,40 @@ input {
 
 .advanced-settings summary::-webkit-details-marker {
   display: none;
+}
+
+.advanced-settings-summary {
+  display: grid;
+  gap: 3px;
+  padding: 6px 0 10px 1em;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.advanced-settings[open] .advanced-settings-summary {
+  display: none;
+}
+
+.question-mode-control {
+  grid-template-columns: 1fr;
+}
+
+.question-mode-control label {
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.question-mode-control label:has(input:disabled) {
+  color: var(--muted);
+  background: #f2f4f7;
+  cursor: not-allowed;
+}
+
+.question-mode-control label:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .advanced-settings-body {
