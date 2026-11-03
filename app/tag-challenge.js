@@ -5,7 +5,8 @@
   const SOURCE = "tag-search";
   const VERSION = 1;
   const DEFAULT_RETURN_PATH = "/info1-quiz-app/questions/";
-  const TERM_GUIDES_URL = "/assets/term-guides.js?v=2026090602";
+  const TERM_GUIDES_URL = "/assets/term-guides.js";
+  let termGuidesPromise = null;
   const REMOVED_FACET_HELP = "タグは主に関連する分野へ整理しています。この一覧では複数選択のAND検索、各問題に付くタグからはそのタグだけの検索になります。";
 
   function normalizeIds(value) {
@@ -177,6 +178,7 @@
     getQuestionSearchUrl,
     getSafeReturnUrl,
     isTagSearchSource,
+    loadTermGuides,
   });
 
   function installTermGuideStyles() {
@@ -256,23 +258,19 @@
   }
 
   function loadTermGuides() {
-    if (window.StudyAtlasTermGuides && typeof window.StudyAtlasTermGuides === "object") {
-      return Promise.resolve(window.StudyAtlasTermGuides);
+    if (termGuidesPromise) {
+      return termGuidesPromise;
     }
-    return new Promise((resolve) => {
-      const existing = document.querySelector(`script[src^="${TERM_GUIDES_URL}"]`);
-      if (existing) {
-        existing.addEventListener("load", () => resolve(window.StudyAtlasTermGuides || {}), { once: true });
-        existing.addEventListener("error", () => resolve({}), { once: true });
-        return;
-      }
+    termGuidesPromise = new Promise((resolve) => {
       const script = document.createElement("script");
-      script.src = TERM_GUIDES_URL;
+      // Fetch the current published registry once per page, bypassing old browser caches.
+      script.src = `${TERM_GUIDES_URL}?v=${Date.now()}`;
       script.defer = true;
       script.addEventListener("load", () => resolve(window.StudyAtlasTermGuides || {}), { once: true });
       script.addEventListener("error", () => resolve({}), { once: true });
       document.head.append(script);
-    });
+    }).catch(() => ({}));
+    return termGuidesPromise;
   }
 
   function initializeTagSearchTermGuideUi() {
@@ -300,7 +298,7 @@
     guideLink.hidden = true;
     controls.append(guideLink);
 
-    let termGuides = window.StudyAtlasTermGuides || {};
+    let termGuides = {};
 
     const update = () => {
       const selectedLinks = [...root.querySelectorAll("[data-facet-value].is-selected")];

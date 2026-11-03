@@ -201,6 +201,7 @@ const FIELD_DEFINITIONS = [
 const FIELD_ID_SET = new Set(FIELD_DEFINITIONS.map((definition) => definition.id));
 
 const state = {
+  termGuides: {},
   allQuestions: [],
   sessionQuestions: [],
   responses: [],
@@ -358,6 +359,10 @@ function init() {
     showStart();
   }
   void loadQuestionData();
+  void tagChallenge?.loadTermGuides().then((guides) => {
+    state.termGuides = guides;
+    if (!summaryView.hidden) renderSummary();
+  });
   state.apiAvailabilityPromise = initializeApiAvailability();
 }
 
@@ -1882,9 +1887,22 @@ function renderSummaryExplanation(question, selectedChoice, correctChoice) {
     <section class="result-panel summary-result-panel">
       ${answer}
       <p class="explanation">${escapeHtml(buildExplanation(question, selectedChoice, correctChoice))}</p>
+      ${renderSummaryRelatedTerms(question)}
       ${renderQuestionLearningHistory(question.id)}
     </section>
   `;
+}
+
+function renderSummaryRelatedTerms(question) {
+  const links = (question.tags || []).flatMap((tag) => {
+    const guide = state.termGuides[tag];
+    return guide?.url
+      ? [`<a href="${escapeHtml(guide.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(tag)}</a>`]
+      : [];
+  });
+  return links.length
+    ? `<p class="summary-related-terms"><strong>関連する用語</strong>：${links.join("、")}</p>`
+    : "";
 }
 
 function renderOutOfScopeReportAction(question) {
