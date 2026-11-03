@@ -1325,14 +1325,14 @@ function updateQuestionModeAvailability() {
 }
 
 function updateAdvancedSettingsSummary() {
-  questionModeSummary.textContent = `出題方法：${getQuestionModeValue() === "weakness" ? "苦手重点" : "すべて"}`;
+  questionModeSummary.textContent = `出題：${getQuestionModeValue() === "weakness" ? "苦手重点" : "すべて"}`;
   const answerLabels = {
     all: "すべて", unanswered: "未回答", wrong: "誤答のまま",
     exclude_mastered: "3回正答除く",
   };
   const calcLabels = { all: "すべて", without: "除く", only: "計算だけ" };
-  answerModeSummary.textContent = `回答状況：${answerLabels[getAnswerModeValue()]}`;
-  calcModeSummary.textContent = `計算問題：${calcLabels[getCalcModeValue()]}`;
+  answerModeSummary.textContent = `回答：${answerLabels[getAnswerModeValue()]}`;
+  calcModeSummary.textContent = `計算：${calcLabels[getCalcModeValue()]}`;
 }
 
 function updateFieldSelectionButton() {
