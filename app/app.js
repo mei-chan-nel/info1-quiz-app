@@ -1082,8 +1082,8 @@ async function startSession() {
       : null;
     return startSelectedSession(weaknessWeights);
   } catch (error) {
-    console.error("苦手重点出題の準備に失敗しました。", error);
-    showSimilarMessage("苦手重点出題を準備できませんでした。\n通信状況を確認して、もう一度お試しください。");
+    console.error("苦手重点の準備に失敗しました。", error);
+    showSimilarMessage("苦手重点を準備できませんでした。\n通信状況を確認して、もう一度お試しください。");
     return false;
   } finally {
     state.sessionStarting = false;
@@ -1298,7 +1298,7 @@ function updateQuestionPoolCount(pool) {
   void loadSimilarQuestionsInBackground()
     .catch((error) => {
       state.weaknessCountError = true;
-      console.warn("苦手重点出題の対象数を取得できませんでした。", error);
+      console.warn("苦手重点の対象数を取得できませんでした。", error);
     })
     .finally(() => {
       state.weaknessCountLoading = false;
@@ -1317,7 +1317,7 @@ function updateQuestionModeAvailability() {
   input.disabled = !unlocked;
   document.querySelector("#weaknessModeNote").hidden = unlocked;
   weaknessModeLabel.textContent = unlocked
-    ? "苦手重点出題" : "🔒 苦手重点出題";
+    ? "苦手重点" : "🔒 苦手重点";
   if (!unlocked && getQuestionModeValue() === "weakness") {
     setCheckedRadioValue(questionMode, "questionMode", "standard");
     saveQuizPreferences();
@@ -1325,7 +1325,7 @@ function updateQuestionModeAvailability() {
 }
 
 function updateAdvancedSettingsSummary() {
-  questionModeSummary.textContent = `出題方法：${getQuestionModeValue() === "weakness" ? "苦手重点出題" : "通常出題"}`;
+  questionModeSummary.textContent = `出題方法：${getQuestionModeValue() === "weakness" ? "苦手重点" : "すべて"}`;
   const answerLabels = {
     all: "すべての問題", unanswered: "未解答のみ", wrong: "間違えたままの問題のみ",
     exclude_mastered: "3回連続正答の問題を除く",

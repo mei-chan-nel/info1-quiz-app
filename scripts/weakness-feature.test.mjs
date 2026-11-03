@@ -38,14 +38,14 @@ test("availability resets only the question mode, while summary values follow ev
   assert.equal(weaknessInput.disabled, true);
   assert.equal(selected, "standard");
   assert.equal(saved, 1);
-  assert.equal(label.textContent, "🔒 苦手重点出題");
+  assert.equal(label.textContent, "🔒 苦手重点");
   wrongIds = ["a", "b", "c", "d", "e"];
   api.updateQuestionModeAvailability();
   assert.equal(weaknessInput.disabled, false);
-  assert.equal(label.textContent, "苦手重点出題");
+  assert.equal(label.textContent, "苦手重点");
   selected = "weakness";
   api.updateAdvancedSettingsSummary();
-  assert.equal(questionSummary.textContent, "出題方法：苦手重点出題");
+  assert.equal(questionSummary.textContent, "出題方法：苦手重点");
   assert.equal(answerSummary.textContent, "回答状況：未解答のみ");
   assert.equal(calcSummary.textContent, "計算問題：除く");
   answer = "exclude_mastered";
@@ -56,7 +56,7 @@ test("availability resets only the question mode, while summary values follow ev
   wrongIds = [];
   api.updateQuestionModeAvailability();
   api.updateAdvancedSettingsSummary();
-  assert.equal(questionSummary.textContent, "出題方法：通常出題");
+  assert.equal(questionSummary.textContent, "出題方法：すべて");
   assert.equal(answer, "exclude_mastered");
   assert.equal(calc, "only");
 });
