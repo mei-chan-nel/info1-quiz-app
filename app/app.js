@@ -212,6 +212,8 @@ const state = {
   setSize: DEFAULT_SET_SIZE,
   questionDataStatus: "loading",
   sessionStarting: false,
+  weaknessCountLoading: false,
+  weaknessCountError: false,
   apiAvailable: false,
   apiAvailabilityStatus: "checking",
   apiAvailabilityPromise: Promise.resolve(false),
@@ -816,6 +818,7 @@ function bindStartControls() {
   });
 
   questionMode.addEventListener("change", () => {
+    state.weaknessCountError = false;
     updateStartControls();
     saveQuizPreferences();
   });
@@ -1064,6 +1067,7 @@ async function startSession() {
   updateStartControls();
   try {
     const similarData = await loadSimilarQuestionsInBackground();
+    state.weaknessCountError = false;
     // A user may leave the start/summary screen while the shared loader is pending.
     if (sessionId !== state.sessionId
       || (startingFromSummary ? summaryView.hidden : startView.hidden)) return false;
@@ -1254,10 +1258,45 @@ function updateStartControls() {
   }
 
   const pool = getQuestionPool();
-  questionCount.textContent = `${pool.length}問`;
+  updateQuestionPoolCount(pool);
   updateSetSizeControls(pool.length);
   startButton.disabled = state.sessionStarting || pool.length === 0;
   startButton.textContent = state.sessionStarting ? "準備中…" : pool.length === 0 ? TEXT.empty : "挑戦を開始";
+}
+
+function getWeaknessQuestionPool(pool, similarData) {
+  const { weights } = buildWeaknessWeights({
+    questionIds: state.allQuestions.map((question) => question.id),
+    everWrongQuestionIds: learningRecord.getEverWrongQuestionIds(),
+    getRecord: (id) => learningRecord.getQuestion(id),
+    similarData,
+  });
+  return pool.filter((question) => (weights.get(String(question.id)) || 0) > 0);
+}
+
+function updateQuestionPoolCount(pool) {
+  if (getQuestionModeValue() !== "weakness") {
+    questionCount.textContent = `${pool.length}問`;
+    return;
+  }
+  const similarData = similarQuestionsLoader.getCachedData();
+  if (similarData) {
+    questionCount.textContent = `${getWeaknessQuestionPool(pool, similarData).length}問`;
+    return;
+  }
+  questionCount.textContent = state.weaknessCountError ? "-" : "";
+  questionCount.classList.toggle("metric-loading", !state.weaknessCountError);
+  if (state.weaknessCountLoading || state.weaknessCountError) return;
+  state.weaknessCountLoading = true;
+  void loadSimilarQuestionsInBackground()
+    .catch((error) => {
+      state.weaknessCountError = true;
+      console.warn("苦手重点出題の対象数を取得できませんでした。", error);
+    })
+    .finally(() => {
+      state.weaknessCountLoading = false;
+      updateStartControls();
+    });
 }
 
 function getQuestionModeValue() {

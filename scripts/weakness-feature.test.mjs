@@ -96,6 +96,14 @@ test("all six fields, four answer filters and three calculation filters also gov
           (q, field) => q.field_ids.includes(field.id), () => answer, () => calc, learningRecord,
         );
         const pool = getPool();
+        const preview = new Function("state", "learningRecord", "buildWeaknessWeights",
+          `${extract("getWeaknessQuestionPool")}\nreturn getWeaknessQuestionPool;`)(
+          { allQuestions: questions },
+          { ...learningRecord, getEverWrongQuestionIds: () => [...records]
+            .filter(([, r]) => r.attempts > r.correct).map(([id]) => id) },
+          buildWeaknessWeights,
+        )(pool, similarData);
+        assert.deepEqual(preview.map((q) => q.id), pool.filter((q) => weights.get(q.id) > 0).map((q) => q.id));
         for (const selectionWeights of [weights, new Map()]) {
           const selected = selectWeaknessQuestionSet({ questions: pool, count: 50,
             weights: selectionWeights, selectedFieldIds: [fieldId], fieldOrder: fieldIds });
@@ -162,4 +170,21 @@ test("pending weakness preparation is guarded, retryable on failure and cannot s
   resolveLoad.resolve({});
   assert.equal(await retry, true);
   assert.equal(starts, 1);
+});
+
+
+test("pool count uses membership rather than weight magnitude and refreshes after history changes", () => {
+  let recovered = false;
+  const records = { getEverWrongQuestionIds: () => ["a"], getQuestion: (id) => id === "a"
+    ? { attempts: recovered ? 2 : 1, correct: recovered ? 1 : 0, lastCorrect: recovered } : {} };
+  const questions = ["a", "b", "c", "unrelated"].map((id) => ({ id }));
+  const preview = new Function("state", "learningRecord", "buildWeaknessWeights",
+    `${extract("getWeaknessQuestionPool")}\nreturn getWeaknessQuestionPool;`)(
+    { allQuestions: questions }, records, buildWeaknessWeights);
+  const graph = { a: { top5: ["b"] }, b: { top5: ["c"] } };
+  assert.deepEqual(preview(questions, graph).map((q) => q.id), ["a", "b", "c"]);
+  recovered = true;
+  assert.deepEqual(preview(questions, graph).map((q) => q.id), ["a", "b", "c"]);
+  assert.deepEqual(preview(questions.slice(1), graph).map((q) => q.id), ["b", "c"]);
+  assert.deepEqual(preview([], graph), []);
 });
