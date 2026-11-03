@@ -393,13 +393,16 @@ input {
 }
 
 .advanced-settings-summary {
-  display: grid;
-  gap: 3px;
-  padding: 6px 0 10px 1em;
+  display: inline;
+  padding: 0 0 0 1em;
   color: var(--text);
   font-size: 0.8rem;
   font-weight: 500;
   overflow-wrap: anywhere;
+}
+
+.advanced-settings-summary > span + span::before {
+  content: "、";
 }
 
 .advanced-settings[open] .advanced-settings-summary {
