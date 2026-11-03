@@ -406,8 +406,8 @@ input {
   display: none;
 }
 
-.question-mode-control {
-  grid-template-columns: 1fr;
+.segmented-control.question-mode-control {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .question-mode-control label {
