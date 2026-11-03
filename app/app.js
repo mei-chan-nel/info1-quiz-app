@@ -1327,7 +1327,7 @@ function updateQuestionModeAvailability() {
 function updateAdvancedSettingsSummary() {
   questionModeSummary.textContent = `出題方法：${getQuestionModeValue() === "weakness" ? "苦手重点" : "すべて"}`;
   const answerLabels = {
-    all: "すべての問題", unanswered: "未解答のみ", wrong: "間違えたままの問題のみ",
+    all: "すべて", unanswered: "未解答のみ", wrong: "間違えたままの問題のみ",
     exclude_mastered: "3回連続正答の問題を除く",
   };
   const calcLabels = { all: "すべて", without: "除く", only: "計算だけ" };
