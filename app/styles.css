@@ -402,7 +402,7 @@ input {
 }
 
 .advanced-settings-summary > span + span::before {
-  content: " ";
+  content: "、";
 }
 
 .advanced-settings[open] .advanced-settings-summary {
