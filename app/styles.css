@@ -396,9 +396,9 @@ input {
   display: inline;
   padding: 0 0 0 1em;
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   font-weight: 500;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .advanced-settings-summary > span + span::before {
