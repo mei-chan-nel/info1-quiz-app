@@ -121,18 +121,18 @@ test("weighted sampling is proportional, equal weights tie equally, without norm
   assert.deepEqual(tally, { a: 250, b: 250, c: 500 });
 });
 
-test("fallback fills only the shortfall from the filtered pool and never duplicates", () => {
+test("short pools never add zero-weight questions or duplicates", () => {
   const questions = ["a", "b", "c", "d"].map((id) => ({ id, field_ids: ["field"] }));
   for (const count of [0, 1, 3, 8]) {
     const chosen = selectWeaknessQuestionSet({ questions: [...questions, questions[0]], count,
       weights: new Map([["c", 1]]), selectedFieldIds: ["field"], fieldOrder: ["field"], random: () => 0 });
-    assert.equal(chosen.length, Math.min(count, 4));
+    assert.equal(chosen.length, Math.min(count, 1));
     assert.equal(new Set(chosen.map((question) => question.id)).size, chosen.length);
     if (count > 0) assert.equal(chosen[0].id, "c");
     assert.ok(chosen.every((question) => questions.includes(question)));
   }
   assert.deepEqual(selectWeaknessQuestionSet({ questions: [], count: 5, weights: new Map() }), []);
-  assert.equal(selectWeaknessQuestionSet({ questions, count: 5, weights: new Map() }).length, 4);
+  assert.equal(selectWeaknessQuestionSet({ questions, count: 5, weights: new Map() }).length, 0);
 });
 
 test("full real network has five valid directed neighbors and sparse computation stays bounded", () => {

@@ -72,7 +72,7 @@ test("question methods live first inside details and all three summary lines hid
   assert.match(css, /\.advanced-settings\[open\] \.advanced-settings-summary\s*\{\s*display: none;/);
 });
 
-test("all six fields, four answer filters and three calculation filters also govern fallback", () => {
+test("all six fields, four answer filters and three calculation filters restrict the positive pool", () => {
   const records = new Map(questions.map((question, index) => [question.id,
     index % 4 === 0 ? { attempts: 1, correct: 0, lastCorrect: false, history: "0" }
       : index % 4 === 1 ? { attempts: 2, correct: 1, lastCorrect: true, history: "01" }
@@ -107,7 +107,7 @@ test("all six fields, four answer filters and three calculation filters also gov
         for (const selectionWeights of [weights, new Map()]) {
           const selected = selectWeaknessQuestionSet({ questions: pool, count: 50,
             weights: selectionWeights, selectedFieldIds: [fieldId], fieldOrder: fieldIds });
-          assert.equal(selected.length, Math.min(50, pool.length));
+          assert.equal(selected.length, Math.min(50, pool.filter((q) => selectionWeights.get(q.id) > 0).length));
           assert.equal(new Set(selected.map((q) => q.id)).size, selected.length);
           for (const q of selected) {
             const r = records.get(q.id);
@@ -187,4 +187,28 @@ test("pool count uses membership rather than weight magnitude and refreshes afte
   assert.deepEqual(preview(questions, graph).map((q) => q.id), ["a", "b", "c"]);
   assert.deepEqual(preview(questions.slice(1), graph).map((q) => q.id), ["b", "c"]);
   assert.deepEqual(preview([], graph), []);
+});
+
+
+test("set size is capped by the active pool, becomes zero when empty, and waits for data", () => {
+  const state = { setSize: 20 };
+  const value = {};
+  const decrease = {};
+  const increase = {};
+  const update = new Function("state", "setSizeValue", "decreaseSetSizeButton", "increaseSetSizeButton",
+    "DEFAULT_SET_SIZE", "MIN_SET_SIZE", "MAX_SET_SIZE",
+    `${extract("getSetSizeMax")}\n${extract("updateSetSizeControls")}\nreturn updateSetSizeControls;`)(
+    state, value, decrease, increase, 5, 1, 50);
+  update(null);
+  assert.equal(state.setSize, 20);
+  assert.equal(increase.disabled, true);
+  update(3);
+  assert.equal(state.setSize, 3);
+  assert.equal(increase.disabled, true);
+  update(0);
+  assert.equal(state.setSize, 0);
+  assert.equal(value.textContent, "0問");
+  assert.equal(decrease.disabled, true);
+  update(2);
+  assert.equal(state.setSize, 2);
 });

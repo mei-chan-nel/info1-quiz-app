@@ -1,4 +1,4 @@
-import { selectWeightedQuestionSet, weightedPickOne } from "./question-selection.js";
+import { weightedPickOne } from "./question-selection.js";
 
 export const WEAKNESS_SELECTION_CONFIG = Object.freeze({
   UNLOCK_COUNT: 5,
@@ -92,7 +92,6 @@ export function selectWeaknessQuestionSet({
   count,
   weights,
   random = Math.random,
-  ...normalSelectionOptions
 }) {
   const candidates = [...new Map((questions || []).filter((question) => question?.id)
     .map((question) => [String(question.id), question])).values()];
@@ -109,15 +108,6 @@ export function selectWeaknessQuestionSet({
     });
     selected.push(question);
     positive.splice(positive.indexOf(question), 1);
-  }
-  if (selected.length < selectionCount) {
-    const selectedIds = new Set(selected.map((question) => String(question.id)));
-    selected.push(...selectWeightedQuestionSet({
-      ...normalSelectionOptions,
-      questions: candidates.filter((question) => !selectedIds.has(String(question.id))),
-      count: selectionCount - selected.length,
-      random,
-    }));
   }
   return selected;
 }

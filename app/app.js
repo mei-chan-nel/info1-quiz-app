@@ -6,7 +6,7 @@ import {
   buildWeaknessWeights,
   isWeaknessUnlocked,
   selectWeaknessQuestionSet,
-} from "./weakness-selection.js";
+} from "./weakness-selection.js?v=2026110307";
 import {
   SIMILAR_QUESTION_COUNT,
   SIMILAR_RETURN_MAX_AGE_MS,
@@ -1092,7 +1092,10 @@ async function startSession() {
 }
 
 function startSelectedSession(weaknessWeights = null) {
-  const pool = getQuestionPool();
+  const candidates = getQuestionPool();
+  const pool = weaknessWeights
+    ? candidates.filter((question) => (weaknessWeights.get(String(question.id)) || 0) > 0)
+    : candidates;
   if (!pool.length) {
     updateStartControls();
     return false;
@@ -1242,7 +1245,7 @@ function updateStartControls() {
   if (state.questionDataStatus === "loading") {
     questionCount.textContent = "";
     questionCount.classList.add("metric-loading");
-    updateSetSizeControls(0);
+    updateSetSizeControls(null);
     startButton.disabled = true;
     startButton.textContent = "―読込中―";
     return;
@@ -1251,17 +1254,19 @@ function updateStartControls() {
   questionCount.classList.remove("metric-loading");
   if (state.questionDataStatus === "error" || !state.allQuestions.length) {
     questionCount.textContent = "-";
-    updateSetSizeControls(0);
+    updateSetSizeControls(null);
     startButton.disabled = true;
     startButton.textContent = TEXT.loadError;
     return;
   }
 
   const pool = getQuestionPool();
-  updateQuestionPoolCount(pool);
-  updateSetSizeControls(pool.length);
-  startButton.disabled = state.sessionStarting || pool.length === 0;
-  startButton.textContent = state.sessionStarting ? "準備中…" : pool.length === 0 ? TEXT.empty : "挑戦を開始";
+  const count = updateQuestionPoolCount(pool);
+  updateSetSizeControls(count);
+  startButton.disabled = state.sessionStarting || count === null || count === 0;
+  startButton.textContent = count === null && state.weaknessCountError
+    ? "対象数を取得できません"
+    : state.sessionStarting || count === null ? "準備中…" : count === 0 ? TEXT.empty : "挑戦を開始";
 }
 
 function getWeaknessQuestionPool(pool, similarData) {
@@ -1274,19 +1279,21 @@ function getWeaknessQuestionPool(pool, similarData) {
   return pool.filter((question) => (weights.get(String(question.id)) || 0) > 0);
 }
 
-function updateQuestionPoolCount(pool) {
-  if (getQuestionModeValue() !== "weakness") {
-    questionCount.textContent = `${pool.length}問`;
-    return;
-  }
+function getActiveQuestionPool(pool = getQuestionPool()) {
+  if (getQuestionModeValue() !== "weakness") return pool;
   const similarData = similarQuestionsLoader.getCachedData();
-  if (similarData) {
-    questionCount.textContent = `${getWeaknessQuestionPool(pool, similarData).length}問`;
-    return;
+  return similarData ? getWeaknessQuestionPool(pool, similarData) : null;
+}
+
+function updateQuestionPoolCount(pool) {
+  const activePool = getActiveQuestionPool(pool);
+  if (activePool !== null) {
+    questionCount.textContent = `${activePool.length}問`;
+    return activePool.length;
   }
   questionCount.textContent = state.weaknessCountError ? "-" : "";
   questionCount.classList.toggle("metric-loading", !state.weaknessCountError);
-  if (state.weaknessCountLoading || state.weaknessCountError) return;
+  if (state.weaknessCountLoading || state.weaknessCountError) return null;
   state.weaknessCountLoading = true;
   void loadSimilarQuestionsInBackground()
     .catch((error) => {
@@ -1297,6 +1304,7 @@ function updateQuestionPoolCount(pool) {
       state.weaknessCountLoading = false;
       updateStartControls();
     });
+  return null;
 }
 
 function getQuestionModeValue() {
@@ -1339,7 +1347,8 @@ function resetCumulativeResults() {
 }
 
 function changeSetSize(delta) {
-  const poolLength = getQuestionPool().length;
+  const poolLength = getActiveQuestionPool()?.length || 0;
+  if (!poolLength) return;
   const max = getSetSizeMax(poolLength);
   state.setSize = Math.min(Math.max(state.setSize + delta, MIN_SET_SIZE), max);
   updateStartControls();
@@ -1347,10 +1356,16 @@ function changeSetSize(delta) {
 }
 
 function updateSetSizeControls(poolLength) {
-  const max = getSetSizeMax(poolLength);
-  if (poolLength > 0) {
-    state.setSize = Math.min(Math.max(state.setSize, MIN_SET_SIZE), max);
+  if (poolLength === null) {
+    setSizeValue.textContent = "―";
+    decreaseSetSizeButton.disabled = true;
+    increaseSetSizeButton.disabled = true;
+    return;
   }
+  const max = getSetSizeMax(poolLength);
+  state.setSize = poolLength > 0
+    ? Math.min(Math.max(state.setSize || DEFAULT_SET_SIZE, MIN_SET_SIZE), max)
+    : 0;
   setSizeValue.textContent = `${state.setSize}問`;
   decreaseSetSizeButton.disabled = poolLength === 0 || state.setSize <= MIN_SET_SIZE;
   increaseSetSizeButton.disabled = poolLength === 0 || state.setSize >= max;
