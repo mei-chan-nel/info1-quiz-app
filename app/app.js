@@ -1268,8 +1268,9 @@ function updateQuestionModeAvailability() {
   const unlocked = isWeaknessUnlocked(learningRecord.getEverWrongQuestionIds());
   const input = questionMode.querySelector("input[value='weakness']");
   input.disabled = !unlocked;
+  document.querySelector("#weaknessModeNote").hidden = unlocked;
   weaknessModeLabel.textContent = unlocked
-    ? "苦手重点出題" : "🔒 苦手重点出題（誤答5題以上で解放）";
+    ? "苦手重点出題" : "🔒 苦手重点出題";
   if (!unlocked && getQuestionModeValue() === "weakness") {
     setCheckedRadioValue(questionMode, "questionMode", "standard");
     saveQuizPreferences();

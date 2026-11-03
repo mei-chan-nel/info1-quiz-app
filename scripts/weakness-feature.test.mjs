@@ -27,10 +27,10 @@ test("availability resets only the question mode, while summary values follow ev
   const calcSummary = {};
   let answer = "unanswered";
   let calc = "without";
-  const api = new Function("questionMode", "weaknessModeLabel", "questionModeSummary", "answerModeSummary",
+  const api = new Function("document", "questionMode", "weaknessModeLabel", "questionModeSummary", "answerModeSummary",
     "calcModeSummary", "learningRecord", "isWeaknessUnlocked", "saveQuizPreferences", "getAnswerModeValue", "getCalcModeValue",
     `${extract("getQuestionModeValue")}\n${extract("setCheckedRadioValue")}\n${extract("updateQuestionModeAvailability")}\n${extract("updateAdvancedSettingsSummary")}\nreturn {updateQuestionModeAvailability, updateAdvancedSettingsSummary};`)(
-    questionMode, label, questionSummary, answerSummary, calcSummary,
+    { querySelector: () => ({ hidden: false }) }, questionMode, label, questionSummary, answerSummary, calcSummary,
     { getEverWrongQuestionIds: () => wrongIds }, isWeaknessUnlocked,
     () => { saved += 1; }, () => answer, () => calc,
   );
@@ -38,7 +38,7 @@ test("availability resets only the question mode, while summary values follow ev
   assert.equal(weaknessInput.disabled, true);
   assert.equal(selected, "standard");
   assert.equal(saved, 1);
-  assert.equal(label.textContent, "🔒 苦手重点出題（誤答5題以上で解放）");
+  assert.equal(label.textContent, "🔒 苦手重点出題");
   wrongIds = ["a", "b", "c", "d", "e"];
   api.updateQuestionModeAvailability();
   assert.equal(weaknessInput.disabled, false);
