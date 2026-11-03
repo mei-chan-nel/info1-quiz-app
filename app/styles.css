@@ -1181,6 +1181,18 @@ h1 {
   text-align: right;
 }
 
+.summary-related-terms {
+  color: var(--muted);
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+.summary-related-terms a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .question-learning-history {
   display: flex;
   flex-wrap: wrap;
