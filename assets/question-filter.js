@@ -6,7 +6,7 @@
 
   const PAGE_SIZE = 10;
   const parameter = root.dataset.filterParam || "tag";
-  const searchStateKeys = new Set(["tag", "question"]);
+  const searchStateKeys = new Set(["tag", "question", "q", "fields"]);
   const results = root.querySelector("[data-filter-results]");
   const resultsSection = root.querySelector(".filter-results");
   const heading = root.querySelector("[data-filter-heading]");
@@ -23,12 +23,56 @@
   const tagChallengeStart = root.querySelector("[data-tag-challenge-start]");
   const tagChallenge = window.Info1TagChallenge;
   const aliases = readAliases();
-  const cards = Array.from(root.querySelectorAll("[data-filter-question]")).map((node, index) => ({
-    node,
-    index,
-    id: String(node.dataset.questionId || ""),
-    tags: readCardTags(node),
-  }));
+  const keywordInput = root.querySelector("[data-keyword-input]");
+  const keywordPanel = root.querySelector("[data-keyword-panel]");
+  const tagPanel = root.querySelector(".facet-panel:not([data-keyword-panel])");
+  const fieldInputs = [...root.querySelectorAll("[data-search-field]")];
+  const defaultFields = ["stem", "choices"];
+  let keyword = "";
+  let fields = [...defaultFields];
+  let cards = [];
+  let dataPromise = null;
+  let renderVersion = 0;
+  let currentMatches = [];
+  let renderedCount = 0;
+  let facetKey = null;
+  let composing = false;
+  let searchTimer;
+
+  function loadData() {
+    if (!dataPromise) {
+      dataPromise = fetch(root.dataset.filterData)
+        .then((response) => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.json();
+        })
+        .then((data) => {
+          cards = data.questions.map((question) => ({
+            ...question,
+            search: {
+              stem: normalizeText(question.stem),
+              choices: normalizeText(question.choices.map((choice) => choice.text).join("\n")),
+              explanation: normalizeText([question.explanation, ...question.choices.map((choice) => choice.explanation)].join("\n")),
+            },
+          }));
+        })
+        .catch((error) => { dataPromise = null; throw error; });
+    }
+    return dataPromise;
+  }
+
+  function normalizeText(value) {
+    return String(value || "").normalize("NFKC").toLocaleLowerCase("ja").replace(/\s+/gu, " ").trim();
+  }
+
+  function searchTerms() {
+    return normalizeText(keyword).split(/\s+/u).filter(Boolean);
+  }
+
+  function hasConditions() {
+    return selected.length > 0 || (searchTerms().length > 0 && fields.length > 0);
+  }
+
   let selected = [];
   let focusId = null;
   let visibleCount = PAGE_SIZE;
@@ -53,16 +97,6 @@
     }
   }
 
-  function readCardTags(node) {
-    try {
-      const parsed = JSON.parse(node.dataset.filterTags || "[]");
-      return Array.isArray(parsed) ? parsed.map(normalizeTag).filter(Boolean) : [];
-    } catch (error) {
-      console.warn("問題のタグ情報を読み込めませんでした。", error);
-      return [];
-    }
-  }
-
   function normalizeTag(value) {
     const tag = String(value || "").trim();
     return aliases[tag] || tag;
@@ -75,7 +109,7 @@
   let lastAppliedLocation = null;
 
   function hasStateParameter(params) {
-    return params.getAll(parameter).some((value) => value.trim()) || Boolean(params.get("question")?.trim());
+    return params.getAll(parameter).some((value) => value.trim()) || Boolean(params.get("question")?.trim()) || Boolean(params.get("q")?.trim());
   }
 
   function hasRecognizedStateParameter(params) {
@@ -100,7 +134,9 @@
 
   function parseStateFromParams(params) {
     return {
-      selected: normalizeSelection(params.getAll(parameter)),
+      selected: params.get("q")?.trim() ? [] : normalizeSelection(params.getAll(parameter)),
+      keyword: params.get("q") || "",
+      fields: params.has("fields") ? params.get("fields").split(",").filter((field) => defaultFields.includes(field) || field === "explanation") : [...defaultFields],
       question: params.get("question") || null,
     };
   }
@@ -119,6 +155,10 @@
 
   function serializeStateToHash(state) {
     const params = new URLSearchParams();
+    if (state.keyword?.trim()) {
+      params.set("q", state.keyword.trim());
+      params.set("fields", (state.fields || defaultFields).join(","));
+    }
     normalizeSelection(state.selected).forEach((value) => params.append(parameter, value));
     if (state.question) params.set("question", state.question);
     const serialized = params.toString();
@@ -155,13 +195,20 @@
 
   function applySearchState(state, { scrollToFocus = false } = {}) {
     selected = normalizeSelection(state.selected);
+    keyword = state.keyword || "";
+    fields = state.fields || [...defaultFields];
+    keywordInput.value = keyword;
+    fieldInputs.forEach((input) => { input.checked = fields.includes(input.value); });
+    if (keyword.trim()) { keywordPanel.open = true; tagPanel.open = false; }
+    else if (selected.length) { keywordPanel.open = false; tagPanel.open = true; }
     focusId = state.question;
     visibleCount = PAGE_SIZE;
     shouldScrollToFocus = scrollToFocus && Boolean(focusId);
-    render();
+    void render();
   }
 
   function applyLocationState() {
+    clearTimeout(searchTimer);
     const parsed = parseStateFromLocation();
     const targetKey = synchronizeLocation(parsed.state);
     if (targetKey === lastAppliedLocation) return;
@@ -173,9 +220,11 @@
     const nextState = {
       selected: normalizeSelection(state.selected),
       question: state.question || null,
+      keyword: state.keyword || "",
+      fields: state.fields || fields,
     };
     const targetKey = stateLocationKey(nextState);
-    if (targetKey === locationKey()) return;
+    if (targetKey === locationKey()) { applySearchState(nextState); return; }
     const url = new URL(window.location.href);
     url.search = queryWithoutSearchState(url).toString();
     url.hash = serializeStateToHash(nextState);
@@ -194,10 +243,6 @@
 
   function matchesSelection(card, values) {
     return values.every((value) => card.tags.includes(value));
-  }
-
-  function countMatches(values) {
-    return cards.filter((card) => matchesSelection(card, values)).length;
   }
 
   function sortFacetLinks() {
@@ -229,13 +274,16 @@
   }
 
   function matchingCards() {
-    return cards
-      .filter((card) => matchesSelection(card, selected))
-      .sort((left, right) => left.index - right.index);
+    const terms = searchTerms();
+    return cards.filter((card) => {
+      if (selected.length) return matchesSelection(card, selected);
+      const text = fields.map((field) => card.search[field]).join("\n");
+      return terms.every((term) => text.includes(term));
+    });
   }
 
   function tagChallengeKey() {
-    return [...selected].sort().join("\u0000");
+    return JSON.stringify([selected, keyword.trim(), fields]);
   }
 
   function syncTagChallengeControls(candidateCards) {
@@ -253,7 +301,7 @@
       Math.max(tagChallengeQuestionCount, candidateCount > 0 ? 1 : 0),
       max,
     );
-    const hasSelection = selected.length > 0;
+    const hasSelection = hasConditions();
     const canStart = Boolean(tagChallenge) && hasSelection && tagChallengeQuestionCount > 0;
     tagChallengeControls.hidden = !hasSelection;
     tagChallengeCount.textContent = `${tagChallengeQuestionCount}問`;
@@ -261,7 +309,7 @@
     tagChallengeDecrease.disabled = !canStart || tagChallengeQuestionCount <= 1;
     tagChallengeStart.disabled = !canStart;
     tagChallengeStart.textContent = canStart
-      ? "アプリでランダムに出題"
+      ? "検索結果をアプリで出題"
       : "アプリで出題できません";
   }
 
@@ -324,6 +372,13 @@
   }
 
   function syncFacetLinks() {
+    const key = selected.join("\u0000");
+    if (key === facetKey) return;
+    facetKey = key;
+    const counts = new Map();
+    cards.filter((card) => matchesSelection(card, selected)).forEach((card) => {
+      card.tags.forEach((tag) => counts.set(tag, (counts.get(tag) || 0) + 1));
+    });
     root.querySelectorAll("[data-facet-value]").forEach((link) => {
       const value = normalizeTag(link.dataset.facetValue);
       const active = selected.includes(value);
@@ -336,7 +391,7 @@
           count.hidden = true;
           link.dataset.filterZero = "false";
         } else {
-          const matches = countMatches([...selected, value]);
+          const matches = (counts.get(value) || 0);
           count.textContent = `${matches}問`;
           count.hidden = false;
           link.dataset.filterMatchCount = String(matches);
@@ -352,100 +407,148 @@
     syncFacetVisibility();
   }
 
-  function orderCards(matches) {
-    const matchSet = new Set(matches);
-    const remainder = cards.filter((card) => !matchSet.has(card)).sort((left, right) => left.index - right.index);
+  function createCard(card) {
+    const shell = element("div", "filtered-question-shell");
+    shell.dataset.filterQuestion = "";
+    shell.dataset.questionId = card.id;
+    shell.classList.toggle("is-origin-question", card.id === focusId);
+    const article = element("article", "question-card filtered-question-card");
+    const meta = element("div", "question-meta");
+    meta.append(element("span", "", `${card.field_label} · QUESTION ${String(card.field_number).padStart(3, "0")}`));
+    const choices = element("ol", "choice-list");
+    card.choices.forEach((choice) => {
+      const item = element("li");
+      const button = element("button", "search-choice");
+      button.type = "button";
+      button.dataset.choiceId = choice.choice_id;
+      button.setAttribute("aria-pressed", "false");
+      button.append(element("span", "choice-label", choice.label), element("span", "choice-text", choice.text));
+      item.append(button);
+      choices.append(item);
+    });
+    const feedback = element("p", "search-answer-feedback", "\u00a0");
+    feedback.setAttribute("aria-live", "polite");
+    const details = element("details", "answer-panel");
+    const toggle = element("summary");
+    const icon = element("span", "detail-icon");
+    icon.setAttribute("aria-hidden", "true");
+    toggle.append(element("span", "", "正答と解説を確認"), icon);
+    details.append(toggle);
+    // Build explanation DOM only when requested, without affecting search coverage.
+    details.addEventListener("toggle", () => {
+      if (!details.open || details.querySelector(".answer-content")) return;
+      const content = element("div", "answer-content");
+      const correct = element("p", "correct-answer");
+      correct.append(element("span", "", "正答"), element("strong", "", `${card.correct.label}. ${card.correct.text}`));
+      const explanation = element("div", "explanation");
+      explanation.append(element("h3", "", "解説"), element("p", "", card.explanation));
+      const reasons = element("div", "choice-reasons");
+      card.choices.forEach((choice) => {
+        reasons.append(element("h4", "", `${choice.label}：${choice.choice_id === card.answer_choice_id ? "正答" : "誤答"}`), element("p", "", choice.explanation || (choice.choice_id === card.answer_choice_id ? card.explanation : "この選択肢は正答ではない。")));
+      });
+      explanation.append(reasons);
+      const source = element("dl", "source-row");
+      source.append(element("dt", "", "出典"), element("dd", "", card.source));
+      content.append(correct, explanation, source);
+      if (card.tags.length) {
+        const tagRow = element("div", "tag-row");
+        const tags = element("ul");
+        card.tags.forEach((tag) => tags.append(element("li", "search-tag", tag)));
+        tagRow.append(element("span", "", "タグ"), tags);
+        content.append(tagRow);
+      }
+      details.append(content);
+    });
+    choices.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-choice-id]");
+      if (!button) return;
+      choices.querySelectorAll("button").forEach((choiceButton) => {
+        const correct = choiceButton.dataset.choiceId === card.answer_choice_id;
+        const selected = choiceButton === button;
+        choiceButton.classList.toggle("correct", correct);
+        choiceButton.classList.toggle("incorrect", selected && !correct);
+        choiceButton.setAttribute("aria-pressed", String(selected));
+      });
+      feedback.textContent = button.dataset.choiceId === card.answer_choice_id
+        ? "正解です。" : `不正解です。正答は ${card.correct.label} です。`;
+    });
+    article.append(meta, element("h3", "", card.stem), choices, feedback, details);
+    shell.append(article);
+    return shell;
+  }
+
+  function appendResults() {
+    const shown = Math.min(visibleCount, currentMatches.length);
     const fragment = document.createDocumentFragment();
-    [...matches, ...remainder].forEach((card) => fragment.append(card.node));
+    currentMatches.slice(renderedCount, shown).forEach((card) => fragment.append(createCard(card)));
     results.append(fragment);
-  }
-
-  function resetCards() {
-    for (const card of cards) {
-      card.node.setAttribute("hidden", "until-found");
-      card.node.classList.remove("is-origin-question");
-    }
-  }
-
-  function revealBeforeMatch(card) {
-    focusId = card.id;
-    shouldScrollToFocus = false;
-    resetCards();
-    card.node.removeAttribute("hidden");
-    card.node.classList.add("is-origin-question");
-    card.node.querySelectorAll("details").forEach((details) => {
-      details.open = true;
-    });
-    message.hidden = true;
-    controls.hidden = true;
-    loadMore.hidden = true;
-    live.textContent = "";
-    heading.replaceChildren(
-      document.createTextNode("検索で見つかった問題"),
-      element("span", "filter-hit-count", "1問"),
-    );
-    summary.textContent = "ページ内検索で見つかった問題を表示しています。";
-  }
-
-  function render() {
-    syncFacetLinks();
-    resetCards();
-    controls.hidden = true;
-    loadMore.hidden = true;
-    live.textContent = "";
-
-    if (selected.length === 0) {
-      syncTagChallengeControls([]);
-      heading.textContent = "タグを選択してください";
-      summary.textContent = `${cards.length}問からAND条件で絞り込みます。`;
-      message.textContent = "上のタグ一覧から、学習したい用語や分野を選んでください。";
-      message.hidden = false;
-      orderCards([]);
-      return;
-    }
-
-    const matches = matchingCards();
-    syncTagChallengeControls(matches);
-    if (focusId) {
-      const originIndex = matches.findIndex((card) => card.id === focusId);
-      if (originIndex > 0) matches.unshift(...matches.splice(originIndex, 1));
-    }
-    orderCards(matches);
-
-    heading.replaceChildren(
-      document.createTextNode(`「${selected.join("」「")}」の問題`),
-      element("span", "filter-hit-count", `${matches.length}問`),
-    );
-    summary.textContent = `${selected.length}タグのAND検索で${matches.length}問が見つかりました。`;
-    message.hidden = matches.length > 0;
-
-    if (matches.length === 0) {
-      message.textContent = "条件に合う問題はありません。タグを選び直してください。";
-      return;
-    }
-
-    const shown = Math.min(visibleCount, matches.length);
-    matches.slice(0, shown).forEach((card) => {
-      card.node.removeAttribute("hidden");
-      card.node.classList.toggle("is-origin-question", card.id === focusId);
-    });
-
-    const remaining = matches.length - shown;
-    controls.hidden = false;
-    live.textContent = `${matches.length}問中${shown}問を表示しています。`;
+    renderedCount = shown;
+    const remaining = currentMatches.length - shown;
+    controls.hidden = currentMatches.length === 0;
+    live.textContent = `${currentMatches.length}問中${shown}問を表示しています。`;
     loadMore.hidden = remaining === 0;
-    if (remaining > 0) {
-      loadMore.textContent = `さらに${Math.min(PAGE_SIZE, remaining)}問読み込む（残り${remaining}問）`;
-    }
+    if (remaining) loadMore.textContent = `さらに${Math.min(PAGE_SIZE, remaining)}問読み込む（残り${remaining}問）`;
+  }
 
-    if (shouldScrollToFocus && focusId && matches.some((card) => card.id === focusId)) {
-      shouldScrollToFocus = false;
-      window.requestAnimationFrame(() => resultsSection.scrollIntoView({ block: "start" }));
+  async function render() {
+    const version = ++renderVersion;
+    results.replaceChildren();
+    renderedCount = 0;
+    currentMatches = [];
+    controls.hidden = true;
+    loadMore.hidden = true;
+    message.hidden = true;
+    live.textContent = "";
+    const active = hasConditions();
+    resultsSection.hidden = !active;
+    if (!active) {
+      root.removeAttribute("aria-busy");
+      syncTagChallengeControls([]);
+      // Restore tag facets after clearing keyword/tag conditions, if loaded.
+      if (cards.length) syncFacetLinks();
+      return;
+    }
+    heading.textContent = "検索結果";
+    summary.textContent = "";
+    tagChallengeControls.hidden = true;
+    root.setAttribute("aria-busy", "true");
+    try {
+      await loadData();
+      if (version !== renderVersion) return;
+      syncFacetLinks();
+      const matches = matchingCards();
+      if (focusId) {
+        const originIndex = matches.findIndex((card) => card.id === focusId);
+        if (originIndex > 0) matches.unshift(...matches.splice(originIndex, 1));
+      }
+      currentMatches = matches;
+      syncTagChallengeControls(matches);
+      heading.replaceChildren(document.createTextNode("検索結果"), element("span", "filter-hit-count", `${matches.length}問`));
+      summary.textContent = selected.length
+        ? `「${selected.join("」「")}」のAND検索で${matches.length}問が見つかりました。`
+        : `「${keyword.trim()}」のAND検索で${matches.length}問が見つかりました。`;
+      message.hidden = matches.length > 0;
+      if (!matches.length) message.textContent = "条件に合う問題はありません。検索条件を変更してください。";
+      appendResults();
+      if (shouldScrollToFocus && matches.some((card) => card.id === focusId)) {
+        shouldScrollToFocus = false;
+        window.requestAnimationFrame(() => resultsSection.scrollIntoView({ block: "start" }));
+      }
+    } catch (error) {
+      if (version !== renderVersion) return;
+      summary.textContent = "";
+      message.textContent = "検索データを読み込めませんでした。もう一度検索してください。";
+      message.hidden = false;
+      console.error("問題検索データの読み込みに失敗しました。", error);
+    } finally {
+      if (version === renderVersion) root.removeAttribute("aria-busy");
     }
   }
 
   function setSelection(values) {
-    navigateToSearchState({ selected: values, question: null });
+    clearTimeout(searchTimer);
+    keywordInput.value = "";
+    navigateToSearchState({ selected: values, question: null, fields: defaultFields });
   }
 
   root.addEventListener("click", (event) => {
@@ -467,21 +570,35 @@
 
   loadMore.addEventListener("click", () => {
     visibleCount += PAGE_SIZE;
-    render();
+    appendResults();
   });
 
   tagChallengeIncrease?.addEventListener("click", () => changeTagChallengeQuestionCount(1));
   tagChallengeDecrease?.addEventListener("click", () => changeTagChallengeQuestionCount(-1));
   tagChallengeStart?.addEventListener("click", startTagChallenge);
 
-  root.addEventListener("beforematch", (event) => {
-    if (!(event.target instanceof Element)) {
-      return;
-    }
-    const matchedNode = event.target.closest("[data-filter-question]");
-    const card = cards.find((item) => item.node === matchedNode);
-    if (card) revealBeforeMatch(card);
+  function submitKeyword() {
+    clearTimeout(searchTimer);
+    if (composing) return;
+    navigateToSearchState({ selected: [], keyword: keywordInput.value,
+      fields: fieldInputs.filter((input) => input.checked).map((input) => input.value), question: null });
+  }
+
+  root.querySelector("[data-keyword-form]").addEventListener("submit", (event) => {
+    event.preventDefault();
+    submitKeyword();
   });
+  keywordInput.addEventListener("compositionstart", () => { composing = true; clearTimeout(searchTimer); });
+  keywordInput.addEventListener("compositionend", () => {
+    composing = false;
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(submitKeyword, 250);
+  });
+  keywordInput.addEventListener("input", (event) => {
+    clearTimeout(searchTimer);
+    if (!composing && !event.isComposing) searchTimer = setTimeout(submitKeyword, 250);
+  });
+  fieldInputs.forEach((input) => input.addEventListener("change", submitKeyword));
 
   window.addEventListener("popstate", applyLocationState);
   window.addEventListener("hashchange", applyLocationState);

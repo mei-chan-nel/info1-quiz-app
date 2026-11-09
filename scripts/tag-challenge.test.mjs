@@ -133,18 +133,13 @@ test("tag page exposes the count controls and shared challenge helper", () => {
   assert.match(searchHtml, /data-tag-challenge-start/);
   assert.match(searchHtml, /src="\.\.\/app\/tag-challenge\.js\?v=\d+"/);
   assert.match(legacyTagsHtml, /noindex,follow/);
-  assert.match(filterSource, /アプリでランダムに出題/);
+  assert.match(filterSource, /検索結果をアプリで出題/);
   assert.doesNotMatch(filterSource, /tagChallengeQuestionCount\}問をランダムに出題/);
 });
 
-test("tag summaries are static HTML and guide links are independent", () => {
-  assert.equal((searchHtml.match(/class="tag-term-summary"/g) || []).length, 242);
-  assert.match(searchHtml, /data-tag-summary="CPU" hidden>/);
-  assert.match(source, /querySelectorAll\("\[data-tag-summary\]"\)/);
-  assert.match(source, /const hasDescription = Boolean\(summaryElement\)/);
-  assert.match(source, /const hasGuideLink = Boolean\(guide\?\.url\)/);
-  assert.doesNotMatch(source, /guide\?\.url && guide\?\.summary/);
-  assert.doesNotMatch(source, /guide\.summary/);
+test("tag search does not add removed term descriptions, guide links, or observers", () => {
+  assert.doesNotMatch(searchHtml, /data-tag-summary|data-tag-summaries|tag-term-guide-link/);
+  assert.doesNotMatch(source, /MutationObserver|initializeTagSearchTermGuideUi|tag-term-guide-link/);
 });
 
 test("tag challenge parser accepts the full candidate list", () => {

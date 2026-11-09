@@ -7,7 +7,6 @@ import re
 import sys
 import xml.etree.ElementTree as ET
 from collections import Counter
-from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -77,7 +76,7 @@ def sha256(path: Path) -> str:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Validate the single tag-search question page and app URL integration.")
+    parser = argparse.ArgumentParser(description="Validate keyword/tag search data, the search page, and app URL integration.")
     parser.add_argument("--portal-root", type=Path, default=PORTAL_ROOT)
     return parser.parse_args()
 
@@ -150,23 +149,28 @@ def main() -> int:
     html_names = sorted(path.name for path in questions_dir.glob("*.html"))
     if html_names != ["index.html", "tags.html"]:
         errors.append(f"questions/: expected index.html plus compatibility tags.html, found {html_names}")
-    if (questions_dir / "filter-data.json").exists():
-        errors.append("questions/filter-data.json is obsolete and must not be generated")
+    data_path = questions_dir / "filter-data.json"
+    try:
+        payload = json.loads(data_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        errors.append(f"questions/filter-data.json: {exc}")
+        payload = {}
+    search_questions = payload.get("questions", [])
 
     root_path = questions_dir / "index.html"
     root_text = root_path.read_text(encoding="utf-8") if root_path.is_file() else ""
     root_parser = MetaParser()
     root_parser.feed(root_text)
     expected_canonical = f"{ORIGIN}info1-quiz-app/questions/"
-    if root_parser.title != "タグ検索｜問題を探す｜情報Ⅰ Study Atlas":
+    if root_parser.title != "情報Ⅰ Study Atlas｜問題検索":
         errors.append(f"questions/index.html: unexpected title {root_parser.title!r}")
     if root_parser.canonical != expected_canonical or root_parser.og_url != expected_canonical:
         errors.append("questions/index.html: canonical and og:url must use the root search URL")
     if not root_parser.description or root_parser.h1_count != 1:
         errors.append("questions/index.html: description and exactly one h1 are required")
-    visible_breadcrumb = '<nav class="breadcrumb" aria-label="パンくずリスト"><a href="../../">学習トップ</a><span aria-hidden="true">/</span><span aria-current="page">問題を探す</span></nav>'
+    visible_breadcrumb = '<nav class="breadcrumb" aria-label="パンくずリスト"><a href="../../">学習トップ</a><span aria-hidden="true">/</span><span aria-current="page">問題検索</span></nav>'
     if visible_breadcrumb not in root_text:
-        errors.append("questions/index.html: visible breadcrumb must contain only 学習トップ > 問題を探す")
+        errors.append("questions/index.html: visible breadcrumb must contain only 学習トップ > 問題検索")
     json_ld_values: list[dict] = []
     for raw_value in re.findall(r'<script type="application/ld\+json">(.*?)</script>', root_text, flags=re.DOTALL):
         try:
@@ -179,7 +183,7 @@ def main() -> int:
     breadcrumb_values = [value for value in json_ld_values if value.get("@type") == "BreadcrumbList"]
     expected_breadcrumb = [
         ("学習トップ", ORIGIN),
-        ("問題を探す", expected_canonical),
+        ("問題検索", expected_canonical),
     ]
     if len(breadcrumb_values) != 1:
         errors.append(f"questions/index.html: expected one BreadcrumbList, found {len(breadcrumb_values)}")
@@ -193,35 +197,30 @@ def main() -> int:
             errors.append("questions/index.html: JSON-LD breadcrumb contains duplicate URLs")
     if 'data-question-filter' not in root_text or 'data-filter-param="tag"' not in root_text:
         errors.append("questions/index.html: tag-filter root markers are missing")
-    summary_matches = re.findall(
-        r'<p class="tag-term-summary" data-tag-summary="([^"]+)" hidden>(.*?)</p>',
-        root_text,
-        flags=re.DOTALL,
-    )
-    summary_values = {
-        unescape(tag): unescape(description).strip()
-        for tag, description in summary_matches
-    }
-    if '<div class="tag-term-summaries" data-tag-summaries>' not in root_text:
-        errors.append("questions/index.html: static tag-summary container is missing")
-    if len(summary_matches) != len(tag_descriptions) or set(summary_values) != set(tag_descriptions):
-        errors.append(
-            f"questions/index.html: expected {len(tag_descriptions)} static tag summaries, "
-            f"found {len(summary_matches)}"
-        )
-    for tag, description in tag_descriptions.items():
-        if summary_values.get(tag) != description:
-            errors.append(f"questions/index.html: static tag summary does not match data for {tag}")
-    rendered_ids = re.findall(
-        r'<div class="filtered-question-shell"[^>]*hidden="until-found"[^>]*'
-        r'data-filter-question[^>]*data-question-id="([^"]+)"',
-        root_text,
-    )
+    if any(marker in root_text for marker in ("data-tag-summary", "data-tag-summaries", "tag-term-guide-link", "data-filter-question")):
+        errors.append("questions/index.html: question DOM and removed term summaries must not be embedded")
+    rendered_ids = [str(question.get("id", "")) for question in search_questions]
     if len(rendered_ids) != len(questions):
-        errors.append(
-            f"questions/index.html: expected {len(questions)} static hidden-until-found "
-            f"filter shells, found {len(rendered_ids)}"
-        )
+        errors.append(f"filter-data.json: expected {len(questions)} questions, found {len(rendered_ids)}")
+    by_id = {str(question["id"]): question for question in questions}
+    for item in search_questions:
+        source = by_id.get(str(item.get("id")))
+        if not source:
+            continue
+        for field in ("stem", "answer_choice_id"):
+            if item.get(field) != source.get(field):
+                errors.append(f"filter-data.json: {item.get('id')} {field} differs from source")
+        if item.get("explanation") != str(source.get("explanation", "")).strip():
+            errors.append(f"filter-data.json: {item.get('id')} general explanation differs from source")
+        expected_choices = [
+            {field: str(choice.get(field, "")) for field in ("choice_id", "label", "text", "explanation")}
+            for choice in source.get("choices", [])
+        ]
+        if item.get("choices") != expected_choices:
+            errors.append(f"filter-data.json: {item.get('id')} choice text, IDs, or explanations differ from source")
+    data_version = hashlib.sha256(data_path.read_bytes()).hexdigest()[:16] if data_path.exists() else "missing"
+    if f'data-filter-data="./filter-data.json?v={data_version}"' not in root_text:
+        errors.append("questions/index.html: search data must use a content-versioned URL")
     rendered_counter = Counter(rendered_ids)
     if set(rendered_counter) != expected_ids or any(count != 1 for count in rendered_counter.values()):
         errors.append("questions/index.html: question IDs are missing, duplicated, or unexpected")
@@ -238,15 +237,14 @@ def main() -> int:
         errors.append("questions/index.html: obsolete field-page or legacy-tag links remain")
     if 'src="../assets/question-filter.js?v=' not in root_text or 'src="../app/tag-challenge.js?v=' not in root_text:
         errors.append("questions/index.html: tag-filter scripts are missing")
-    if root_text.count('<article class="question-card filtered-question-card">') != len(questions):
-        errors.append("questions/index.html: each filter shell must contain one undecorated question article")
-    if '<noscript><style>.filtered-question-shell[hidden="until-found"] { display: block; content-visibility: visible; } .filtered-question-shell + .filtered-question-shell { margin-top: 18px; }</style></noscript>' not in root_text:
-        errors.append("questions/index.html: no-script users must retain access to all static questions")
+    for marker in ('data-keyword-panel open', 'data-keyword-input', 'data-search-field checked', 'data-search-field />解説', 'aria-labelledby="filter-results-heading" hidden'):
+        if marker not in root_text:
+            errors.append(f"questions/index.html: missing search state marker: {marker}")
     for marker in ("data-facet-groups", "data-filter-results", "data-filter-controls", "data-filter-load-more", "data-tag-challenge-start", "AND検索"):
         if marker not in root_text:
             errors.append(f"questions/index.html: required interaction marker is missing: {marker}")
     facet_groups = re.findall(r'<details class="facet-group" data-facet-group(?: open)?>', root_text)
-    if facet_groups and any(group.endswith(" open>") for group in facet_groups):
+    if '<details class="facet-panel" open>' in root_text or (facet_groups and any(group.endswith(" open>") for group in facet_groups)):
         errors.append("questions/index.html: all tag groups must be closed by default")
     if any(not href.startswith("./#tag=") for href in re.findall(r'class="facet-link" href="([^"]+)"', root_text)):
         errors.append("questions/index.html: facet links must target the canonical page with a fragment")
@@ -268,37 +266,15 @@ def main() -> int:
         errors.append("app URL integration still points to questions/tags.html")
     if "guide?.summary" in challenge_script or "guide.summary" in challenge_script:
         errors.append("tag-challenge.js: guide.summary must not be used for tag-search summaries")
-    if 'querySelectorAll("[data-tag-summary]")' not in challenge_script or "hasDescription" not in challenge_script:
-        errors.append("tag-challenge.js: static tag-summary toggling is missing")
+    if any(marker in challenge_script for marker in ("MutationObserver", "initializeTagSearchTermGuideUi", "tag-term-guide-link")):
+        errors.append("tag-challenge.js: removed term-guide UI or observers remain")
     if 'function getQuestionSearchUrl' not in challenge_script or 'new URL("../questions/", href)' not in challenge_script:
         errors.append("tag-challenge.js: app-relative question-search return path is missing")
     if 'new URL("../questions/", window.location.href).pathname' not in app_script:
         errors.append("app.js: app-relative fallback return path is missing")
-    for marker in (
-        "loadMore",
-        "URLSearchParams",
-        "AND",
-        "history.replaceState",
-        'setAttribute("hidden", "until-found")',
-        'addEventListener("beforematch"',
-        'querySelectorAll("details")',
-    ):
+    for marker in ("appendResults", "URLSearchParams", "AND", "history.replaceState", "compositionstart", "compositionend", "loadData"):
         if marker not in filter_script:
-            warnings.append(f"question-filter.js: could not find expected interaction marker {marker}")
-    portal_css_path = portal_root / "assets" / "site.css"
-    if portal_css_path.is_file():
-        portal_css = portal_css_path.read_text(encoding="utf-8")
-        for marker in (
-            ".filter-result-list { display: block; }",
-            '.filtered-question-shell[hidden]:not([hidden="until-found"]) { display: none; }',
-            ".filtered-question-shell:not([hidden]) ~ .filtered-question-shell:not([hidden])",
-        ):
-            if marker not in portal_css:
-                errors.append(f"site.css: hidden-until-found layout marker is missing: {marker}")
-        if ".filtered-question-card[hidden]" in portal_css:
-            errors.append("site.css: question-card hidden rule would bypass the matchable wrapper")
-    else:
-        warnings.append("portal assets/site.css was not found")
+            errors.append(f"question-filter.js: missing search interaction {marker}")
     app_index_text = (ROOT / "app" / "index.html").read_text(encoding="utf-8")
     if ">問題一覧<" in app_index_text or ">動画問題<" in app_index_text:
         errors.append("app/index.html: old navigation labels remain")
@@ -370,12 +346,12 @@ def main() -> int:
         "errors": errors,
         "warnings": warnings,
         "checks": [
-            f"{len(questions):,} unique static hidden-until-found filter shells and {len(public_tags)} facet tags",
-            "single canonical tag-search page with AND filtering, staged display, and expanded tag groups",
-            "matchable wrappers avoid card decoration and grid gaps while beforematch reveals one question",
+            f"{len(questions):,} complete search records and {len(public_tags)} facet tags",
+            "single canonical keyword/tag page with AND filtering and staged DOM creation",
+            "all choice IDs, text, and explanations match source data in reverse registration order",
             "legacy tags.html noindex redirect preserving query and hash",
             "app return paths and navigation use /info1-quiz-app/questions/",
-            f"{len(tag_descriptions)} tag descriptions are embedded as static HTML and toggled by selection",
+            "term summaries, guide links, and their mutation observer are removed",
             "protected app baseline hashes and cross-repository sitemap URLs",
         ],
     }

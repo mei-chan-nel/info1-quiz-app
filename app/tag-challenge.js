@@ -7,7 +7,6 @@
   const DEFAULT_RETURN_PATH = "/info1-quiz-app/questions/";
   const TERM_GUIDES_URL = "/assets/term-guides.js";
   let termGuidesPromise = null;
-  const REMOVED_FACET_HELP = "タグは主に関連する分野へ整理しています。この一覧では複数選択のAND検索、各問題に付くタグからはそのタグだけの検索になります。";
 
   function normalizeIds(value) {
     if (!Array.isArray(value)) {
@@ -181,82 +180,6 @@
     loadTermGuides,
   });
 
-  function installTermGuideStyles() {
-    if (document.querySelector("[data-term-guide-action-styles]")) {
-      return;
-    }
-    const style = document.createElement("style");
-    style.dataset.termGuideActionStyles = "";
-    style.textContent = `
-      .tag-challenge-controls.tag-learning-actions {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-      .tag-challenge-controls.tag-learning-actions[hidden] {
-        display: none;
-      }
-      .tag-learning-actions .tag-challenge-count-control {
-        display: none !important;
-      }
-      .tag-learning-actions .tag-challenge-start,
-      .tag-learning-actions .tag-term-guide-link {
-        width: 100%;
-        min-width: 0;
-        min-height: 54px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-sizing: border-box;
-        text-align: center;
-        font-size: .82rem;
-        font-weight: 800;
-        line-height: 1.4;
-      }
-      .tag-term-guide-link {
-        border: 1px solid var(--ink);
-        border-radius: 999px;
-        color: var(--ink);
-        background: var(--white);
-        text-decoration: none;
-      }
-      .tag-term-guide-link[hidden] {
-        display: none !important;
-      }
-      .tag-term-guide-link:hover,
-      .tag-term-guide-link:focus-visible {
-        border-color: var(--coral);
-        background: #f9e8e2;
-      }
-      .tag-term-summary {
-        margin: 16px 0 0;
-        padding: 16px 18px;
-        border-left: 3px solid var(--coral);
-        color: var(--ink-soft);
-        background: var(--white);
-        font-size: .82rem;
-        line-height: 1.8;
-      }
-      .tag-term-summary[hidden] {
-        display: none;
-      }
-      @media (max-width: 680px) {
-        .tag-challenge-controls.tag-learning-actions {
-          grid-template-columns: 1fr;
-        }
-      }
-    `;
-    document.head.append(style);
-  }
-
-  function removeObsoleteFacetHelp(root) {
-    root.querySelectorAll(".facet-panel-body > p").forEach((paragraph) => {
-      if (paragraph.textContent.trim() === REMOVED_FACET_HELP) {
-        paragraph.remove();
-      }
-    });
-  }
-
   function loadTermGuides() {
     if (termGuidesPromise) {
       return termGuidesPromise;
@@ -273,82 +196,4 @@
     return termGuidesPromise;
   }
 
-  function initializeTagSearchTermGuideUi() {
-    const root = document.querySelector("[data-question-filter]");
-    const controls = root?.querySelector("[data-tag-challenge-controls]");
-    const startButton = root?.querySelector("[data-tag-challenge-start]");
-    if (!root || !controls || !startButton) {
-      return;
-    }
-
-    installTermGuideStyles();
-    removeObsoleteFacetHelp(root);
-    controls.classList.add("tag-learning-actions");
-
-    const summaryElements = new Map(
-      [...root.querySelectorAll("[data-tag-summary]")].map((element) => [
-        String(element.dataset.tagSummary || "").trim(),
-        element,
-      ]),
-    );
-
-    const guideLink = document.createElement("a");
-    guideLink.className = "tag-term-guide-link";
-    guideLink.textContent = "詳しい解説を読む";
-    guideLink.hidden = true;
-    controls.append(guideLink);
-
-    let termGuides = {};
-
-    const update = () => {
-      const selectedLinks = [...root.querySelectorAll("[data-facet-value].is-selected")];
-      const selectedTags = selectedLinks
-        .map((link) => String(link.dataset.facetValue || "").trim())
-        .filter(Boolean);
-      const summaryElement = selectedTags.length === 1 ? summaryElements.get(selectedTags[0]) : null;
-      const guide = selectedTags.length === 1 ? termGuides[selectedTags[0]] : null;
-      const hasDescription = Boolean(summaryElement);
-      const hasGuideLink = Boolean(guide?.url);
-
-      controls.classList.toggle("has-term-guide", hasGuideLink);
-      guideLink.hidden = !hasGuideLink;
-      for (const element of summaryElements.values()) {
-        element.hidden = element !== summaryElement || !hasDescription;
-      }
-
-      if (!startButton.disabled) {
-        startButton.textContent = "アプリでランダムに出題する";
-      }
-
-      if (hasGuideLink) {
-        guideLink.href = guide.url;
-      } else {
-        guideLink.removeAttribute("href");
-      }
-    };
-
-    const observer = new MutationObserver(update);
-    observer.observe(root, {
-      subtree: true,
-      attributes: true,
-      attributeFilter: ["class", "aria-pressed", "disabled"],
-    });
-
-    window.addEventListener("hashchange", update);
-    window.addEventListener("popstate", update);
-
-    update();
-    void loadTermGuides().then((guides) => {
-      termGuides = guides;
-      update();
-    });
-  }
-
-  if (typeof document !== "undefined") {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initializeTagSearchTermGuideUi, { once: true });
-    } else {
-      initializeTagSearchTermGuideUi();
-    }
-  }
 })();

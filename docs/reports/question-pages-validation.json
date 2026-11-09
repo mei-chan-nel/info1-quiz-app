@@ -11,12 +11,12 @@
   "errors": [],
   "warnings": [],
   "checks": [
-    "1,438 unique static hidden-until-found filter shells and 225 facet tags",
-    "single canonical tag-search page with AND filtering, staged display, and expanded tag groups",
-    "matchable wrappers avoid card decoration and grid gaps while beforematch reveals one question",
+    "1,438 complete search records and 225 facet tags",
+    "single canonical keyword/tag page with AND filtering and staged DOM creation",
+    "all choice IDs, text, and explanations match source data in reverse registration order",
     "legacy tags.html noindex redirect preserving query and hash",
     "app return paths and navigation use /info1-quiz-app/questions/",
-    "242 tag descriptions are embedded as static HTML and toggled by selection",
+    "term summaries, guide links, and their mutation observer are removed",
     "protected app baseline hashes and cross-repository sitemap URLs"
   ]
 }

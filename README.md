@@ -1,17 +1,18 @@
 # 情報Ⅰ Study Atlas — アプリ・問題検索
 
-共通テスト「情報Ⅰ」の問題データ、タグ検索、学習アプリを管理します。ポータルのトップ、講義ノート、解説動画、書籍案内は隣接する [`mei-chan-nel.github.io`](https://github.com/mei-chan-nel/mei-chan-nel.github.io) で管理します。
+共通テスト「情報Ⅰ」の問題データ、問題検索、学習アプリを管理します。ポータルのトップ、講義ノート、解説動画、書籍案内は隣接する [`mei-chan-nel.github.io`](https://github.com/mei-chan-nel/mei-chan-nel.github.io) で管理します。
 
 ## 現在の公開構成
 
-- `questions/index.html`：1,438問を225タグでAND検索する唯一の正規検索ページ。
+- `questions/index.html`：1,438問をキーワードまたは225タグでAND検索する唯一の正規検索ページ。
 - `questions/tags.html`：旧URLを正規検索ページへ移すnoindex互換スタブ。通常リンク・canonical・サイトマップでは使用しません。
 - `app/`：分野・回答状況・問題数を選べる学習アプリ。回答履歴、保存、間違い、類題、結果画面、タグからの出題を保持します。
 
 ## フォルダ構成
 
 ```text
-questions/index.html       タグ検索ページ（静的カード1,438問）
+questions/index.html       問題検索ページ（検索時に10問ずつ描画）
+questions/filter-data.json  全問題・全体と各選択肢の解説を含む検索データ
 questions/tags.html        旧URL互換リダイレクト
 app/                       学習アプリ本体
 data/questions/            問題データ・スキーマ
@@ -31,7 +32,11 @@ python scripts/validate_question_pages.py --portal-root <mei-chan-nel.github.io�
 
 生成時に問題IDの一意性、225タグ、AND検索、段階表示、アプリ出題への遷移、正規URL、互換スタブを確認します。`docs/reports/question-library-build.json` はポータルのサイトマップ生成に渡す正規公開ページを記録します。
 
-問題の登録順は `data/questions/completed_questions.json` の配列順です。新しい問題は配列の末尾へ追加し、既存問題の順序は変更しません。`generate_question_pages.py` は公開カードを登録順の逆（新着順）で生成し、`validate_question_pages.py` がその順序を検証します。生成済みの `questions/index.html` を直接並べ替えないでください。
+問題の登録順は `data/questions/completed_questions.json` の配列順です。新しい問題は配列の末尾へ追加し、既存問題の順序は変更しません。`generate_question_pages.py` は検索データを登録順の逆（新着順）で生成し、`validate_question_pages.py` がその順序を検証します。生成済みの `questions/index.html` を直接並べ替えないでください。
+
+キーワード検索の初期対象は問題文・選択肢で、解説は任意です。空白区切りの検索語は、選んだ対象全体に対するAND条件で判定します。解説対象には全体解説と全選択肢の解説を含みます。タグ検索とは排他的で、URLのハッシュに条件を保持し、旧タグURLとアプリからの戻りも維持します。
+
+検索データは最初の検索時に取得し、以降は再利用します。解説DOMは利用者が開いたときだけ生成します。日本語の変換中は検索せず、確定後250msで検索します。検索ページでの回答確認・選び直しは学習履歴に保存しません。ブラウザ内の全文検索は描画済みの問題が対象です。全問題の検索にはページのキーワード検索を使います。
 
 ## ローカル確認
 

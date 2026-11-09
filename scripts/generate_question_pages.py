@@ -20,7 +20,7 @@ QUESTIONS_DIR = ROOT / "questions"
 REPORT_DIR = ROOT / "docs" / "reports"
 SITE_URL = "https://mei-chan-nel.com/info1-quiz-app/"
 PORTAL_URL = "https://mei-chan-nel.com/"
-SEARCH_ASSET_VERSION = "2026110401"
+SEARCH_ASSET_VERSION = "2026110901"
 OG_IMAGE_URL = "https://mei-chan-nel.com/assets/og/study-atlas-home-og.png"
 OG_IMAGE_ALT = "情報Ⅰ Study Atlasの学習マップと「知識を、ひろげ、つなげる」のメッセージ"
 OG_IMAGE_WIDTH = 1734
@@ -316,13 +316,6 @@ def breadcrumb_data(items: list[tuple[str, str]]) -> dict:
     }
 
 
-def tag_filter_href(tag: str, question_id: str | None = None) -> str:
-    params = [("tag", tag)]
-    if question_id:
-        params.append(("question", question_id))
-    return f"./#{urlencode(params)}"
-
-
 def facet_links(counts: Counter[str], parameter: str) -> str:
     links = []
     for value, count in sorted(counts.items(), key=lambda item: (-item[1], item[0].casefold(), item[0])):
@@ -381,9 +374,9 @@ def facet_panel(
     else:
         facet_markup = f'<div class="facet-links" data-facet-list>{facet_links(counts, "tag")}</div>'
     return f"""<details class="facet-panel"{open_attr}>
-        <summary>タグ一覧から問題を絞り込む <span>{len(counts)}種類・複数選択はAND検索</span></summary>
+        <summary>タグ検索 <span>{len(counts)}種類・複数選択はAND検索</span></summary>
         <div class="facet-panel-body">
-          <p>タグは主に関連する分野へ整理しています。この一覧では複数選択のAND検索、各問題に付くタグからはそのタグだけの検索になります。</p>
+          <p>タグは主に関連する分野へ整理しています。複数選択すると、すべてのタグを含む問題を検索します。</p>
 {clear_markup}          <div class="facet-groups" data-facet-groups>{facet_markup}</div>
         </div>
       </details>"""
@@ -424,9 +417,15 @@ def build_filter_payload(questions: list[dict], public_tags: set[str]) -> dict:
                 "field_label": field["label"],
                 "stem": str(question.get("stem", "")),
                 "choices": [
-                    {"label": str(choice.get("label", "")), "text": str(choice.get("text", ""))}
+                    {
+                        "choice_id": str(choice["choice_id"]),
+                        "label": str(choice.get("label", "")),
+                        "text": str(choice.get("text", "")),
+                        "explanation": str(choice.get("explanation", "")),
+                    }
                     for choice in question.get("choices", [])
                 ],
+                "answer_choice_id": str(question["answer_choice_id"]),
                 "correct": {"label": str(correct.get("label", "")), "text": str(correct.get("text", ""))},
                 "explanation": str(question.get("explanation", "")).strip(),
                 "source": source_label(question),
@@ -453,57 +452,14 @@ def build_filter_payload(questions: list[dict], public_tags: set[str]) -> dict:
     }
 
 
-def render_filter_question(question: dict) -> str:
-    choices = "".join(
-        f'<li><span>{esc(choice["label"])}</span><p>{esc(choice["text"])}</p></li>'
-        for choice in question["choices"]
-    )
-    tag_links = "".join(
-        f'<li><a class="tag-link" href="{tag_filter_href(tag, str(question["id"]))}">{esc(tag)}</a></li>'
-        for tag in question["tags"]
-    )
-    tag_row = (
-        f'                <div class="tag-row"><span>タグ</span><ul>{tag_links}</ul></div>'
-        if tag_links
-        else ""
-    )
-    tags_json = json.dumps(question["tags"], ensure_ascii=False, separators=(",", ":"))
-    return f"""        <div class="filtered-question-shell" id="filtered-q-{esc(question['id'])}" hidden="until-found" data-filter-question data-question-id="{esc(question['id'])}" data-filter-tags="{esc(tags_json)}">
-          <article class="question-card filtered-question-card">
-            <div class="question-meta"><span>{esc(question['field_label'])} · QUESTION {int(question['field_number']):03d}</span><a href="#filtered-q-{esc(question['id'])}" aria-label="この問題へのリンク">#{esc(question['id'])}</a></div>
-            <h3>{esc(question['stem'])}</h3>
-            <ol class="choice-list">{choices}</ol>
-            <details class="answer-panel">
-              <summary><span>正答と解説を確認</span><span class="detail-icon" aria-hidden="true"></span></summary>
-              <div class="answer-content">
-                <p class="correct-answer"><span>正答</span><strong>{esc(question['correct']['label'])}. {esc(question['correct']['text'])}</strong></p>
-                <div class="explanation"><h3>解説</h3><p>{esc(question['explanation'])}</p></div>
-                <dl class="source-row"><dt>出典</dt><dd>{esc(question['source'])}</dd></dl>
-{tag_row}
-              </div>
-            </details>
-          </article>
-        </div>"""
-
-
-def render_tag_summaries(descriptions: dict[str, str]) -> str:
-    entries = "\n".join(
-        f'          <p class="tag-term-summary" data-tag-summary="{esc(tag)}" hidden>{esc(description)}</p>'
-        for tag, description in descriptions.items()
-    )
-    return f"""        <div class="tag-term-summaries" data-tag-summaries>
-{entries}
-        </div>"""
-
-
-def render_tag_filter_page(payload: dict, tag_descriptions: dict[str, str]) -> None:
+def render_tag_filter_page(payload: dict) -> None:
     tag_counts = Counter(tag for question in payload["questions"] for tag in question["tags"])
     grouped = {
         field["id"]: [question for question in payload["questions"] if question["field_id"] == field["id"]]
         for field in FIELDS
     }
-    title = "タグ検索｜問題を探す｜情報Ⅰ Study Atlas"
-    description = f"情報Ⅰの問題{payload['question_count']}問を{payload['tag_count']}種類のタグから検索。複数タグはAND条件で抽出し、正答・解説・出典まで確認できます。"
+    title = "情報Ⅰ Study Atlas｜問題検索"
+    description = f"情報Ⅰの問題{payload['question_count']}問をキーワードや{payload['tag_count']}種類のタグでAND検索。問題文・選択肢・全体と各選択肢の解説を検索し、正誤や解説を確認できます。"
     schema = structured_data(
         {
             "@context": "https://schema.org",
@@ -519,32 +475,41 @@ def render_tag_filter_page(payload: dict, tag_descriptions: dict[str, str]) -> N
         breadcrumb_data(
             [
                 ("学習トップ", PORTAL_URL),
-                ("問題を探す", canonical("questions/index.html")),
+                ("問題検索", canonical("questions/index.html")),
             ]
         )
     )
     extra_head = (
-        '\n    <noscript><style>.filtered-question-shell[hidden="until-found"] { display: block; content-visibility: visible; } .filtered-question-shell + .filtered-question-shell { margin-top: 18px; }</style></noscript>'
+        f'\n    <link rel="stylesheet" href="../assets/question-search.css?v={SEARCH_ASSET_VERSION}" />'
         f'\n    <script src="../app/tag-challenge.js?v={SEARCH_ASSET_VERSION}" defer></script>'
         f'\n    <script src="../assets/question-filter.js?v={SEARCH_ASSET_VERSION}" defer></script>'
     )
-    filter_cards = "\n".join(render_filter_question(question) for question in payload["questions"])
-    tag_summary_markup = render_tag_summaries(tag_descriptions)
+    data_json = json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n"
+    data_version = hashlib.sha256(data_json.encode("utf-8")).hexdigest()[:16]
+    (QUESTIONS_DIR / "filter-data.json").write_text(data_json, encoding="utf-8")
     aliases_json = json.dumps(payload["tag_aliases"], ensure_ascii=False, separators=(",", ":"))
     body = f"""{head(title, description, 'questions/index.html', '../', ads=True, extra_head=extra_head)}
   <body>
     {header('../', 'questions')}
-    <main id="main-content" class="subpage filter-page" data-question-filter data-filter-param="tag" data-tag-aliases="{esc(aliases_json)}">
-      {breadcrumb([('学習トップ', '../../'), ('問題を探す', None)])}
+    <main id="main-content" class="subpage filter-page" data-question-filter data-filter-param="tag" data-filter-data="./filter-data.json?v={data_version}" data-tag-aliases="{esc(aliases_json)}">
+      {breadcrumb([('学習トップ', '../../'), ('問題検索', None)])}
       <section class="page-hero compact-hero">
-        <p class="eyebrow">TAG SEARCH · AND FILTER</p>
-        <h1>タグから問題を探す</h1>
-        <p>調べたいタグを選ぶと、そのタグを含む情報Ⅰの問題を抽出します。複数選択した場合は、すべてを含む問題を表示します。</p>
+        <p class="eyebrow">QUESTION SEARCH · AND FILTER</p>
+        <h1>問題検索</h1>
+        <p>キーワードまたはタグで情報Ⅰの問題を検索できます。複数の検索語・タグはAND検索です。</p>
       </section>
-      {facet_panel(tag_counts, open_panel=True, with_clear=True, groups=primary_tag_groups(grouped, set(tag_counts)))}
-      <section class="filter-results" aria-labelledby="filter-results-heading">
-        <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading>タグを選択してください</h2><p data-filter-summary>{payload['question_count']}問からAND条件で絞り込みます。</p></div>
-{tag_summary_markup}
+      <details class="facet-panel keyword-panel" data-keyword-panel open>
+        <summary>キーワード検索</summary>
+        <form class="facet-panel-body keyword-form" data-keyword-form role="search">
+          <label for="question-keyword">キーワード（空白で区切るとAND検索）</label>
+          <div class="keyword-input-row"><input id="question-keyword" type="search" data-keyword-input autocomplete="off" /><button class="button button-primary" type="submit">検索</button></div>
+          <fieldset><legend>検索対象</legend><label><input type="checkbox" value="stem" data-search-field checked />問題文</label><label><input type="checkbox" value="choices" data-search-field checked />選択肢</label><label><input type="checkbox" value="explanation" data-search-field />解説</label></fieldset>
+        </form>
+      </details>
+      <noscript><p>問題検索を利用するにはJavaScriptを有効にしてください。</p></noscript>
+      {facet_panel(tag_counts, open_panel=False, with_clear=True, groups=primary_tag_groups(grouped, set(tag_counts)))}
+      <section class="filter-results" aria-labelledby="filter-results-heading" hidden>
+        <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading></h2><p data-filter-summary></p></div>
         <div class="tag-challenge-controls" data-tag-challenge-controls hidden>
           <div class="tag-challenge-count-control">
             <div class="tag-challenge-count-display">
@@ -559,11 +524,8 @@ def render_tag_filter_page(payload: dict, tag_descriptions: dict[str, str]) -> N
           <button class="button button-primary tag-challenge-start" type="button" data-tag-challenge-start disabled>アプリで出題できません</button>
         </div>
         <div class="manual-ad-slot manual-ad-slot--display" data-manual-ad="display" data-ad-placement="after-tag-challenge-controls" hidden></div>
-        <noscript><p class="filter-message">JavaScriptが無効なため、全{payload['question_count']}問を表示しています。</p></noscript>
-        <div class="filter-result-list" id="filter-result-list" data-filter-results>
-          <p class="filter-message" data-filter-message hidden></p>
-{filter_cards}
-        </div>
+        <p class="filter-message" data-filter-message hidden></p>
+        <div class="filter-result-list" id="filter-result-list" data-filter-results></div>
         <div class="filter-load-more-controls" data-filter-controls hidden>
           <p class="filter-result-status" data-filter-live aria-live="polite" aria-atomic="true"></p>
           <button class="button button-ghost filter-load-more-button" type="button" data-filter-load-more aria-controls="filter-result-list"></button>
@@ -573,7 +535,6 @@ def render_tag_filter_page(payload: dict, tag_descriptions: dict[str, str]) -> N
     </main>
     {footer('../')}"""
     (QUESTIONS_DIR / "index.html").write_text(body, encoding="utf-8")
-    (QUESTIONS_DIR / "filter-data.json").unlink(missing_ok=True)
 
 
 def render_legacy_tag_redirect() -> None:
@@ -710,7 +671,7 @@ def main() -> int:
     QUESTIONS_DIR.mkdir(parents=True)
 
     filter_payload = build_filter_payload(questions, public_tags)
-    render_tag_filter_page(filter_payload, tag_descriptions)
+    render_tag_filter_page(filter_payload)
     render_legacy_tag_redirect()
     generated_paths: list[str] = []
     write_build_report(
