@@ -458,7 +458,7 @@ def render_tag_filter_page(payload: dict) -> None:
         field["id"]: [question for question in payload["questions"] if question["field_id"] == field["id"]]
         for field in FIELDS
     }
-    title = "情報Ⅰ Study Atlas｜問題検索"
+    title = "問題検索｜情報Ⅰ Study Atlas"
     description = f"情報Ⅰの問題{payload['question_count']}問をキーワードや{payload['tag_count']}種類のタグでAND検索。問題文・選択肢・全体と各選択肢の解説を検索し、正誤や解説を確認できます。"
     schema = structured_data(
         {
