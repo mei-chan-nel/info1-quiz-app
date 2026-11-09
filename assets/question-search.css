@@ -24,6 +24,6 @@
 .filter-page .search-tag { padding: 3px 9px; }
 
 .filter-results-title-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; }
-.search-app-button { min-height: 44px; padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink-soft); font: inherit; font-size: .75rem; white-space: nowrap; cursor: pointer; }
-.search-app-button:hover { border-color: var(--ink); color: var(--ink); background: var(--white); }
+.search-app-button { min-height: 44px; padding: 7px 13px; border: 1px solid var(--ink); border-radius: 999px; background: var(--ink); color: var(--white); font: inherit; font-size: .75rem; white-space: nowrap; cursor: pointer; }
+.search-app-button:hover { opacity: .9; }
 .search-app-button:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
