@@ -493,11 +493,7 @@ def render_tag_filter_page(payload: dict) -> None:
     {header('../', 'questions')}
     <main id="main-content" class="subpage filter-page" data-question-filter data-filter-param="tag" data-filter-data="./filter-data.json?v={data_version}" data-tag-aliases="{esc(aliases_json)}">
       {breadcrumb([('学習トップ', '../../'), ('問題検索', None)])}
-      <section class="page-hero compact-hero">
-        <p class="eyebrow">QUESTION SEARCH · AND FILTER</p>
-        <h1>問題検索</h1>
-        <p>キーワードまたはタグで情報Ⅰの問題を検索できます。複数の検索語・タグはAND検索です。</p>
-      </section>
+      <h1 class="visually-hidden">問題検索</h1>
       <details class="facet-panel keyword-panel" data-keyword-panel open>
         <summary>キーワード検索</summary>
         <form class="facet-panel-body keyword-form" data-keyword-form role="search">
