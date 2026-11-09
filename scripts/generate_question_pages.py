@@ -20,7 +20,7 @@ QUESTIONS_DIR = ROOT / "questions"
 REPORT_DIR = ROOT / "docs" / "reports"
 SITE_URL = "https://mei-chan-nel.com/info1-quiz-app/"
 PORTAL_URL = "https://mei-chan-nel.com/"
-SEARCH_ASSET_VERSION = "2026110901"
+SEARCH_ASSET_VERSION = "2026110902"
 OG_IMAGE_URL = "https://mei-chan-nel.com/assets/og/study-atlas-home-og.png"
 OG_IMAGE_ALT = "情報Ⅰ Study Atlasの学習マップと「知識を、ひろげ、つなげる」のメッセージ"
 OG_IMAGE_WIDTH = 1734
@@ -509,19 +509,13 @@ def render_tag_filter_page(payload: dict) -> None:
       <noscript><p>問題検索を利用するにはJavaScriptを有効にしてください。</p></noscript>
       {facet_panel(tag_counts, open_panel=False, with_clear=True, groups=primary_tag_groups(grouped, set(tag_counts)))}
       <section class="filter-results" aria-labelledby="filter-results-heading" hidden>
-        <div class="filter-results-heading"><p class="eyebrow">FILTERED QUESTIONS</p><h2 id="filter-results-heading" data-filter-heading></h2><p data-filter-summary></p></div>
-        <div class="tag-challenge-controls" data-tag-challenge-controls hidden>
-          <div class="tag-challenge-count-control">
-            <div class="tag-challenge-count-display">
-              <label class="tag-challenge-count-label" for="tag-challenge-count">出題数</label>
-              <output class="tag-challenge-count-value" id="tag-challenge-count" data-tag-challenge-count aria-live="polite">0問</output>
-            </div>
-            <div class="tag-challenge-stepper" aria-label="出題数を変更">
-              <button class="tag-challenge-stepper-button" type="button" data-tag-challenge-increase aria-label="出題数を1問増やす">▲</button>
-              <button class="tag-challenge-stepper-button" type="button" data-tag-challenge-decrease aria-label="出題数を1問減らす">▼</button>
-            </div>
+        <div class="filter-results-heading">
+          <p class="eyebrow">FILTERED QUESTIONS</p>
+          <div class="filter-results-title-row">
+            <h2 id="filter-results-heading" data-filter-heading></h2>
+            <span data-tag-challenge-controls hidden><button class="search-app-button" type="button" data-tag-challenge-start title="検索結果から最大5問をアプリで出題" disabled>アプリで出題</button></span>
           </div>
-          <button class="button button-primary tag-challenge-start" type="button" data-tag-challenge-start disabled>アプリで出題できません</button>
+          <p data-filter-summary></p>
         </div>
         <div class="manual-ad-slot manual-ad-slot--display" data-manual-ad="display" data-ad-placement="after-tag-challenge-controls" hidden></div>
         <p class="filter-message" data-filter-message hidden></p>

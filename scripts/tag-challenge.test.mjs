@@ -126,14 +126,16 @@ test("clearing the context removes the tag-only session state", () => {
   assert.equal(api.readContext(), null);
 });
 
-test("tag page exposes the count controls and shared challenge helper", () => {
+test("tag page exposes a compact app action without count controls", () => {
   assert.match(searchHtml, /data-tag-challenge-controls/);
-  assert.match(searchHtml, /data-tag-challenge-count/);
-  assert.match(searchHtml, /class="tag-challenge-count-display"/);
+  assert.doesNotMatch(searchHtml, /data-tag-challenge-count|data-tag-challenge-increase|data-tag-challenge-decrease/);
+  assert.match(searchHtml, /class="filter-results-title-row"/);
+  assert.match(searchHtml, />アプリで出題<\/button>/);
   assert.match(searchHtml, /data-tag-challenge-start/);
   assert.match(searchHtml, /src="\.\.\/app\/tag-challenge\.js\?v=\d+"/);
   assert.match(legacyTagsHtml, /noindex,follow/);
-  assert.match(filterSource, /検索結果をアプリで出題/);
+  assert.match(filterSource, /const CHALLENGE_SIZE = 5/);
+  assert.match(filterSource, /Math.min\(CHALLENGE_SIZE, candidateQuestionIds.length\)/);
   assert.doesNotMatch(filterSource, /tagChallengeQuestionCount\}問をランダムに出題/);
 });
 
