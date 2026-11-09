@@ -232,7 +232,7 @@ def head(
     <meta name="twitter:image:alt" content="{OG_IMAGE_ALT}" />
     <link rel="canonical" href="{esc(canonical_url)}" />
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="{prefix}../assets/site.css?v=2026083001" />{ad_script}{extra_head}
+    <link rel="stylesheet" href="{prefix}../assets/site.css?v=2026110906" />{ad_script}{extra_head}
   </head>"""
 
 
