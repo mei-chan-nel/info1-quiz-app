@@ -948,7 +948,6 @@ h1 {
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: var(--atlas-radius, 8px);
-  border-inline-start: 3px solid var(--result-color, var(--line));
   background: var(--bg);
 }
 
@@ -997,7 +996,8 @@ h1 {
   line-height: 1.65;
 }
 
-.explanation {
+.result-panel .explanation {
+  border-inline-start: 3px solid var(--result-color, var(--accent));
   color: var(--text);
   white-space: pre-line;
 }
