@@ -948,7 +948,22 @@ h1 {
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: var(--atlas-radius, 8px);
+  border-inline-start: 3px solid var(--result-color, var(--line));
   background: var(--bg);
+}
+
+#resultPanel:has(.result-mark.right),
+.summary-item:has(.summary-status.right) .summary-result-panel {
+  --result-color: var(--right);
+}
+
+#resultPanel:has(.result-mark.wrong),
+.summary-item:has(.summary-status.wrong) .summary-result-panel {
+  --result-color: var(--wrong);
+}
+
+#resultTitle {
+  color: var(--result-color, var(--text));
 }
 
 .result-heading {
