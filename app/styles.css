@@ -1,7 +1,7 @@
 /* Local names preserve grading, history and interaction states. */
 :root {
   color-scheme: light;
-  --bg: var(--atlas-bg, #f8f6f0);
+  --bg: var(--atlas-bg, #f7f8f8);
   --surface: var(--atlas-surface, white);
   --surface-strong: var(--atlas-soft, #edf2e9);
   --surface-warm: #fff7ed;
