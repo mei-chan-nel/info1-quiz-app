@@ -82,3 +82,6 @@ Before committing or pushing, confirm that:
 - the app works normally
 - static hosting such as GitHub Pages will not break because of the change
 
+## Shared design
+
+UI changes follow the portal’s `docs/DESIGN.md`. Preview the app with the sibling portal using its `scripts/preview_site.py` to load the common styles at their production paths.
