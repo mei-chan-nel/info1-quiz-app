@@ -1095,11 +1095,11 @@ h1 {
 /* Start and repeat actions use the same green across quiz and review screens. */
 :is(.start-button, #retryButton, #summaryMiddleRetryButton, .similar-action-button):not(:disabled) {
   color: white;
-  border-color: var(--atlas-action, #306653);
-  background: var(--atlas-action, #306653);
+  border-color: var(--atlas-action, #234c71);
+  background: var(--atlas-action, #234c71);
 }
 :is(.start-button, #retryButton, #summaryMiddleRetryButton, .similar-action-button):not(:disabled):is(:hover, :active) {
-  background: var(--atlas-action-hover, #234e40);
+  background: var(--atlas-action-hover, #18394b);
 }
 .similar-action-button:disabled {
   border-color: var(--line);
