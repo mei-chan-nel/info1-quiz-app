@@ -3,12 +3,12 @@
   color-scheme: light;
   --bg: var(--atlas-bg, #f7f8f8);
   --surface: var(--atlas-surface, white);
-  --surface-strong: var(--atlas-soft, #edf2e9);
+  --surface-strong: var(--atlas-soft, #edf3f9);
   --surface-warm: #fff7ed;
-  --text: var(--atlas-ink, #263e35);
-  --muted: var(--atlas-muted, #526354);
-  --line: var(--atlas-line, #d9ded1);
-  --accent: var(--atlas-accent, #356459);
+  --text: var(--atlas-ink, #18394b);
+  --muted: var(--atlas-muted, #495f70);
+  --line: var(--atlas-line, #d5e0e8);
+  --accent: var(--atlas-accent, #326596);
   --accent-dark: var(--text);
   --accent-soft: var(--surface-strong);
   --amber: #b45309;
@@ -470,10 +470,7 @@ input {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 0 10px;
-  border: 1px solid var(--line);
-  border-radius: var(--atlas-radius, 8px);
-  background: var(--surface);
+  padding: 0 6px;
   color: var(--text);
   font-size: 0.9rem;
   font-weight: 800;
@@ -484,12 +481,6 @@ input {
   width: 16px;
   height: 16px;
   accent-color: var(--accent);
-}
-
-.field-chip:has(input:checked) {
-  background: var(--atlas-selected, #18394b);
-  color: #fff;
-  border-color: var(--atlas-selected, #18394b);
 }
 
 .segmented-control {
@@ -921,13 +912,13 @@ h1 {
 }
 
 .primary-button {
-  background: var(--atlas-control, #526456);
+  background: var(--atlas-control, #4b6371);
   color: #fff;
 }
 
 .primary-button:hover:not(:disabled),
 .primary-button:focus-visible {
-  background: var(--atlas-control-hover, #394e40);
+  background: var(--atlas-control-hover, #374e5a);
 }
 
 .primary-button:disabled {
