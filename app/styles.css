@@ -487,9 +487,9 @@ input {
 }
 
 .field-chip:has(input:checked) {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent-dark);
+  background: var(--atlas-selected, #18394b);
+  color: #fff;
+  border-color: var(--atlas-selected, #18394b);
 }
 
 .segmented-control {
@@ -526,10 +526,9 @@ input {
 }
 
 .segmented-control label:has(input:checked) {
-  border-color: var(--accent);
-  box-shadow: inset 0 0 0 1px var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent-dark);
+  background: var(--atlas-selected, #18394b);
+  color: #fff;
+  border-color: var(--atlas-selected, #18394b);
 }
 
 .start-button {
@@ -859,9 +858,13 @@ h1 {
   transform: translateY(-1px);
 }
 
-.choice-button[aria-pressed="true"] {
-  border-color: var(--accent);
-  background: var(--accent-soft);
+.choice-button[aria-pressed="true"]:not(.correct, .incorrect) {
+  border-color: var(--atlas-selected, #18394b);
+  background: var(--atlas-selected, #18394b);
+  color: white;
+}
+.choice-button[aria-pressed="true"]:not(.correct, .incorrect) .choice-label {
+  background: rgb(255 255 255 / 12%);
 }
 
 .choice-button.correct {
