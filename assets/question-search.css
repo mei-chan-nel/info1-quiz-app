@@ -89,14 +89,14 @@
   padding: .45rem .9rem;
   border: 1px solid transparent;
   border-radius: var(--atlas-radius, 8px);
-  background: var(--atlas-blue, var(--ink));
+  background: var(--atlas-action, #306653);
   color: var(--white);
   font: inherit;
   font-size: .875rem;
   font-weight: 700;
   cursor: pointer;
 }
-.search-app-button:hover:not(:disabled) { background: var(--ink); }
+.search-app-button:hover:not(:disabled) { background: var(--atlas-action-hover, #234e40); }
 .search-app-button:disabled { opacity: .6; cursor: default; }
 @media (max-width: 680px) {
   .keyword-form { padding: 1rem; }

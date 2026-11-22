@@ -65,10 +65,10 @@ test("the detail similar button follows ChatGPT and starts hidden", () => {
   assert.match(answeredRenderer, /similarQuestionButton\.hidden = !state\.recordPracticeMode;/);
 });
 
-test("all similar buttons share the pale-green action class", () => {
+test("all similar buttons use the shared start-action color and a neutral disabled state", () => {
   assert.match(appSource, /summary-similar-button similar-action-button/);
-  assert.match(cssSource, /\.similar-action-button[\s\S]*?background: var\(--right-soft\)/);
-  assert.match(cssSource, /\.similar-action-button:disabled[\s\S]*?background: #eef7ef/);
+  assert.match(cssSource, /\.start-button, #retryButton, #summaryMiddleRetryButton, \.similar-action-button\):not\(:disabled\) \{[^}]*background: var\(--atlas-action,/);
+  assert.match(cssSource, /\.similar-action-button:disabled[\s\S]*?background: var\(--surface-strong\)/);
 });
 
 test("load failure, missing settings, and retry labels are distinct", () => {

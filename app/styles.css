@@ -918,13 +918,13 @@ h1 {
 }
 
 .primary-button {
-  background: var(--accent);
+  background: var(--atlas-control, #4b6371);
   color: #fff;
 }
 
 .primary-button:hover:not(:disabled),
 .primary-button:focus-visible {
-  background: var(--accent-dark);
+  background: var(--atlas-control-hover, #374e5a);
 }
 
 .primary-button:disabled {
@@ -1098,32 +1098,19 @@ h1 {
   color: var(--accent-dark);
 }
 
-.similar-action-button {
-  border-color: rgba(19, 115, 51, 0.34);
-  background: var(--right-soft);
-  color: #216e39;
+/* Start and repeat actions use the same green across quiz and review screens. */
+:is(.start-button, #retryButton, #summaryMiddleRetryButton, .similar-action-button):not(:disabled) {
+  color: white;
+  border-color: var(--atlas-action, #306653);
+  background: var(--atlas-action, #306653);
 }
-
-.interrupt-button.similar-action-button:hover,
-.interrupt-button.similar-action-button:focus-visible,
-.summary-chatgpt-link.similar-action-button:hover,
-.summary-chatgpt-link.similar-action-button:focus-visible {
-  border-color: rgba(19, 115, 51, 0.58);
-  background: #d7f0dc;
-  color: #14532d;
-  outline: 3px solid rgba(19, 115, 51, 0.2);
-  outline-offset: 2px;
+:is(.start-button, #retryButton, #summaryMiddleRetryButton, .similar-action-button):not(:disabled):is(:hover, :active) {
+  background: var(--atlas-action-hover, #234e40);
 }
-
-.similar-action-button:active {
-  background: #c9e9d0;
-}
-
 .similar-action-button:disabled {
-  border-color: rgba(19, 115, 51, 0.24);
-  background: #eef7ef;
-  color: #54765a;
-  opacity: 0.75;
+  border-color: var(--line);
+  background: var(--surface-strong);
+  color: var(--muted);
 }
 
 .scope-report-action {
