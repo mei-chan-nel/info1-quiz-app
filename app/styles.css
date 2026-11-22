@@ -1,14 +1,14 @@
 /* Local names preserve grading, history and interaction states. */
 :root {
   color-scheme: light;
-  --bg: var(--atlas-bg, #f8fafb);
+  --bg: var(--atlas-bg, #f8f6f0);
   --surface: var(--atlas-surface, white);
-  --surface-strong: var(--atlas-soft, #edf4fa);
+  --surface-strong: var(--atlas-soft, #edf2e9);
   --surface-warm: #fff7ed;
-  --text: var(--atlas-ink, #18394b);
-  --muted: var(--atlas-muted, #536979);
-  --line: var(--atlas-line, #d8e0e3);
-  --accent: var(--atlas-blue, #386698);
+  --text: var(--atlas-ink, #263e35);
+  --muted: var(--atlas-muted, #526354);
+  --line: var(--atlas-line, #d9ded1);
+  --accent: var(--atlas-accent, #356459);
   --accent-dark: var(--text);
   --accent-soft: var(--surface-strong);
   --amber: #b45309;
@@ -918,13 +918,13 @@ h1 {
 }
 
 .primary-button {
-  background: var(--atlas-control, #4b6371);
+  background: var(--atlas-control, #526456);
   color: #fff;
 }
 
 .primary-button:hover:not(:disabled),
 .primary-button:focus-visible {
-  background: var(--atlas-control-hover, #374e5a);
+  background: var(--atlas-control-hover, #394e40);
 }
 
 .primary-button:disabled {

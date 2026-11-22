@@ -40,7 +40,7 @@
   width: 18px;
   height: 18px;
   margin: 0;
-  accent-color: var(--atlas-blue, var(--ink));
+  accent-color: var(--atlas-accent, var(--ink));
 }
 .filter-page .choice-list { margin-bottom: .5rem; }
 .filter-page .choice-list li { display: block; min-width: 0; padding: 0; border: 0; background: transparent; }
@@ -61,7 +61,7 @@
   text-align: left;
   cursor: pointer;
 }
-.search-choice:not(:disabled):hover { border-color: var(--atlas-blue, var(--ink)); }
+.search-choice:not(:disabled):hover { border-color: var(--atlas-accent, var(--ink)); }
 .search-choice .choice-label {
   display: grid;
   place-items: center;
@@ -77,7 +77,7 @@
 .search-choice.incorrect { border-color: #b91c1c; background: #fcebea; }
 .search-choice:focus-visible,
 .keyword-form input:focus-visible,
-.search-app-button:focus-visible { outline: 3px solid var(--atlas-blue, var(--ink)); outline-offset: 3px; }
+.search-app-button:focus-visible { outline: 3px solid var(--atlas-accent, var(--ink)); outline-offset: 3px; }
 .search-answer-feedback { min-height: 1.8em; margin: 0 0 .875rem; font-size: .9375rem; line-height: 1.8; }
 .filter-page .question-card > h3,
 .filter-page .explanation p { white-space: pre-wrap; overflow-wrap: anywhere; }
