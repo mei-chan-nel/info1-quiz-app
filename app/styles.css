@@ -147,7 +147,6 @@ input {
   gap: 1rem;
   padding: clamp(1.5rem, 3.8vw, 2.75rem);
   border-inline-end: 1px solid var(--line);
-  background: var(--bg);
 }
 
 .eyebrow {
