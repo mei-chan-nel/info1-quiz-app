@@ -1,9 +1,11 @@
 /* Keyword and tag search only. The question data renderer owns answer states. */
 .filter-page [hidden] { display: none !important; }
+.filter-page .facet-panel { max-inline-size: var(--atlas-filter-panel, 44rem); }
 .keyword-panel { margin-bottom: 1rem; }
 .keyword-form > label { display: block; color: var(--ink); font-weight: 700; }
 .keyword-input-row {
   display: flex;
+  max-inline-size: var(--atlas-search-field, 34rem);
   gap: .625rem;
   margin: .5rem 0 1rem;
 }

@@ -1592,6 +1592,15 @@ h1 {
   display: none !important;
 }
 
+@media screen and (min-width: 64rem) {
+  .start-controls .segmented-control { max-inline-size: 26rem; }
+  .start-controls .start-button,
+  .start-controls .advanced-record-button {
+    max-inline-size: 20rem;
+    justify-self: start;
+  }
+}
+
 @media (max-width: 760px) {
   .app-shell {
     width: min(100% - 20px, 920px);
