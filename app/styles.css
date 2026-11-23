@@ -1593,11 +1593,12 @@ h1 {
 }
 
 @media screen and (min-width: 64rem) {
-  .start-controls .segmented-control { max-inline-size: 26rem; }
+  .start-actions { display: grid; }
+  .start-controls .segmented-control { width: min(100%, 26rem); justify-self: center; }
   .start-controls .start-button,
   .start-controls .advanced-record-button {
     max-inline-size: 20rem;
-    justify-self: start;
+    justify-self: center;
   }
 }
 
