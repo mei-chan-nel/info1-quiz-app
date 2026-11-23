@@ -1,29 +1,109 @@
-/* Search-only styles; shared portal and learning-app styles remain independent. */
+/* Keyword and tag search only. The question data renderer owns answer states. */
 .filter-page [hidden] { display: none !important; }
-.keyword-panel { margin-bottom: 18px; }
-.keyword-form > label { display: block; font-size: .85rem; font-weight: 700; }
-.keyword-input-row { display: flex; gap: 10px; margin: 10px 0 18px; }
-.keyword-input-row input { flex: 1; min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 16px; background: var(--white); }
+.keyword-panel { margin-bottom: 1rem; }
+.keyword-form > label { display: block; color: var(--ink); font-weight: 700; }
+.keyword-input-row {
+  display: flex;
+  max-inline-size: var(--atlas-search-field, 34rem);
+  gap: .625rem;
+  margin: .5rem 0;
+}
+.keyword-input-row input {
+  min-width: 0;
+  min-height: 44px;
+  flex: 1;
+  padding: .6rem .85rem;
+  border: 1px solid var(--atlas-line, var(--line));
+  border-radius: var(--atlas-radius, 8px);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+}
 .keyword-input-row .button { flex: 0 0 auto; }
-.keyword-form fieldset { display: flex; flex-wrap: wrap; gap: 12px 20px; margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 8px; }
-.keyword-form legend { padding: 0 5px; font-size: .8rem; }
-.keyword-form fieldset label { display: inline-flex; gap: 6px; align-items: center; font-size: .85rem; cursor: pointer; min-height: 32px; }
-.keyword-form input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--ink); }
-.filter-page .choice-list li { display: block; padding: 0; border: 0; background: transparent; min-width: 0; }
-.search-choice { width: 100%; height: 100%; min-height: 58px; padding: 11px 14px; display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 10px; background: #fbfaf6; text-align: left; color: var(--ink); font: inherit; cursor: pointer; }
-.search-choice .choice-label { width: 28px; height: 28px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font-size: .67rem; font-weight: 800; }
-.search-choice .choice-text { font-size: .8rem; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.keyword-form fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.keyword-form fieldset label {
+  display: inline-flex;
+  gap: .45rem;
+  align-items: center;
+  min-height: 44px;
+  font-size: .9375rem;
+  cursor: pointer;
+}
+.keyword-form input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--atlas-accent, var(--ink));
+}
+.filter-page .choice-list { margin-bottom: .5rem; }
+.filter-page .choice-list li { display: block; min-width: 0; padding: 0; border: 0; background: transparent; }
+.search-choice {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: .7rem;
+  width: 100%;
+  height: 100%;
+  min-height: 58px;
+  padding: .7rem .9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--atlas-radius, 8px);
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.search-choice:not(:disabled):hover { border-color: var(--atlas-accent, var(--ink)); }
+.search-choice .choice-label {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: .8rem;
+  font-weight: 700;
+}
+.search-choice .choice-text { font-size: 1rem; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
 .search-choice.correct { border-color: #15803d; background: #e7f5ea; }
 .search-choice.incorrect { border-color: #b91c1c; background: #fcebea; }
-.search-choice:focus-visible, .keyword-form input:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
-.filter-page .choice-list { margin-bottom: 8px; }
-.search-answer-feedback { min-height: 1.8em; margin: 0 0 14px; font-size: .8rem; line-height: 1.8; }
-.filter-page .question-card > h3, .filter-page .explanation p { white-space: pre-wrap; overflow-wrap: anywhere; }
-.choice-reasons h4 { margin: 18px 0 5px; font-size: .84rem; }
-@media (max-width: 680px) { .keyword-form { padding: 16px; } }
-.filter-page .search-tag { padding: 3px 9px; }
+.search-choice:focus-visible,
+.keyword-form input:focus-visible,
+.search-app-button:focus-visible { outline: 3px solid var(--atlas-accent, var(--ink)); outline-offset: 3px; }
+.search-answer-feedback { min-height: 1.8em; margin: 0 0 .875rem; font-size: .9375rem; line-height: 1.8; }
+.filter-page .question-card > h3,
+.filter-page .explanation p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.choice-reasons h4 { margin: 1.125rem 0 .3rem; font-size: 1rem; }
+.filter-page .search-tag { padding: .25rem .6rem; }
+.filter-results-title-row { display: flex; align-items: center; flex-wrap: wrap; gap: .625rem 1rem; }
+.search-app-button {
+  min-height: 44px;
+  padding: .45rem .9rem;
+  border: 1px solid transparent;
+  border-radius: var(--atlas-radius, 8px);
+  background: var(--atlas-action, #234c71);
+  color: var(--white);
+  font: inherit;
+  font-size: .875rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.search-app-button:hover:not(:disabled) { background: var(--atlas-action-hover, #18394b); }
+.search-app-button:disabled { opacity: .6; cursor: default; }
+@media (max-width: 680px) {
+  .keyword-form { padding: 1rem; }
+}
 
-.filter-results-title-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; }
-.search-app-button { min-height: 44px; padding: 7px 13px; border: 1px solid var(--ink); border-radius: 999px; background: var(--ink); color: var(--white); font: inherit; font-size: .75rem; white-space: nowrap; cursor: pointer; }
-.search-app-button:hover { opacity: .9; }
-.search-app-button:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+@media screen and (min-width: 64rem) {
+  .filter-page .keyword-form {
+    padding-inline: max(22px, calc((100% - var(--atlas-search-field, 34rem)) / 2));
+  }
+}
