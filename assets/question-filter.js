@@ -63,12 +63,14 @@
     return String(value || "").normalize("NFKC").toLocaleLowerCase("ja").replace(/\s+/gu, " ").trim();
   }
 
-  function searchTerms() {
-    return normalizeText(keyword).split(/\s+/u).filter(Boolean);
+  function searchGroups() {
+    return normalizeText(keyword).split(/[,、､]/u)
+      .map((group) => group.split(/\s+/u).filter(Boolean))
+      .filter((group) => group.length > 0);
   }
 
   function hasConditions() {
-    return selected.length > 0 || (searchTerms().length > 0 && fields.length > 0);
+    return selected.length > 0 || (searchGroups().length > 0 && fields.length > 0);
   }
 
   let selected = [];
@@ -270,11 +272,11 @@
   }
 
   function matchingCards() {
-    const terms = searchTerms();
+    const groups = searchGroups();
     return cards.filter((card) => {
       if (selected.length) return matchesSelection(card, selected);
       const text = fields.map((field) => card.search[field]).join("\n");
-      return terms.every((term) => text.includes(term));
+      return groups.some((group) => group.every((term) => text.includes(term)));
     });
   }
 
@@ -484,7 +486,7 @@
       heading.replaceChildren(document.createTextNode("検索結果"), element("span", "filter-hit-count", `${matches.length}問`));
       summary.textContent = selected.length
         ? `「${selected.join("」「")}」のAND検索で${matches.length}問が見つかりました。`
-        : `「${keyword.trim()}」のAND検索で${matches.length}問が見つかりました。`;
+        : `「${keyword.trim()}」の検索で${matches.length}問が見つかりました。`;
       message.hidden = matches.length > 0;
       if (!matches.length) message.textContent = "条件に合う問題はありません。検索条件を変更してください。";
       appendResults();

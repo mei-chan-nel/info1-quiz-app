@@ -9,7 +9,7 @@ const payload = JSON.parse(await readFile(new URL("../questions/filter-data.json
 const original = JSON.parse(await readFile(new URL("../data/questions/completed_questions.json", import.meta.url), "utf8"));
 
 // Exercise the same pure matching functions used by the UI against the entire dataset.
-const functionNames = ["normalizeText", "searchTerms", "hasConditions", "matchesSelection", "matchingCards"];
+const functionNames = ["normalizeText", "searchGroups", "hasConditions", "matchesSelection", "matchingCards"];
 const functions = functionNames.map((name) => {
   const start = source.indexOf(`  function ${name}(`);
   const end = source.indexOf("\n  }", start) + 4;
@@ -17,7 +17,7 @@ const functions = functionNames.map((name) => {
   return source.slice(start, end);
 }).join("\n");
 const context = vm.createContext({});
-vm.runInContext(`${functions}\nthis.normalize = normalizeText; this.match = (cardsValue, keywordValue, fieldsValue, selectedValue = []) => {
+vm.runInContext(`${functions}\nthis.normalize = normalizeText; this.groups = (query) => { keyword = query; return searchGroups(); }; this.match = (cardsValue, keywordValue, fieldsValue, selectedValue = []) => {
   cards = cardsValue; keyword = keywordValue; fields = fieldsValue; selected = selectedValue;
   return hasConditions() ? matchingCards().map(card => card.id) : [];
 };`, context);
@@ -65,15 +65,27 @@ test("AND terms can match across selected fields and normalize Japanese/Latin sp
   assert.deepEqual(Array.from(context.match(fixtures, "abc 選択肢", ["stem"])), []);
 });
 
+test("commas join alternatives and whitespace requires every word within an alternative", () => {
+  const fixtures = [
+    { id: "both", tags: [], search: { stem: "alpha beta" } },
+    { id: "other", tags: [], search: { stem: "gamma" } },
+    { id: "partial", tags: [], search: { stem: "alpha" } },
+  ];
+  for (const comma of [",", "，", "、", "､"]) {
+    assert.deepEqual(Array.from(context.match(fixtures, `${comma} alpha　beta ${comma} gamma ${comma}`, ["stem"])), ["both", "other"]);
+  }
+  assert.deepEqual(match(" ， 、 , ", ["stem"]), []);
+});
+
 test("every general and choice explanation is searchable even when not present in stem/choices", () => {
   let uniqueChoiceReasons = 0;
   for (const card of cards) {
     for (const text of [card.explanation, ...card.choices.map(choice => choice.explanation)]) {
       if (!normalize(text)) continue;
-      const terms = normalize(text).split(/\s+/u);
+      const groups = context.groups(text);
       const hits = match(text, ["explanation"]);
       assert.ok(hits.includes(card.id), `${card.id}: missing explanation`);
-      if (!terms.every(term => `${card.search.stem}\n${card.search.choices}`.includes(term))) {
+      if (!groups.some(terms => terms.every(term => `${card.search.stem}\n${card.search.choices}`.includes(term)))) {
         uniqueChoiceReasons++;
         assert.ok(!match(text, ["stem", "choices"]).includes(card.id));
       }

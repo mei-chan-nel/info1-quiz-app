@@ -20,7 +20,7 @@ QUESTIONS_DIR = ROOT / "questions"
 REPORT_DIR = ROOT / "docs" / "reports"
 SITE_URL = "https://mei-chan-nel.com/info1-quiz-app/"
 PORTAL_URL = "https://mei-chan-nel.com/"
-SEARCH_ASSET_VERSION = "2026110903"
+SEARCH_ASSET_VERSION = "2026112301"
 OG_IMAGE_URL = "https://mei-chan-nel.com/assets/og/study-atlas-home-og.png"
 OG_IMAGE_ALT = "情報Ⅰ Study Atlasの学習マップと「知識を、ひろげ、つなげる」のメッセージ"
 OG_IMAGE_WIDTH = 1734
@@ -376,7 +376,6 @@ def facet_panel(
     return f"""<details class="facet-panel"{open_attr}>
         <summary>タグ検索 <span>{len(counts)}種類・複数選択はAND検索</span></summary>
         <div class="facet-panel-body">
-          <p>タグは主に関連する分野へ整理しています。複数選択すると、すべてのタグを含む問題を検索します。</p>
 {clear_markup}          <div class="facet-groups" data-facet-groups>{facet_markup}</div>
         </div>
       </details>"""
@@ -497,7 +496,7 @@ def render_tag_filter_page(payload: dict) -> None:
       <details class="facet-panel keyword-panel" data-keyword-panel open>
         <summary>キーワード検索</summary>
         <form class="facet-panel-body keyword-form" data-keyword-form role="search">
-          <label for="question-keyword">キーワード（空白で区切るとAND検索）</label>
+          <label for="question-keyword">キーワード（空白で区切るとAND検索，カンマで区切るとOR検索）</label>
           <div class="keyword-input-row"><input id="question-keyword" type="search" data-keyword-input autocomplete="off" /><button class="button button-primary" type="submit">検索</button></div>
           <fieldset><legend>検索対象</legend><label><input type="checkbox" value="stem" data-search-field checked />問題文</label><label><input type="checkbox" value="choices" data-search-field checked />選択肢</label><label><input type="checkbox" value="explanation" data-search-field />解説</label></fieldset>
         </form>

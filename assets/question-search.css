@@ -104,9 +104,6 @@
 }
 
 @media screen and (min-width: 64rem) {
-  .filter-page .facet-panel-body {
-    padding-inline: max(22px, calc((100% - var(--atlas-filter-panel, 44rem)) / 2));
-  }
   .filter-page .keyword-form {
     padding-inline: max(22px, calc((100% - var(--atlas-search-field, 34rem)) / 2));
   }
