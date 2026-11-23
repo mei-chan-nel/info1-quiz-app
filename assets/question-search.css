@@ -6,7 +6,7 @@
   display: flex;
   max-inline-size: var(--atlas-search-field, 34rem);
   gap: .625rem;
-  margin: .5rem 0 1rem;
+  margin: .5rem 0;
 }
 .keyword-input-row input {
   min-width: 0;
@@ -25,10 +25,9 @@
   flex-wrap: wrap;
   gap: .25rem 1.25rem;
   margin: 0;
-  padding: .25rem 0 0;
+  padding: 0;
   border: 0;
 }
-.keyword-form legend { padding: 0; color: var(--ink-soft); font-size: .875rem; }
 .keyword-form fieldset label {
   display: inline-flex;
   gap: .45rem;
